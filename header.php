@@ -8,12 +8,8 @@
 </head>
 <body <?php body_class(); ?>>
 
-<!-- HEADER START -->
-
 <?php
 if ( ! function_exists( 'elementor_theme_do_location' ) || ! elementor_theme_do_location( 'header' ) ) {
-	get_template_part( 'templates-parts/header' );
+	get_template_part( 'template-parts/header' );
 }
 ?>
-
-<!-- HEADER END -->
