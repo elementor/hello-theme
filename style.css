@@ -1,0 +1,19 @@
+/*   
+	Theme Name:        Elementor Hello Theme
+	Theme URI:         https://elementor.com
+	Description:       A sample theme for Elementor.
+	Author:            Elementor Team
+	Author URI:        https://elementor.com
+	Version:           1.0
+	Stable tag:        1.0
+	Requires at least: 4.9
+	Tested up to:      4.9
+	License:           GNU General Public License v3 or later
+	License URI:       http://www.gnu.org/licenses/gpl-3.0.html
+	Text Domain:       hello-theme
+*/
+
+html, body {
+	margin: 0;
+	padding: 0;
+}
