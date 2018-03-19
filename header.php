@@ -10,6 +10,10 @@
 
 <!-- HEADER START -->
 
-<?php do_action( 'elementor/theme/header' ) ?>
+<?php
+if ( ! function_exists( 'elementor_theme_do_location' ) || ! elementor_theme_do_location( 'header' ) ) {
+	get_template_part( 'templates-parts/header' );
+}
+?>
 
 <!-- HEADER END -->
