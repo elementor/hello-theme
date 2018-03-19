@@ -1,13 +1,18 @@
 <?php
-
 get_header();
 
 if ( is_singular() ) {
-	do_action( 'elementor/theme/single' );
+	if ( ! function_exists( 'elementor_theme_do_location' ) || ! elementor_theme_do_location( 'single' ) ) {
+		get_template_part( 'template-parts/single' );
+	}
 } elseif ( is_archive() || is_home() || is_search() ) {
-	do_action( 'elementor/theme/archive' );
+	if ( ! function_exists( 'elementor_theme_do_location' ) || ! elementor_theme_do_location( 'archive' ) ) {
+		get_template_part( 'template-parts/archive' );
+	}
 } else {
-	do_action( 'elementor/theme/page_404' );
+	if ( ! function_exists( 'elementor_theme_do_location' ) || ! elementor_theme_do_location( 'page_404' ) ) {
+		get_template_part( 'template-parts/404' );
+	}
 }
 
 get_footer();
