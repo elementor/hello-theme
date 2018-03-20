@@ -1,16 +1,18 @@
 <?php
 get_header();
 
+$is_elementor_theme_exist = function_exists( 'elementor_theme_do_location' );
+
 if ( is_singular() ) {
-	if ( ! function_exists( 'elementor_theme_do_location' ) || ! elementor_theme_do_location( 'single' ) ) {
+	if ( ! $is_elementor_theme_exist || ! elementor_theme_do_location( 'single' ) ) {
 		get_template_part( 'template-parts/single' );
 	}
 } elseif ( is_archive() || is_home() || is_search() ) {
-	if ( ! function_exists( 'elementor_theme_do_location' ) || ! elementor_theme_do_location( 'archive' ) ) {
+	if ( ! $is_elementor_theme_exist || ! elementor_theme_do_location( 'archive' ) ) {
 		get_template_part( 'template-parts/archive' );
 	}
 } else {
-	if ( ! function_exists( 'elementor_theme_do_location' ) || ! elementor_theme_do_location( 'page_404' ) ) {
+	if ( ! $is_elementor_theme_exist || ! elementor_theme_do_location( 'single' ) ) {
 		get_template_part( 'template-parts/404' );
 	}
 }
