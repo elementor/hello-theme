@@ -7,9 +7,9 @@
 	<div class="page-content">
 		<?php
 		while ( have_posts() ) : the_post();
-			the_title();
-			the_excerpt();
+			the_title();			
 			the_post_thumbnail();
+			the_excerpt();
 		endwhile;
 		?>
 	</div>

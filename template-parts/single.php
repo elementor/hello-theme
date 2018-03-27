@@ -7,9 +7,9 @@
 	</header>
 
 	<div class="page-content">
-		<p><?php the_content(); ?></p>
+		<?php the_content(); ?>
 	</div>
 
 </main>
 
-<?php endwhile; ?>
+<?php endwhile;
