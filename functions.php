@@ -22,7 +22,15 @@ add_action( 'after_setup_theme', 'elementor_hello_theme_setup' );
  * Enqueue scripts and styles.
  */
 function elementor_hello_theme_scripts_styles() {
+
+	// Enqueue theme stylesheet.
 	wp_enqueue_style( 'elementor-hello-theme-style', get_stylesheet_uri() );
+
+	// Enqueue WordPress comment reply script.
+	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
+		wp_enqueue_script( 'comment-reply' );
+	}
+
 }
 add_action( 'wp_enqueue_scripts', 'elementor_hello_theme_scripts_styles' );
 
