@@ -1,7 +1,7 @@
 <main id="main" class="site-main" role="main">
 
 	<header class="page-header">
-		<h1><?php _e( 'The page can&rsquo;t be found.', 'elementor-hello-theme' ); ?></h1>
+		<h1 class="entry-title"><?php _e( 'The page can&rsquo;t be found.', 'elementor-hello-theme' ); ?></h1>
 	</header>
 
 	<div class="page-content">
