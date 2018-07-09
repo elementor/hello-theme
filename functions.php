@@ -16,6 +16,8 @@ function elementor_hello_theme_setup() {
 		'flex-width' => true,
 	) );
 
+	add_theme_support( 'woocommerce' );
+
 	load_theme_textdomain( 'elementor-hello-theme', get_template_directory() . '/languages' );
 }
 add_action( 'after_setup_theme', 'elementor_hello_theme_setup' );
