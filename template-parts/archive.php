@@ -7,7 +7,7 @@
 	<div class="page-content">
 		<?php
 		while ( have_posts() ) : the_post();
-			the_title();			
+			printf( '<h2><a href="%s">%s</a></h2>', get_permalink(), get_the_title() );		
 			the_post_thumbnail();
 			the_excerpt();
 		endwhile;
