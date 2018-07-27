@@ -24,7 +24,17 @@ add_action( 'after_setup_theme', 'elementor_hello_theme_setup' );
 
 // Theme Scripts & Styles
 function elementor_hello_theme_scripts_styles() {
-	wp_enqueue_style( 'elementor-hello-theme-style', get_stylesheet_uri() );
+
+	$css = file_get_contents(get_stylesheet_uri()); 
+	
+	// Register style with inline 
+  	wp_register_style( 'custom-css', false );
+	wp_enqueue_style( 'custom-css' );
+	wp_add_inline_style( 'custom-css', $css );
+
+	// If you are planing to have hug customization 
+	// Please use the following method instead
+	// wp_enqueue_style( 'elementor-hello-theme-style', get_stylesheet_uri() );
 }
 add_action( 'wp_enqueue_scripts', 'elementor_hello_theme_scripts_styles' );
 
