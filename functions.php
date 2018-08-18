@@ -28,6 +28,13 @@ function elementor_hello_theme_scripts_styles() {
 }
 add_action( 'wp_enqueue_scripts', 'elementor_hello_theme_scripts_styles' );
 
+
+//Register at least one menu location for plugins like language (wpml, polylang) can take advandget of providing different languages
+function register_my_menu() {
+  register_nav_menu('header-menu',__( 'Header Menu' ));
+}
+add_action( 'init', 'register_my_menu' );
+
 // Register Elementor Locations
 function elementor_hello_theme_register_elementor_locations( $elementor_theme_manager ) {
 	$elementor_theme_manager->register_all_core_location();
