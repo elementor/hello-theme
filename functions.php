@@ -29,9 +29,13 @@ function elementor_hello_theme_scripts_styles() {
 add_action( 'wp_enqueue_scripts', 'elementor_hello_theme_scripts_styles' );
 
 
-//Register at least one menu location for plugins like language (wpml, polylang) can take advandget of providing different languages
+//invokers edit add menu location mainly for multi language
 function register_my_menu() {
-  register_nav_menu('header-menu',__( 'Header Menu' ));
+	$menuArray = array(
+		'header-menu'=>'Header Menu',
+		'footer-menu'=>'Footer Menu'
+	);
+	register_nav_menus( $menuArray );
 }
 add_action( 'init', 'register_my_menu' );
 
@@ -52,3 +56,4 @@ remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 remove_action( 'wp_print_styles', 'print_emoji_styles' );
 remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 remove_action( 'admin_print_styles', 'print_emoji_styles' );
+

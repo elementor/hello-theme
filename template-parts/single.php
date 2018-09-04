@@ -2,9 +2,13 @@
 
 <main id="main" class="site-main" role="main">
 
+	<?php 
+	/* invokers edit
 	<header class="page-header">
 		<h1 class="entry-title"><?php the_title(); ?></h1>
 	</header>
+	*/ 
+	?>
 
 	<div class="page-content">
 		<?php the_content(); ?>
