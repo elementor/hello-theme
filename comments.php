@@ -1,4 +1,7 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
 
 // Comment Reply Script
 if ( comments_open() && get_option( 'thread_comments' ) ) {
