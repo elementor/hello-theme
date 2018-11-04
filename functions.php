@@ -25,6 +25,11 @@ add_action( 'after_setup_theme', 'elementor_hello_theme_setup' );
 // Theme Scripts & Styles
 function elementor_hello_theme_scripts_styles() {
 	wp_enqueue_style( 'elementor-hello-theme-style', get_stylesheet_uri() );
+
+	// Comment Reply Script
+	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
+		wp_enqueue_script( 'comment-reply' );
+	}
 }
 add_action( 'wp_enqueue_scripts', 'elementor_hello_theme_scripts_styles' );
 
