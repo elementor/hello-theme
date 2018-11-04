@@ -1,3 +1,10 @@
+<?php
+
+// Comment Reply Script
+if ( comments_open() && get_option( 'thread_comments' ) ) {
+	wp_enqueue_script( 'comment-reply' );
+}
+?>
 <section id="comments" class="comments-area">
 
 	<?php if ( have_comments() ) : ?>
