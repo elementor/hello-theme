@@ -47,3 +47,47 @@ remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 remove_action( 'wp_print_styles', 'print_emoji_styles' );
 remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 remove_action( 'admin_print_styles', 'print_emoji_styles' );
+
+// Enable custom settings in WP Customizer
+include( 'customizer_settings.php' );
+include( 'customizer_scripts.php' );
+
+// Custom admin functions
+include( 'custom_admin_functions.php' );
+
+// Declare additional theme styles & scripts here
+add_action( 'wp_enqueue_scripts', 'custom_hello_theme_scripts' );
+function custom_hello_theme_scripts() {
+	// additional theme styles & scripts here
+}
+
+function custom_hello_theme_setup() {
+  add_image_size( 'login-logo', 300, 100 ); // max width 300px and max height 100
+  add_image_size( 'content-wide-thumb', 1200, 2000 ); // max width 1200px and max height 2000px
+  add_image_size( 'single-post-thumb', 600, 600 ); // max width 600px and max height 600px
+}
+add_action( 'after_setup_theme', 'custom_hello_theme_setup' );
+
+// Gravity form notification settings
+add_filter( 'gform_notification', 'change_notification_email', 10, 3 );
+function change_notification_email( $notification, $form, $entry ) {
+	if ( $notification['to'] == '{admin_email}' ) {
+		$notification['subject'] .= " on " . get_bloginfo('name');
+	}
+	return $notification;
+}
+
+// Enable Gravity form field label visibility setting
+add_filter( 'gform_enable_field_label_visibility_settings', '__return_true' );
+
+// Display current year in front-end
+add_shortcode( 'year', 'year_shortcode' );
+function year_shortcode() {
+	$year = date('Y');
+	return $year;
+}
+
+// Theme update checker
+include( 'includes/plugin-update-checker-master/plugin-update-checker.php' );
+$serverUrl = 'http://zoro.com.au';
+$customThemeUpdateChecker = Puc_v4_Factory::buildUpdateChecker( $serverUrl .'/theme_updater.json', __FILE__, 'elementor-hello-theme-master-child' );
