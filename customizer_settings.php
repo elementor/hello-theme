@@ -185,6 +185,26 @@ function hello_theme_child_customize_register( $wp_customize ) {
 	    'default' => 'cover'
 	) );
 
+	$wp_customize->add_setting( 'htc_gen_setting_phead_fontsize', array(
+	    'default' => '40'
+	) );
+
+	$wp_customize->add_setting( 'htc_gen_setting_phead_fonttype', array(
+	    'default' => 'px'
+	) );
+
+	$wp_customize->add_setting( 'htc_gen_setting_phead_fontfamily', array(
+	    'default' => 'default'
+	) );
+
+	$wp_customize->add_setting( 'htc_gen_setting_phead_fontcolor', array(
+	    'default' => '#000000'
+	) );
+
+	$wp_customize->add_setting( 'htc_gen_setting_phead_align', array(
+	    'default' => 'center'
+	) );
+
 	$wp_customize->add_setting( 'htc_dashboard_cleanup_setting', array(
 	    'default' => 'yes',
 	    'transport' => 'postMessage'
@@ -459,6 +479,20 @@ function hello_theme_child_customize_register( $wp_customize ) {
 		)
 	);
 
+	$wp_customize->add_control( 'htc_gen_control_phead_align',
+		array(
+			'type' => 'select',
+			'label' => __( 'Alignment', $text_domain ),
+			'section' => 'htc_gen_page_header_section',
+			'settings' => 'htc_gen_setting_phead_align',
+			'choices' => array(
+				'left' => 'left',
+				'center' => 'center',
+				'right' => 'right'
+			),
+		)
+	);
+
 	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'htc_gen_control_phead_color',
 		array(
 			'label' => __( 'Background Color', $text_domain ),
@@ -504,6 +538,51 @@ function hello_theme_child_customize_register( $wp_customize ) {
 			'choices' => $bg_size
 		)
 	);
+
+	$wp_customize->add_control( 'htc_gen_control_phead_fontsize',
+		array(
+			'type' => 'number',
+			'label' => __( 'Title', $text_domain ),
+			'description' => __( 'Font size', $text_domain ),
+			'section' => 'htc_gen_page_header_section',
+			'settings' => 'htc_gen_setting_phead_fontsize',
+			'input_attrs' => array(
+				'min' => 0,
+				'step' => 1,
+			),
+		)
+	);
+
+	$wp_customize->add_control( 'htc_gen_control_phead_fonttype',
+		array(
+			'type' => 'select',
+			'description' => __( 'Type', $text_domain ),
+			'section' => 'htc_gen_page_header_section',
+			'settings' => 'htc_gen_setting_phead_fonttype',
+			'choices' => array(
+				'px' => 'px',
+				'em' => 'em',
+			),
+		)
+	);
+
+	$wp_customize->add_control( 'htc_gen_control_phead_fontfamily',
+		array(
+			'type' => 'select',
+			'description' => __( 'Family', $text_domain ),
+			'section' => 'htc_gen_page_header_section',
+			'settings' => 'htc_gen_setting_phead_fontfamily',
+			'choices' => $font_choices
+		)
+	);
+
+	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'htc_gen_control_phead_fontcolor',
+		array(
+			'description' => __( 'Color', $text_domain ),
+			'section' => 'htc_gen_page_header_section',
+			'settings' => 'htc_gen_setting_phead_fontcolor',
+		)
+	) );
 
 	$wp_customize->add_control( 'htc_dashboard_cleanup_control',
 		array(

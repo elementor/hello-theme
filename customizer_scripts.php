@@ -24,11 +24,19 @@ function custom_hello_theme_mods_styles() {
 	$pheadbg_pos = get_theme_mod('htc_gen_setting_phead_bgpos', 'center top');
 	$pheadbg_size = get_theme_mod('htc_gen_setting_phead_bgsize', 'cover');
 	$pheadbg_img = !empty($pheadbg_imgmod) ? 'url('. $pheadbg_imgmod .')' : 'none';
+	$phead_align = get_theme_mod('htc_gen_setting_phead_align', 'center');
+	$phead_fontsize = get_theme_mod('htc_gen_setting_phead_fontsize', '40');
+	$phead_fonttype = get_theme_mod('htc_gen_setting_phead_fonttype', 'px');
+	$phead_fontfamily_mod = ( get_theme_mod('htc_gen_setting_phead_fontfamily') == "default" ) ? $font_family : get_theme_mod('htc_gen_setting_phead_fontfamily');
+	$phead_fontfamily_name = ( !empty($phead_fontfamily_mod) ) ? explode(":", $phead_fontfamily_mod) : $font_family;
+	$phead_fontfamily = ( !empty($phead_fontfamily_mod) ) ? $phead_fontfamily_name[0] : $font_family;
+	$phead_fontcolor = get_theme_mod('htc_gen_setting_phead_fontcolor', '#444444');
 
 	echo '<style type="text/css">';
 	printf( "body{background-color: %s;background-image: %s;background-repeat: %s;background-position: %s;background-size: %s;}\n", $bodybg_color, $bodybg_img, $bodybg_rep, $bodybg_pos, $bodybg_size );
-	printf( ".page-header{background-color: %s;background-image: %s;background-repeat: %s;background-position: %s;background-size: %s;width: %s;%s}\n", $pheadbg_color, $pheadbg_img, $pheadbg_rep, $pheadbg_pos, $pheadbg_size, $phead_width, $phead_enabled );
+	printf( ".page-header{background-color: %s;background-image: %s;background-repeat: %s;background-position: %s;background-size: %s;width: %s;text-align:%s;%s}\n", $pheadbg_color, $pheadbg_img, $pheadbg_rep, $pheadbg_pos, $pheadbg_size, $phead_width, $phead_align, $phead_enabled );
 	printf( ".page-header-inner{max-width: %spx;padding: %s;}\n", $elementor_content_width, $phead_pad );
+	printf( ".page-header .entry-title{font-size: %s%s;color: %s;font-family: %s;}\n", $phead_fontsize, $phead_fonttype, $phead_fontcolor, $phead_fontfamily );
 
 	for($i = 1; $i <= 6; $i++) {
 		switch ($i) {
@@ -91,6 +99,13 @@ function custom_hello_theme_mods_scripts() {
 	if( $pfontGoogleFamily && ($pfontGoogleFamily != "default") ) {
 		if( ! in_array($pfontGoogleFamily, $fontsArr) ) {
 			wp_enqueue_style( 'custom-hello-theme-mods-style-p', $googleFontApi .'?family='. $pfontGoogleFamily );
+		}
+	}
+
+	$pheadfontGoogleFamily = get_theme_mod('htc_gen_setting_phead_fontfamily');
+	if( $pheadfontGoogleFamily && ($pheadfontGoogleFamily != "default") ) {
+		if( ! in_array($pheadfontGoogleFamily, $fontsArr) ) {
+			wp_enqueue_style( 'custom-hello-theme-mods-style-phead', $googleFontApi .'?family='. $pheadfontGoogleFamily );
 		}
 	}
 

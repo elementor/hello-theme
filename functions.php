@@ -5,7 +5,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Set up theme support
 function elementor_hello_theme_setup() {
-
 	add_theme_support( 'menus' );
 	add_theme_support( 'post-thumbnails' );
 	add_theme_support( 'automatic-feed-links' );
@@ -17,9 +16,7 @@ function elementor_hello_theme_setup() {
 		'flex-height' => true,
 		'flex-width' => true,
 	) );
-
 	add_theme_support( 'woocommerce' );
-
 	load_theme_textdomain( 'elementor-hello-theme', get_template_directory() . '/languages' );
 }
 add_action( 'after_setup_theme', 'elementor_hello_theme_setup' );
@@ -55,18 +52,12 @@ include( 'customizer_scripts.php' );
 // Custom admin functions
 include( 'custom_admin_functions.php' );
 
-// Declare additional theme styles & scripts here
-add_action( 'wp_enqueue_scripts', 'custom_hello_theme_scripts' );
-function custom_hello_theme_scripts() {
-	// additional theme styles & scripts here
-}
-
+add_action( 'after_setup_theme', 'custom_hello_theme_setup' );
 function custom_hello_theme_setup() {
   add_image_size( 'login-logo', 300, 100 ); // max width 300px and max height 100
   add_image_size( 'content-wide-thumb', 1200, 2000 ); // max width 1200px and max height 2000px
   add_image_size( 'single-post-thumb', 600, 600 ); // max width 600px and max height 600px
 }
-add_action( 'after_setup_theme', 'custom_hello_theme_setup' );
 
 // Gravity form notification settings
 add_filter( 'gform_notification', 'change_notification_email', 10, 3 );

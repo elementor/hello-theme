@@ -102,13 +102,14 @@ function custom_jw_remove_posttype_support() {
 // Admin footer text modification
 add_filter( 'admin_footer_text', 'custom_jw_footer_text_admin' );
 function custom_jw_footer_text_admin () {
-  echo '<span id="footer-thankyou">Website by <a href="https://www.jezweb.com.au" target="_blank">Jezweb</a></span>';
+  echo '<span id="footer-thankyou">Jtheme Jello by <a href="https://www.jezweb.com.au" target="_blank">Jezweb</a></span>';
 }
 
 // Enable svg file upload
 add_filter( 'upload_mimes', 'custom_jw_svg_file_upload' );
 function custom_jw_svg_file_upload($mimes) {
   $mimes['svg'] = 'image/svg+xml';
+  $mimes['webp'] = 'image/webp';
   return $mimes;
 }
 
