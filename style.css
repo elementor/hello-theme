@@ -6,7 +6,7 @@ Author: Jezweb
 Author URI: https://www.jezweb.com.au/
 Text Domain: elementor-hello-theme
 Details URI: http://zoro.com.au/theme_updater_versions/versionreadme.txt
-Version: 1.0.2
+Version: 1.1
 Stable tag: 1.0
 Requires at least: 4.9
 Tested up to: 4.9
@@ -30,7 +30,7 @@ ul, ol{
 	margin: 0 0 0 15px;
 }
 #main{
-	min-height: 60vh;
+	min-height: 200px;
 }
 .page-header, .page-header-inner, .page-content{
 	margin-left: auto;
