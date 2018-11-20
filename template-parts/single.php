@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 <?php while ( have_posts() ) : the_post(); ?>
 
-<main id="main" class="site-main" role="main">
+<main id="main" class="site-main <?php post_class(); ?>" role="main">
 
 	<header class="page-header">
 		<h1 class="entry-title"><?php the_title(); ?></h1>
@@ -15,6 +15,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<?php the_content(); ?>
 	</div>
 
+	<div class="page-comments">
+		<?php comments_template(); ?>
+	</div>
 </main>
 
 <?php endwhile;
