@@ -14,6 +14,7 @@ function elementor_hello_theme_setup() {
 	add_theme_support( 'post-thumbnails' );
 	add_theme_support( 'automatic-feed-links' );
 	add_theme_support( 'title-tag' );
+	add_theme_support( 'custom-logo' );
 	add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption' ) );
 	add_theme_support( 'custom-logo', array(
 		'height' => 70,
@@ -31,14 +32,6 @@ function elementor_hello_theme_setup() {
 	load_theme_textdomain( 'elementor-hello-theme', get_template_directory() . '/languages' );
 }
 add_action( 'after_setup_theme', 'elementor_hello_theme_setup' );
-
-// add Threaded comments script
-function elementor_hello_theme_comment_reply() {
-	if ( get_option( 'thread_comments' ) ) {
-		wp_enqueue_script( 'comment-reply' );
-	}
-}
-add_action( 'comment_form_before', 'elementor_hello_theme_comment_reply' );
 
 // Theme Scripts & Styles
 function elementor_hello_theme_scripts_styles() {

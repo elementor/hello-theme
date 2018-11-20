@@ -15,7 +15,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 			printf( '<h2><a href="%s">%s</a></h2>', get_permalink(), get_the_title() );
 			the_post_thumbnail();
 			the_excerpt();
-			the_tags( '<span class="tag-links">' . __( 'Tagged ', 'elementor-hello-theme' ), null, '</span>' );
 		endwhile;
 		?>
 	</div>

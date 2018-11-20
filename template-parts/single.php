@@ -13,11 +13,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	<div class="page-content">
 		<?php the_content(); ?>
+		<div class="post-tags">
+			<?php the_tags( '<span class="tag-links">' . __( 'Tagged ', 'elementor-hello-theme' ), null, '</span>' ); ?>
+		</div>
 	</div>
 
-	<div class="page-comments">
-		<?php comments_template(); ?>
-	</div>
+	<?php comments_template(); ?>
 </main>
 
 <?php endwhile;

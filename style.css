@@ -18,9 +18,23 @@ html{line-height:1.15;-webkit-text-size-adjust:100%}body{margin:0}h1{font-size:2
 .alignright{text-align:right}
 .alignleft{text-align:left}
 .aligncenter{text-align:center}
-.bypostauthor{}
-.gallery-caption{}
-.screen-reader-text{}
-.sticky{}
-.wp-caption{}
-.wp-caption-text{}
+.sticky{position: relative;}
+.bypostauthor{font-size:inherit;}
+.screen-reader-text{
+    clip: rect(1px, 1px, 1px, 1px);
+    height: 1px;
+    overflow: hidden;
+    position: absolute !important;
+    width: 1px;
+    word-wrap: normal !important; /* Many screen reader and browser combinations announce broken words as they would appear visually. */
+}
+.wp-caption,
+.gallery-caption{
+    color: #666;
+    font-size: 13px;
+    font-size: 0.8125rem;
+    font-style: italic;
+    margin-bottom: 1.5em;
+    max-width: 100%;
+}
+.wp-caption-text{margin: 0.8075em 0;}
