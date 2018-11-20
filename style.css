@@ -30,11 +30,8 @@ html{line-height:1.15;-webkit-text-size-adjust:100%}body{margin:0}h1{font-size:2
 }
 .wp-caption,
 .gallery-caption{
-    color: #666;
-    font-size: 13px;
     font-size: 0.8125rem;
     font-style: italic;
-    margin-bottom: 1.5em;
     max-width: 100%;
 }
 .wp-caption-text{margin: 0.8075em 0;}

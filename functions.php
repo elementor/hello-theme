@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! isset( $content_width ) ) {
-	$content_width = 1280;
+	$content_width = 800;
 }
 
 // Set up theme support
@@ -17,7 +17,7 @@ function elementor_hello_theme_setup() {
 	add_theme_support( 'custom-logo' );
 	add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption' ) );
 	add_theme_support( 'custom-logo', array(
-		'height' => 70,
+		'height' => 100,
 		'width' => 350,
 		'flex-height' => true,
 		'flex-width' => true,
@@ -26,7 +26,7 @@ function elementor_hello_theme_setup() {
 	add_theme_support( 'woocommerce' );
 
 	register_nav_menus(
-		array( 'main-menu' => __( 'Main Menu', 'elementor-hello-theme' ) )
+		array( 'menu-1' => __( 'Primary', 'elementor-hello-theme' ) )
 	);
 
 	load_theme_textdomain( 'elementor-hello-theme', get_template_directory() . '/languages' );
