@@ -90,6 +90,7 @@ add_action( 'admin_head', 'custom_jw_admin_head_css' );
 function custom_jw_admin_head_css(){
   echo '<style type="text/css">
   #pageparentdiv label.post-attributes-label[for="page_template"], #pageparentdiv label.post-attributes-label[for="menu_order"], #pageparentdiv select#page_template,  #pageparentdiv #menu_order {display: none;}
+  .wp-admin .notice.elementor-message{display: none !important;}
   </style>';
 }
 

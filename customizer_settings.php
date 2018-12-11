@@ -4,6 +4,11 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 $text_domain = 'hello-theme-child';
 
+add_action( 'customize_controls_enqueue_scripts', 'hello_theme_clone_customize_scripts' );
+function hello_theme_clone_customize_scripts(){
+	wp_enqueue_style( 'wp-customize-styles', get_template_directory_uri() . '/assets/htc-customize-styles.css' );
+}
+
 add_action( 'customize_register', 'hello_theme_child_customize_register' );
 function hello_theme_child_customize_register( $wp_customize ) {
 	// General Panel
@@ -38,6 +43,11 @@ function hello_theme_child_customize_register( $wp_customize ) {
 
 	$wp_customize->add_section( 'htc_gen_page_header_section', array(
 	    'title' => __( 'Page Header', $text_domain ),
+	    'panel' => 'htc_general_panel'
+	) );
+
+	$wp_customize->add_section( 'htc_gen_gform_section', array(
+	    'title' => __( 'Gravity Form', $text_domain ),
 	    'panel' => 'htc_general_panel'
 	) );
 
@@ -90,6 +100,12 @@ function hello_theme_child_customize_register( $wp_customize ) {
 
 	$wp_customize->add_section( 'htc_font_ptag_section', array(
 	    'title' => __( 'Paragraph', $text_domain ),
+	    'priority' => 50,
+	    'panel' => 'htc_font_panel'
+	) );
+
+	$wp_customize->add_section( 'htc_font_atag_section', array(
+	    'title' => __( 'Links', $text_domain ),
 	    'priority' => 50,
 	    'panel' => 'htc_font_panel'
 	) );
@@ -154,7 +170,7 @@ function hello_theme_child_customize_register( $wp_customize ) {
 	) );
 
 	$wp_customize->add_setting( 'htc_gen_setting_phead_enable', array(
-	    'default' => 'yes'
+	    'default' => 'no'
 	) );
 
 	$wp_customize->add_setting( 'htc_gen_setting_phead_width', array(
@@ -203,6 +219,126 @@ function hello_theme_child_customize_register( $wp_customize ) {
 
 	$wp_customize->add_setting( 'htc_gen_setting_phead_align', array(
 	    'default' => 'center'
+	) );
+
+	$wp_customize->add_setting( 'htc_gen_setting_gform_bg', array(
+	    'default' => ''
+	) );
+
+	$wp_customize->add_setting( 'htc_gen_setting_gform_ffamily', array(
+	    'default' => 'default'
+	) );
+
+	$wp_customize->add_setting( 'htc_gen_setting_gform_fsize', array(
+	    'default' => '16px'
+	) );
+
+	$wp_customize->add_setting( 'htc_gen_setting_gform_lcolor', array(
+	    'default' => '#444444'
+	) );
+
+	$wp_customize->add_setting( 'htc_gen_setting_gform_fcolor', array(
+	    'default' => '#444444'
+	) );
+
+	$wp_customize->add_setting( 'htc_gen_setting_gform_pcolor', array(
+	    'default' => '#888888'
+	) );
+
+	$wp_customize->add_setting( 'htc_gen_setting_gform_border', array(
+	    'default' => ''
+	) );
+
+	$wp_customize->add_setting( 'htc_gen_setting_gform_padding', array(
+	    'default' => ''
+	) );
+
+	$wp_customize->add_setting( 'htc_gen_setting_gform_margin', array(
+	    'default' => ''
+	) );
+
+	$wp_customize->add_setting( 'htc_gen_setting_gform_text_bg', array(
+	    'default' => ''
+	) );
+
+	$wp_customize->add_setting( 'htc_gen_setting_gform_text_bor', array(
+	    'default' => ''
+	) );
+
+	$wp_customize->add_setting( 'htc_gen_setting_gform_text_pad', array(
+	    'default' => ''
+	) );
+
+	$wp_customize->add_setting( 'htc_gen_setting_gform_text_mar', array(
+	    'default' => ''
+	) );
+
+	$wp_customize->add_setting( 'htc_gen_setting_gform_sel_bg', array(
+	    'default' => ''
+	) );
+
+	$wp_customize->add_setting( 'htc_gen_setting_gform_sel_bor', array(
+	    'default' => ''
+	) );
+
+	$wp_customize->add_setting( 'htc_gen_setting_gform_sel_pad', array(
+	    'default' => ''
+	) );
+
+	$wp_customize->add_setting( 'htc_gen_setting_gform_sel_mar', array(
+	    'default' => ''
+	) );
+
+	$wp_customize->add_setting( 'htc_gen_setting_gform_texta_bg', array(
+	    'default' => ''
+	) );
+
+	$wp_customize->add_setting( 'htc_gen_setting_gform_texta_bor', array(
+	    'default' => ''
+	) );
+
+	$wp_customize->add_setting( 'htc_gen_setting_gform_texta_pad', array(
+	    'default' => ''
+	) );
+
+	$wp_customize->add_setting( 'htc_gen_setting_gform_texta_mar', array(
+	    'default' => ''
+	) );
+
+	$wp_customize->add_setting( 'htc_gen_setting_gform_texta_hei', array(
+	    'default' => ''
+	) );
+
+	$wp_customize->add_setting( 'htc_gen_setting_gform_but_bg', array(
+	    'default' => ''
+	) );
+
+	$wp_customize->add_setting( 'htc_gen_setting_gform_but_color', array(
+	    'default' => '#FFFFFF'
+	) );
+
+	$wp_customize->add_setting( 'htc_gen_setting_gform_but_fsize', array(
+	    'default' => '15px'
+	) );
+
+	$wp_customize->add_setting( 'htc_gen_setting_gform_but_bor', array(
+	    'default' => ''
+	) );
+
+	$wp_customize->add_setting( 'htc_gen_setting_gform_but_borr', array(
+	    'default' => '5px'
+	) );
+
+	$wp_customize->add_setting( 'htc_gen_setting_gform_but_pad', array(
+	    'default' => ''
+	) );
+
+	$wp_customize->add_setting( 'htc_gen_setting_gform_but_mar', array(
+	    'default' => ''
+	) );
+
+	$wp_customize->add_setting( 'htc_gen_setting_gform_but_ali', array(
+	    'default' => 'left'
 	) );
 
 	$wp_customize->add_setting( 'htc_dashboard_cleanup_setting', array(
@@ -328,6 +464,18 @@ function hello_theme_child_customize_register( $wp_customize ) {
 	    'default' => '#444444',
 	) );
 
+	$wp_customize->add_setting( 'htc_font_setting_a_default', array(
+	    'default' => '#333333',
+	) );
+
+	$wp_customize->add_setting( 'htc_font_setting_a_hover', array(
+	    'default' => '#888888',
+	) );
+
+	$wp_customize->add_setting( 'htc_font_setting_a_decor', array(
+	    'default' => 'none',
+	) );
+
 	// Header hooks settings
 	$wp_customize->add_setting( 'htc_header_box_setting_ga', array(
 	    'default' => '',
@@ -363,36 +511,45 @@ function hello_theme_child_customize_register( $wp_customize ) {
 
 	$font_choices = array(
 		'default' => 'Select Google Font',
-		'Source Sans Pro:400,700,400italic,700italic' => 'Source Sans Pro',
-		'Open Sans:400italic,700italic,400,700' => 'Open Sans',
-		'Oswald:400,700' => 'Oswald',
-		'Playfair Display:400,700,400italic' => 'Playfair Display',
-		'Montserrat:400,700' => 'Montserrat',
-		'Raleway:400,700' => 'Raleway',
-		'Droid Sans:400,700' => 'Droid Sans',
-		'Lato:400,700,400italic,700italic' => 'Lato',
+		'Abril Fatface' => 'Abril Fatface',
+		'Arimo:400,700,400italic,700italic' => 'Arimo',
 		'Arvo:400,700,400italic,700italic' => 'Arvo',
+		'Bitter:400,700,400italic' => 'Bitter',
+		'Cabin:400,700,400italic' => 'Cabin',
+		'Crimson Text:400,400i,700,700i' => 'Crimson Text',
+		'Droid Sans:400,700' => 'Droid Sans',
+		'Droid Serif:400,700,400italic,700italic' => 'Droid Serif',
+		'Fjalla One:400' => 'Fjalla One',
+		'Francois One:400' => 'Francois One',
+		'Gravitas One' => 'Gravitas One',
+		'Josefin Sans:400,300,600,700' => 'Josefin Sans',
+		'Lato:400,700,400italic,700italic' => 'Lato',
+		'Libre Baskerville:400,400italic,700' => 'Libre Baskerville',
 		'Lora:400,700,400italic,700italic' => 'Lora',
 		'Merriweather:400,300italic,300,400italic,700,700italic' => 'Merriweather',
+		'Montserrat:400,700' => 'Montserrat',
+		'Old Standard TT:400,400i,700' => 'Old Standard TT',
+		'Open Sans:400italic,700italic,400,700' => 'Open Sans',
+		'Open Sans Condensed:700,300italic,300' => 'Open Sans Condensed',
+		'Oswald:400,700' => 'Oswald',
 		'Oxygen:400,300,700' => 'Oxygen',
+		'Playfair Display:400,700,400italic' => 'Playfair Display',
+		'Prata' => 'Prata',
+		'PT Mono' => 'PT Mono',
 		'PT Serif:400,700' => 'PT Serif',
 		'PT Sans:400,700,400italic,700italic' => 'PT Sans',
 		'PT Sans Narrow:400,700' => 'PT Sans Narrow',
-		'Cabin:400,700,400italic' => 'Cabin',
-		'Fjalla One:400' => 'Fjalla One',
-		'Francois One:400' => 'Francois One',
-		'Josefin Sans:400,300,600,700' => 'Josefin Sans',
-		'Libre Baskerville:400,400italic,700' => 'Libre Baskerville',
-		'Arimo:400,700,400italic,700italic' => 'Arimo',
-		'Ubuntu:400,700,400italic,700italic' => 'Ubuntu',
-		'Bitter:400,700,400italic' => 'Bitter',
-		'Droid Serif:400,700,400italic,700italic' => 'Droid Serif',
+		'Quicksand:300,400,700' => 'Quicksand',
+		'Raleway:400,700' => 'Raleway',
 		'Roboto:400,400italic,700,700italic' => 'Roboto',
-		'Open Sans Condensed:700,300italic,300' => 'Open Sans Condensed',
 		'Roboto Condensed:400italic,700italic,400,700' => 'Roboto Condensed',
 		'Roboto Slab:400,700' => 'Roboto Slab',
-		'Yanone Kaffeesatz:400,700' => 'Yanone Kaffeesatz',
 		'Rokkitt:400' => 'Rokkitt',
+		'Source Sans Pro:400,700,400italic,700italic' => 'Source Sans Pro',
+		'Ubuntu:400,700,400italic,700italic' => 'Ubuntu',
+		'Vollkorn:400,400i,700' => 'Vollkorn',
+		'Work Sans:300,400,700' => 'Work Sans',
+		'Yanone Kaffeesatz:400,700' => 'Yanone Kaffeesatz',
 	);
 
 	$bg_repeat = array( 'no-repeat' => 'no-repeat', 'repeat' => 'repeat', 'repeat-x' => 'repeat-x', 'repeat-y' => 'repeat-y' );
@@ -583,6 +740,278 @@ function hello_theme_child_customize_register( $wp_customize ) {
 			'settings' => 'htc_gen_setting_phead_fontcolor',
 		)
 	) );
+
+	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'htc_gen_control_gform_bg',
+		array(
+			'label' => __( 'General styles', $text_domain ),
+			'description' => __( 'Background color', $text_domain ),
+			'section' => 'htc_gen_gform_section',
+			'settings' => 'htc_gen_setting_gform_bg',
+		)
+	) );
+
+	$wp_customize->add_control( 'htc_gen_control_gform_padding',
+		array(
+			'type' => 'text',
+			'description' => __( 'Padding (eg. 10px)', $text_domain ),
+			'section' => 'htc_gen_gform_section',
+			'settings' => 'htc_gen_setting_gform_padding',
+		)
+	);
+
+	$wp_customize->add_control( 'htc_gen_control_gform_margin',
+		array(
+			'type' => 'text',
+			'description' => __( 'Margin (eg. 10px)', $text_domain ),
+			'section' => 'htc_gen_gform_section',
+			'settings' => 'htc_gen_setting_gform_margin'
+		)
+	);
+
+	$wp_customize->add_control( 'htc_gen_control_gform_border',
+		array(
+			'type' => 'text',
+			'description' => __( 'Border (eg. 1px solid #000000)', $text_domain ),
+			'section' => 'htc_gen_gform_section',
+			'settings' => 'htc_gen_setting_gform_border',
+		)
+	);
+
+	$wp_customize->add_control( 'htc_gen_control_gform_ffamily',
+		array(
+			'type' => 'select',
+			'description' => __( 'Font family', $text_domain ),
+			'section' => 'htc_gen_gform_section',
+			'settings' => 'htc_gen_setting_gform_ffamily',
+			'choices' => $font_choices
+		)
+	);
+
+	$wp_customize->add_control( 'htc_gen_control_gform_fsize',
+		array(
+			'type' => 'text',
+			'description' => __( 'Font size (eg. 16px)', $text_domain ),
+			'section' => 'htc_gen_gform_section',
+			'settings' => 'htc_gen_setting_gform_fsize',
+		)
+	);
+
+	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'htc_gen_control_gform_lcolor',
+		array(
+			'description' => __( 'Label color', $text_domain ),
+			'section' => 'htc_gen_gform_section',
+			'settings' => 'htc_gen_setting_gform_lcolor',
+		)
+	) );
+
+	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'htc_gen_control_gform_fcolor',
+		array(
+			'description' => __( 'Field font color', $text_domain ),
+			'section' => 'htc_gen_gform_section',
+			'settings' => 'htc_gen_setting_gform_fcolor',
+		)
+	) );
+
+	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'htc_gen_control_gform_pcolor',
+		array(
+			'description' => __( 'Placeholder font color', $text_domain ),
+			'section' => 'htc_gen_gform_section',
+			'settings' => 'htc_gen_setting_gform_pcolor',
+		)
+	) );
+
+	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'htc_gen_control_gform_text_bg',
+		array(
+			'label' => __( 'Input field (Text, Email)', $text_domain ),
+			'description' => __( 'Background color', $text_domain ),
+			'section' => 'htc_gen_gform_section',
+			'settings' => 'htc_gen_setting_gform_text_bg',
+		)
+	) );
+
+	$wp_customize->add_control( 'htc_gen_control_gform_text_pad',
+		array(
+			'type' => 'text',
+			'description' => __( 'Padding', $text_domain ),
+			'section' => 'htc_gen_gform_section',
+			'settings' => 'htc_gen_setting_gform_text_pad',
+		)
+	);
+
+	$wp_customize->add_control( 'htc_gen_control_gform_text_mar',
+		array(
+			'type' => 'text',
+			'description' => __( 'Margin', $text_domain ),
+			'section' => 'htc_gen_gform_section',
+			'settings' => 'htc_gen_setting_gform_text_mar',
+		)
+	);
+
+	$wp_customize->add_control( 'htc_gen_control_gform_text_bor',
+		array(
+			'type' => 'text',
+			'description' => __( 'Border (eg. 1px solid #000000)', $text_domain ),
+			'section' => 'htc_gen_gform_section',
+			'settings' => 'htc_gen_setting_gform_text_bor',
+		)
+	);
+
+	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'htc_gen_control_gform_sel_bg',
+		array(
+			'label' => __( 'Select field (Dropdown)', $text_domain ),
+			'description' => __( 'Background color', $text_domain ),
+			'section' => 'htc_gen_gform_section',
+			'settings' => 'htc_gen_setting_gform_sel_bg',
+		)
+	) );
+
+	$wp_customize->add_control( 'htc_gen_control_gform_sel_pad',
+		array(
+			'type' => 'text',
+			'description' => __( 'Padding', $text_domain ),
+			'section' => 'htc_gen_gform_section',
+			'settings' => 'htc_gen_setting_gform_sel_pad',
+		)
+	);
+
+	$wp_customize->add_control( 'htc_gen_control_gform_sel_mar',
+		array(
+			'type' => 'text',
+			'description' => __( 'Margin', $text_domain ),
+			'section' => 'htc_gen_gform_section',
+			'settings' => 'htc_gen_setting_gform_sel_mar',
+		)
+	);
+
+	$wp_customize->add_control( 'htc_gen_control_gform_sel_bor',
+		array(
+			'type' => 'text',
+			'description' => __( 'Border (eg. 1px solid #000000)', $text_domain ),
+			'section' => 'htc_gen_gform_section',
+			'settings' => 'htc_gen_setting_gform_sel_bor',
+		)
+	);
+
+	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'htc_gen_control_gform_texta_bg',
+		array(
+			'label' => __( 'Textarea field', $text_domain ),
+			'description' => __( 'Background color', $text_domain ),
+			'section' => 'htc_gen_gform_section',
+			'settings' => 'htc_gen_setting_gform_texta_bg',
+		)
+	) );
+
+	$wp_customize->add_control( 'htc_gen_control_gform_texta_pad',
+		array(
+			'type' => 'text',
+			'description' => __( 'Padding', $text_domain ),
+			'section' => 'htc_gen_gform_section',
+			'settings' => 'htc_gen_setting_gform_texta_pad',
+		)
+	);
+
+	$wp_customize->add_control( 'htc_gen_control_gform_texta_mar',
+		array(
+			'type' => 'text',
+			'description' => __( 'Margin', $text_domain ),
+			'section' => 'htc_gen_gform_section',
+			'settings' => 'htc_gen_setting_gform_texta_mar',
+		)
+	);
+
+	$wp_customize->add_control( 'htc_gen_control_gform_texta_bor',
+		array(
+			'type' => 'text',
+			'description' => __( 'Border (eg. 1px solid #000000)', $text_domain ),
+			'section' => 'htc_gen_gform_section',
+			'settings' => 'htc_gen_setting_gform_texta_bor',
+		)
+	);
+
+	$wp_customize->add_control( 'htc_gen_control_gform_texta_hei',
+		array(
+			'type' => 'text',
+			'description' => __( 'Height (eg. 150px)', $text_domain ),
+			'section' => 'htc_gen_gform_section',
+			'settings' => 'htc_gen_setting_gform_texta_hei',
+		)
+	);
+
+	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'htc_gen_control_gform_but_bg',
+		array(
+			'label' => __( 'Button (default)', $text_domain ),
+			'description' => __( 'Background color', $text_domain ),
+			'section' => 'htc_gen_gform_section',
+			'settings' => 'htc_gen_setting_gform_but_bg',
+		)
+	) );
+
+	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'htc_gen_control_gform_but_color',
+		array(
+			'description' => __( 'Font color', $text_domain ),
+			'section' => 'htc_gen_gform_section',
+			'settings' => 'htc_gen_setting_gform_but_color',
+		)
+	) );
+
+	$wp_customize->add_control( 'htc_gen_control_gform_but_fsize',
+		array(
+			'type' => 'text',
+			'description' => __( 'Font size', $text_domain ),
+			'section' => 'htc_gen_gform_section',
+			'settings' => 'htc_gen_setting_gform_but_fsize',
+		)
+	);
+
+	$wp_customize->add_control( 'htc_gen_control_gform_but_pad',
+		array(
+			'type' => 'text',
+			'description' => __( 'Padding', $text_domain ),
+			'section' => 'htc_gen_gform_section',
+			'settings' => 'htc_gen_setting_gform_but_pad',
+		)
+	);
+
+	$wp_customize->add_control( 'htc_gen_control_gform_but_mar',
+		array(
+			'type' => 'text',
+			'description' => __( 'Margin', $text_domain ),
+			'section' => 'htc_gen_gform_section',
+			'settings' => 'htc_gen_setting_gform_but_mar',
+		)
+	);
+
+	$wp_customize->add_control( 'htc_gen_control_gform_but_bor',
+		array(
+			'type' => 'text',
+			'description' => __( 'Border (eg. 1px solid #000000)', $text_domain ),
+			'section' => 'htc_gen_gform_section',
+			'settings' => 'htc_gen_setting_gform_but_bor',
+		)
+	);
+
+	$wp_customize->add_control( 'htc_gen_control_gform_but_borr',
+		array(
+			'type' => 'text',
+			'description' => __( 'Border radius (eg. 5px)', $text_domain ),
+			'section' => 'htc_gen_gform_section',
+			'settings' => 'htc_gen_setting_gform_but_borr',
+		)
+	);
+
+	$wp_customize->add_control( 'htc_gen_control_gform_but_ali',
+		array(
+			'type' => 'select',
+			'description' => __( 'Alignment', $text_domain ),
+			'section' => 'htc_gen_gform_section',
+			'settings' => 'htc_gen_setting_gform_but_ali',
+			'choices' => array(
+				'left' => 'Left',
+				'center' => 'Center',
+				'right' => 'Right'
+			)
+		)
+	);
 
 	$wp_customize->add_control( 'htc_dashboard_cleanup_control',
 		array(
@@ -924,6 +1353,35 @@ function hello_theme_child_customize_register( $wp_customize ) {
 			'settings' => 'htc_font_setting_p_color',
 		)
 	) );
+
+	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'htc_font_control_a_default',
+		array(
+			'description' => __( 'Default link color', $text_domain ),
+			'section' => 'htc_font_atag_section',
+			'settings' => 'htc_font_setting_a_default',
+		)
+	) );
+
+	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'htc_font_control_a_hover',
+		array(
+			'description' => __( 'Hover link color', $text_domain ),
+			'section' => 'htc_font_atag_section',
+			'settings' => 'htc_font_setting_a_hover',
+		)
+	) );
+
+	$wp_customize->add_control( 'htc_font_control_a_decor',
+		array(
+			'type' => 'select',
+			'description' => __( 'Text decoration', $text_domain ),
+			'section' => 'htc_font_atag_section',
+			'settings' => 'htc_font_setting_a_decor',
+			'choices' => array(
+				'none' => 'none',
+				'underline' => 'underline'
+			)
+		)
+	);
 	
 	// Header hooks controls
 	$wp_customize->add_control( new WP_Customize_Code_Editor_Control( $wp_customize, 'htc_header_box_control_ga',

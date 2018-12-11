@@ -19,6 +19,7 @@ html{line-height:1.15;-webkit-text-size-adjust:100%}body{margin:0}h1{font-size:2
 
 body{
 	margin: 0;
+	overflow-x: hidden;
 }
 h1, h2, h3, h4, h5, h6{
 	margin: 0 0 15px 0;
@@ -36,6 +37,10 @@ ul, ol{
 	margin-left: auto;
 	margin-right: auto;
 }
+.clearfix{
+	clear: both;
+	display: block;
+}
 
 /* Elementor text styles */
 .elementor-text-editor h1, .elementor-text-editor h2, .elementor-text-editor h3, .elementor-text-editor h4, .elementor-text-editor h5, .elementor-text-editor h6{
@@ -46,4 +51,15 @@ ul, ol{
 }
 .elementor-text-editor ul, .elementor-text-editor ol{
 	padding: 0;
+}
+
+/* Gravity forms styles */
+.gform_wrapper form .gform_body .gform_fields .gfield input[type=text],  .gform_wrapper form .gform_body .gform_fields .gfield input[type=email],
+.gform_wrapper form .gform_body .gform_fields .gfield input[type=number], .gform_wrapper form .gform_body .gform_fields .gfield select,
+.gform_wrapper form .gform_body .gform_fields .gfield textarea {
+	line-height: 1.3em;
+	outline: none;
+}
+.gform_wrapper form .gform_footer .gform_button{
+	cursor: pointer;
 }

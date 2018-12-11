@@ -1,0 +1,9 @@
+/*
+** WP Customizer additional styles
+*/
+
+li#customize-control-htc_gen_control_gform_text_bg, li#customize-control-htc_gen_control_gform_sel_bg, li#customize-control-htc_gen_control_gform_texta_bg, li#customize-control-htc_gen_control_gform_but_bg {
+    margin-top: 15px;
+    padding-top: 20px;
+    border-top: 1px dashed #dddddd;
+}
