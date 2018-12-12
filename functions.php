@@ -80,5 +80,5 @@ function year_shortcode() {
 
 // Theme update checker
 include( 'includes/plugin-update-checker-master/plugin-update-checker.php' );
-$serverUrl = 'http://zoro.com.au';
+$serverUrl = 'https://zoro.com.au';
 $customThemeUpdateChecker = Puc_v4_Factory::buildUpdateChecker( $serverUrl .'/theme_updater.json', __FILE__, 'elementor-hello-theme-master' );

@@ -169,6 +169,10 @@ function hello_theme_child_customize_register( $wp_customize ) {
 	    'default' => 'cover'
 	) );
 
+	$wp_customize->add_setting( 'htc_gen_setting_content_width', array(
+	    'default' => '1140px'
+	) );
+
 	$wp_customize->add_setting( 'htc_gen_setting_phead_enable', array(
 	    'default' => 'no'
 	) );
@@ -600,6 +604,16 @@ function hello_theme_child_customize_register( $wp_customize ) {
 			'section' => 'htc_gen_body_bg_section',
 			'settings' => 'htc_gen_setting_body_bgsize',
 			'choices' => $bg_size
+		)
+	);
+
+	$wp_customize->add_control( 'htc_gen_control_content_width',
+		array(
+			'type' => 'text',
+			'label' => __( 'Page Content', $text_domain ),
+			'description' => __( 'Width (accepts "%" or "px")', $text_domain ),
+			'section' => 'htc_gen_body_bg_section',
+			'settings' => 'htc_gen_setting_content_width'
 		)
 	);
 

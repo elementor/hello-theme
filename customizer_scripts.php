@@ -7,7 +7,7 @@ add_action( 'wp_head', 'custom_hello_theme_mods_styles' );
 function custom_hello_theme_mods_styles() {
 	$custom_mods = get_theme_mods();
 	$font_family = 'Arial, sans-serif';
-	$elementor_content_width = get_option('elementor_container_width');
+	$page_content_width = get_theme_mod('htc_gen_setting_content_width', '1140px');
 	$bodybg_color = get_theme_mod('htc_gen_setting_body_color', '#FFFFFF');
 	$bodybg_imgmod = get_theme_mod('htc_gen_setting_body_img', '');
 	$bodybg_rep = get_theme_mod('htc_gen_setting_body_bgrep', 'no-repeat');
@@ -72,7 +72,7 @@ function custom_hello_theme_mods_styles() {
 	printf( "a, .elementor-text-editor a{color: %s; text-decoration: %s;}", $a_default, $a_decor );
 	printf( "a:hover, .elementor-text-editor a:hover{color: %s;}", $a_hover );
 	printf( ".page-header{background-color: %s;background-image: %s;background-repeat: %s;background-position: %s;background-size: %s;width: %s;text-align:%s;%s}\n", $pheadbg_color, $pheadbg_img, $pheadbg_rep, $pheadbg_pos, $pheadbg_size, $phead_width, $phead_align, $phead_enabled );
-	printf( ".page-header-inner{max-width: %spx;padding: %s;}\n", $elementor_content_width, $phead_pad );
+	printf( ".page-header-inner{max-width: %s;padding: %s;}\n", $page_content_width, $phead_pad );
 	printf( ".page-header .entry-title{font-size: %s%s;color: %s;font-family: %s;}\n", $phead_fontsize, $phead_fonttype, $phead_fontcolor, $phead_fontfamily );
 
 	for($i = 1; $i <= 6; $i++) {
@@ -104,7 +104,7 @@ function custom_hello_theme_mods_styles() {
 	$pfontColor = get_theme_mod('htc_font_setting_p_color', '#444444');
 
 	printf( "body{font-size: %s%s;color: %s;font-family: %s;}\n", $pfontSize, $pfontType, $pfontColor, $pfontFamily );
-	printf( ".page-content{max-width: %spx;}\n", $elementor_content_width );
+	printf( ".page-content{max-width: %s;}\n", $page_content_width );
 	printf( "div.gform_wrapper form{background: %s;padding: %s;margin: %s;border: %s;color: %s;font-family: %s;font-size: %s;}\n", $gform_bg, $gform_pad, $gform_mar, $gform_bor, $gform_field_color, $gform_fontfamily, $gform_fontsize );
 	printf( ".gform_wrapper form ::placeholder{color: %s;}\n", $gform_placeholder_color );
 	printf( ".gform_wrapper form ::-webkit-input-placeholder{color: %s;}\n", $gform_placeholder_color );
