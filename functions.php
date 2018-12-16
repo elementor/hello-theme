@@ -5,7 +5,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Set up theme support
 function elementor_hello_theme_setup() {
-
 	add_theme_support( 'menus' );
 	add_theme_support( 'post-thumbnails' );
 	add_theme_support( 'automatic-feed-links' );
@@ -26,7 +25,8 @@ add_action( 'after_setup_theme', 'elementor_hello_theme_setup' );
 
 // Theme Scripts & Styles
 function elementor_hello_theme_scripts_styles() {
-	wp_enqueue_style( 'elementor-hello-theme-style', get_stylesheet_uri() );
+	//wp_enqueue_style( 'elementor-hello-theme-style', get_stylesheet_uri() );
+	wp_enqueue_style( 'elementor-hello-theme-style', get_template_directory_uri() . '/assets/css/style.css' );
 }
 add_action( 'wp_enqueue_scripts', 'elementor_hello_theme_scripts_styles' );
 
