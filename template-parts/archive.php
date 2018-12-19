@@ -1,4 +1,8 @@
 <?php
+/**
+ * The template for displaying archive pages
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }

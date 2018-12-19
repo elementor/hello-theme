@@ -1,4 +1,8 @@
 <?php
+/**
+ * The template for displaying 404 pages (not found)
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }

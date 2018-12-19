@@ -1,9 +1,45 @@
 <?php
+/**
+ * Elementor Hello Theme functions and definitions
+ *
+ * @link http://elementor.com
+ *
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-// Set up theme support
+/**
+ * Elementor Hello Theme only works in WordPress 4.7 or later.
+ */
+function elementor_hello_theme_switch_theme( $oldtheme_name, $oldtheme ) {
+	$missing_dependencies = false;
+
+	if ( version_compare( $GLOBALS['wp_version'], '4.7-alpha', '<' ) ) {
+		$missing_dependencies = true;
+	}
+
+	if ( ! $missing_dependencies ) {
+		return true;
+	}
+	add_action( 'admin_notices', 'elementor_hello_theme_switch_admin_notice' );
+
+	// Switch back to previous theme
+	switch_theme( $oldtheme->stylesheet );
+
+	return false;
+}
+add_action( 'after_switch_theme', 'elementor_hello_theme_switch_theme', 10, 2 );
+
+function elementor_hello_theme_switch_admin_notice() {
+	$message = sprintf( __( 'Elementor Hello Theme requires at least WordPress version 4.7. You are running version %s. Please upgrade and try again.', 'elementor-hello-theme' ), $GLOBALS['wp_version'] );
+	printf( '<div class="error"><p>%s</p></div>', $message );
+}
+
+/*
+ * Set up theme support
+ */
 function elementor_hello_theme_setup() {
 	add_theme_support( 'menus' );
 	add_theme_support( 'post-thumbnails' );
@@ -23,25 +59,33 @@ function elementor_hello_theme_setup() {
 }
 add_action( 'after_setup_theme', 'elementor_hello_theme_setup' );
 
-// Theme Scripts & Styles
+/*
+ * Theme Scripts & Styles
+ */
 function elementor_hello_theme_scripts_styles() {
 	wp_enqueue_style( 'elementor-hello-theme-style', get_stylesheet_uri() );
 }
 add_action( 'wp_enqueue_scripts', 'elementor_hello_theme_scripts_styles' );
 
-// Register Elementor Locations
+/*
+ * Register Elementor Locations
+ */
 function elementor_hello_theme_register_elementor_locations( $elementor_theme_manager ) {
 	$elementor_theme_manager->register_all_core_location();
 };
 add_action( 'elementor/theme/register_locations', 'elementor_hello_theme_register_elementor_locations' );
 
-// Remove WP Embed
+/*
+ * Remove WP Embed
+ */
 function elementor_hello_theme_deregister_scripts() {
 	wp_deregister_script( 'wp-embed' );
 }
 add_action( 'wp_footer', 'elementor_hello_theme_deregister_scripts' );
 
-// Remove WP Emoji
+/*
+ * Remove WP Emoji
+ */
 remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 remove_action( 'wp_print_styles', 'print_emoji_styles' );
 remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );

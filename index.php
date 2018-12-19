@@ -1,4 +1,12 @@
 <?php
+/**
+ * The site's entry point
+ *
+ * loads the relevant template part,
+ * the loop is executed (when needed) by the relevant template part.
+ *
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
