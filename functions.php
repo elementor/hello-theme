@@ -24,6 +24,8 @@ add_action( 'after_setup_theme', 'elementor_hello_theme_setup' );
 // Theme Scripts & Styles
 function elementor_hello_theme_scripts_styles() {
 	wp_enqueue_style( 'elementor-hello-theme-style', get_stylesheet_uri() );
+	wp_dequeue_script( 'jquery' );
+	wp_enqueue_script( 'jquery', '/wp-includes/js/jquery/jquery.js', array(), '', false );
 }
 add_action( 'wp_enqueue_scripts', 'elementor_hello_theme_scripts_styles' );
 
