@@ -28,6 +28,9 @@ Source: https://elementor.com
 
 == Changelog ==
 
+= 1.2.2 - 2018-12-20 =
+* Fix: jQuery error - dequeue script of Wordpress jQuery library and enqueue it to the header for dependencies validity
+
 = 1.2.1 - 2018-12-13 =
 * New: Page content width added in WP Customizer (General Settings -> Body -> Page Content)
 * Tweak: Update checker URL adjustments due to invalid protocol declaration
