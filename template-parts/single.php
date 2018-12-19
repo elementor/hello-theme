@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 <?php while ( have_posts() ) : the_post(); ?>
 
-<main id="main" class="site-main" role="main">
+<main id="main" class="site-main <?php post_class(); ?>" role="main">
 
 	<header class="page-header">
 		<h1 class="entry-title"><?php the_title(); ?></h1>
@@ -13,8 +13,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	<div class="page-content">
 		<?php the_content(); ?>
+		<div class="post-tags">
+			<?php the_tags( '<span class="tag-links">' . __( 'Tagged ', 'elementor-hello-theme' ), null, '</span>' ); ?>
+		</div>
 	</div>
 
+	<?php comments_template(); ?>
 </main>
 
 <?php endwhile;
