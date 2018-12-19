@@ -40,20 +40,29 @@ function elementor_hello_theme_switch_admin_notice() {
 /*
  * Set up theme support
  */
+if ( ! isset( $content_width ) ) {
+	$content_width = 800;
+}
+
 function elementor_hello_theme_setup() {
 	add_theme_support( 'menus' );
 	add_theme_support( 'post-thumbnails' );
 	add_theme_support( 'automatic-feed-links' );
 	add_theme_support( 'title-tag' );
+	add_theme_support( 'custom-logo' );
 	add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption' ) );
 	add_theme_support( 'custom-logo', array(
-		'height' => 70,
+		'height' => 100,
 		'width' => 350,
 		'flex-height' => true,
 		'flex-width' => true,
 	) );
 
 	add_theme_support( 'woocommerce' );
+
+	register_nav_menus(
+		array( 'menu-1' => __( 'Primary', 'elementor-hello-theme' ) )
+	);
 
 	load_theme_textdomain( 'elementor-hello-theme', get_template_directory() . '/languages' );
 }

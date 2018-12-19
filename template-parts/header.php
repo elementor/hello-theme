@@ -9,8 +9,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<?php the_custom_logo(); ?>
 	</div>
 
+	<?php if ( is_front_page() && is_home() ) : ?>
+		<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php esc_attr_e( 'Home', 'elementor-hello-theme' ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
+	<?php else : ?>
+		<p class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php esc_attr_e( 'Home', 'elementor-hello-theme' ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></p>
+	<?php endif; ?>
+
 	<nav id="top-menu" role="navigation">
-		<?php // top menu ?>
+		<?php wp_nav_menu(); ?>
 	</nav>
 
 </header>
