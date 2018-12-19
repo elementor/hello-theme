@@ -3,21 +3,30 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
+if ( ! isset( $content_width ) ) {
+	$content_width = 800;
+}
+
 // Set up theme support
 function elementor_hello_theme_setup() {
 	add_theme_support( 'menus' );
 	add_theme_support( 'post-thumbnails' );
 	add_theme_support( 'automatic-feed-links' );
 	add_theme_support( 'title-tag' );
+	add_theme_support( 'custom-logo' );
 	add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption' ) );
 	add_theme_support( 'custom-logo', array(
-		'height' => 70,
+		'height' => 100,
 		'width' => 350,
 		'flex-height' => true,
 		'flex-width' => true,
 	) );
 
 	add_theme_support( 'woocommerce' );
+
+	register_nav_menus(
+		array( 'menu-1' => __( 'Primary', 'elementor-hello-theme' ) )
+	);
 
 	load_theme_textdomain( 'elementor-hello-theme', get_template_directory() . '/languages' );
 }
@@ -34,15 +43,3 @@ function elementor_hello_theme_register_elementor_locations( $elementor_theme_ma
 	$elementor_theme_manager->register_all_core_location();
 };
 add_action( 'elementor/theme/register_locations', 'elementor_hello_theme_register_elementor_locations' );
-
-// Remove WP Embed
-function elementor_hello_theme_deregister_scripts() {
-	wp_deregister_script( 'wp-embed' );
-}
-add_action( 'wp_footer', 'elementor_hello_theme_deregister_scripts' );
-
-// Remove WP Emoji
-remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
-remove_action( 'wp_print_styles', 'print_emoji_styles' );
-remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
-remove_action( 'admin_print_styles', 'print_emoji_styles' );
