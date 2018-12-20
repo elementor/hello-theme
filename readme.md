@@ -38,8 +38,6 @@ to prevent the loading of any of the following settings, add the following code 
 * `elementor_hello_theme_add_woocommerce_support`       register woocommerce features
 * `elementor_hello_theme_enqueue_style`                 enqueue style
 * `elementor_hello_theme_register_elementor_locations`  register elementor settings 
-* `elementor_hello_theme_deregister_scripts`            remove wp-script
-* `elementor_hello_theme_remove_wp_actions`             remove WP Emoji (don't worry, Elementor will add many great icons)
 
 ### Style
 

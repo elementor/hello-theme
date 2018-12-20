@@ -25,14 +25,28 @@ Please note that we do not provide support for customizing the theme (as it shou
 3. Click on the 'Activate' button to use your new theme right away.
 4. Navigate to Elementor and start building your site.
 
-## Style
+## Customizing
+
+### Hooks
+to prevent the loading of any of the following settings, add the following code to your child-theme functions.php:
+
+`add_filter( 'choose-from-the-list-below', '__return_false' );`
+
+* `elementor_hello_theme_load_textdomain`               load theme's textdomain
+* `elementor_hello_theme_register_menus`                register the theme's default menu location
+* `elementor_hello_theme_add_theme_support`             register the various supported features
+* `elementor_hello_theme_add_woocommerce_support`       register woocommerce features
+* `elementor_hello_theme_enqueue_style`                 enqueue style
+* `elementor_hello_theme_register_elementor_locations`  register elementor settings
+
+### Style
 
 In order to change the styling used throughout the site, use **Elementor**.
 
 However, if for some reason there is still a need to add or change the site's css, please take into account the following:
-1. files located under 'reset' directory, should **NOT** be edited directly.
-2. in order to change any of the values defined in preset/variables.scss, add your style code to custom/pre_default.scss.
-3. any new scss files should be located under custom/ directory, and imported in custom/custom.scss.
+1. files located under `reset` directory, should **NOT** be edited directly.
+2. in order to change any of the values defined in `preset/variables.scss`, add your style code to `custom/pre_default.scss`.
+3. any new scss files should be located under `custom/` directory, and imported in `custom/custom.scss`.
 
 ## Frequently Asked Questions
 
