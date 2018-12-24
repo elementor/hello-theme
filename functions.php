@@ -47,12 +47,17 @@ if ( ! function_exists( 'elementor_hello_theme_setup' ) ) {
 			) );
 
 			/*
-			 * WooCommerce features, for supporting WooCommerce in general and gallery relates features in specific
+			 * WooCommerce:
 			 */
 			if ( apply_filters( 'elementor_hello_theme_add_woocommerce_support', true ) ) {
+				// WooCommerce in general:
 				add_theme_support( 'woocommerce' );
+				// Enabling WooCommerce product gallery features (are off by default since WC 3.0.0):
+				// zoom:
 				add_theme_support( 'wc-product-gallery-zoom' );
+				// lightbox:
 				add_theme_support( 'wc-product-gallery-lightbox' );
+				// swipe:
 				add_theme_support( 'wc-product-gallery-slider' );
 			}
 		}
