@@ -4,7 +4,7 @@
 	Description: The theme for Elementor.
 	Author: Elementor Team
 	Author URI: https://elementor.com
-	Version: 1.0.0
+	Version: 1.1.0
 	Stable tag: 1.0.0
 	Requires at least: 4.7
 	Tested up to: 5.0
@@ -19,7 +19,7 @@
    ========================================================================== */
 
 // Root
-@import "custom/pre_default";
+@import "custom/custom_variables";
 @import "reset/variables";
 
 // Base CSS (Based on Normalize)
@@ -36,6 +36,9 @@
 
 // List
 @import "reset/list";
+
+// WordPress
+@import "reset/wordpress";
 
 // Custom Code for Your Website
 @import "custom/custom";

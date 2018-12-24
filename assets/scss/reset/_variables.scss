@@ -2,30 +2,40 @@
 DO NOT CHANGE THIS FILE
 to override any of the settings in this section, add your styling code in the custom directory
  */
-/* Variables
 
+/* Variables */
 // Loading first in the style.scss
 
-1. Colors
+/*
+1. Media Break-points
+========================================================================== */
+$screen-xs: 576px !default;
+$screen-sm: 768px !default;
+$screen-md: 992px !default;
+$screen-xl: 1200px !default;
+$screen-diff: 1px !default;
+
+/*
+2. Colors
 ========================================================================== */
 
 //Default Color
 $gray-base:		#000 !default;
 $gray-darker:	lighten($gray-base, 13.5%) !default; // #222
 $gray-dark:		lighten($gray-base, 20%) !default;   // #333
-$gray:        	lighten($gray-base, 33.5%) !default; // #555
-$gray-light:  	lighten($gray-base, 46.7%) !default; // #777
+$gray:        	lighten($gray-base, 40%) !default; // #666
+$gray-light:  	lighten($gray-base, 80%) !default; // #ccc
 $gray-lighter:	lighten($gray-base, 93.5%) !default; // #eee
 
 //Text & Paragraph
 $text-color: $gray-dark;
 
 //Web-Safe Brand Colors
-$purple:	#333366 !default;
-$pink: 		#CC3366 !default;
-$green:		#66CC99 !default;
-$yellow: 	#FFCC33 !default;
-$red: 		#CC0033 !default;
+$purple:	#333366 !default; //deep koamaru
+$pink: 		#CC3366 !default; //pink
+$green:		#66CC99 !default; //medium-light green-cyan
+$yellow: 	#FFCC33 !default; //medium-light yellow
+$red: 		#CC0033 !default; //vivid crimson
 
 //Border Radius
 $border-radius:	3px !default;
@@ -35,8 +45,7 @@ $primary-color:	$pink !default;
 $success-color:	$green !default;
 
 /*
-
-2. Typography
+3. Typography
 ========================================================================== */
 
 //Fonts
@@ -58,6 +67,7 @@ $h4-font-size: $font-size-base * 1.5 !default;
 $h5-font-size: $font-size-base * 1.25 !default;
 $h6-font-size: $font-size-base;
 
-@media (max-width: 767px) {
+@media (max-width: $screen-md) {
 	$font-size-base:	.9rem !default;
 }
+

@@ -67,7 +67,7 @@ table {
 		border-top: 2px solid $gray-light;
 	}
 
-	@media (max-width: 767px) {
+	@media (max-width: $screen-sm - $screen-diff) {
 
 		table {
 			font-size: 0.8em;

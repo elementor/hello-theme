@@ -105,7 +105,7 @@ to override any of the settings in this section, add your styling code in the cu
 		}
 	}
 
-	@media (min-width:768px) {
+	@media (min-width: $screen-sm) {
 
 		.comment-author,
 		.comment-metadata {
@@ -113,7 +113,7 @@ to override any of the settings in this section, add your styling code in the cu
 		}
 	}
 
-	@media (max-width: 767px) {
+	@media (max-width: $screen-sm - $screen-diff) {
 
 		.comment .comment-body {
 			padding: 30px 0;

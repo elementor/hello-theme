@@ -1,76 +1,39 @@
 /**
  * Elementor Hello Theme Makefile
  */
-'use strict';
 
 module.exports = function( grunt ) {
+	'use strict';
 
-	require( 'matchdep' ).filterDev( 'grunt-*' ).forEach( grunt.loadNpmTasks );
+	const fs = require( 'fs' ),
+		pkgInfo = grunt.file.readJSON( 'package.json' );
 
-	// Project configuration.
+	require( 'load-grunt-tasks' )( grunt );
+
+	// Project configuration
 	grunt.initConfig( {
-		pkg: grunt.file.readJSON( 'package.json' ),
+		pkg: pkgInfo,
 
-		sass: {
-			dist: {
-				files: [ {
-					expand: true,
-					cwd: 'assets/scss',
-					src: '*.scss',
-					dest: './',
-					ext: '.css'
-				} ]
-			}
-		},
+		banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
+			'<%= grunt.template.today("dd-mm-yyyy") %> */',
 
-		postcss: {
-			dev: {
-				options: {
-					//map: true,
-
-					processors: [
-						require( 'autoprefixer' )( {
-							browsers: 'last 10 versions'
-						} )
-					]
-				},
-				files: [ {
-					src: [
-						'*.css',
-						'!*.min.css'
-					]
-				} ]
-			},
-			minify: {
-				options: {
-					processors: [
-						require( 'autoprefixer' )( {
-							browsers: 'last 10 versions'
-						} ),
-						require( 'cssnano' )()
-					]
-				},
-				files: [ {
-					//expand: true,
-					src: [
-						'*.css',
-						'!*.min.css'
-					],
-					ext: '.min.css'
-				} ]
-			}
-		},
-
-		watch: {
-			styles: {
-				files: [
-					'assets/scss/**/*.scss'
-				],
-				tasks: [ 'styles' ]
-			}
-		}
-
+		checktextdomain: require( './.grunt-config/checktextdomain' ),
+		sass: require( './.grunt-config/sass' ),
+		postcss: require( './.grunt-config/postcss' ),
+		watch: require( './.grunt-config/watch' ),
+		wp_readme_to_markdown: require( './.grunt-config/wp_readme_to_markdown' ),
 	} );
+
+	// Default task(s).
+	grunt.registerTask( 'default', [
+		'i18n',
+		'wp_readme_to_markdown',
+		'styles',
+	] );
+
+	grunt.registerTask( 'i18n', [
+		'checktextdomain',
+	] );
 
 	grunt.registerTask( 'styles', [
 		'sass',

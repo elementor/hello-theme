@@ -1,0 +1,45 @@
+/*
+DO NOT CHANGE THIS FILE
+to override any of the settings in this section, add your styling code in the custom directory
+ */
+/* WordPress
+   ========================================================================== */
+.alignright{
+	text-align:	right
+}
+
+.alignleft{
+	text-align:	left
+}
+
+.aligncenter {
+	text-align: center
+}
+
+.sticky {
+	position: relative;
+}
+
+.bypostauthor {
+	font-size: inherit;
+}
+
+.screen-reader-text {
+	clip: rect(1px, 1px, 1px, 1px);
+	height: 1px;
+	overflow: hidden;
+	position: absolute !important;
+	width: 1px;
+	word-wrap: normal !important; /* Many screen reader and browser combinations announce broken words as they would appear visually. */
+}
+
+.wp-caption,
+.gallery-caption {
+	font-size: 0.8125rem;
+	font-style: italic;
+	max-width: 100%;
+}
+
+.wp-caption-text {
+	margin: 0.8075em 0;
+}

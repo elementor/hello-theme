@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! isset( $content_width ) ) {
-	$content_width = 800; /* pixels */
+	$content_width = 800; // pixels
 }
 
 /*
@@ -32,13 +32,12 @@ if ( ! function_exists( 'elementor_hello_theme_setup' ) ) {
 			add_theme_support( 'automatic-feed-links' );
 			add_theme_support( 'title-tag' );
 			add_theme_support( 'custom-logo' );
-			add_theme_support( 'custom-background' );
 			add_theme_support( 'html5', array(
 				'search-form',
 				'comment-form',
 				'comment-list',
 				'gallery',
-				'caption'
+				'caption',
 			) );
 			add_theme_support( 'custom-logo', array(
 				'height' => 100,
@@ -47,6 +46,9 @@ if ( ! function_exists( 'elementor_hello_theme_setup' ) ) {
 				'flex-width' => true,
 			) );
 
+			/*
+			 * WooCommerce features, for supporting WooCommerce in general and gallery relates features in specific
+			 */
 			if ( apply_filters( 'elementor_hello_theme_add_woocommerce_support', true ) ) {
 				add_theme_support( 'woocommerce' );
 				add_theme_support( 'wc-product-gallery-zoom' );
@@ -55,7 +57,6 @@ if ( ! function_exists( 'elementor_hello_theme_setup' ) ) {
 			}
 		}
 	}
-
 	add_action( 'after_setup_theme', 'elementor_hello_theme_setup' );
 }
 
@@ -68,7 +69,6 @@ if ( ! function_exists( 'elementor_hello_theme_scripts_styles' ) ) {
 			wp_enqueue_style( 'elementor-hello-theme-style', get_stylesheet_uri() );
 		}
 	}
-
 	add_action( 'wp_enqueue_scripts', 'elementor_hello_theme_scripts_styles' );
 }
 
@@ -81,6 +81,5 @@ if ( ! function_exists( 'elementor_hello_theme_register_elementor_locations' ) )
 			$elementor_theme_manager->register_all_core_location();
 		}
 	}
-
 	add_action( 'elementor/theme/register_locations', 'elementor_hello_theme_register_elementor_locations' );
 }
