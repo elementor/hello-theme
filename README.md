@@ -29,7 +29,7 @@ to prevent the loading of any of the following settings, add the following code 
 * `elementor_hello_theme_load_textdomain`               load theme's textdomain
 * `elementor_hello_theme_register_menus`                register the theme's default menu location
 * `elementor_hello_theme_add_theme_support`             register the various supported features
-* `elementor_hello_theme_add_woocommerce_support`       register woocommerce features
+* `elementor_hello_theme_add_woocommerce_support`       register woocommerce features, including product-gallery zoom, swipe & lightbox features
 * `elementor_hello_theme_enqueue_style`                 enqueue style
 * `elementor_hello_theme_register_elementor_locations`  register elementor settings
 
