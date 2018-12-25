@@ -3,17 +3,17 @@
 Contributors: elemntor
 Requires at least: WordPress 4.7
 Tested up to: WordPress 5.0
-Stable tag: 1.0
-Version: 1.0
+Stable tag: 1.1.0
+Version: 1.1.0
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Tags: flexible-header, accessibility-ready, custom-colors, custom-menu, custom-logo, editor-style, featured-images, rtl-language-support, threaded-comments, translation-ready
 
-The theme for Elementor.
+The theme for Elementor plugin.
 
 == Description ==
 
-A plain-vanilla theme, best suited for building your site using Elementor.
+A plain-vanilla theme, best suited for building your site using Elementor plugin.
 This theme resets the environment and prepares it for smooth operation of Elementor.
 
 If you wish to customize your theme & site, just use **Elementor!**.
@@ -60,6 +60,16 @@ Best practice is to use the styling capabilities in the Elementor plugin.
 == Changelog ==
 
 = 1.0 =
-* Released: December 11, 2018
+* Released: November 4, 2018
 
 Initial release
+
+= 1.1.0 =
+* Released: December 26, 2018
+
+New: use scss & do thorough style reset.
+New: readme.
+New: add hooks and child-theme preparations.
+New: template parts search.
+New: translations support.
+Changed: re-write of already existing template parts.

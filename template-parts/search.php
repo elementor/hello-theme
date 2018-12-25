@@ -1,6 +1,6 @@
 <?php
 /**
- * The template for displaying search results
+ * The template for displaying search results.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

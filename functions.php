@@ -2,8 +2,6 @@
 /**
  * Elementor Hello Theme functions and definitions
  *
- * @link http://elementor.com
- *
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -62,8 +60,8 @@ if ( ! function_exists( 'elementor_hello_theme_setup' ) ) {
 			}
 		}
 	}
-	add_action( 'after_setup_theme', 'elementor_hello_theme_setup' );
 }
+add_action( 'after_setup_theme', 'elementor_hello_theme_setup' );
 
 /*
  * Theme Scripts & Styles
@@ -74,8 +72,8 @@ if ( ! function_exists( 'elementor_hello_theme_scripts_styles' ) ) {
 			wp_enqueue_style( 'elementor-hello-theme-style', get_stylesheet_uri() );
 		}
 	}
-	add_action( 'wp_enqueue_scripts', 'elementor_hello_theme_scripts_styles' );
 }
+add_action( 'wp_enqueue_scripts', 'elementor_hello_theme_scripts_styles' );
 
 /*
  * Register Elementor Locations
@@ -86,5 +84,5 @@ if ( ! function_exists( 'elementor_hello_theme_register_elementor_locations' ) )
 			$elementor_theme_manager->register_all_core_location();
 		}
 	}
-	add_action( 'elementor/theme/register_locations', 'elementor_hello_theme_register_elementor_locations' );
 }
+add_action( 'elementor/theme/register_locations', 'elementor_hello_theme_register_elementor_locations' );

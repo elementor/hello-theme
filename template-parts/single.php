@@ -1,6 +1,6 @@
 <?php
 /**
- * The template for displaying singular post-types: posts, pages and user-defined custom post types
+ * The template for displaying singular post-types: posts, pages and user-defined custom post types.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

@@ -1,6 +1,6 @@
 <?php
 /**
- * The template for displaying the footer
+ * The template for displaying the footer.
  *
  * Contains the body & html closing tags.
  *
