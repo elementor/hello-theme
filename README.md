@@ -69,9 +69,9 @@ Initial release
 ### 1.1.0 ###
 * Released: December 26, 2018
 
-New: use scss & do thorough style reset.
-New: readme.
-New: add hooks and child-theme preparations.
-New: template parts search.
-New: translations support.
-Changed: re-write of already existing template parts.
+* New: use scss & do thorough style reset.
+* New: readme.
+* New: add hooks and child-theme preparations.
+* New: template parts search.
+* New: translations support.
+* Changed: re-write of already existing template parts.
