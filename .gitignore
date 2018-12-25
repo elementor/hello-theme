@@ -9,6 +9,5 @@ package-lock.json
 .DS_Store
 .project
 Thumbs.db
-
 *.log
 *.map

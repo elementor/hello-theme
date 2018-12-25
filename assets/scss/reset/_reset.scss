@@ -27,13 +27,13 @@ html {
    ========================================================================== */
 
 body {
-	margin: 			0; //Remove the margin in all browsers.
-	font-family: 		$font-family-base;
-	font-size: 			$font-size-base;
-	font-weight: 		$font-weight-base;
-	line-height: 		$line-height-base;
-	color: 				$body-color;
-	background-color: 	#fff;
+	margin: 0; //Remove the margin in all browsers.
+	font-family: $font-family-base;
+	font-size: $font-size-base;
+	font-weight: $font-weight-base;
+	line-height: $line-height-base;
+	color: $body-color;
+	background-color: #fff;
 }
 
 /**
@@ -43,24 +43,41 @@ body {
 
 //Typography
 h1, h2, h3, h4, h5, h6 {
-	margin-top: 	.5rem;
-	margin-bottom: 	1rem;
-	font-family: 	inherit;
-	font-weight: 	500;
-	line-height: 	1.2;
-	color: 			inherit;
+	margin-top: .5rem;
+	margin-bottom: 1rem;
+	font-family: inherit;
+	font-weight: 500;
+	line-height: 1.2;
+	color: inherit;
 }
 
-h1 {font-size: $h1-font-size;}
-h2 {font-size: $h2-font-size;}
-h3 {font-size: $h3-font-size;}
-h4 {font-size: $h4-font-size;}
-h5 {font-size: $h5-font-size;}
-h6 {font-size: $h6-font-size;}
+h1 {
+	font-size: $h1-font-size;
+}
+
+h2 {
+	font-size: $h2-font-size;
+}
+
+h3 {
+	font-size: $h3-font-size;
+}
+
+h4 {
+	font-size: $h4-font-size;
+}
+
+h5 {
+	font-size: $h5-font-size;
+}
+
+h6 {
+	font-size: $h6-font-size;
+}
 
 p {
-	margin-top: 	0;
-	margin-bottom: 	.9rem;
+	margin-top: 0;
+	margin-bottom: .9rem;
 }
 
 /* Grouping content
@@ -72,9 +89,9 @@ p {
  */
 
 hr {
-	box-sizing:	content-box; /* 1 */
-	height:		0; /* 1 */
-	overflow:	visible; /* 2 */
+	box-sizing: content-box; /* 1 */
+	height: 0; /* 1 */
+	overflow: visible; /* 2 */
 }
 
 /**
@@ -83,33 +100,33 @@ hr {
  */
 
 pre {
-	font-family:	monospace, monospace; /* 1 */
-	font-size:		1em; /* 2 */
-	white-space:	pre-wrap;
+	font-family: monospace, monospace; /* 1 */
+	font-size: 1em; /* 2 */
+	white-space: pre-wrap;
 }
 
 /* Text-level semantics
    ========================================================================== */
 
 a {
-	background-color:	transparent; //Remove the gray background on active links in IE 10.
-	text-decoration:	none;
-	color:				$link-color-base;
+	background-color: transparent; //Remove the gray background on active links in IE 10.
+	text-decoration: none;
+	color: $link-color-base;
 
 	&:hover,
 	&:active {
-		color:	$link-hover-color-base;
+		color: $link-hover-color-base;
 	}
 
 	&:not([href]):not([tabindex]) {
-		color:				inherit;
-		text-decoration:	none;
+		color: inherit;
+		text-decoration: none;
 	}
 
 	&:not([href]):not([tabindex]):hover,
 	&:not([href]):not([tabindex]):focus {
-		color:				inherit;
-		text-decoration:	none;
+		color: inherit;
+		text-decoration: none;
 	}
 
 	&:not([href]):not([tabindex]):focus {
@@ -123,9 +140,9 @@ a {
  */
 
 abbr[title] {
-	border-bottom:		none; /* 1 */
-	text-decoration:	underline; /* 2 */
-	text-decoration:	underline dotted; /* 2 */
+	border-bottom: none; /* 1 */
+	text-decoration: underline; /* 2 */
+	text-decoration: underline dotted; /* 2 */
 }
 
 /**
@@ -145,8 +162,8 @@ strong {
 code,
 kbd,
 samp {
-	font-family:	monospace, monospace; /* 1 */
-	font-size:		1em; /* 2 */
+	font-family: monospace, monospace; /* 1 */
+	font-size: 1em; /* 2 */
 }
 
 /**
@@ -164,14 +181,14 @@ small {
 
 sub,
 sup {
-	font-size:		75%;
-	line-height:	0;
-	position:		relative;
-	vertical-align:	baseline;
+	font-size: 75%;
+	line-height: 0;
+	position: relative;
+	vertical-align: baseline;
 }
 
 sub {
-	bottom:	-0.25em;
+	bottom: -0.25em;
 }
 
 sup {
@@ -209,11 +226,11 @@ summary {
 }
 
 figcaption {
-	font-size:		16px;
-	color:			$gray-dark;
-	line-height:	1.4;
-	font-style:		italic;
-	font-weight:	400;
+	font-size: 16px;
+	color: $gray-dark;
+	line-height: 1.4;
+	font-style: italic;
+	font-weight: 400;
 }
 
 /* Misc
@@ -237,14 +254,14 @@ template {
 
 
 .sr-only {
-	position:	 	absolute;
-	width:		 	1px;
-	height:		 	1px;
-	padding:	 	0;
-	overflow:	 	hidden;
-	clip:		 	rect(0, 0, 0, 0);
-	white-space:	nowrap;
-	border:		 	0;
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
 }
 
 /* Print
@@ -254,11 +271,11 @@ template {
 	*,
 	*:before,
 	*:after {
-		background:			transparent !important;
-		color:				#000 !important; /* Black prints faster */
-		-webkit-box-shadow:	none !important;
-		box-shadow:			none !important;
-		text-shadow:		none !important;
+		background: transparent !important;
+		color: #000 !important; /* Black prints faster */
+		-webkit-box-shadow: none !important;
+		box-shadow: none !important;
+		text-shadow: none !important;
 	}
 
 	a,
@@ -285,8 +302,8 @@ template {
 	pre,
 	blockquote {
 		page-break-inside: avoid;
-		border:			   1px solid #999;
-  	}
+		border: 1px solid #999;
+	}
 
 	thead {
 		display: table-header-group;
@@ -301,7 +318,7 @@ template {
 	h2,
 	h3 {
 		orphans: 3;
-		widows:	 3;
+		widows: 3;
 	}
 
 	h2,
