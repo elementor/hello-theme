@@ -47,6 +47,30 @@ function elementor_hello_theme_deregister_scripts() {
 }
 add_action( 'wp_footer', 'elementor_hello_theme_deregister_scripts' );
 
+// Header template
+function elementor_hello_theme_header_template() {
+
+	if ( function_exists( 'elementor_theme_do_location' ) || elementor_theme_do_location( 'header' ) ) {
+		return;
+	}
+
+	get_template_part( 'template-parts/header' );
+
+}
+add_action( 'elementor_hello_theme_header', 'elementor_hello_theme_header_template' );
+
+// Footer template
+function elementor_hello_theme_footer_template() {
+
+	if ( function_exists( 'elementor_theme_do_location' ) || elementor_theme_do_location( 'footer' ) ) {
+		return;
+	}
+
+	get_template_part( 'template-parts/footer' );
+
+}
+add_action( 'elementor_hello_theme_footer', 'elementor_hello_theme_footer_template' );
+
 // Remove WP Emoji
 remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 remove_action( 'wp_print_styles', 'print_emoji_styles' );
