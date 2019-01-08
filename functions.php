@@ -50,7 +50,7 @@ add_action( 'wp_footer', 'elementor_hello_theme_deregister_scripts' );
 // Header template
 function elementor_hello_theme_header_template() {
 
-	if ( function_exists( 'elementor_theme_do_location' ) || elementor_theme_do_location( 'header' ) ) {
+	if ( function_exists( 'elementor_theme_do_location' ) && elementor_theme_do_location( 'header' ) ) {
 		return;
 	}
 
@@ -62,7 +62,7 @@ add_action( 'elementor_hello_theme_header', 'elementor_hello_theme_header_templa
 // Footer template
 function elementor_hello_theme_footer_template() {
 
-	if ( function_exists( 'elementor_theme_do_location' ) || elementor_theme_do_location( 'footer' ) ) {
+	if ( function_exists( 'elementor_theme_do_location' ) && elementor_theme_do_location( 'footer' ) ) {
 		return;
 	}
 
@@ -70,6 +70,35 @@ function elementor_hello_theme_footer_template() {
 
 }
 add_action( 'elementor_hello_theme_footer', 'elementor_hello_theme_footer_template' );
+
+// Google Tag Manager head including
+function elementor_hello_theme_gtm_head() {
+
+	if ( defined( 'WP_GTM' ) ) { ?>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','<?php echo WP_GTM; ?>');</script>
+<!-- End Google Tag Manager -->
+	<?php }
+
+}
+add_action( 'wp_head', 'elementor_hello_theme_gtm_head', 1 );
+
+// Google Tag Manager body including
+function elementor_hello_theme_gtm_body() {
+
+	if ( defined( 'WP_GTM' ) ) { ?>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=<?php echo WP_GTM; ?>"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+	<?php }
+
+}
+add_action( 'elementor_hello_theme_header', 'elementor_hello_theme_gtm_body', 1 );
 
 // Remove WP Emoji
 remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
