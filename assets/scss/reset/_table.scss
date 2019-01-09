@@ -1,0 +1,86 @@
+/*
+DO NOT CHANGE THIS FILE
+to override any of the settings in this section, add your styling code in the custom directory.
+ */
+/* Table
+   ========================================================================== */
+
+table {
+	background-color: transparent;
+	width: 100%;
+	margin-bottom: 15px;
+	font-size: 0.9em;
+	border-spacing: 0;
+	border-collapse: collapse;
+
+	th,
+	td {
+		padding: 15px;
+		line-height: 1.5;
+		text-align: left;
+		vertical-align: top;
+		border: 1px solid $gray-light;
+	}
+
+	th {
+		font-weight: bold;
+	}
+
+	thead th,
+	tfoot th {
+		font-size: 1em;
+	}
+
+	caption + thead,
+	caption + thead,
+	colgroup + thead,
+	colgroup + thead,
+	thead:first-child,
+	thead:first-child {
+
+		tr {
+
+			&:first-child {
+
+				th,
+				td {
+					border-top: 1px solid $gray-light;
+				}
+			}
+		}
+	}
+
+	tbody {
+
+		> tr:nth-child(odd) > td,
+		> tr:nth-child(odd) > th {
+			background-color: $gray-lighter;
+		}
+
+		tr:hover > td,
+		tr:hover > th {
+			background-color: darken($gray-lighter, 2%);
+		}
+	}
+
+	tbody + tbody {
+		border-top: 2px solid $gray-light;
+	}
+
+	@media (max-width: $screen-sm - $screen-diff) {
+
+		table {
+			font-size: 0.8em;
+
+			th,
+			td {
+				padding: 7px;
+				line-height: 1.3;
+			}
+
+			th {
+				font-weight: 400;
+			}
+		}
+	}
+}

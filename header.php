@@ -1,4 +1,10 @@
 <?php
+/**
+ * The template for displaying the header.
+ *
+ * This is the template that displays all of the <head> section, opens the <body> tag and adds the site's header
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }

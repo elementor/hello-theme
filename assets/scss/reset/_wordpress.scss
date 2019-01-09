@@ -1,0 +1,91 @@
+/*
+DO NOT CHANGE THIS FILE
+to override any of the settings in this section, add your styling code in the custom directory.
+ */
+/* WordPress
+   ========================================================================== */
+//https://codex.wordpress.org/CSS#WordPress_Generated_Classes
+
+.alignright {
+	float: right;
+	margin-right: 1rem;
+}
+
+.alignleft {
+	float: left;
+	margin-left: 1rem;
+}
+
+.aligncenter {
+	clear: both;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.sticky {
+	position: relative;
+	display: block;
+}
+
+.bypostauthor {
+	font-size: inherit;
+}
+
+.gallery-caption {
+	display: block;
+	font-size: $sm-font-size;
+	line-height: $line-height-base;
+	margin: 0;
+	padding: $xs-padding;
+}
+
+.wp-caption {
+	margin-bottom: 1.25rem;
+
+	&.alignleft {
+		margin: 5px 20px 20px 0;
+	}
+
+	&.alignright {
+		margin: 5px 0 20px 20px;
+	}
+
+	img {
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+	}
+}
+
+.wp-caption-text {
+	margin: 0;
+	text-align: center;
+}
+
+// Text meant only for screen readers:
+.screen-reader-text {
+	clip: rect(1px, 1px, 1px, 1px);
+	height: 1px;
+	overflow: hidden;
+	position: absolute !important;
+	width: 1px;
+	word-wrap: normal !important; /* Many screen reader and browser combinations announce broken words as they would appear visually. */
+
+	&:focus {
+		background-color: $gray-lighter;
+		clip: auto !important;
+		clip-path: none;
+		color: $gray-dark;
+		display: block;
+		font-size: $font-size-base;
+		height: auto;
+		left: 5px;
+		line-height: normal;
+		padding: 15px 23px 14px;
+		text-decoration: none;
+		top: 5px;
+		width: auto;
+		z-index: 100000; /* Above WP toolbar. */
+	}
+}
