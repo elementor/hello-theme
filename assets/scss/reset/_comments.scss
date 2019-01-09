@@ -1,0 +1,138 @@
+/*
+DO NOT CHANGE THIS FILE
+to override any of the settings in this section, add your styling code in the custom directory.
+ */
+/* Comments
+   ========================================================================== */
+
+#comments {
+
+	.comment-list {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		font-size: .9em;
+	}
+
+	.comment,
+	.pingback {
+		position: relative;
+
+		.comment-body {
+			display: flex;
+			flex-direction: column;
+			padding: 30px 0 30px 60px;
+			border-bottom: 1px solid $gray-light;
+
+			@at-root {
+
+				body.rtl & {
+					padding: 30px 60px 30px 0;
+				}
+			}
+		}
+
+		.avatar {
+			position: absolute;
+			left: 0;
+			border-radius: 50%;
+			margin-right: 10px;
+
+			@at-root {
+
+				body.rtl & {
+					left: auto;
+					right: 0;
+					margin-right: 0;
+					margin-left: 10px;
+				}
+			}
+		}
+	}
+
+	.comment-meta {
+		display: flex;
+		justify-content: space-between;
+		margin-bottom: .9rem;
+	}
+
+	.reply,
+	.comment-metadata {
+		font-size: 11px;
+		line-height: 1;
+	}
+
+	.children {
+		position: relative;
+		list-style: none;
+		margin: 0;
+		padding-left: 30px;
+
+		@at-root {
+
+			body.rtl & {
+				padding-left: 0;
+				padding-right: 30px;
+			}
+		}
+
+		li:last-child {
+			padding-bottom: 0;
+		}
+	}
+
+	ol.comment-list .children {
+
+		&:before {
+			display: inline-block;
+			font-size: 1em;
+			font-weight: normal;
+			line-height: 100%;
+			content: '\21AA';
+			position: absolute;
+			top: 45px;
+			left: 0;
+			width: auto;
+
+			@at-root {
+
+				body.rtl & {
+					content: '\21A9';
+					left: auto;
+					right: 0;
+				}
+			}
+		}
+	}
+
+	@media (min-width: $screen-sm) {
+
+		.comment-author,
+		.comment-metadata {
+			line-height: 1;
+		}
+	}
+
+	@media (max-width: $screen-sm - $screen-diff) {
+
+		.comment .comment-body {
+			padding: 30px 0;
+		}
+
+		.children {
+			padding-left: 20px;
+		}
+
+		.comment .avatar {
+			position: inherit;
+			float: left;
+
+			@at-root {
+
+				body.rtl & {
+					float: right;
+				}
+			}
+		}
+	}
+}

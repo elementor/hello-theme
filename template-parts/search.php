@@ -1,6 +1,6 @@
 <?php
 /**
- * The template for displaying archive pages.
+ * The template for displaying search results.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -10,17 +10,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 <main id="main" class="site-main" role="main">
 
 	<header class="page-header">
-		<h1 class="entry-title"><?php the_archive_title(); ?></h1>
+		<h1 class="entry-title">
+			<?php _e( 'Search results for: ', 'elementor-hello-theme' ); ?>
+			<span><?php echo get_search_query(); ?></span>
+		</h1>
 	</header>
 
 	<div class="page-content">
-		<?php
-		while ( have_posts() ) : the_post();
-			printf( '<h2><a href="%s">%s</a></h2>', get_permalink(), get_the_title() );
-			the_post_thumbnail();
-			the_excerpt();
-		endwhile;
-		?>
+		<?php if ( have_posts() ) : ?>
+			<?php
+			while ( have_posts() ) : the_post();
+				printf( '<h2><a href="%s">%s</a></h2>', get_permalink(), get_the_title() );
+				the_post_thumbnail();
+				the_excerpt();
+			endwhile;
+			?>
+		<?php else : ?>
+			<p><?php _e( 'It seems we can\'t find what you\'re looking for.', 'elementor-hello-theme' ); ?></p>
+		<?php endif; ?>
 	</div>
 
 	<div class="entry-links"><?php wp_link_pages(); ?></div>

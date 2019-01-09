@@ -1,0 +1,92 @@
+/*
+DO NOT CHANGE THIS FILE
+to override any of the settings in this section, add your styling code in the custom directory.
+ */
+
+/* Variables */
+// Loading first in the style.scss
+
+/*
+1. Media Break-points
+========================================================================== */
+$screen-xs: 576px !default;
+$screen-sm: 768px !default;
+$screen-md: 992px !default;
+$screen-xl: 1200px !default;
+$screen-diff: 1px !default;
+
+/*
+2. Colors
+========================================================================== */
+
+//Default Color
+$gray-base: #000 !default;
+$gray-darker: lighten($gray-base, 13.5%) !default; // #222
+$gray-dark: lighten($gray-base, 20%) !default; // #333
+$gray: lighten($gray-base, 40%) !default; // #666
+$gray-light: lighten($gray-base, 80%) !default; // #ccc
+$gray-lighter: lighten($gray-base, 93.5%) !default; // #eee
+
+//Text & Paragraph
+$text-color: $gray-dark;
+
+//Web-Safe Brand Colors
+$purple: #333366 !default; //deep koamaru
+$pink: #CC3366 !default; //pink
+$green: #66CC99 !default; //medium-light green-cyan
+$yellow: #FFCC33 !default; //medium-light yellow
+$red: #CC0033 !default; //vivid crimson
+
+//Border Radius
+$border-radius: 3px !default;
+
+//Accent color for buttons, links etc...
+$primary-color: $pink !default;
+$success-color: $green !default;
+
+/*
+3. Typography
+========================================================================== */
+
+//Fonts
+$font-family-base: aktiv-grotesk, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+$font-size-base: 1rem !default;
+$body-color: $text-color !default;
+$line-height-base: 1.5 !default;
+$font-weight-base: 400 !default;
+
+//Links
+$link-color-base: $pink !default;
+$link-hover-color-base: $purple !default;
+
+//Headings
+$h1-font-size: $font-size-base * 2.5 !default;
+$h2-font-size: $font-size-base * 2 !default;
+$h3-font-size: $font-size-base * 1.75 !default;
+$h4-font-size: $font-size-base * 1.5 !default;
+$h5-font-size: $font-size-base * 1.25 !default;
+$h6-font-size: $font-size-base;
+
+//Captions
+$xs-font-size: $font-size-base * 0.75 !default;
+$sm-font-size: $font-size-base * 0.8125 !default;
+
+/*
+4. Margin & Padding
+========================================================================== */
+
+$margin-base: 1rem !default;
+
+$xs-margin: $margin-base * 0.5 !default;
+$sm-margin: $margin-base * 0.75 !default;
+$lg-margin: $margin-base * 1.5 !default;
+$xl-margin: $margin-base * 2 !default;
+
+$padding-base: 1rem !default;
+$xs-padding: $padding-base * 0.75 !default;
+$sm-padding: $padding-base * 0.8125 !default;
+$lg-padding: $padding-base * 1.5 !default;
+
+@media (max-width: $screen-md) {
+	$font-size-base: .9rem !default;
+}

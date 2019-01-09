@@ -1,0 +1,25 @@
+{
+	"name": "elementor-hello-theme",
+	"slug": "elementor-hello-theme",
+	"homepage": "https://elementor.com/",
+	"description": "A sample theme for Elementor.",
+	"version": "1.0.0",
+	"devDependencies": {
+		"autoprefixer": "~8.5.2",
+		"cssnano": "~3.10.0",
+		"grunt": "~1.0.2",
+		"grunt-checktextdomain": "^1.0.1",
+		"grunt-contrib-sass": "~1.0.0",
+		"grunt-contrib-watch": "~1.1.0",
+		"grunt-postcss": "~0.9.0",
+		"grunt-sass": "~2.1.0",
+		"grunt-text-replace": "~0.4.0",
+		"grunt-wp-readme-to-markdown-with-extra": "~2.2.0",
+		"load-grunt-tasks": "^4.0.0",
+		"matchdep": "~2.0.0"
+	},
+	"dependencies": {
+		"grunt-autoprefixer": "^3.0.4",
+		"grunt-cssnano": "^2.1.0"
+	}
+}
