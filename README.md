@@ -16,13 +16,19 @@ A base theme for [Elementor](https://elementor.com) & [Elementor Pro](https://el
 
 Elementor Hello Theme is a vanilla base theme, allowing you to build your Elementor website on excellent foundations. This theme resets the WordPress environment, and optimises it for Elementor.
 
+## Installation ##
+
+1. In your admin panel, go to Appearance > Themes and click the 'Add New' button.
+2. Type in 'Elementor Hello' in the search form, and hit the 'Enter' key on your keyboard.
+3. Click on the 'Activate' button to use your new theme right away.
+4. Navigate to Elementor and start building your site.
+
 ## Should I modify this theme? ##
-Most users won't need to edit the files for this theme. If you wish to customize the appearance of your site, simply use **Elementor!**. However, if you have a particular need to adapt this theme, please read on.
+
+Most users won't need to edit the files for this theme. If you wish to customize the appearance of your site, simply use **Elementor**. However, if you have a particular need to adapt this theme, please read on.
 
 ### Hooks ###
 Certain settings can be prevented from loading, by adding the following code to your child-theme's `functions.php`:
-
-`add_filter( 'choose-from-the-list-below', '__return_false' );`
 
 ```php
 add_filter( 'elementor_hello_theme_load_textdomain', '__return_false' ); // Load the theme's textdomain
@@ -41,13 +47,6 @@ However, if for some reason there is still a need to add or change the site's CS
 1. Files located under `reset` directory, should **NOT** be edited directly.
 2. In order to change any of the values defined in `preset/variables.scss`, add your style code to `custom/pre_default.scss`.
 3. Any new SCSS files should be located under `custom/` directory, and imported in `custom/custom.scss`.
-
-## Installation ##
-
-1. In your admin panel, go to Appearance > Themes and click the 'Add New' button.
-2. Type in 'Elementor Hello' in the search form, and hit the 'Enter' key on your keyboard.
-3. Click on the 'Activate' button to use your new theme right away.
-4. Navigate to Elementor and start building your site.
 
 ## Frequently Asked Questions ##
 
