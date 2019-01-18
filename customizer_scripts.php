@@ -118,8 +118,9 @@ function custom_hello_theme_mods_styles() {
 	printf( "div.gform_wrapper form .gform_footer .gform_button{background: %s;border: %s;border-radius: %s;padding: %s;margin: %s;color: %s;font-size: %s;}", $gform_but_bg, $gform_but_bor, $gform_but_borr, $gform_but_pad, $gform_but_mar, $gform_but_color, $gform_but_fsize );
 	echo "</style>\n";
 
-	echo $custom_mods['htc_header_box_setting_ga'] . "\n";
-	echo $custom_mods['htc_header_box_setting_wmt'] . "\n";
+	echo ( !empty($custom_mods['htc_header_box_setting_ga']) ) ? $custom_mods['htc_header_box_setting_ga'] . "\n" : "";
+	echo ( !empty($custom_mods['htc_header_box_setting_wmt']) ) ? $custom_mods['htc_header_box_setting_wmt'] . "\n" : "";
+	echo ( !empty($custom_mods['htc_header_box_setting_extra']) ) ? $custom_mods['htc_header_box_setting_extra'] . "\n" : "";
 }
 
 add_action( 'wp_footer', 'custom_hello_theme_mods_fonts' );
@@ -166,8 +167,7 @@ function custom_hello_theme_mods_fonts() {
 add_action( 'wp_footer', 'custom_hello_theme_mods_scripts', 99 );
 function custom_hello_theme_mods_scripts() {
 	$custom_mods = get_theme_mods();
-	echo $custom_mods['htc_header_box_setting_extra'] . "\n";
-	echo $custom_mods['htc_footer_box_setting_fbp'] . "\n";
-	echo $custom_mods['htc_footer_box_setting_extra'] . "\n";
-	echo "<script type=\"text/javascript\">\n" . ($custom_mods['htc_custom_js_setting']) . "\n</script>\n";
+	echo ( !empty($custom_mods['htc_footer_box_setting_fbp']) ) ? $custom_mods['htc_footer_box_setting_fbp'] . "\n" : "";
+	echo ( !empty($custom_mods['htc_footer_box_setting_extra']) ) ? $custom_mods['htc_footer_box_setting_extra'] . "\n" : "";
+	echo ( !empty($custom_mods['htc_custom_js_setting']) ) ? "<script type=\"text/javascript\">\n" . ($custom_mods['htc_custom_js_setting']) . "\n</script>\n" : "";
 }

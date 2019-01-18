@@ -2,7 +2,7 @@
 Contributors: Jezweb
 Requires at least: WordPress 4.7
 Tested up to: WordPress 4.9.8
-Version: 1.2.1
+Version: 1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,6 +27,11 @@ Elementor (Pro)
 Source: https://elementor.com
 
 == Changelog ==
+
+= 1.3 - 2019-1-19 =
+* Fix: svg format logo is supported in the Wordpress login page and alignment issue is fixed
+* Tweak: Toolbar tidy-up - removed most of the items leaving Menus link, Elementor edit link and Profile link
+* Tweak: Admin menu re-order - Plugins and Tools moved to Settings
 
 = 1.2.2 - 2018-12-20 =
 * Fix: jQuery error - dequeue script of Wordpress jQuery library and enqueue it to the header for dependencies validity
