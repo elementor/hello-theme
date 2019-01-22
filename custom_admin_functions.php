@@ -97,12 +97,28 @@ function custom_jw_remove_admin_menu_items( $wp_admin_bar ) {
     $wp_admin_bar->remove_node( 'site-name' );
     $wp_admin_bar->add_node(
       array(
-        'id'     => 'menus',
-        'title'  => 'Menus',
-        'href'   => admin_url( 'nav-menus.php' ),
+        'id' => 'dashboard',
+        'title' => 'Dashboard',
+        'href' => admin_url(),
+        'parent' => false,
+        'meta' => array( 'class' => 'dashicons-before dashicons-admin-generic' )
+      )
+    );
+    $wp_admin_bar->add_node(
+      array(
+        'id' => 'menus',
+        'title' => 'Menus',
+        'href' => admin_url( 'nav-menus.php' ),
         'parent' => false
       )
     );
+  }
+
+  if( is_page() ) {
+    $wp_admin_bar->remove_node( 'edit' );
+    $getelemeditpage = $wp_admin_bar->get_node( 'elementor_edit_page' );
+    $elemeditpage_title = str_replace( 'Edit', 'Edit Page', $getelemeditpage->title );
+    $wp_admin_bar->add_node( array( 'id' => 'elementor_edit_page', 'title' => $elemeditpage_title ) );
   }
 
   $wp_admin_bar->remove_node( 'wp-logo' );
@@ -110,15 +126,8 @@ function custom_jw_remove_admin_menu_items( $wp_admin_bar ) {
   $wp_admin_bar->remove_node( 'comments' );
   $wp_admin_bar->remove_node( 'customize' );
   $wp_admin_bar->remove_node( 'new-content' );
-  $wp_admin_bar->remove_node( 'edit' );
   $wp_admin_bar->remove_node( 'gform-forms' );
   $wp_admin_bar->remove_node( 'search' );
-
-  if( is_page() ) {
-    $getelemeditpage = $wp_admin_bar->get_node( 'elementor_edit_page' );
-    $elemeditpage_title = str_replace( 'Edit', 'Edit Page', $getelemeditpage->title );
-    $wp_admin_bar->add_node( array( 'id' => 'elementor_edit_page', 'title' => $elemeditpage_title ) );
-  }
 
   $getgreetings = $wp_admin_bar->get_node( 'my-account' );
   $rpctitle = str_replace( 'Howdy,', '', $getgreetings->title );
@@ -145,14 +154,22 @@ if ( get_option( 'gform_enable_toolbar_menu' ) ) {
 }
 
 // Admin page css
-add_action( 'admin_head', 'custom_jw_admin_head_css' );
-function custom_jw_admin_head_css(){
+add_action( 'admin_head', 'custom_jw_admin_head_scripts' );
+function custom_jw_admin_head_scripts(){
   echo '<style type="text/css">
   #pageparentdiv label.post-attributes-label[for="page_template"], #pageparentdiv label.post-attributes-label[for="menu_order"], #pageparentdiv select#page_template,  #pageparentdiv #menu_order {display: none;}
   .wp-admin .notice.elementor-message{display: none !important;}
   #adminmenu li#menu-settings ul.wp-submenu li a[href="import.php"], #adminmenu li#menu-settings ul.wp-submenu li a[href="export.php"],
   #adminmenu li#menu-settings ul.wp-submenu li a[href*="export_personal_data"], #adminmenu li#menu-settings ul.wp-submenu li a[href*="remove_personal_data"] {padding-left: 24px;}
-  </style>';
+  </style>
+  <script type="text/javascript">
+  jQuery(document).ready(function(){
+    var currentItem = jQuery("li#menu-settings").find("li.current");
+    if( currentItem.length > 0 ){
+      jQuery("li#menu-settings, li#menu-settings > a").addClass("wp-has-current-submenu wp-menu-open");
+    }
+  });
+  </script>';
 }
 
 // Remove thumbnail attr in page type
@@ -164,7 +181,7 @@ function custom_jw_remove_posttype_support() {
 // Admin footer text modification
 add_filter( 'admin_footer_text', 'custom_jw_footer_text_admin' );
 function custom_jw_footer_text_admin () {
-  echo '<span id="footer-thankyou">Jtheme Jello by <a href="https://www.jezweb.com.au" target="_blank">Jezweb</a></span>';
+  echo '<span id="footer-thankyou">Jtheme Jello by <a href="https://www.jezweb.com.au" target="_blank">Jezweb</a><br></span>';
 }
 
 // Enable svg file upload

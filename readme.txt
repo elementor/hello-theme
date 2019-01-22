@@ -1,8 +1,8 @@
 === Jtheme Jello ===
 Contributors: Jezweb
 Requires at least: WordPress 4.7
-Tested up to: WordPress 4.9.8
-Version: 1.3
+Tested up to: WordPress 5.0
+Version: 1.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,6 +27,13 @@ Elementor (Pro)
 Source: https://elementor.com
 
 == Changelog ==
+
+= 1.3.1 - 2019-1-22 =
+* New: WP dashboard link added in front-end view (top-left cog icon)
+* Tweak: Edit with Elementor link tweak specific to page post type only
+* Tweak: Edit post entry link is enabled
+* Tweak: Admin Settings menu will be opened when accessing Plugins and Tools(sub-menus) menu
+* Tweak: Line break appended at WP admin footer text
 
 = 1.3 - 2019-1-19 =
 * Fix: svg format logo is supported in the Wordpress login page and alignment issue is fixed
