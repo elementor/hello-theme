@@ -73,3 +73,9 @@ Initial release
 * New: template parts search.
 * New: translations support.
 * Changed: re-write of already existing template parts.
+
+= 1.1.1 =
+* Released: January 28, 2019
+
+* Tweak: remove lists padding reset.
+
