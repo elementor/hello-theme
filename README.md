@@ -60,11 +60,6 @@ Yes, but best practice is to use the styling capabilities in the Elementor plugi
 
 ## Changelog ##
 
-### 1.0 ###
-* Released: November 4, 2018
-
-*Initial release*
-
 ### 1.1.0 ###
 * Released: December 26, 2018
 
@@ -74,3 +69,8 @@ Yes, but best practice is to use the styling capabilities in the Elementor plugi
 * New: template parts search.
 * New: translations support.
 * Changed: re-write of already existing template parts.
+
+### 1.0 ###
+* Released: November 4, 2018
+
+*Initial release*
