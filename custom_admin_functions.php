@@ -5,14 +5,17 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 // Custom WP Login logo
 add_action( 'login_enqueue_scripts', 'custom_jw_login_logo' );
 function custom_jw_login_logo() {
+  $loginsc_bg = get_theme_mod( 'htc_loginsc_bg_setting', '#F1F1F1' );
+  $site_logo_enable = get_theme_mod( 'htc_logo_enable_setting', 'yes' );
+  $site_logo_bg = get_theme_mod( 'htc_logo_bg_setting', 'none' );
   $default_logo = get_stylesheet_directory_uri() . '/images/favicon.png';
   $site_logo = get_theme_mod('custom_logo');
   $custom_logo = !empty($site_logo) ? wp_get_attachment_image_src($site_logo, 'login-logo') : $default_logo;
   $custom_logo_type = strpos( $custom_logo[0], ".svg" );
   $logo_bg_size = ( $custom_logo_type !== false ) ? '300px auto' : 'auto';
-  echo '<style type="text/css">
-  #login h1 a, .login h1 a {background-image: url('. $custom_logo[0] .');height: 100px;width: 320px;background-repeat: no-repeat;background-size: '. $logo_bg_size .';background-position: center;}
-  </style>';
+  echo '<style type="text/css">body.login{background: '. $loginsc_bg .'}';
+  echo ( $site_logo_enable == 'yes' ) ? '#login h1 a, .login h1 a {background-image: url('. $custom_logo[0] .');height: 100px;width: 320px;background-repeat: no-repeat;background-size: '. $logo_bg_size .';background-position: center;background-color: '. $site_logo_bg .'}' : '';
+  echo '</style>';
 }
 
 add_filter( 'login_headerurl', 'custom_jw_login_logo_url' );
@@ -93,32 +96,36 @@ function custom_jw_disable_db_widgets() {
 // Remove admin bar menu items
 add_action( 'admin_bar_menu', 'custom_jw_remove_admin_menu_items', 999 );
 function custom_jw_remove_admin_menu_items( $wp_admin_bar ) {
-  if( ! is_admin() ) {
-    $wp_admin_bar->remove_node( 'site-name' );
-    $wp_admin_bar->add_node(
-      array(
-        'id' => 'dashboard',
-        'title' => 'Dashboard',
-        'href' => admin_url(),
-        'parent' => false,
-        'meta' => array( 'class' => 'dashicons-before dashicons-admin-generic' )
-      )
-    );
-    $wp_admin_bar->add_node(
-      array(
-        'id' => 'menus',
-        'title' => 'Menus',
-        'href' => admin_url( 'nav-menus.php' ),
-        'parent' => false
-      )
-    );
-  }
+  if( current_user_can('administrator') ) {
+    if( ! is_admin() ) {
+      $wp_admin_bar->remove_node( 'site-name' );
+      $wp_admin_bar->add_node(
+        array(
+          'id' => 'dashboard',
+          'title' => 'Dashboard',
+          'href' => admin_url(),
+          'parent' => false,
+          'meta' => array( 'class' => 'dashicons-before dashicons-admin-generic' )
+        )
+      );
+      $wp_admin_bar->add_node(
+        array(
+          'id' => 'menus',
+          'title' => 'Menus',
+          'href' => admin_url( 'nav-menus.php' ),
+          'parent' => false
+        )
+      );
+    }
 
-  if( is_page() ) {
-    $wp_admin_bar->remove_node( 'edit' );
-    $getelemeditpage = $wp_admin_bar->get_node( 'elementor_edit_page' );
-    $elemeditpage_title = str_replace( 'Edit', 'Edit Page', $getelemeditpage->title );
-    $wp_admin_bar->add_node( array( 'id' => 'elementor_edit_page', 'title' => $elemeditpage_title ) );
+    if( is_page() ) {
+      $getpageedit = $wp_admin_bar->get_node( 'edit' );
+      $pageedit_title = str_replace( 'Edit Page', 'Page Settings', $getpageedit->title );
+      $wp_admin_bar->add_node( array( 'id' => 'edit', 'title' => $pageedit_title ) );
+      $getelemeditpage = $wp_admin_bar->get_node( 'elementor_edit_page' );
+      $elemeditpage_title = str_replace( 'Edit', 'Edit Page', $getelemeditpage->title );
+      $wp_admin_bar->add_node( array( 'id' => 'elementor_edit_page', 'title' => $elemeditpage_title ) );
+    }
   }
 
   $wp_admin_bar->remove_node( 'wp-logo' );
@@ -141,6 +148,8 @@ function custom_jw_remove_admin_menu(){
   remove_menu_page( 'plugins.php' );
   remove_menu_page( 'tools.php' );
   add_submenu_page( 'options-general.php', 'Plugins', 'Plugins', 'manage_options', 'plugins.php');
+  add_submenu_page( 'options-general.php', 'Add Plugins', 'Add New', 'manage_options', 'plugin-install.php');
+  add_submenu_page( 'options-general.php', 'Edit Plugins', 'Editor', 'manage_options', 'plugin-editor.php');
   add_submenu_page( 'options-general.php', 'Tools', 'Tools', 'manage_options', 'tools.php');
   add_submenu_page( 'options-general.php', 'Import', 'Import', 'manage_options', 'import.php');
   add_submenu_page( 'options-general.php', 'Export', 'Export', 'manage_options', 'export.php');
@@ -159,6 +168,7 @@ function custom_jw_admin_head_scripts(){
   echo '<style type="text/css">
   #pageparentdiv label.post-attributes-label[for="page_template"], #pageparentdiv label.post-attributes-label[for="menu_order"], #pageparentdiv select#page_template,  #pageparentdiv #menu_order {display: none;}
   .wp-admin .notice.elementor-message{display: none !important;}
+  #adminmenu li#menu-settings ul.wp-submenu li a[href="plugin-install.php"], #adminmenu li#menu-settings ul.wp-submenu li a[href="plugin-editor.php"],
   #adminmenu li#menu-settings ul.wp-submenu li a[href="import.php"], #adminmenu li#menu-settings ul.wp-submenu li a[href="export.php"],
   #adminmenu li#menu-settings ul.wp-submenu li a[href*="export_personal_data"], #adminmenu li#menu-settings ul.wp-submenu li a[href*="remove_personal_data"] {padding-left: 24px;}
   </style>

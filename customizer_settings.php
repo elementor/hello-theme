@@ -51,8 +51,13 @@ function hello_theme_child_customize_register( $wp_customize ) {
 	    'panel' => 'htc_general_panel'
 	) );
 
+	$wp_customize->add_section( 'htc_login_screen_section', array(
+	    'title' => __( 'Login Screen', $text_domain ),
+	    'panel' => 'htc_general_panel'
+	) );
+
 	$wp_customize->add_section( 'htc_dashboard_cleanup_section', array(
-	    'title' => __( 'Dashboard Settings', $text_domain ),
+	    'title' => __( 'Dashboard', $text_domain ),
 	    'panel' => 'htc_general_panel'
 	) );
 
@@ -343,6 +348,21 @@ function hello_theme_child_customize_register( $wp_customize ) {
 
 	$wp_customize->add_setting( 'htc_gen_setting_gform_but_ali', array(
 	    'default' => 'left'
+	) );
+
+	$wp_customize->add_setting( 'htc_loginsc_bg_setting', array(
+	    'default' => '#F1F1F1',
+	    'transport' => 'postMessage'
+	) );
+
+	$wp_customize->add_setting( 'htc_logo_enable_setting', array(
+	    'default' => 'yes',
+	    'transport' => 'postMessage'
+	) );
+
+	$wp_customize->add_setting( 'htc_logo_bg_setting', array(
+	    'default' => '',
+	    'transport' => 'postMessage'
 	) );
 
 	$wp_customize->add_setting( 'htc_dashboard_cleanup_setting', array(
@@ -1026,6 +1046,35 @@ function hello_theme_child_customize_register( $wp_customize ) {
 			)
 		)
 	);
+
+	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'htc_loginsc_bg_control',
+		array(
+			'description' => __( 'Login page background color', $text_domain ),
+			'section' => 'htc_login_screen_section',
+			'settings' => 'htc_loginsc_bg_setting',
+		)
+	) );
+
+	$wp_customize->add_control( 'htc_logo_enable_control',
+		array(
+			'type' => 'radio',
+			'description' => __( 'Enable site logo in login screen?', $text_domain ),
+			'section' => 'htc_login_screen_section',
+			'settings' => 'htc_logo_enable_setting',
+			'choices' => array(
+				'yes' => 'Yes',
+				'no' => 'No'
+			)
+		)
+	);
+
+	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'htc_logo_bg_control',
+		array(
+			'description' => __( 'Site Logo background color', $text_domain ),
+			'section' => 'htc_login_screen_section',
+			'settings' => 'htc_logo_bg_setting',
+		)
+	) );
 
 	$wp_customize->add_control( 'htc_dashboard_cleanup_control',
 		array(
