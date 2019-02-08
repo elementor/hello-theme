@@ -2,7 +2,7 @@
 Contributors: Jezweb
 Requires at least: WordPress 4.7
 Tested up to: WordPress 5.0
-Version: 1.3.1
+Version: 1.3.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,6 +27,13 @@ Elementor (Pro)
 Source: https://elementor.com
 
 == Changelog ==
+
+= 1.3.2 - 2019-2-9 =
+* New: Added submenu items of Plugins in Admin Settings menu
+* New: Login Screen added to WP Customizer under General Settings with background color and site logo background color options
+* Tweak: Toggle site logo override in WP login
+* Tweak: Page Settings link added for Page screens toolbar
+* Fix: Toolbar recent tweaks are applicable only to Administrator roles
 
 = 1.3.1 - 2019-1-22 =
 * New: WP dashboard link added in front-end view (top-left cog icon)
