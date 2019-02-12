@@ -9,18 +9,19 @@ License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Tags: flexible-header, accessibility-ready, custom-colors, custom-menu, custom-logo, editor-style, featured-images, rtl-language-support, threaded-comments, translation-ready
 
-The theme for Elementor plugin.
+A plain-vanilla & lightweight theme for Elementor page builder.
 
 == Description ==
 
-A plain-vanilla theme, best suited for building your site using Elementor plugin.
+A plain-vanilla & lightweight theme, best suited for building your site using Elementor page builder.
+
 This theme resets the environment and prepares it for smooth operation of Elementor.
 
-If you wish to customize your theme & site, just use **Elementor!**.
+If you wish to customize your site, just use **Elementor!**.
 
 = Hooks =
 
-to prevent the loading of any of the following settings, add the following code to your child-theme functions.php:
+To prevent the loading of any of the following settings, add the following code to your child-theme functions.php:
 
 `add_filter( 'choose-from-the-list-below', '__return_false' );`
 
@@ -35,10 +36,11 @@ to prevent the loading of any of the following settings, add the following code 
 
 In order to change the styling used throughout the site, use **Elementor**.
 
-However, if for some reason there is still a need to add or change the site's css, please take into account the following:
-1. files located under `reset` directory, should **NOT** be edited directly.
-2. in order to change any of the values defined in `preset/variables.scss`, add your style code to `custom/pre_default.scss`.
-3. any new scss files should be located under `custom/` directory, and imported in `custom/custom.scss`.
+However, if for some reason there is still a need to add or change the site's CSS, please take into account the following:
+
+1. Files located under `reset` directory, should **NOT** be edited directly
+2. In order to change any of the values defined in `preset/variables.scss`, add your style code to `custom/pre_default.scss`
+3. Any new SCSS files should be located under `custom/` directory, and imported in `custom/custom.scss`
 
 == Installation ==
 
@@ -59,17 +61,19 @@ Best practice is to use the styling capabilities in the Elementor plugin.
 
 == Changelog ==
 
-= 1.1.1 - 2019-01-28 =
-* Tweak: Removed padding reset for padding
-
 = 1.1.0 - 2018-12-26 =
-* New: Use SCSS & do thorough style reset
-* New: Readme updated
-* New: Added hooks and child-theme preparations
+* New: Added SCSS & do thorough style reset
+* New: Added readme file
+* New: Added `elementor_hello_theme_load_textdomain` filter for load theme's textdomain
+* New: Added `elementor_hello_theme_register_menus` filter for register the theme's default menu location
+* New: Added `elementor_hello_theme_add_theme_support` filter for register the various supported features
+* New: Added `elementor_hello_theme_add_woocommerce_support` filter for register woocommerce features, including product-gallery zoom, swipe & lightbox features
+* New: Added `elementor_hello_theme_enqueue_style` filter for enqueue style
+* New: Added `elementor_hello_theme_register_elementor_locations` filter for register elementor settings
+* New: Added child-theme preparations
 * New: Added template part search
-* New: Added translations support
+* New: Added translation support
 * Tweak: Re-write of already existing template parts
 
-= 1.0 - 2018-11-04 =
-* Initial release
-
+= 1.0.0 - 2018-03-19 =
+* Initial Public Release
