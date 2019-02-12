@@ -1,0 +1,41 @@
+/* Style for your classic editor.
+========================================================================== */
+// Root
+@import "reset/variables";
+
+p {
+	margin-top: 0;
+	margin-bottom: .9rem;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+	vertical-align: middle;
+	border-style: none;
+}
+
+pre {
+	font-family: monospace, monospace;
+	font-size: 1em;
+	white-space: pre-wrap;
+}
+
+code,
+kbd,
+pre,
+samp {
+	font-size: $font-size-base;
+}
+
+code,
+kbd,
+pre,
+samp {
+	font-family: $font-family-base;
+	font-size: $font-size-base;
+}
+
+blockquote {
+	font-style: italic;
+}
