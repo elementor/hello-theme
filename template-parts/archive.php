@@ -11,6 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	<header class="page-header">
 		<h1 class="entry-title"><?php the_archive_title(); ?></h1>
+        <?php the_archive_description( '<p class="archive-description">', '</p>' ); ?>
 	</header>
 
 	<div class="page-content">
