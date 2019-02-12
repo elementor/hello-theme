@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<?php if ( have_posts() ) : ?>
 			<?php
 			while ( have_posts() ) : the_post();
-				printf( '<h2><a href="%s">%s</a></h2>', get_permalink(), get_the_title() );
+				printf( '<h2><a href="%s">%s</a></h2>', esc_url( get_permalink() ), get_the_title() );
 				the_post_thumbnail();
 				the_excerpt();
 			endwhile;
