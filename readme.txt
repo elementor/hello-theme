@@ -61,6 +61,9 @@ Best practice is to use the styling capabilities in the Elementor plugin.
 
 == Changelog ==
 
+= 1.1.1 - 2019-01-28 =
+* Tweak: Removed padding reset for lists
+
 = 1.1.0 - 2018-12-26 =
 * New: Added SCSS & do thorough style reset
 * New: Added readme file
