@@ -28,8 +28,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<?php global $wp_query;
 	if ( $wp_query->max_num_pages > 1 ) : ?>
 		<nav id="nav-below" class="navigation" role="navigation">
-			<div class="nav-previous"><?php next_posts_link( sprintf( __( '%s older', 'elementor-hello-theme' ), '<span class="meta-nav">&larr;</span>' ) ); ?></div>
-			<div class="nav-next"><?php previous_posts_link( sprintf( __( 'newer %s', 'elementor-hello-theme' ), '<span class="meta-nav">&rarr;</span>' ) ); ?></div>
+			<div class="nav-previous"><?php next_posts_link( sprintf( __( '%s older', 'hello-elementor' ), '<span class="meta-nav">&larr;</span>' ) ); ?></div>
+			<div class="nav-next"><?php previous_posts_link( sprintf( __( 'newer %s', 'hello-elementor' ), '<span class="meta-nav">&rarr;</span>' ) ); ?></div>
 		</nav>
 	<?php endif; ?>
 </main>

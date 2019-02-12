@@ -20,7 +20,7 @@ if ( comments_open() && get_option( 'thread_comments' ) ) {
 	<?php if ( have_comments() ) : ?>
 		<h3 class="title-comments">
 			<span>
-				<?php printf( _n( 'One Response', '%1$s Responses', get_comments_number(), 'elementor-hello-theme' ), number_format_i18n( get_comments_number() ), get_the_title() ); ?>
+				<?php printf( _n( 'One Response', '%1$s Responses', get_comments_number(), 'hello-elementor' ), number_format_i18n( get_comments_number() ), get_the_title() ); ?>
 			</span>
 		</h3>
 
@@ -44,7 +44,7 @@ if ( comments_open() && get_option( 'thread_comments' ) ) {
 // If comments are closed and there are comments, let's leave a little note, shall we?
 if ( ! comments_open() && get_comments_number() && post_type_supports( get_post_type(), 'comments' ) ) :
 	?>
-	<p class="no-comments"><?php _e( 'Comments are closed.', 'elementor-hello-theme' ); ?></p>
+	<p class="no-comments"><?php _e( 'Comments are closed.', 'hello-elementor' ); ?></p>
 <?php endif; ?>
 
 <?php

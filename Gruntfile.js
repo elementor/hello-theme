@@ -72,7 +72,7 @@ module.exports = function( grunt ) {
 
 		checktextdomain: {
 			options: {
-				text_domain: 'elementor-hello-theme',
+				text_domain: 'hello-elementor',
 				correct_domain: true,
 				keywords: [
 					// WordPress keywords

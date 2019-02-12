@@ -10,11 +10,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 <main id="main" class="site-main" role="main">
 
 	<header class="page-header">
-		<h1 class="entry-title"><?php _e( 'The page can&rsquo;t be found.', 'elementor-hello-theme' ); ?></h1>
+		<h1 class="entry-title"><?php _e( 'The page can&rsquo;t be found.', 'hello-elementor' ); ?></h1>
 	</header>
 
 	<div class="page-content">
-		<p><?php _e( 'It looks like nothing was found at this location.', 'elementor-hello-theme' ); ?></p>
+		<p><?php _e( 'It looks like nothing was found at this location.', 'hello-elementor' ); ?></p>
 	</div>
 
 </main>

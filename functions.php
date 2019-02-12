@@ -22,7 +22,7 @@ if ( ! function_exists( 'elementor_hello_theme_setup' ) ) {
 		}
 
 		if ( apply_filters( 'elementor_hello_theme_register_menus', true ) ) {
-			register_nav_menus( array( 'menu-1' => __( 'Primary', 'elementor-hello-theme' ) ) );
+			register_nav_menus( array( 'menu-1' => __( 'Primary', 'hello-elementor' ) ) );
 		}
 
 		if ( apply_filters( 'elementor_hello_theme_add_theme_support', true ) ) {
