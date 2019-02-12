@@ -51,7 +51,7 @@ However, if for some reason there is still a need to add or change the site's cs
 
 **Does this theme support any plugins?**
 
-Elementor Hello includes support for WooCommerce.
+Elementor Hello Theme includes support for WooCommerce.
 
 **Can Font Style be added thru the theme's css file?**
 
@@ -59,16 +59,17 @@ Best practice is to use the styling capabilities in the Elementor plugin.
 
 == Changelog ==
 
+= 1.1.1 - 2019-01-28 =
+* Tweak: Removed padding reset for padding
+
+= 1.1.0 - 2018-12-26 =
+* New: Use SCSS & do thorough style reset
+* New: Readme updated
+* New: Added hooks and child-theme preparations
+* New: Added template part search
+* New: Added translations support
+* Tweak: Re-write of already existing template parts
+
 = 1.0 - 2018-11-04 =
 * Initial release
 
-= 1.1.0 - 2018-12-26 =
-* New: use scss & do thorough style reset.
-* New: readme.
-* New: add hooks and child-theme preparations.
-* New: template parts search.
-* New: translations support.
-* Changed: re-write of already existing template parts.
-
-= 1.1.1 - 2019-01-28 =
-* Tweak: remove lists padding reset.
