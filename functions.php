@@ -45,7 +45,12 @@ if ( ! function_exists( 'elementor_hello_theme_setup' ) ) {
 			) );
 
 			/*
-			 * WooCommerce:
+			 * Editor Style
+			 */
+			add_editor_style( 'editor-style.css' );
+
+			/*
+			 * WooCommerce
 			 */
 			if ( apply_filters( 'elementor_hello_theme_add_woocommerce_support', true ) ) {
 				// WooCommerce in general:
