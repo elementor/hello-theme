@@ -1,25 +1,12 @@
 /* Style for your classic editor.
 ========================================================================== */
-/*
-DO NOT CHANGE THIS FILE
-to override any of the settings in this section, add your styling code in the custom directory.
+/**
+ * DO NOT CHANGE THIS FILE!
+ * To override any of the settings in this section, add your styling code in the custom directory.
+ * Loading first in the style.scss & editor-style.scss
  */
-/* Variables */
-/*
-1. Media Break-points
-========================================================================== */
-/*
-2. Colors
-========================================================================== */
-/*
-3. Typography
-========================================================================== */
-/*
-4. Margin & Padding
-========================================================================== */
 p {
-  margin-top: 0;
-  margin-bottom: .9rem; }
+  margin-bottom: 0.75rem; }
 
 img {
   max-width: 100%;

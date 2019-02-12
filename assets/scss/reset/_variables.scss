@@ -1,23 +1,15 @@
-/*
-DO NOT CHANGE THIS FILE
-to override any of the settings in this section, add your styling code in the custom directory.
+/**
+ * DO NOT CHANGE THIS FILE!
+ * To override any of the settings in this section, add your styling code in the custom directory.
+ * Loading first in the style.scss & editor-style.scss
  */
 
-/* Variables */
-// Loading first in the style.scss
-
-/*
-1. Media Break-points
-========================================================================== */
+//Media Break-points
 $screen-xs: 576px !default;
 $screen-sm: 768px !default;
 $screen-md: 992px !default;
 $screen-xl: 1200px !default;
 $screen-diff: 1px !default;
-
-/*
-2. Colors
-========================================================================== */
 
 //Default Color
 $gray-base: #000 !default;
@@ -45,10 +37,6 @@ $border-radius: 3px !default;
 $primary-color: $pink !default;
 $success-color: $green !default;
 
-/*
-3. Typography
-========================================================================== */
-
 //Fonts
 $font-family-base: aktiv-grotesk, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 $font-size-base: 1rem !default;
@@ -72,22 +60,20 @@ $h6-font-size: $font-size-base;
 $xs-font-size: $font-size-base * 0.75 !default;
 $sm-font-size: $font-size-base * 0.8125 !default;
 
-/*
-4. Margin & Padding
-========================================================================== */
-
+//Margin
 $margin-base: 1rem !default;
-
 $xs-margin: $margin-base * 0.5 !default;
 $sm-margin: $margin-base * 0.75 !default;
 $lg-margin: $margin-base * 1.5 !default;
 $xl-margin: $margin-base * 2 !default;
 
+//Padding
 $padding-base: 1rem !default;
 $xs-padding: $padding-base * 0.75 !default;
 $sm-padding: $padding-base * 0.8125 !default;
 $lg-padding: $padding-base * 1.5 !default;
 
+//Responsive
 @media (max-width: $screen-md) {
 	$font-size-base: .9rem !default;
 }
