@@ -1,4 +1,4 @@
-# Elementor Hello Theme [![Built with Grunt](https://cdn.gruntjs.com/builtwith.svg)](http://gruntjs.com/)
+# Hello Elementor [![Built with Grunt](https://cdn.gruntjs.com/builtwith.svg)](http://gruntjs.com/)
 
 
 
@@ -63,6 +63,11 @@ Elementor Hello Theme includes support for WooCommerce.
 Best practice is to use the styling capabilities in the Elementor plugin.
 
 ## Changelog ##
+
+### 1.2.0 - 2019-02-12 ###
+* New: Added editor-style.css for Classic editor
+* Tweak: A lot of changes to match theme review guidelines
+* Tweak: Updated theme screenshot
 
 ### 1.1.1 - 2019-01-28 ###
 * Tweak: Removed padding reset for lists

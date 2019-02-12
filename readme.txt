@@ -1,10 +1,10 @@
-=== Elementor Hello Theme ===
+=== Hello Elementor ===
 
 Contributors: elemntor
 Requires at least: WordPress 4.7
 Tested up to: WordPress 5.0
-Stable tag: 1.1.0
-Version: 1.1.0
+Stable tag: 1.2.0
+Version: 1.2.0
 Requires PHP: 5.4
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
