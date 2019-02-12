@@ -305,7 +305,7 @@ template {
 	pre,
 	blockquote {
 		page-break-inside: avoid;
-		border: 1px solid #999;
+		border: 1px solid $gray-light;
 	}
 
 	thead {
