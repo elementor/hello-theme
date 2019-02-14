@@ -2,6 +2,7 @@
 DO NOT CHANGE THIS FILE
 to override any of the settings in this section, add your styling code in the custom directory.
  */
+
 /* WordPress
    ========================================================================== */
 //https://codex.wordpress.org/CSS#WordPress_Generated_Classes
@@ -63,7 +64,7 @@ to override any of the settings in this section, add your styling code in the cu
 	text-align: center;
 }
 
-// Text meant only for screen readers:
+//Text meant only for screen readers:
 .screen-reader-text {
 	clip: rect(1px, 1px, 1px, 1px);
 	height: 1px;

@@ -1,6 +1,6 @@
 <?php
 /**
- * Hello Elementor Theme functions and definitions
+ * Theme functions and definitions
  *
  */
 
