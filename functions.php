@@ -16,7 +16,7 @@ if ( ! isset( $content_width ) ) {
  * Set up theme support
  */
 if ( ! function_exists( 'hello_elementor_setup' ) ) {
-	function hello_elementor_theme_setup() {
+	function hello_elementor_setup() {
 		if ( apply_filters( 'hello_elementor_load_textdomain', true ) ) {
 			load_theme_textdomain( 'hello-elementor', get_template_directory() . '/languages' );
 		}
