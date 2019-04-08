@@ -1,0 +1,3 @@
+Bugs
+
+Using the search results block, when a search has no results, it doesn't display a "no results" message.
