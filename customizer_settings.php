@@ -2,8 +2,6 @@
 // WP Theme Customizer
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-$text_domain = 'hello-theme-child';
-
 add_action( 'customize_controls_enqueue_scripts', 'hello_theme_clone_customize_scripts' );
 function hello_theme_clone_customize_scripts(){
 	wp_enqueue_style( 'wp-customize-styles', get_template_directory_uri() . '/assets/htc-customize-styles.css' );
@@ -11,6 +9,7 @@ function hello_theme_clone_customize_scripts(){
 
 add_action( 'customize_register', 'hello_theme_child_customize_register' );
 function hello_theme_child_customize_register( $wp_customize ) {
+	$text_domain = 'hello-theme-child';
 	// General Panel
 	$wp_customize->add_panel( 'htc_general_panel', array(
 		'title' => __( 'General Settings' ),
@@ -63,6 +62,11 @@ function hello_theme_child_customize_register( $wp_customize ) {
 
 	$wp_customize->add_section( 'htc_comments_section', array(
 	    'title' => __( 'Comments', $text_domain ),
+	    'panel' => 'htc_general_panel'
+	) );
+
+	$wp_customize->add_section( 'htc_gbg_section', array(
+	    'title' => __( 'Gutenberg', $text_domain ),
 	    'panel' => 'htc_general_panel'
 	) );
 
@@ -373,6 +377,12 @@ function hello_theme_child_customize_register( $wp_customize ) {
 	$wp_customize->add_setting( 'htc_comments_setting', array(
 	    'default' => 'yes',
 	    'transport' => 'postMessage'
+	) );
+
+	$wp_customize->add_setting( 'htc_gbg_post_setting', array(
+		'capability' => 'edit_theme_options',
+		'sanitize_callback' => 'htc_sanitize_checkbox',
+		'transport' => 'postMessage'
 	) );
 
 	// Font settings
@@ -1102,6 +1112,15 @@ function hello_theme_child_customize_register( $wp_customize ) {
 		)
 	);
 
+	$wp_customize->add_control( 'htc_gbg_post_control',
+		array(
+			'type' => 'checkbox',
+			'label' => __( 'Disable Gutenberg editor', $text_domain ),
+			'section' => 'htc_gbg_section',
+			'settings' => 'htc_gbg_post_setting',
+		)
+	);
+
 	// Font Controls
 	$wp_customize->add_control( 'htc_font_control_h1',
 		array(
@@ -1496,4 +1515,8 @@ function hello_theme_child_customize_register( $wp_customize ) {
 			'settings' => 'htc_custom_js_setting',
 		)
 	) );
+
+	function htc_sanitize_checkbox( $checked ) {
+	  return ( ( isset( $checked ) && true == $checked ) ? true : false );
+	}
 }

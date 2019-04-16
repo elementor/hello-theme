@@ -2,7 +2,7 @@
 Contributors: Jezweb
 Requires at least: WordPress 4.7
 Tested up to: WordPress 5.0
-Version: 1.3.2
+Version: 1.3.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,6 +27,12 @@ Elementor (Pro)
 Source: https://elementor.com
 
 == Changelog ==
+
+= 1.3.3 - 2019-4-17 =
+* New: Disable html comment promoting math rank
+* New: Gutenberg editor functionality option
+* Tweak: Plugins and Tools dashboard menu items back to their original position
+* Fix: Unknown variable value "text_domain" due to wrong declaration in the customizer settings
 
 = 1.3.2 - 2019-2-9 =
 * New: Added submenu items of Plugins in Admin Settings menu

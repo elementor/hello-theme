@@ -145,16 +145,6 @@ function custom_jw_remove_admin_menu_items( $wp_admin_bar ) {
 add_action( 'admin_menu', 'custom_jw_remove_admin_menu' );
 function custom_jw_remove_admin_menu(){
   remove_menu_page( 'link-manager.php' );
-  remove_menu_page( 'plugins.php' );
-  remove_menu_page( 'tools.php' );
-  add_submenu_page( 'options-general.php', 'Plugins', 'Plugins', 'manage_options', 'plugins.php');
-  add_submenu_page( 'options-general.php', 'Add Plugins', 'Add New', 'manage_options', 'plugin-install.php');
-  add_submenu_page( 'options-general.php', 'Edit Plugins', 'Editor', 'manage_options', 'plugin-editor.php');
-  add_submenu_page( 'options-general.php', 'Tools', 'Tools', 'manage_options', 'tools.php');
-  add_submenu_page( 'options-general.php', 'Import', 'Import', 'manage_options', 'import.php');
-  add_submenu_page( 'options-general.php', 'Export', 'Export', 'manage_options', 'export.php');
-  add_submenu_page( 'options-general.php', 'Export Personal Data', 'Export Personal Data', 'manage_options', 'tools.php?page=export_personal_data');
-  add_submenu_page( 'options-general.php', 'Erase Personal Data', 'Erase Personal Data', 'manage_options', 'tools.php?page=remove_personal_data');
 }
 
 // Disable Gravity Form toolbar menu
@@ -216,4 +206,18 @@ function custom_hello_theme_attachment_redirect() {
     wp_redirect(get_bloginfo('wpurl'), 302); // temp redirect to home for image or document not associated to any post/page
     exit;
   }
+}
+
+// Disable html comment promoting math rank
+add_filter( 'rank_math/frontend/remove_credit_notice', '__return_true' );
+
+// Gutenberg toggle functionality for post
+function custom_disable_gutenberg_post(){
+  return false;
+}
+
+$gbg_post_setting = get_theme_mod( 'htc_gbg_post_setting' );
+
+if ( $gbg_post_setting == true ){
+  add_filter( 'use_block_editor_for_post', 'custom_disable_gutenberg_post' );
 }
