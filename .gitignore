@@ -11,3 +11,5 @@ package-lock.json
 Thumbs.db
 *.log
 *.map
+/style.css
+/editor-style.css

@@ -1,0 +1,107 @@
+ul.gform_fields,
+ul.gfield_checkbox,
+ul.gfield_radio {
+	padding-left: 0;
+	list-style: none;
+}
+
+li.gfield {
+	display: flex;
+	flex-wrap: wrap;
+
+	&.gsection {
+		display: block;
+	}
+
+}
+
+.ginput_complex {
+	display: flex;
+	margin-left: -0.5em;
+	margin-right: -0.5em;
+	flex-wrap: wrap;
+
+	& > div {
+		flex-basis: 100%;
+	}
+
+	@media (max-width: 767px) {
+		margin-left: 0;
+		margin-right: 0;
+	}
+
+	span {
+		flex: auto 1 1;
+		padding: 0 0.5em;
+
+		@media (max-width: 767px) {
+			padding-left: 0;
+			padding-right: 0;
+		}
+
+
+		&.ginput_full {
+			flex: 100% 1 0;
+		}
+
+		&.ginput_left,
+		&.ginput_right {
+			flex: 50% 1 0;
+
+			@media (max-width: 767px) {
+				flex: 100% 1 0;
+			}
+		}
+
+
+
+	};
+
+}
+
+.gfield_label,
+.gfield_description,
+.ginput_container,
+.clear-multi {
+	flex-basis: 100%;
+}
+
+.clear-multi {
+	display: flex;
+	margin-left: -0.5em;
+	margin-right: -0.5em;
+	flex-wrap: nowrap;
+
+	.ginput_container {
+		padding: 0 0.5em;
+	}
+
+	.gfield_time_ampm {
+		max-width: 6em;
+	}
+}
+
+.gfield_radio li {
+	display: flex;
+	align-items: center;
+
+	input[type='radio'] {
+		margin-right: 0.25em;
+	}
+
+	label {
+		margin-bottom: 0;
+	}
+}
+
+.gfield_checkbox label {
+	margin-bottom: 0;
+}
+
+
+.elementor-field-group,
+.ginput_container,
+.gfield_radio li,
+.gfield_checkbox li{
+	margin-bottom: 10px;
+}
