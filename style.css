@@ -1,13 +1,13 @@
 /*!
 	Theme Name: Hello Elementor
-	Theme URI: https://github.com/pojome/elementor-hello-theme
+	Theme URI: https://github.com/elementor/elementor-hello-theme
 	Description: A plain-vanilla & lightweight theme for Elementor page builder
 	Author: Elementor Team
 	Author URI: https://elementor.com
-	Version: 1.2.0
-	Stable tag: 1.2.0
+	Version: 2.0.0
+	Stable tag: 2.0.0
 	Requires at least: 4.7
-	Tested up to: 5.0
+	Tested up to: 5.2
 	License: GNU General Public License v3 or later.
 	License URI: https://www.gnu.org/licenses/gpl-3.0.html
 	Text Domain: hello-elementor
@@ -199,7 +199,9 @@ sup {
  * Remove the border on images inside links in IE 10.
  */
 img {
-  border-style: none; }
+  border-style: none;
+  height: auto;
+  max-width: 100%; }
 
 /* Interactive
    ========================================================================== */
@@ -400,7 +402,7 @@ to override any of the settings in this section, add your styling code in the cu
 label {
   display: inline-block;
   line-height: 1;
-  margin-bottom: 0.5rem; }
+  vertical-align: middle; }
 
 /**
  * 1. Change the font styles in all browsers.
@@ -415,7 +417,7 @@ textarea {
   /* 1 */
   font-size: 1rem;
   /* 1 */
-  line-height: 1.15;
+  line-height: 1.5;
   /* 1 */
   margin: 0;
   /* 2 */ }
@@ -707,11 +709,11 @@ to override any of the settings in this section, add your styling code in the cu
    ========================================================================== */
 .alignright {
   float: right;
-  margin-right: 1rem; }
+  margin-left: 1rem; }
 
 .alignleft {
   float: left;
-  margin-left: 1rem; }
+  margin-right: 1rem; }
 
 .aligncenter {
   clear: both;
@@ -777,6 +779,6 @@ to override any of the settings in this section, add your styling code in the cu
 /* Custom style for your theme.
 ========================================================================== */
 /**
-To change or override any style, add a new scss file under ./custom/ directory
+To change or override any style, add a new scss file under `custom` directory (current directory),
 and include it here.
  */
