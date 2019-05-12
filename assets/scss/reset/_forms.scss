@@ -10,7 +10,7 @@ label {
 	// Allow labels to use `margin` for spacing.
 	display: inline-block;
 	line-height: 1;
-	margin-bottom: 0.5rem;
+	vertical-align: middle;
 }
 
 /**
@@ -25,7 +25,7 @@ select,
 textarea {
 	font-family: inherit; /* 1 */
 	font-size: 1rem; /* 1 */
-	line-height: 1.15; /* 1 */
+	line-height: 1.5; /* 1 */
 	margin: 0; /* 2 */
 }
 
