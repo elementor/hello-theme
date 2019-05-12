@@ -87,7 +87,7 @@ Yes, ***but*** best practice is to use the styling capabilities in the Elementor
 * Tweak: Add Copyright & Image and Icon License sections in readme (following comment by WP Theme Review team).
 * Tweak: Remove duplicated call to `add_theme_support( 'custom-logo')`
 * Tweak: Readme file grammar & spelling.
-* Tweak: Update `Tested Up to`.
+* Tweak: Update `Tested Up to 5.2`
 * Tweak: Change functions.php methods names prefix from `hello_elementor_theme_` to `hello_elementor_`.
 * Tweak: Change hook names to fit theme's name. Old hooks are deprecated, users are urged to update their code where needed.
 * Tweak: Update style for `img`, `textarea`, 'label'
