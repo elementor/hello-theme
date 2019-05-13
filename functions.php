@@ -96,3 +96,13 @@ if ( ! function_exists( 'hello_elementor_register_elementor_locations' ) ) {
 	}
 }
 add_action( 'elementor/theme/register_locations', 'hello_elementor_register_elementor_locations' );
+
+/*
+ * Set default content width
+ */
+if ( ! function_exists( 'hello_elementor_content_width' ) ) {
+	function hello_elementor_content_width() {
+		$GLOBALS['content_width'] = apply_filters( 'hello_elementor_content_width', 800 );
+	}
+}
+add_action( 'after_setup_theme', 'hello_elementor_content_width', 0 );
