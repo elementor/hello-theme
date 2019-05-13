@@ -12,11 +12,6 @@ Tags: flexible-header, accessibility-ready, custom-colors, custom-menu, custom-l
 
 A lightweight, plain-vanilla theme for Elementor page builder.
 
-== Copyright ==
-
-This theme, like WordPress, is licensed under the GPL.
-Use it as your springboard to building a site with ***Elementor***.
-
 ***Hello Elementor*** is distributed under the terms of the GNU GPL v3 or later.
 
 == Description ==
@@ -78,6 +73,21 @@ Hello Elementor includes support for WooCommerce.
 
 Yes, ***but*** best practice is to use the styling capabilities in the Elementor plugin.
 
+== Copyright ==
+
+This theme, like WordPress, is licensed under the GPL.
+Use it as your springboard to building a site with ***Elementor***.
+
+Hello Elementor bundles the following third-party resources:
+
+Font Awesome icons for theme screenshot
+License: SIL Open Font License, version 1.1.
+Source: https://fontawesome.com/v4.7.0/
+
+Image for theme screenshot, Copyright Jason Blackeye
+License: CC0 1.0 Universal (CC0 1.0)
+Source: https://stocksnap.io/photo/4B83RD7BV9
+
 == Changelog ==
 
 = 2.0.0 - 2019-05-12 =
@@ -114,18 +124,3 @@ Yes, ***but*** best practice is to use the styling capabilities in the Elementor
 
 = 1.0.0 - 2018-03-19 =
 * Initial Public Release
-
-------------------------------------------------------------------------------
-Image & Icon License
-------------------------------------------------------------------------------
-https://pixabay.com/illustrations/responsive-web-pages-websites-1622825/
-
-https://fontawesome.com/v4.7.0/license/
-
-https://fontawesome.com/v4.7.0/icon/diamond
-
-https://fontawesome.com/v4.7.0/icon/paper-plane-o
-
-https://fontawesome.com/v4.7.0/icon/snowflake-o
-
-https://fontawesome.com/v4.7.0/icon/lightbulb-o
