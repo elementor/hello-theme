@@ -5,19 +5,14 @@
 **Contributors:** [elemntor](https://profiles.wordpress.org/elemntor)  
 **Requires at least:** WordPress 4.7  
 **Tested up to:** WordPress 5.2  
-**Stable tag:** 2.0.0  
-**Version:** 2.0.0  
+**Stable tag:** 2.0.2  
+**Version:** 2.0.2  
 **Requires PHP:** 5.4  
 **License:** GNU General Public License v3 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-3.0.html  
 **Tags:** flexible-header, accessibility-ready, custom-colors, custom-menu, custom-logo, editor-style, featured-images, rtl-language-support, threaded-comments, translation-ready  
 
 A lightweight, plain-vanilla theme for Elementor page builder.
-
-## Copyright ##
-
-This theme, like WordPress, is licensed under the GPL.
-Use it as your springboard to building a site with ***Elementor***.
 
 ***Hello Elementor*** is distributed under the terms of the GNU GPL v3 or later.
 
@@ -69,6 +64,7 @@ add_filter( 'choose-from-the-list-below', '__return_false' );
 * `hello_elementor_add_woocommerce_support`       register woocommerce features, including product-gallery zoom, swipe & lightbox features
 * `hello_elementor_enqueue_style`                 enqueue style
 * `hello_elementor_register_elementor_locations`  register elementor settings
+* `hello_elementor_content_width`                 set default content width to 800px
 
 ## Frequently Asked Questions ##
 
@@ -80,7 +76,28 @@ Hello Elementor includes support for WooCommerce.
 
 Yes, ***but*** best practice is to use the styling capabilities in the Elementor plugin.
 
+## Copyright ##
+
+This theme, like WordPress, is licensed under the GPL.
+Use it as your springboard to building a site with ***Elementor***.
+
+Hello Elementor bundles the following third-party resources:
+
+Font Awesome icons for theme screenshot
+License: SIL Open Font License, version 1.1.
+Source: https://fontawesome.com/v4.7.0/
+
+Image for theme screenshot, Copyright Jason Blackeye
+License: CC0 1.0 Universal (CC0 1.0)
+Source: https://stocksnap.io/photo/4B83RD7BV9
+
 ## Changelog ##
+
+### 2.0.2 - 2019-05-13 ###
+* Tweak: Add `hello_elementor_content_width` filter, as per WordePress best practice.
+
+### 2.0.1 - 2019-05-12 ###
+* Tweak: Updated theme screenshot (following comment by WP Theme Review team).
 
 ### 2.0.0 - 2019-05-12 ###
 * Tweak: Updated theme screenshot (following comment by WP Theme Review team).
@@ -116,18 +133,3 @@ Yes, ***but*** best practice is to use the styling capabilities in the Elementor
 
 ### 1.0.0 - 2018-03-19 ###
 * Initial Public Release
-
-------------------------------------------------------------------------------
-Image & Icon License
-------------------------------------------------------------------------------
-https://pixabay.com/illustrations/responsive-web-pages-websites-1622825/
-
-https://fontawesome.com/v4.7.0/license/
-
-https://fontawesome.com/v4.7.0/icon/diamond
-
-https://fontawesome.com/v4.7.0/icon/paper-plane-o
-
-https://fontawesome.com/v4.7.0/icon/snowflake-o
-
-https://fontawesome.com/v4.7.0/icon/lightbulb-o
