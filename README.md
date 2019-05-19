@@ -5,8 +5,8 @@
 **Contributors:** [elemntor](https://profiles.wordpress.org/elemntor), [KingYes](https://profiles.wordpress.org/KingYes), [ariel.k](https://profiles.wordpress.org/ariel.k), [jzaltzberg](https://profiles.wordpress.org/jzaltzberg), [mati1000](https://profiles.wordpress.org/mati1000), [bainternet](https://profiles.wordpress.org/bainternet)  
 **Requires at least:** WordPress 4.7  
 **Tested up to:** WordPress 5.2  
-**Stable tag:** 2.0.2  
-**Version:** 2.0.2  
+**Stable tag:** 2.0.3  
+**Version:** 2.0.3  
 **Requires PHP:** 5.4  
 **License:** GNU General Public License v3 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-3.0.html  
@@ -92,6 +92,9 @@ License: CC0 1.0 Universal (CC0 1.0)
 Source: https://stocksnap.io/photo/4B83RD7BV9
 
 ## Changelog ##
+
+### 2.0.3 - 2019-05-19 ###
+* Tweak! `accessibility-ready` from WP repo
 
 ### 2.0.2 - 2019-05-13 ###
 * Tweak: Add `hello_elementor_content_width` filter, as per WordePress best practice.
