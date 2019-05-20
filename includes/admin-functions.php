@@ -34,18 +34,18 @@ function hello_elementor_fail_load_admin_notice() {
 			return;
 		}
 
-		$message = '<p>' . __( 'Hello theme is a lightweight starter theme designed to work perfectly with Elementor Page Builder plugin. Start creating beautiful websites by activating the Elementor plugin.', 'elementor-pro' ) . '</p>';
+		$message = '<p>' . __( 'Hello theme is a lightweight starter theme designed to work perfectly with Elementor Page Builder plugin. Start creating beautiful websites by activating the Elementor plugin.', 'hello-elementor' ) . '</p>';
 
-		$button_text = __( 'Activate Elementor Now', 'elementor-pro' );
+		$button_text = __( 'Activate Elementor Now', 'hello-elementor' );
 		$button_link = wp_nonce_url( 'plugins.php?action=activate&amp;plugin=' . $plugin . '&amp;plugin_status=all&amp;paged=1&amp;s', 'activate-plugin_' . $plugin );
 	} else {
 		if ( ! current_user_can( 'install_plugins' ) ) {
 			return;
 		}
 
-		$message = '<p>' . __( 'Hello theme is a lightweight starter theme designed to work perfectly with Elementor Page Builder plugin. Start creating beautiful websites by installing the Elementor plugin.', 'elementor-pro' ) . '</p>';
+		$message = '<p>' . __( 'Hello theme is a lightweight starter theme designed to work perfectly with Elementor Page Builder plugin. Start creating beautiful websites by installing the Elementor plugin.', 'hello-elementor' ) . '</p>';
 
-		$button_text = __( 'Install Elementor Now', 'elementor-pro' );
+		$button_text = __( 'Install Elementor Now', 'hello-elementor' );
 		$button_link = wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=elementor' ), 'install-plugin_elementor' );
 	}
 
@@ -143,9 +143,9 @@ function hello_elementor_fail_load_admin_notice() {
 			</div>
 
 			<div class="hello-elementor-notice-content">
-				<h3><?php _e( 'Thank you for choosing Hello Theme!', 'aryo-activity-log' ); ?></h3>
+				<h3><?php _e( 'Thank you for choosing Hello Theme!', 'hello-elementor' ); ?></h3>
 				<p><?php echo $message; ?>
-					<a href="https://go.elementor.com/learn/" target="_blank"><?php _e( 'Learn more about Elementor', 'aryo-activity-log' ); ?></a>.</p>
+					<a href="https://go.elementor.com/learn/" target="_blank"><?php _e( 'Learn more about Elementor', 'hello-elementor' ); ?></a>.</p>
 			</div>
 
 			<div class="hello-elementor-install-now">
