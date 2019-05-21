@@ -91,26 +91,31 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
 
+= 2.0.5 - 2019-05-21 =
+* New: Inroducing [Hello Theme Child](https://github.com/elementor/hello-theme-child)
+* Tweak: Enqueue only parent theme stylesheet
+* Tweak: Added admin notice box for recommending Elementor plugin
+
 = 2.0.4 - 2019-05-20 =
-* Tweak! `accessibility-ready` tag from style.css
+* Tweak: Removed `accessibility-ready` tag from `style.css`
 
 = 2.0.3 - 2019-05-19 =
-* Tweak! `accessibility-ready` tag from WP repo
+* Tweak: Removed `accessibility-ready` tag
 
 = 2.0.2 - 2019-05-13 =
-* Tweak: Add `hello_elementor_content_width` filter, as per WordePress best practice.
+* Tweak: Added `hello_elementor_content_width` filter, as per WordePress best practice
 
 = 2.0.1 - 2019-05-12 =
-* Tweak: Updated theme screenshot (following comment by WP Theme Review team).
+* Tweak: Updated theme screenshot (following comment by WP Theme Review team)
 
 = 2.0.0 - 2019-05-12 =
-* Tweak: Updated theme screenshot (following comment by WP Theme Review team).
-* Tweak: Add Copyright & Image and Icon License sections in readme (following comment by WP Theme Review team).
+* Tweak: Updated theme screenshot (following comment by WP Theme Review team)
+* Tweak: Add Copyright & Image and Icon License sections in readme (following comment by WP Theme Review team)
 * Tweak: Remove duplicated call to `add_theme_support( 'custom-logo')`
-* Tweak: Readme file grammar & spelling.
+* Tweak: Readme file grammar & spelling
 * Tweak: Update `Tested Up to 5.2`
-* Tweak: Change functions.php methods names prefix from `hello_elementor_theme_` to `hello_elementor_`.
-* Tweak: Change hook names to fit theme's name. Old hooks are deprecated, users are urged to update their code where needed.
+* Tweak: Change functions.php methods names prefix from `hello_elementor_theme_` to `hello_elementor_`
+* Tweak: Change hook names to fit theme's name. Old hooks are deprecated, users are urged to update their code where needed
 * Tweak: Update style for `img`, `textarea`, 'label'
 
 = 1.2.0 - 2019-02-12 =
