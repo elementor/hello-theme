@@ -3,8 +3,8 @@
 Contributors: elemntor, KingYes, ariel.k, jzaltzberg, mati1000, bainternet
 Requires at least: WordPress 4.7
 Tested up to: WordPress 5.2
-Stable tag: 2.0.5
-Version: 2.0.5
+Stable tag: 2.0.6
+Version: 2.0.6
 Requires PHP: 5.4
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -90,6 +90,9 @@ License: CC0 1.0 Universal (CC0 1.0)
 Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
+
+= 2.0.6 - 2019-05-23 =
+* Tweak: Minify css
 
 = 2.0.5 - 2019-05-21 =
 * New: Inroducing [Hello Theme Child](https://github.com/elementor/hello-theme-child)
