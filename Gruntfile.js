@@ -41,7 +41,7 @@ module.exports = function( grunt ) {
 					]
 				} ]
 			},
-			/*minify: {
+			minify: {
 				options: {
 					processors: [
 						require( 'autoprefixer' )( {
@@ -58,7 +58,7 @@ module.exports = function( grunt ) {
 					],
 					ext: '.min.css'
 				} ]
-			}*/
+			}
 		},
 
 		watch: {

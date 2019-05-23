@@ -2,67 +2,126 @@
 
 
 
-**Contributors:** [elemntor](https://profiles.wordpress.org/elemntor)  
+**Contributors:** [elemntor](https://profiles.wordpress.org/elemntor), [KingYes](https://profiles.wordpress.org/KingYes), [ariel.k](https://profiles.wordpress.org/ariel.k), [jzaltzberg](https://profiles.wordpress.org/jzaltzberg), [mati1000](https://profiles.wordpress.org/mati1000), [bainternet](https://profiles.wordpress.org/bainternet)  
 **Requires at least:** WordPress 4.7  
-**Tested up to:** WordPress 5.0  
-**Stable tag:** 1.2.0  
-**Version:** 1.2.0  
+**Tested up to:** WordPress 5.2  
+**Stable tag:** 2.0.6  
+**Version:** 2.0.6  
 **Requires PHP:** 5.4  
 **License:** GNU General Public License v3 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-3.0.html  
-**Tags:** flexible-header, accessibility-ready, custom-colors, custom-menu, custom-logo, editor-style, featured-images, rtl-language-support, threaded-comments, translation-ready  
+**Tags:** flexible-header, custom-colors, custom-menu, custom-logo, editor-style, featured-images, rtl-language-support, threaded-comments, translation-ready  
 
-A plain-vanilla & lightweight theme for Elementor page builder.
+A lightweight, plain-vanilla theme for Elementor page builder.
+
+***Hello Elementor*** is distributed under the terms of the GNU GPL v3 or later.
 
 ## Description ##
 
-A plain-vanilla & lightweight theme, best suited for building your site using Elementor page builder.
+A basic, plain-vanilla, lightweight theme, best suited for building your site using Elementor page builder.
 
-This theme resets the environment and prepares it for smooth operation of Elementor.
+This theme resets the WordPress environment and prepares it for smooth operation of Elementor.
 
-If you wish to customize your site, just use **Elementor!**.
+Screenshot's images & icons are licensed under: Creative Commons (CC0), https://creativecommons.org/publicdomain/zero/1.0/legalcode
 
-### Hooks ###
+## Installation ##
 
-To prevent the loading of any of the following settings, add the following code to your child-theme functions.php:
+1. In your admin panel, go to Appearance > Themes and click the 'Add New' button.
+2. Type in 'Hello Elementor' in the search form and hit the 'Enter' key on your keyboard.
+3. Click on the 'Activate' button to use your new theme right away.
+4. Navigate to Elementor and start building your site.
 
-`add_filter( 'choose-from-the-list-below', '__return_false' );`
+## Customizations ##
 
-* `elementor_hello_theme_load_textdomain`               load theme's textdomain
-* `elementor_hello_theme_register_menus`                register the theme's default menu location
-* `elementor_hello_theme_add_theme_support`             register the various supported features
-* `elementor_hello_theme_add_woocommerce_support`       register woocommerce features, including product-gallery zoom, swipe & lightbox features
-* `elementor_hello_theme_enqueue_style`                 enqueue style
-* `elementor_hello_theme_register_elementor_locations`  register elementor settings
+Most users will not need to edit the files for customizing this theme.
+To customize your site's appearance, simply use ***Elementor***.
 
-### Style ###
+However, if you have a particular need to adapt this theme, please read on.
 
-In order to change the styling used throughout the site, use **Elementor**.
+### Style & Stylesheets ###
 
-However, if for some reason there is still a need to add or change the site's CSS, please take into account the following:
+All of your site's styles should be handled directly inside ***Elementor***.
+You should not need to edit the SCSS files in this theme in ordinary circumstances.
+
+However, if for some reason there is still a need to add or change the site's CSS, please pay attention to the following:
 
 1. Files located under `reset` directory, should **NOT** be edited directly
 2. In order to change any of the values defined in `preset/variables.scss`, add your style code to `custom/pre_default.scss`
 3. Any new SCSS files should be located under `custom/` directory, and imported in `custom/custom.scss`
 
-## Installation ##
+**Remember that any SCSS change requires re-generating the theme's css files.**
 
-1. In your admin panel, go to Appearance > Themes and click the 'Add New' button.
-2. Type in 'Elementor Hello' in the search form and hit the 'Enter' key on your keyboard.
-3. Click on the 'Activate' button to use your new theme right away.
-4. Navigate to Elementor and start building your site.
+### Hooks ###
+
+To prevent the loading of any of the these settings, use the following as boilerplate and add the code to your child-theme `functions.php`:
+```php
+add_filter( 'choose-from-the-list-below', '__return_false' );
+```
+
+* `hello_elementor_load_textdomain`               load theme's textdomain
+* `hello_elementor_register_menus`                register the theme's default menu location
+* `hello_elementor_add_theme_support`             register the various supported features
+* `hello_elementor_add_woocommerce_support`       register woocommerce features, including product-gallery zoom, swipe & lightbox features
+* `hello_elementor_enqueue_style`                 enqueue style
+* `hello_elementor_register_elementor_locations`  register elementor settings
+* `hello_elementor_content_width`                 set default content width to 800px
 
 ## Frequently Asked Questions ##
 
 **Does this theme support any plugins?**
 
-Elementor Hello Theme includes support for WooCommerce.
+Hello Elementor includes support for WooCommerce.
 
-**Can Font Style be added thru the theme's css file?**
+**Can Font Styles be added thru the theme's css file?**
 
-Best practice is to use the styling capabilities in the Elementor plugin.
+Yes, ***but*** best practice is to use the styling capabilities in the Elementor plugin.
+
+## Copyright ##
+
+This theme, like WordPress, is licensed under the GPL.
+Use it as your springboard to building a site with ***Elementor***.
+
+Hello Elementor bundles the following third-party resources:
+
+Font Awesome icons for theme screenshot
+License: SIL Open Font License, version 1.1.
+Source: https://fontawesome.com/v4.7.0/
+
+Image for theme screenshot, Copyright Jason Blackeye
+License: CC0 1.0 Universal (CC0 1.0)
+Source: https://stocksnap.io/photo/4B83RD7BV9
 
 ## Changelog ##
+
+### 2.0.6 - 2019-05-23 ###
+* Tweak: Minify css
+
+### 2.0.5 - 2019-05-21 ###
+* New: Inroducing [Hello Theme Child](https://github.com/elementor/hello-theme-child)
+* Tweak: Enqueue only parent theme stylesheet
+* Tweak: Added admin notice box for recommending Elementor plugin
+
+### 2.0.4 - 2019-05-20 ###
+* Tweak: Removed `accessibility-ready` tag from `style.css`
+
+### 2.0.3 - 2019-05-19 ###
+* Tweak: Removed `accessibility-ready` tag
+
+### 2.0.2 - 2019-05-13 ###
+* Tweak: Added `hello_elementor_content_width` filter, as per WordePress best practice
+
+### 2.0.1 - 2019-05-12 ###
+* Tweak: Updated theme screenshot (following comment by WP Theme Review team)
+
+### 2.0.0 - 2019-05-12 ###
+* Tweak: Updated theme screenshot (following comment by WP Theme Review team)
+* Tweak: Add Copyright & Image and Icon License sections in readme (following comment by WP Theme Review team)
+* Tweak: Remove duplicated call to `add_theme_support( 'custom-logo')`
+* Tweak: Readme file grammar & spelling
+* Tweak: Update `Tested Up to 5.2`
+* Tweak: Change functions.php methods names prefix from `hello_elementor_theme_` to `hello_elementor_`
+* Tweak: Change hook names to fit theme's name. Old hooks are deprecated, users are urged to update their code where needed
+* Tweak: Update style for `img`, `textarea`, 'label'
 
 ### 1.2.0 - 2019-02-12 ###
 * New: Added editor-style.css for Classic editor
