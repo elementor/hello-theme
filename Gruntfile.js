@@ -51,7 +51,7 @@ module.exports = function( grunt ) {
 					]
 				},
 				files: [ {
-					//expand: true,
+					expand: true,
 					src: [
 						'*.css',
 						'!*.min.css'

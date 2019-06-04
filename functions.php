@@ -78,9 +78,11 @@ if ( ! function_exists( 'hello_elementor_scripts_styles' ) ) {
 	function hello_elementor_scripts_styles() {
 		$hook_result = apply_filters_deprecated( 'elementor_hello_theme_enqueue_style', [ true ], '2.0', 'hello_elementor_enqueue_style' );
 		if ( apply_filters( 'hello_elementor_enqueue_style', $hook_result ) ) {
+			$min_suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+
 			wp_enqueue_style(
 				'hello-elementor',
-				get_template_directory_uri() . '/style.css'
+				get_template_directory_uri() . '/style' . $min_suffix . '.css'
 			);
 		}
 	}
