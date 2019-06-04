@@ -93,7 +93,7 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 ## Changelog ##
 
-### 2.0.6 - 2019-06-04 ###
+### 2.0.7 - 2019-06-04 ###
 * Tweak: Added nextpage support to `single.php`
 * Tweak: Keep both original and minified css files
 * Tweak: Removed `flexible-header`, `custom-colors`, `editor-style` tags
