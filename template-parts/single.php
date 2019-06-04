@@ -20,6 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<div class="post-tags">
 			<?php the_tags( '<span class="tag-links">' . __( 'Tagged ', 'hello-elementor' ), null, '</span>' ); ?>
 		</div>
+		<?php wp_link_pages(); ?>
 	</div>
 
 	<?php comments_template(); ?>
