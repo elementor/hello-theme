@@ -3,8 +3,8 @@
 Contributors: elemntor, KingYes, ariel.k, jzaltzberg, mati1000, bainternet
 Requires at least: WordPress 4.7
 Tested up to: WordPress 5.2
-Stable tag: 2.0.6
-Version: 2.0.6
+Stable tag: 2.0.7
+Version: 2.0.7
 Requires PHP: 5.4
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -90,6 +90,11 @@ License: CC0 1.0 Universal (CC0 1.0)
 Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
+
+= 2.0.6 - 2019-06-04 =
+* Tweak: Added nextpage support to `single.php`
+* Tweak: Keep both original and minified css files
+* Tweak: Removed `flexible-header`, `custom-colors`, `editor-style` tags
 
 = 2.0.6 - 2019-05-08 =
 * Tweak: Removed irrelevant font family from `$font-family-base`
