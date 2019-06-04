@@ -705,6 +705,15 @@ li {
 DO NOT CHANGE THIS FILE
 to override any of the settings in this section, add your styling code in the custom directory.
  */
+/* Header
+   ========================================================================== */
+nav.main-navigation ul {
+  list-style: none;
+  margin: 0;
+  padding: 0; }
+  nav.main-navigation ul li {
+    display: inline-block; }
+
 /* WordPress
    ========================================================================== */
 .alignright {

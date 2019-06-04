@@ -3,9 +3,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 ?>
-<header id="site-header" class="site-header" role="banner">
+<header class="site-header" role="banner">
 
-	<div id="logo">
+	<div class="site-logo">
 		<?php the_custom_logo(); ?>
 	</div>
 
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<p class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php esc_attr_e( 'Home', 'hello-elementor' ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></p>
 	<?php endif; ?>
 
-	<nav id="top-menu" role="navigation">
+	<nav id="site-navigation" class="main-navigation" role="navigation">
 		<?php wp_nav_menu( array( 'theme_location' => 'menu-1' ) ); ?>
 	</nav>
 
