@@ -1,0 +1,40 @@
+/* Basic responsive layout
+   ========================================================================== */
+
+$containers: '#site-header, #main';
+
+#{$containers} {
+	margin-right: auto;
+	margin-left: auto;
+}
+
+@media (max-width: 575px){
+	#{$containers} {
+		padding-right: 10px;
+		padding-left: 10px;
+	}
+}
+
+@media (min-width: 576px){
+	#{$containers} {
+		max-width: 500px;
+	}
+}
+
+@media (min-width: 768px){
+	#{$containers} {
+		max-width: 600px;
+	}
+}
+
+@media (min-width: 992px) {
+	#{$containers} {
+		max-width: 800px;
+	}
+}
+
+@media (min-width: 1200px) {
+	#{$containers} {
+		max-width: 960px;
+	}
+}

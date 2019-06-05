@@ -77,7 +77,6 @@ add_action( 'after_setup_theme', 'hello_elementor_setup' );
 if ( ! function_exists( 'hello_elementor_scripts_styles' ) ) {
 	function hello_elementor_scripts_styles() {
 		$enqueue_basic_style = apply_filters_deprecated( 'elementor_hello_theme_enqueue_style', [ true ], '2.0', 'hello_elementor_enqueue_style' );
-		$enqueue_more_style = apply_filters_deprecated( 'elementor_hello_theme_enqueue_more_style', [ true ], '2.0', 'hello_elementor_enqueue_more_style' );
 		if ( apply_filters( 'hello_elementor_enqueue_style', $enqueue_basic_style ) ) {
 			$min_suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
@@ -87,7 +86,7 @@ if ( ! function_exists( 'hello_elementor_scripts_styles' ) ) {
 			);
 		}
 
-		if ( apply_filters( 'hello_elementor_enqueue_more_style', $enqueue_more_style ) ) {
+		if ( apply_filters( 'hello_elementor_enqueue_more_style', true ) ) {
 			$min_suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 			wp_enqueue_style(

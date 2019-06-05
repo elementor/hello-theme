@@ -16,12 +16,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	<div class="page-content">
 		<?php
-		while ( have_posts() ) : the_post();
-			printf( '<h2><a href="%s">%s</a></h2>', esc_url( get_permalink() ), get_the_title() );
-			the_post_thumbnail();
-			the_excerpt();
-		endwhile;
-		?>
+		while ( have_posts() ) {
+			the_post();
+			$post_link = esc_url( get_permalink() ); ?>
+			<article class="post">
+				<?php
+				printf( '<h2 class="%s"><a href="%s">%s</a></h2>', 'entry-title', $post_link, get_the_title() );
+				printf( '<a href="%s">%s</a>', $post_link, get_the_post_thumbnail( $post, 'large' ) );
+				the_excerpt();
+				?>
+			</article>
+		<?php } ?>
 	</div>
 
 	<div class="entry-links"><?php wp_link_pages(); ?></div>

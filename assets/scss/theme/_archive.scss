@@ -1,0 +1,21 @@
+/* Post Item in Archive
+   ========================================================================== */
+
+.post {
+	padding: 1rem 0;
+	border-bottom: $gray-lighter 1px solid;
+
+	.wp-post-image {
+		width: 100%;
+		max-height: 500px;
+		object-fit: cover;
+
+		@media (max-width: 991px) {
+			max-height: 400px;
+		}
+
+		@media (max-width: 575px) {
+			max-height: 300px;
+		}
+	}
+}

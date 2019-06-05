@@ -1,2 +1,146 @@
-body {
-  background-color: #00a0d2; }
+/**
+ * DO NOT CHANGE THIS FILE!
+ * To override any of the settings in this section, add your styling code in the custom directory.
+ * Loading first in the style.scss & editor-style.scss
+ */
+/* Basic responsive layout
+   ========================================================================== */
+#site-header, #main {
+  margin-right: auto;
+  margin-left: auto; }
+
+@media (max-width: 575px) {
+  #site-header, #main {
+    padding-right: 10px;
+    padding-left: 10px; } }
+
+@media (min-width: 576px) {
+  #site-header, #main {
+    max-width: 500px; } }
+
+@media (min-width: 768px) {
+  #site-header, #main {
+    max-width: 600px; } }
+
+@media (min-width: 992px) {
+  #site-header, #main {
+    max-width: 800px; } }
+
+@media (min-width: 1200px) {
+  #site-header, #main {
+    max-width: 960px; } }
+
+/* Header layout
+   ========================================================================== */
+#site-header {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: #eeeeee 1px solid; }
+
+#logo {
+  max-width: 300px; }
+
+.custom-logo-link {
+  display: block;
+  max-width: 200px; }
+
+#top-menu {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1; }
+
+/* Main Menu
+   ========================================================================== */
+#top-menu {
+  grid-area: nav-menu;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+      -ms-flex-pack: end;
+          justify-content: flex-end; }
+  #top-menu ul.menu, #top-menu ul.menu ul {
+    list-style-type: none;
+    padding: 0; }
+  #top-menu ul.menu {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+            flex-wrap: wrap; }
+    #top-menu ul.menu li {
+      position: relative;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex; }
+      #top-menu ul.menu li a {
+        display: block;
+        padding: 8px 15px; }
+      #top-menu ul.menu li.menu-item-has-children {
+        padding-right: 15px; }
+        #top-menu ul.menu li.menu-item-has-children:after {
+          display: block;
+          content: '\25BE';
+          font-size: 1.5em;
+          -webkit-box-align: center;
+          -webkit-align-items: center;
+              -ms-flex-align: center;
+                  align-items: center;
+          color: #666666; }
+      #top-menu ul.menu li ul {
+        background: #fff;
+        display: none;
+        min-width: 150px;
+        position: absolute;
+        z-index: 2;
+        left: 0;
+        top: 100%;
+        border: #eeeeee 1px solid; }
+        #top-menu ul.menu li ul li.menu-item-has-children a {
+          -webkit-box-flex: 1;
+          -webkit-flex-grow: 1;
+              -ms-flex-positive: 1;
+                  flex-grow: 1; }
+        #top-menu ul.menu li ul li.menu-item-has-children:after {
+          -webkit-transform: rotate(-90deg);
+              -ms-transform: rotate(-90deg);
+                  transform: rotate(-90deg); }
+        #top-menu ul.menu li ul ul {
+          left: 100%;
+          top: 0; }
+      #top-menu ul.menu li:hover > ul {
+        display: block; }
+
+/* Post Item in Archive
+   ========================================================================== */
+.post {
+  padding: 1rem 0;
+  border-bottom: #eeeeee 1px solid; }
+  .post .wp-post-image {
+    width: 100%;
+    max-height: 500px;
+    -o-object-fit: cover;
+       object-fit: cover; }
+    @media (max-width: 991px) {
+      .post .wp-post-image {
+        max-height: 400px; } }
+    @media (max-width: 575px) {
+      .post .wp-post-image {
+        max-height: 300px; } }
