@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 ?>
-<main id="main" class="site-main" role="main">
+<main class="site-main" role="main">
 
 	<header class="page-header">
 		<?php the_archive_title( '<h1 class="entry-title">', '</h1>' ); ?>

@@ -93,6 +93,9 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 ## Changelog ##
 
+### 2.1.0 - xxxx-xx-xx ###
+* Tweak: Renamed ``
+
 ### 2.0.7 - 2019-06-04 ###
 * Tweak: Added nextpage support to `single.php`
 * Tweak: Keep both original and minified css files

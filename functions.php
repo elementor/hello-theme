@@ -86,11 +86,11 @@ if ( ! function_exists( 'hello_elementor_scripts_styles' ) ) {
 			);
 		}
 
-		if ( apply_filters( 'hello_elementor_enqueue_more_style', true ) ) {
+		if ( apply_filters( 'hello_elementor_enqueue_theme_style', true ) ) {
 			$min_suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 			wp_enqueue_style(
-				'hello-elementor-more-style',
+				'hello-elementor-theme-style',
 				get_template_directory_uri() . '/theme' . $min_suffix . '.css'
 			);
 		}
