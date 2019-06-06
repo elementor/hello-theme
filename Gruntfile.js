@@ -30,7 +30,7 @@ module.exports = function( grunt ) {
 
 					processors: [
 						require( 'autoprefixer' )( {
-							browsers: 'last 10 versions'
+							browsers: 'last 3 versions'
 						} )
 					]
 				},

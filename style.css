@@ -291,81 +291,6 @@ template {
 DO NOT CHANGE THIS FILE
 to override any of the settings in this section, add your styling code in the custom directory.
  */
-/* General - https://codex.wordpress.org/CSS#WordPress_Generated_Classes
-   ========================================================================== */
-.alignright {
-  float: right;
-  margin-left: 1rem; }
-
-.alignleft {
-  float: left;
-  margin-right: 1rem; }
-
-.aligncenter {
-  clear: both;
-  display: block;
-  margin-left: auto;
-  margin-right: auto; }
-
-.sticky {
-  position: relative;
-  display: block; }
-
-.bypostauthor {
-  font-size: inherit; }
-
-.gallery-caption {
-  display: block;
-  font-size: 0.8125rem;
-  line-height: 1.5;
-  margin: 0;
-  padding: 0.75rem; }
-
-.wp-caption {
-  margin-bottom: 1.25rem; }
-  .wp-caption.alignleft {
-    margin: 5px 20px 20px 0; }
-  .wp-caption.alignright {
-    margin: 5px 0 20px 20px; }
-  .wp-caption img {
-    display: block;
-    margin-left: auto;
-    margin-right: auto; }
-
-.wp-caption-text {
-  margin: 0;
-  text-align: center; }
-
-.screen-reader-text {
-  clip: rect(1px, 1px, 1px, 1px);
-  height: 1px;
-  overflow: hidden;
-  position: absolute !important;
-  width: 1px;
-  word-wrap: normal !important;
-  /* Many screen reader and browser combinations announce broken words as they would appear visually. */ }
-  .screen-reader-text:focus {
-    background-color: #eeeeee;
-    clip: auto !important;
-    -webkit-clip-path: none;
-            clip-path: none;
-    color: #333333;
-    display: block;
-    font-size: 1rem;
-    height: auto;
-    left: 5px;
-    line-height: normal;
-    padding: 15px 23px 14px;
-    text-decoration: none;
-    top: 5px;
-    width: auto;
-    z-index: 100000;
-    /* Above WP toolbar. */ }
-
-/*
-DO NOT CHANGE THIS FILE
-to override any of the settings in this section, add your styling code in the custom directory.
- */
 /* Forms
    ========================================================================== */
 label {
@@ -402,8 +327,7 @@ select,
 textarea {
   width: 100%;
   border: solid 1px #666666;
-  -webkit-border-radius: 3px;
-          border-radius: 3px;
+  border-radius: 3px;
   padding: 0.5rem 1rem;
   -webkit-transition: all .3s;
   -o-transition: all .3s;
@@ -483,8 +407,7 @@ button,
   border: 1px solid #CC3366;
   padding: 0.5rem 1rem;
   font-size: 1rem;
-  -webkit-border-radius: 3px;
-          border-radius: 3px;
+  border-radius: 3px;
   -webkit-transition: all .3s;
   -o-transition: all .3s;
   transition: all .3s; }

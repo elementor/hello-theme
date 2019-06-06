@@ -30,119 +30,6 @@
   .site-header, .site-main {
     max-width: 960px; } }
 
-/* Header layout
-   ========================================================================== */
-.site-header {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-wrap: wrap;
-      -ms-flex-wrap: wrap;
-          flex-wrap: wrap;
-  padding-top: 1rem;
-  padding-bottom: 1rem; }
-
-.site-branding {
-  max-width: 300px; }
-  .site-branding .site-title,
-  .site-branding .site-description {
-    margin: 0; }
-
-.custom-logo-link {
-  display: block; }
-
-/* Main Menu
-   ========================================================================== */
-.site-navigation {
-  grid-area: nav-menu;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: end;
-  -webkit-justify-content: flex-end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-      -ms-flex-positive: 1;
-          flex-grow: 1; }
-  .site-navigation ul.menu, .site-navigation ul.menu ul {
-    list-style-type: none;
-    padding: 0; }
-  .site-navigation ul.menu {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-flex-wrap: wrap;
-        -ms-flex-wrap: wrap;
-            flex-wrap: wrap; }
-    .site-navigation ul.menu li {
-      position: relative;
-      display: -webkit-box;
-      display: -webkit-flex;
-      display: -ms-flexbox;
-      display: flex; }
-      .site-navigation ul.menu li a {
-        display: block;
-        padding: 8px 15px; }
-      .site-navigation ul.menu li.menu-item-has-children {
-        padding-right: 15px; }
-        .site-navigation ul.menu li.menu-item-has-children:after {
-          display: block;
-          content: '\25BE';
-          font-size: 1.5em;
-          -webkit-box-align: center;
-          -webkit-align-items: center;
-              -ms-flex-align: center;
-                  align-items: center;
-          color: #666666; }
-      .site-navigation ul.menu li ul {
-        background: #fff;
-        display: none;
-        min-width: 150px;
-        position: absolute;
-        z-index: 2;
-        left: 0;
-        top: 100%;
-        border: #eeeeee 1px solid; }
-        .site-navigation ul.menu li ul li.menu-item-has-children a {
-          -webkit-box-flex: 1;
-          -webkit-flex-grow: 1;
-              -ms-flex-positive: 1;
-                  flex-grow: 1; }
-        .site-navigation ul.menu li ul li.menu-item-has-children:after {
-          -webkit-transform: rotate(-90deg);
-              -ms-transform: rotate(-90deg);
-                  transform: rotate(-90deg); }
-        .site-navigation ul.menu li ul ul {
-          left: 100%;
-          top: 0; }
-      .site-navigation ul.menu li:hover > ul {
-        display: block; }
-
-/* Post Item in Archive
-   ========================================================================== */
-.post {
-  padding: 1rem 0; }
-  .post .wp-post-image {
-    width: 100%;
-    max-height: 500px;
-    -o-object-fit: cover;
-       object-fit: cover; }
-    @media (991px) {
-      .post .wp-post-image {
-        max-height: 400px; } }
-    @media (575px) {
-      .post .wp-post-image {
-        max-height: 300px; } }
-
 /*
 DO NOT CHANGE THIS FILE
 to override any of the settings in this section, add your styling code in the custom directory.
@@ -218,6 +105,108 @@ to override any of the settings in this section, add your styling code in the cu
     z-index: 100000;
     /* Above WP toolbar. */ }
 
+/* Header layout
+   ========================================================================== */
+.site-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  padding-top: 1rem;
+  padding-bottom: 1rem; }
+
+.site-branding {
+  max-width: 300px; }
+  .site-branding .site-title,
+  .site-branding .site-description {
+    margin: 0; }
+
+.custom-logo-link {
+  display: block; }
+
+/* Main Menu
+   ========================================================================== */
+.site-navigation {
+  grid-area: nav-menu;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1; }
+  .site-navigation ul.menu, .site-navigation ul.menu ul {
+    list-style-type: none;
+    padding: 0; }
+  .site-navigation ul.menu {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap; }
+    .site-navigation ul.menu li {
+      position: relative;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex; }
+      .site-navigation ul.menu li a {
+        display: block;
+        padding: 8px 15px; }
+      .site-navigation ul.menu li.menu-item-has-children {
+        padding-right: 15px; }
+        .site-navigation ul.menu li.menu-item-has-children:after {
+          display: block;
+          content: '\25BE';
+          font-size: 1.5em;
+          -webkit-box-align: center;
+              -ms-flex-align: center;
+                  align-items: center;
+          color: #666666; }
+      .site-navigation ul.menu li ul {
+        background: #fff;
+        display: none;
+        min-width: 150px;
+        position: absolute;
+        z-index: 2;
+        left: 0;
+        top: 100%;
+        border: #eeeeee 1px solid; }
+        .site-navigation ul.menu li ul li.menu-item-has-children a {
+          -webkit-box-flex: 1;
+              -ms-flex-positive: 1;
+                  flex-grow: 1; }
+        .site-navigation ul.menu li ul li.menu-item-has-children:after {
+          -webkit-transform: rotate(-90deg);
+              -ms-transform: rotate(-90deg);
+                  transform: rotate(-90deg); }
+        .site-navigation ul.menu li ul ul {
+          left: 100%;
+          top: 0; }
+      .site-navigation ul.menu li:hover > ul {
+        display: block; }
+
+/* Post Item in Archive
+   ========================================================================== */
+.post {
+  padding: 1rem 0; }
+  .post .wp-post-image {
+    width: 100%;
+    max-height: 500px;
+    -o-object-fit: cover;
+       object-fit: cover; }
+    @media (991px) {
+      .post .wp-post-image {
+        max-height: 400px; } }
+    @media (575px) {
+      .post .wp-post-image {
+        max-height: 300px; } }
+
 /*
 DO NOT CHANGE THIS FILE
 to override any of the settings in this section, add your styling code in the custom directory.
@@ -236,12 +225,10 @@ to override any of the settings in this section, add your styling code in the cu
   #comments .comment .comment-body,
   #comments .pingback .comment-body {
     display: -webkit-box;
-    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
-    -webkit-flex-direction: column;
         -ms-flex-direction: column;
             flex-direction: column;
     padding: 30px 0 30px 60px;
@@ -253,8 +240,7 @@ to override any of the settings in this section, add your styling code in the cu
   #comments .pingback .avatar {
     position: absolute;
     left: 0;
-    -webkit-border-radius: 50%;
-            border-radius: 50%;
+    border-radius: 50%;
     margin-right: 10px; }
     body.rtl #comments .comment .avatar, body.rtl
     #comments .pingback .avatar {
@@ -265,11 +251,9 @@ to override any of the settings in this section, add your styling code in the cu
 
 #comments .comment-meta {
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
       -ms-flex-pack: justify;
           justify-content: space-between;
   margin-bottom: .9rem; }
