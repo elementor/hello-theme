@@ -12,7 +12,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 <main <?php post_class( 'site-main' ); ?> role="main">
 
 	<header class="page-header">
-		<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
+		<?php
+		if ( apply_filters( 'hello_elementor_show_single_header' ) ) {
+			the_title( '<h1 class="entry-title">', '</h1>' );
+		}
+		?>
 	</header>
 
 	<div class="page-content">
