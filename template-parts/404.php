@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 ?>
-<main id="main" class="site-main" role="main">
+<main class="site-main" role="main">
 
 	<header class="page-header">
 		<h1 class="entry-title"><?php esc_html_e( 'The page can&rsquo;t be found.', 'hello-elementor' ); ?></h1>

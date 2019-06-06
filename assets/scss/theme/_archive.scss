@@ -3,18 +3,17 @@
 
 .post {
 	padding: 1rem 0;
-	border-bottom: $gray-lighter 1px solid;
 
 	.wp-post-image {
 		width: 100%;
 		max-height: 500px;
 		object-fit: cover;
 
-		@media (max-width: 991px) {
+		@media ($screen-md - $screen-diff) {
 			max-height: 400px;
 		}
 
-		@media (max-width: 575px) {
+		@media ($screen-xs - $screen-diff) {
 			max-height: 300px;
 		}
 	}

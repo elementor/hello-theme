@@ -3,35 +3,35 @@
 /* Header layout
    ========================================================================== */
 
-#site-header {
+.site-header {
 	display: flex;
 	flex-wrap: wrap;
 	padding-top: 1rem;
 	padding-bottom: 1rem;
-	border-bottom: $gray-lighter 1px solid;
 }
 
-#logo {
+.site-branding {
 	max-width: 300px;
+
+	.site-title,
+	.site-description {
+		margin: 0;
+	}
 }
 
 .custom-logo-link {
 	display: block;
-	max-width: 200px;
-}
-
-#top-menu {
-	flex-grow: 1;
 }
 
 /* Main Menu
    ========================================================================== */
 
-#top-menu {
+.site-navigation {
 	grid-area: nav-menu;
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
+	flex-grow: 1;
 
 	ul.menu, ul.menu ul {
 		list-style-type: none;
@@ -97,5 +97,3 @@
 		}
 	}
 }
-
-

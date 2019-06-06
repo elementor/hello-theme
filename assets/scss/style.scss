@@ -17,14 +17,10 @@
 /* Style - include Theme style
    ========================================================================== */
 // Root
-@import "custom/custom_variables";
 @import "reset/variables";
 
-// Base CSS (Based on Normalize)
+// Base CSS
 @import "reset/reset";
-
-// Comments
-@import "reset/comments";
 
 // Forms/
 @import "reset/forms";
@@ -34,9 +30,3 @@
 
 // List
 @import "reset/list";
-
-// WordPress
-@import "reset/theme";
-
-// Custom Code for Your Website
-@import "custom/custom";

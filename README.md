@@ -93,6 +93,16 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 ## Changelog ##
 
+### 2.1.0 - xxxx-xx-xx ###
+* New: Added basic theme styling
+* New: Added `hello_elementor_enqueue_theme_style` filter for enqueue new theme style
+* New: Added tagline under the site name when there is no logo
+* Tweak: Hide site name & tagline if logo file is exist
+* Tweak: Removed `#main` in `archive.php`, `single.php` & `404.php` files
+* Tweak: Removed `#site-header` in `header.php` file
+* Tweak: Replaced `#top-menu` with `.site-navigation`
+* Tweak: Removed custom SCSS directory, it is recommended to use child theme instead of editing parent theme
+
 ### 2.0.7 - 2019-06-04 ###
 * Tweak: Added nextpage support to `single.php`
 * Tweak: Keep both original and minified css files
