@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	<header class="page-header">
 		<?php
-		if ( apply_filters( 'hello_elementor_show_archive_header' ) ) {
+		if ( apply_filters( 'hello_elementor_page_title', true ) ) {
 			the_archive_title( '<h1 class="entry-title">', '</h1>' );
 			the_archive_description( '<p class="archive-description">', '</p>' );
 		}

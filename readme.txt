@@ -63,10 +63,7 @@ add_filter( 'choose-from-the-list-below', '__return_false' );
 * `hello_elementor_enqueue_style`                 enqueue style
 * `hello_elementor_register_elementor_locations`  register elementor settings
 * `hello_elementor_content_width`                 set default content width to 800px
-* `hello_elementor_show_single_header`            show\hide h1 tag in single template (default: show)
-* `hello_elementor_show_archive_header`           show\hide h1 tag in archive template (default: show)
-* `hello_elementor_show_search_header`            show\hide h1 tag in search template (default: show)
-* `hello_elementor_show_404_header`               show\hide h1 tag in 404 template (default: show)
+* `hello_elementor_page_title`                    show\hide h1 tag (default: show)
 
 == Frequently Asked Questions ==
 

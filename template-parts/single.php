@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	<header class="page-header">
 		<?php
-		if ( apply_filters( 'hello_elementor_show_single_header' ) ) {
+		if ( apply_filters( 'hello_elementor_page_title', true ) ) {
 			the_title( '<h1 class="entry-title">', '</h1>' );
 		}
 		?>
