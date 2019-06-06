@@ -76,13 +76,22 @@ add_action( 'after_setup_theme', 'hello_elementor_setup' );
  */
 if ( ! function_exists( 'hello_elementor_scripts_styles' ) ) {
 	function hello_elementor_scripts_styles() {
-		$hook_result = apply_filters_deprecated( 'elementor_hello_theme_enqueue_style', [ true ], '2.0', 'hello_elementor_enqueue_style' );
-		if ( apply_filters( 'hello_elementor_enqueue_style', $hook_result ) ) {
+		$enqueue_basic_style = apply_filters_deprecated( 'elementor_hello_theme_enqueue_style', [ true ], '2.0', 'hello_elementor_enqueue_style' );
+		if ( apply_filters( 'hello_elementor_enqueue_style', $enqueue_basic_style ) ) {
 			$min_suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 			wp_enqueue_style(
 				'hello-elementor',
 				get_template_directory_uri() . '/style' . $min_suffix . '.css'
+			);
+		}
+
+		if ( apply_filters( 'hello_elementor_enqueue_more_style', true ) ) {
+			$min_suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+
+			wp_enqueue_style(
+				'hello-elementor-more-style',
+				get_template_directory_uri() . '/theme' . $min_suffix . '.css'
 			);
 		}
 	}
