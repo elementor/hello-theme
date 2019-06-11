@@ -1,4 +1,4 @@
-# Hello Elementor [![Built with Grunt](https://cdn.gruntjs.com/builtwith.svg)](http://gruntjs.com/)
+# Hello Elementor [![Built with Grunt](https://gruntjs.com/cdn/builtwith.svg)](http://gruntjs.com/)
 
 
 
