@@ -1,7 +1,7 @@
 /* Basic responsive layout
    ========================================================================== */
 
-$containers: '.site-header, .site-main';
+$containers: '.site-header, body:not([class*="elementor-page-"]) .site-main';
 
 #{$containers} {
 	margin-right: auto;
