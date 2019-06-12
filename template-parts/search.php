@@ -10,16 +10,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 <main id="main" class="site-main" role="main">
 
 	<header class="page-header">
+		<?php if ( apply_filters( 'hello_elementor_page_title', true ) ) : ?>
 		<h1 class="entry-title">
 			<?php esc_html_e( 'Search results for: ', 'hello-elementor' ); ?>
 			<span><?php echo get_search_query(); ?></span>
 		</h1>
+		<?php endif; ?>
 	</header>
 
 	<div class="page-content">
 		<?php if ( have_posts() ) : ?>
 			<?php
-			while ( have_posts() ) : the_post();
+			while ( have_posts() ) :
+				the_post();
 				printf( '<h2><a href="%s">%s</a></h2>', esc_url( get_permalink() ), get_the_title() );
 				the_post_thumbnail();
 				the_excerpt();

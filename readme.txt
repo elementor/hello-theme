@@ -63,6 +63,8 @@ add_filter( 'choose-from-the-list-below', '__return_false' );
 * `hello_elementor_enqueue_style`                 enqueue style
 * `hello_elementor_register_elementor_locations`  register elementor settings
 * `hello_elementor_content_width`                 set default content width to 800px
+* `hello_elementor_page_title`                    show\hide h1 tag (default: show)
+* `hello_elementor_enqueue_theme_style`           load theme-specific style (default: load)
 
 == Frequently Asked Questions ==
 
