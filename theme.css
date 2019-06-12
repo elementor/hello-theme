@@ -5,29 +5,29 @@
  */
 /* Basic responsive layout
    ========================================================================== */
-.site-header, .site-main {
+.site-header, body:not([class*="elementor-page-"]) .site-main {
   margin-right: auto;
   margin-left: auto; }
 
 @media (max-width: 575px) {
-  .site-header, .site-main {
+  .site-header, body:not([class*="elementor-page-"]) .site-main {
     padding-right: 10px;
     padding-left: 10px; } }
 
 @media (min-width: 576px) {
-  .site-header, .site-main {
+  .site-header, body:not([class*="elementor-page-"]) .site-main {
     max-width: 500px; } }
 
 @media (min-width: 768px) {
-  .site-header, .site-main {
+  .site-header, body:not([class*="elementor-page-"]) .site-main {
     max-width: 600px; } }
 
 @media (min-width: 992px) {
-  .site-header, .site-main {
+  .site-header, body:not([class*="elementor-page-"]) .site-main {
     max-width: 800px; } }
 
 @media (min-width: 1200px) {
-  .site-header, .site-main {
+  .site-header, body:not([class*="elementor-page-"]) .site-main {
     max-width: 960px; } }
 
 /*
