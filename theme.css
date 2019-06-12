@@ -196,16 +196,16 @@ to override any of the settings in this section, add your styling code in the cu
 
 /* Post Item in Archive
    ========================================================================== */
-.hentry .wp-post-image {
+.post .wp-post-image {
   width: 100%;
   max-height: 500px;
   -o-object-fit: cover;
      object-fit: cover; }
   @media (991px) {
-    .hentry .wp-post-image {
+    .post .wp-post-image {
       max-height: 400px; } }
   @media (575px) {
-    .hentry .wp-post-image {
+    .post .wp-post-image {
       max-height: 300px; } }
 
 /*
