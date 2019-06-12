@@ -56,15 +56,15 @@ To prevent the loading of any of the these settings, use the following as boiler
 add_filter( 'choose-from-the-list-below', '__return_false' );
 ```
 
+* `hello_elementor_enqueue_style`                 enqueue style
+* `hello_elementor_enqueue_theme_style`           load theme-specific style (default: load)
 * `hello_elementor_load_textdomain`               load theme's textdomain
 * `hello_elementor_register_menus`                register the theme's default menu location
 * `hello_elementor_add_theme_support`             register the various supported features
 * `hello_elementor_add_woocommerce_support`       register woocommerce features, including product-gallery zoom, swipe & lightbox features
-* `hello_elementor_enqueue_style`                 enqueue style
 * `hello_elementor_register_elementor_locations`  register elementor settings
 * `hello_elementor_content_width`                 set default content width to 800px
-* `hello_elementor_page_title`                    show\hide h1 tag (default: show)
-* `hello_elementor_enqueue_theme_style`           load theme-specific style (default: load)
+* `hello_elementor_page_title`                    show\hide page title (default: show)
 
 == Frequently Asked Questions ==
 
@@ -95,14 +95,15 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 = 2.1.0 - 2019-06-12 =
 * New: Added basic theme styling
-* New: Added `hello_elementor_enqueue_theme_style` filter for enqueue new theme style
-* New: Added tagline under the site name when there is no logo
+* New: Added tagline under the site name in header
+* New: Added `hello_elementor_page_title` filter for show\hide page title
+* New: Added `hello_elementor_enqueue_theme_style` filter for enqueue theme-specific style
 * Tweak: Hide site name & tagline if logo file is exist
-* Tweak: Removed `#main` in `archive.php`, `single.php` & `404.php` files
+* Tweak: Hide default page list when there is no primary menu
+* Tweak: Removed `#main` in `archive.php`, `single.php`, 'search.php' & `404.php` files
 * Tweak: Removed `#site-header` in `header.php` file
 * Tweak: Replaced `#top-menu` with `.site-navigation`
 * Tweak: Removed custom SCSS directory, it is recommended to use child theme instead of editing parent theme
-* Tweak: Removed default page list when there is no primary menu
 
 = 2.0.7 - 2019-06-04 =
 * Tweak: Added nextpage support to `single.php`

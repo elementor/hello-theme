@@ -33,11 +33,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<?php } ?>
 	</div>
 
-	<div class="entry-links"><?php wp_link_pages(); ?></div>
+	<?php wp_link_pages(); ?>
 
 	<?php global $wp_query;
 	if ( $wp_query->max_num_pages > 1 ) : ?>
-		<nav id="nav-below" class="navigation" role="navigation">
+		<nav class="pagination" role="navigation">
 			<?php /* Translators: HTML arrow */ ?>
             <div class="nav-previous"><?php next_posts_link( sprintf( __( '%s older', 'hello-elementor' ), '<span class="meta-nav">&larr;</span>' ) ); ?></div>
 			<?php /* Translators: HTML arrow */ ?>
