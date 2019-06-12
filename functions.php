@@ -25,6 +25,7 @@ if ( ! function_exists( 'hello_elementor_setup' ) ) {
 		$hook_result = apply_filters_deprecated( 'elementor_hello_theme_register_menus', [ true ], '2.0', 'hello_elementor_register_menus' );
 		if ( apply_filters( 'hello_elementor_register_menus', $hook_result ) ) {
 			register_nav_menus( array( 'menu-1' => __( 'Primary', 'hello-elementor' ) ) );
+			register_nav_menus( array( 'menu-2' => __( 'Secondary', 'hello-elementor' ) ) );
 		}
 
 		$hook_result = apply_filters_deprecated( 'elementor_hello_theme_add_theme_support', [ true ], '2.0', 'hello_elementor_add_theme_support' );
