@@ -3,8 +3,8 @@
 Contributors: elemntor, KingYes, ariel.k, jzaltzberg, mati1000, bainternet
 Requires at least: WordPress 4.7
 Tested up to: WordPress 5.2
-Stable tag: 2.1.0
-Version: 2.1.0
+Stable tag: 2.1.1
+Version: 2.1.1
 Requires PHP: 5.4
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -92,6 +92,9 @@ License: CC0 1.0 Universal (CC0 1.0)
 Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
+
+= 2.1.1 - 2019-06-13 =
+* Tweak: Rename `Install Elementor Now` button to `Install Elementor`
 
 = 2.1.0 - 2019-06-12 =
 * New: Added basic theme styling
