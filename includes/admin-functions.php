@@ -43,7 +43,7 @@ function hello_elementor_fail_load_admin_notice() {
 			return;
 		}
 
-		$message = '<p>' . __( 'Hello theme is a lightweight starter theme designed to work perfectly with Elementor Page Builder plugin.', 'hello-elementor' ) . '</p>';
+		$message = '<p>' . __( 'Hello theme is a lightweight starter theme. We recommend you use it together with Elementor Page Builder plugin, they work perfectly together!', 'hello-elementor' ) . '</p>';
 
 		$button_text = __( 'Install Elementor', 'hello-elementor' );
 		$button_link = wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=elementor' ), 'install-plugin_elementor' );
