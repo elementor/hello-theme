@@ -8,16 +8,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 <main class="site-main" role="main">
-
-	<header class="page-header">
-		<?php if ( apply_filters( 'hello_elementor_page_title', true ) ) : ?>
-		<h1 class="entry-title">
-			<?php esc_html_e( 'Search results for: ', 'hello-elementor' ); ?>
-			<span><?php echo get_search_query(); ?></span>
-		</h1>
-		<?php endif; ?>
-	</header>
-
+	<?php if ( apply_filters( 'hello_elementor_page_title', true ) ) : ?>
+		<header class="page-header">
+			<h1 class="entry-title">
+				<?php esc_html_e( 'Search results for: ', 'hello-elementor' ); ?>
+				<span><?php echo get_search_query(); ?></span>
+			</h1>
+		</header>
+	<?php endif; ?>
 	<div class="page-content">
 		<?php if ( have_posts() ) : ?>
 			<?php

@@ -10,15 +10,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 <?php while ( have_posts() ) : the_post(); ?>
 
 <main <?php post_class( 'site-main' ); ?> role="main">
-
-	<header class="page-header">
-		<?php
-		if ( apply_filters( 'hello_elementor_page_title', true ) ) {
-			the_title( '<h1 class="entry-title">', '</h1>' );
-		}
-		?>
-	</header>
-
+	<?php if ( apply_filters( 'hello_elementor_page_title', true ) ) : ?>
+		<header class="page-header">
+			<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
+		</header>
+	<?php endif; ?>
 	<div class="page-content">
 		<?php the_content(); ?>
 		<div class="post-tags">
