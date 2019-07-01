@@ -128,3 +128,16 @@ add_action( 'after_setup_theme', 'hello_elementor_content_width', 0 );
 if ( is_admin() ) {
 	require get_template_directory() . '/includes/admin-functions.php';
 }
+
+if ( ! function_exists( 'hello_elementor_check_hide_title' ) ) {
+	function hello_elementor_check_hide_title( $val ) {
+		if ( defined( 'ELEMENTOR_VERSION' ) ) {
+			$current_doc = \Elementor\Plugin::instance()->documents->get( get_the_ID() );
+			if ( $current_doc && 'yes' === $current_doc->get_settings( 'hide_title' ) ) {
+				$val = false;
+			}
+		}
+		return $val;
+	}
+}
+add_filter( 'hello_elementor_page_title', 'hello_elementor_check_hide_title' );
