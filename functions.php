@@ -1,6 +1,8 @@
 <?php
 /**
  * Theme functions and definitions
+ *
+ * @package HelloElementor
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

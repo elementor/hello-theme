@@ -1,6 +1,8 @@
 <?php
 /**
  * The template for displaying archive pages.
+ *
+ * @package HelloElementor
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

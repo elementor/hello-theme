@@ -1,6 +1,8 @@
 <?php
 /**
  * The template for displaying search results.
+ *
+ * @package HelloElementor
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

@@ -1,6 +1,8 @@
 <?php
 /**
  * The template for displaying sidebar.
+ *
+ * @package HelloElementor
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

@@ -1,6 +1,8 @@
 <?php
 /**
  * The template for displaying header.
+ *
+ * @package HelloElementor
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

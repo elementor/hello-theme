@@ -1,6 +1,8 @@
 <?php
 /**
- * TODO: Move all functions to classes..
+ * Hello Elementor admin functions.
+ *
+ * @package HelloElementor
  */
 
 /**
