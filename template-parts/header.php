@@ -1,26 +1,36 @@
 <?php
+/**
+ * The template for displaying header.
+ *
+ * @package HelloElementor
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; // Exit if accessed directly.
 }
 $site_name = get_bloginfo( 'name' );
-$tagline = get_bloginfo( 'description', 'display' );
+$tagline   = get_bloginfo( 'description', 'display' );
 ?>
 <header class="site-header" role="banner">
 
 	<div class="site-branding">
-		<?php if ( has_custom_logo() ) {
+		<?php
+		if ( has_custom_logo() ) {
 			the_custom_logo();
-		} elseif ( $site_name ) { ?>
-            <h1 class="site-title">
-                <a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php esc_attr_e( 'Home', 'hello-elementor' ); ?>" rel="home">
-                    <?php echo $site_name; ?>
-                </a>
-            </h1>
-            <p class="site-description">
-                <?php if ( $tagline ) {
-					echo $tagline;
-                } ?>
-            </p>
+		} elseif ( $site_name ) {
+			?>
+			<h1 class="site-title">
+				<a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php esc_attr_e( 'Home', 'hello-elementor' ); ?>" rel="home">
+					<?php echo esc_html( $site_name ); ?>
+				</a>
+			</h1>
+			<p class="site-description">
+				<?php
+				if ( $tagline ) {
+					echo esc_html( $tagline );
+				}
+				?>
+			</p>
 		<?php } ?>
 	</div>
 

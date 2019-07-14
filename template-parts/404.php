@@ -1,10 +1,12 @@
 <?php
 /**
  * The template for displaying 404 pages (not found).
+ *
+ * @package HelloElementor
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; // Exit if accessed directly.
 }
 ?>
 <main class="site-main" role="main">

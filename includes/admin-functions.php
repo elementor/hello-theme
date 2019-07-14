@@ -1,6 +1,8 @@
 <?php
 /**
- * TODO: Move all functions to classes..
+ * Hello Elementor admin functions.
+ *
+ * @package HelloElementor
  */
 
 /**
@@ -34,7 +36,7 @@ function hello_elementor_fail_load_admin_notice() {
 			return;
 		}
 
-		$message = '<p>' . __( 'Hello theme is a lightweight starter theme designed to work perfectly with Elementor Page Builder plugin.', 'hello-elementor' ) . '</p>';
+		$message = __( 'Hello theme is a lightweight starter theme designed to work perfectly with Elementor Page Builder plugin.', 'hello-elementor' );
 
 		$button_text = __( 'Activate Elementor', 'hello-elementor' );
 		$button_link = wp_nonce_url( 'plugins.php?action=activate&amp;plugin=' . $plugin . '&amp;plugin_status=all&amp;paged=1&amp;s', 'activate-plugin_' . $plugin );
@@ -43,7 +45,7 @@ function hello_elementor_fail_load_admin_notice() {
 			return;
 		}
 
-		$message = '<p>' . __( 'Hello theme is a lightweight starter theme. We recommend you use it together with Elementor Page Builder plugin, they work perfectly together!', 'hello-elementor' ) . '</p>';
+		$message = __( 'Hello theme is a lightweight starter theme. We recommend you use it together with Elementor Page Builder plugin, they work perfectly together!', 'hello-elementor' );
 
 		$button_text = __( 'Install Elementor', 'hello-elementor' );
 		$button_link = wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=elementor' ), 'install-plugin_elementor' );
@@ -131,23 +133,30 @@ function hello_elementor_fail_load_admin_notice() {
 	<div class="notice updated is-dismissible hello-elementor-notice hello-elementor-install-elementor">
 		<div class="hello-elementor-notice-inner">
 			<div class="hello-elementor-notice-icon">
-				<img src="<?php echo get_template_directory_uri() . '/assets/images/elementor-logo.png'; ?>" alt="Elementor Logo" />
+				<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/elementor-logo.png' ); ?>" alt="Elementor Logo" />
 			</div>
 
 			<div class="hello-elementor-notice-content">
-				<h3><?php _e( 'Thanks for installing Hello Theme!', 'hello-elementor' ); ?></h3>
-				<p><?php echo $message; ?>
-					<a href="https://go.elementor.com/hello-theme-learn/" target="_blank"><?php _e( 'Learn more about Elementor', 'hello-elementor' ); ?></a>.</p>
+				<h3><?php esc_html_e( 'Thanks for installing Hello Theme!', 'hello-elementor' ); ?></h3>
+				<p>
+					<p><?php echo esc_html( $message ); ?></p>
+					<a href="https://go.elementor.com/hello-theme-learn/" target="_blank"><?php esc_html_e( 'Learn more about Elementor', 'hello-elementor' ); ?></a>
+				</p>
 			</div>
 
 			<div class="hello-elementor-install-now">
-				<a class="button button-primary hello-elementor-install-button" href="<?php echo esc_attr( $button_link ); ?>"><i class="dashicons dashicons-download"></i><?php echo $button_text; ?></a>
+				<a class="button button-primary hello-elementor-install-button" href="<?php echo esc_attr( $button_link ); ?>"><i class="dashicons dashicons-download"></i><?php echo esc_html( $button_text ); ?></a>
 			</div>
 		</div>
 	</div>
 	<?php
 }
 
+/**
+ * Set Admin Notice Viewed.
+ *
+ * @return void
+ */
 function ajax_hello_elementor_set_admin_notice_viewed() {
 	update_user_meta( get_current_user_id(), '_hello_elementor_install_notice', 'true' );
 	die;
