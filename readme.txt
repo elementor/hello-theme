@@ -46,13 +46,7 @@ However, if you have a particular need to adapt this theme, please read on.
 All of your site's styles should be handled directly inside ***Elementor***.
 You should not need to edit the SCSS files in this theme in ordinary circumstances.
 
-However, if for some reason there is still a need to add or change the site's CSS, please pay attention to the following:
-
-1. Files located under `reset` directory, should **NOT** be edited directly
-2. In order to change any of the values defined in `preset/variables.scss`, add your style code to `custom/pre_default.scss`
-3. Any new SCSS files should be located under `custom/` directory, and imported in `custom/custom.scss`
-
-**Remember that any SCSS change requires re-generating the theme's css files.**
+However, if for some reason there is still a need to add or change the site's CSS, please use a child theme.
 
 = Hooks =
 
