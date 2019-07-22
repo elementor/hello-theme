@@ -5,8 +5,8 @@
 **Contributors:** [elemntor](https://profiles.wordpress.org/elemntor), [KingYes](https://profiles.wordpress.org/KingYes), [ariel.k](https://profiles.wordpress.org/ariel.k), [jzaltzberg](https://profiles.wordpress.org/jzaltzberg), [mati1000](https://profiles.wordpress.org/mati1000), [bainternet](https://profiles.wordpress.org/bainternet)  
 **Requires at least:** WordPress 4.7  
 **Tested up to:** WordPress 5.2  
-**Stable tag:** 2.1.2  
-**Version:** 2.1.2  
+**Stable tag:** 2.2.0  
+**Version:** 2.2.0  
 **Requires PHP:** 5.4  
 **License:** GNU General Public License v3 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-3.0.html  
@@ -48,13 +48,7 @@ However, if you have a particular need to adapt this theme, please read on.
 All of your site's styles should be handled directly inside ***Elementor***.
 You should not need to edit the SCSS files in this theme in ordinary circumstances.
 
-However, if for some reason there is still a need to add or change the site's CSS, please pay attention to the following:
-
-1. Files located under `reset` directory, should **NOT** be edited directly
-2. In order to change any of the values defined in `preset/variables.scss`, add your style code to `custom/pre_default.scss`
-3. Any new SCSS files should be located under `custom/` directory, and imported in `custom/custom.scss`
-
-**Remember that any SCSS change requires re-generating the theme's css files.**
+However, if for some reason there is still a need to add or change the site's CSS, please use a child theme.
 
 ### Hooks ###
 
@@ -72,6 +66,7 @@ add_filter( 'choose-from-the-list-below', '__return_false' );
 * `hello_elementor_register_elementor_locations`  register elementor settings
 * `hello_elementor_content_width`                 set default content width to 800px
 * `hello_elementor_page_title`                    show\hide page title (default: show)
+* `hello_elementor_viewport_content`              modify `content` of `viewport` meta in header
 
 ## Frequently Asked Questions ##
 
@@ -99,6 +94,11 @@ License: CC0 1.0 Universal (CC0 1.0)
 Source: https://stocksnap.io/photo/4B83RD7BV9
 
 ## Changelog ##
+
+### 2.2.0 - 2019-07-22 ###
+* Tweak: Added viewport content filter ([#49](https://github.com/elementor/hello-theme/issues/49))
+* Tweak: Added support Hide Title in Elementor
+* Tweak: Adhere to TRT's Theme Sniffer
 
 ### 2.1.2 - 2019-06-19 ###
 * Tweak: Added theme version to enqueued styles
