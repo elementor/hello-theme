@@ -93,6 +93,11 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
 
+= 2.2.0 - 2019-07-22 =
+* Tweak: Added viewport content filter ([#49](https://github.com/elementor/hello-theme/issues/49))
+* Tweak: Added support Hide Title in Elementor
+* Tweak: Adhere to TRT's Theme Sniffer
+
 = 2.1.2 - 2019-06-19 =
 * Tweak: Added theme version to enqueued styles
 * Tweak: Remove header tags with `hello_elementor_page_title` filter
