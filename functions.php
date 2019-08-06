@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 define( 'HELLO_ELEMENTOR_VERSION', '2.2.0' );
 
 if ( ! isset( $content_width ) ) {
-	$content_width = 800; // pixels.
+	$content_width = 800; // Pixels.
 }
 
 if ( ! function_exists( 'hello_elementor_setup' ) ) {
