@@ -5,8 +5,8 @@
 **Contributors:** [elemntor](https://profiles.wordpress.org/elemntor), [KingYes](https://profiles.wordpress.org/KingYes), [ariel.k](https://profiles.wordpress.org/ariel.k), [jzaltzberg](https://profiles.wordpress.org/jzaltzberg), [mati1000](https://profiles.wordpress.org/mati1000), [bainternet](https://profiles.wordpress.org/bainternet)  
 **Requires at least:** WordPress 4.7  
 **Tested up to:** WordPress 5.2  
-**Stable tag:** 2.2.0  
-**Version:** 2.2.0  
+**Stable tag:** 2.2.1  
+**Version:** 2.2.1  
 **Requires PHP:** 5.4  
 **License:** GNU General Public License v3 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-3.0.html  
@@ -94,6 +94,10 @@ License: CC0 1.0 Universal (CC0 1.0)
 Source: https://stocksnap.io/photo/4B83RD7BV9
 
 ## Changelog ##
+
+### 2.2.1 - 2019-09-10 ###
+* Tweak: Added max width to `wp-caption` ([#91](https://github.com/elementor/hello-theme/issues/91))
+* Tweak: Added support of `wp_body_open`
 
 ### 2.2.0 - 2019-07-22 ###
 * Tweak: Added viewport content filter ([#49](https://github.com/elementor/hello-theme/issues/49))
