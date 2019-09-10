@@ -46,6 +46,7 @@ to override any of the settings in this section, add your styling code in the cu
 
 .wp-caption {
 	margin-bottom: 1.25rem;
+	max-width: 100%;
 
 	&.alignleft {
 		margin: 5px 20px 20px 0;
