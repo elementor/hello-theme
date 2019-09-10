@@ -93,6 +93,10 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
 
+= 2.2.1 - 2019-09-10 =
+* Tweak: Added max width to `wp-caption` ([#91](https://github.com/elementor/hello-theme/issues/91))
+* Tweak: Added support of `wp_body_open`
+
 = 2.2.0 - 2019-07-22 =
 * Tweak: Added viewport content filter ([#49](https://github.com/elementor/hello-theme/issues/49))
 * Tweak: Added support Hide Title in Elementor
