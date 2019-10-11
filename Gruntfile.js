@@ -47,7 +47,10 @@ module.exports = function( grunt ) {
 						require( 'autoprefixer' )( {
 							browsers: 'last 3 versions'
 						} ),
-						require( 'cssnano' )()
+						require("cssnano")({
+							reduceIdents: false,
+						   	discardUnused: false
+						})
 					]
 				},
 				files: [ {
