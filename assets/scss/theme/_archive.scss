@@ -8,11 +8,11 @@
 		max-height: 500px;
 		object-fit: cover;
 
-		@media ($screen-md - $screen-diff) {
+		@media (max-width: $screen-md - $screen-diff) {
 			max-height: 400px;
 		}
 
-		@media ($screen-xs - $screen-diff) {
+		@media (max-width: $screen-xs - $screen-diff) {
 			max-height: 300px;
 		}
 	}
