@@ -202,10 +202,10 @@ to override any of the settings in this section, add your styling code in the cu
   max-height: 500px;
   -o-object-fit: cover;
      object-fit: cover; }
-  @media (max-width: 991px) {
+  @media (991px) {
     .post .wp-post-image {
       max-height: 400px; } }
-  @media (max-width: 575px) {
+  @media (575px) {
     .post .wp-post-image {
       max-height: 300px; } }
 
