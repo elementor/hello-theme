@@ -93,6 +93,10 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
 
+= 2.2.2 - 2019-12-23 =
+* Fix: Conflicts with minifier `cssnano` and CSS animations (Props [@CeliaRozalenM](https://github.com/CeliaRozalenM))
+* Fix: Max-width propety is missing in `_archive.scss` (Props [@redpik](https://github.com/redpik))
+
 = 2.2.1 - 2019-09-10 =
 * Tweak: Added max width to `wp-caption` ([#91](https://github.com/elementor/hello-theme/issues/91))
 * Tweak: Added support of `wp_body_open`
