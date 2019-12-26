@@ -120,7 +120,7 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 * New: Added `hello_elementor_enqueue_theme_style` filter for enqueue theme-specific style
 * Tweak: Hide site name & tagline if logo file is exist
 * Tweak: Hide default page list when there is no primary menu
-* Tweak: Removed `#main` in `archive.php`, `single.php`, 'search.php' & `404.php` files
+* Tweak: Removed `#main` in `archive.php`, `single.php`, `search.php` & `404.php` files
 * Tweak: Removed `#site-header` in `header.php` file
 * Tweak: Replaced `#top-menu` with `.site-navigation`
 * Tweak: Removed custom SCSS directory, it is recommended to use child theme instead of editing parent theme
