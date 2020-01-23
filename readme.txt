@@ -1,8 +1,8 @@
 === Jtheme Jello ===
 Contributors: Jezweb
-Requires at least: WordPress 4.7
-Tested up to: WordPress 5.0
-Version: 1.3.3
+Requires at least: WordPress 5.0
+Tested up to: WordPress 5.3.2
+Version: 1.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,6 +27,19 @@ Elementor (Pro)
 Source: https://elementor.com
 
 == Changelog ==
+
+= 1.4 - 2020-1-23 =
+* New: Woocommerce sort option (Alphabetical)
+* New: GTM code for header and body tag (Customizer -> Header Hooks)
+* New: Body tag opening hook (wp_body_open)
+* Tweak: Hide the rank math box in dashboard
+* Tweak: Hide Yith announcements and Yith blog
+* Tweak: Imagify plugin admin menu bar item removed
+* Tweak: Button styles - default and hover
+* Tweak: Global line height setting for body elements
+* Tweak: Elementor form button cursor set to pointer attribute
+* Fix: Add double quote wrappers for Google font declaration (Font settings)
+* Fix: Disable Gutenberg for page but enabled by default for post
 
 = 1.3.3 - 2019-4-17 =
 * New: Disable html comment promoting math rank

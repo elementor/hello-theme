@@ -91,6 +91,13 @@ function custom_jw_disable_db_widgets() {
   unset( $wp_meta_boxes['dashboard']['side']['core']['dashboard_quick_press'] );
   // Recent drafts
   unset( $wp_meta_boxes['dashboard']['side']['core']['dashboard_recent_drafts'] );
+  // Rank math widget
+  unset( $wp_meta_boxes['dashboard']['normal']['core']['rank_math_dashboard_widget'] );
+  // Yith Blog and Update Overview
+  unset( $wp_meta_boxes['dashboard']['normal']['core']['yith_dashboard_blog_news'] );
+  unset( $wp_meta_boxes['dashboard']['side']['core']['yith_dashboard_blog_news'] );
+  unset( $wp_meta_boxes['dashboard']['normal']['core']['yith_dashboard_products_news'] );
+  unset( $wp_meta_boxes['dashboard']['side']['core']['yith_dashboard_products_news'] );
 }
 
 // Remove admin bar menu items
@@ -139,6 +146,13 @@ function custom_jw_remove_admin_menu_items( $wp_admin_bar ) {
   $getgreetings = $wp_admin_bar->get_node( 'my-account' );
   $rpctitle = str_replace( 'Howdy,', '', $getgreetings->title );
   $wp_admin_bar->add_node( array( 'id' => 'my-account', 'title' => $rpctitle ) );
+}
+
+// Remove admin bar menu item - Imagify plugin
+$max_php_int = PHP_INT_MAX - 20; 
+add_action( 'admin_bar_menu', 'custom_jw_remove_admin_menu_imagify', $max_php_int );
+function custom_jw_remove_admin_menu_imagify( $wp_admin_bar ) {
+  $wp_admin_bar->remove_node( 'imagify' );
 }
 
 // Remove admin sidebar menu
@@ -212,12 +226,46 @@ function custom_hello_theme_attachment_redirect() {
 add_filter( 'rank_math/frontend/remove_credit_notice', '__return_true' );
 
 // Gutenberg toggle functionality for post
-function custom_disable_gutenberg_post(){
-  return false;
+function custom_disable_gutenberg_post($post){
+  $post_type = get_post_type($post->ID);
+  if( $post_type === 'post' ){
+    return false;
+  }
+}
+
+// Gutenberg toggle functionality default
+add_filter( 'use_block_editor_for_post', 'custom_default_gutenberg_post' );
+function custom_default_gutenberg_post($post){
+  $post_type = get_post_type($post->ID);
+  if( $post_type === 'post' ){
+    return true;
+  }
+  elseif( $post_type === 'page' ) {
+    return false;
+  }
 }
 
 $gbg_post_setting = get_theme_mod( 'htc_gbg_post_setting' );
 
 if ( $gbg_post_setting == true ){
   add_filter( 'use_block_editor_for_post', 'custom_disable_gutenberg_post' );
+}
+
+// Woocommerce overrides
+// Woocommerce sorting options by alphabetical
+add_filter( 'woocommerce_get_catalog_ordering_args', 'custom_woo_get_catalog_order_args' );
+function custom_woo_get_catalog_order_args( $args ) {
+  $orderby_value = isset( $_GET['orderby'] ) ? woocommerce_clean( $_GET['orderby'] ) : apply_filters( 'woocommerce_default_catalog_orderby', get_option( 'woocommerce_default_catalog_orderby' ) );
+  if ( 'alphabetical' == $orderby_value ) {
+    $args['orderby'] = 'title';
+    $args['order'] = 'ASC';
+  }
+  return $args;
+}
+
+add_filter( 'woocommerce_default_catalog_orderby_options', 'custom_woo_catalog_order_option' );
+add_filter( 'woocommerce_catalog_orderby', 'custom_woo_catalog_order_option' );
+function custom_woo_catalog_order_option( $sortby ) {
+  $sortby['alphabetical'] = __( 'Sort by alphabetical' );
+  return $sortby;
 }

@@ -35,6 +35,19 @@ function elementor_hello_theme_register_elementor_locations( $elementor_theme_ma
 };
 add_action( 'elementor/theme/register_locations', 'elementor_hello_theme_register_elementor_locations' );
 
+/**
+ * Wrapper function to deal with backwards compatibility.
+ */
+if ( ! function_exists( 'htc_body_open_hook' ) ) {
+	function htc_body_open_hook() {
+		if ( function_exists( 'wp_body_open' ) ) {
+			wp_body_open();
+		} else {
+			do_action( 'wp_body_open' );
+		}
+	}
+}
+
 // Remove WP Embed
 function elementor_hello_theme_deregister_scripts() {
 	wp_deregister_script( 'wp-embed' );

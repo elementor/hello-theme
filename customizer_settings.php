@@ -119,9 +119,21 @@ function hello_theme_child_customize_register( $wp_customize ) {
 	    'panel' => 'htc_font_panel'
 	) );
 
+	$wp_customize->add_section( 'htc_button_section', array(
+	    'title' => __( 'Buttons', $text_domain ),
+	    'priority' => 50,
+	    'panel' => 'htc_font_panel'
+	) );
+
 	// Header hooks Section
 	$wp_customize->add_section( 'htc_header_box_ga_section', array(
 	    'title' => __( 'Google Analytics', $text_domain ),
+	    'priority' => 10,
+	    'panel' => 'htc_header_box_panel'
+	) );
+
+	$wp_customize->add_section( 'htc_header_box_gtm_section', array(
+	    'title' => __( 'Google Tag Manager', $text_domain ),
 	    'priority' => 10,
 	    'panel' => 'htc_header_box_panel'
 	) );
@@ -180,6 +192,10 @@ function hello_theme_child_customize_register( $wp_customize ) {
 
 	$wp_customize->add_setting( 'htc_gen_setting_content_width', array(
 	    'default' => '1140px'
+	) );
+
+	$wp_customize->add_setting( 'htc_gen_setting_line_height', array(
+	    'default' => '1.5em'
 	) );
 
 	$wp_customize->add_setting( 'htc_gen_setting_phead_enable', array(
@@ -510,8 +526,50 @@ function hello_theme_child_customize_register( $wp_customize ) {
 	    'default' => 'none',
 	) );
 
+	$wp_customize->add_setting( 'htc_button_setting_bg_def', array(
+	    'default' => '#444444',
+	) );
+
+	$wp_customize->add_setting( 'htc_button_setting_bg_hov', array(
+	    'default' => '#222222',
+	) );
+
+	$wp_customize->add_setting( 'htc_button_setting_text_def', array(
+	    'default' => '#FFFFFF',
+	) );
+
+	$wp_customize->add_setting( 'htc_button_setting_text_hov', array(
+	    'default' => '#FFFFFF',
+	) );
+
+	$wp_customize->add_setting( 'htc_button_setting_borw', array(
+	    'default' => '1',
+	) );
+
+	$wp_customize->add_setting( 'htc_button_setting_borc_def', array(
+	    'default' => '#444444',
+	) );
+
+	$wp_customize->add_setting( 'htc_button_setting_borc_hov', array(
+	    'default' => '#222222',
+	) );
+
+	$wp_customize->add_setting( 'htc_button_setting_pad', array(
+	    'default' => '10px',
+	) );
+
 	// Header hooks settings
 	$wp_customize->add_setting( 'htc_header_box_setting_ga', array(
+	    'default' => '',
+	    'transport' => 'postMessage'
+	) );
+
+	$wp_customize->add_setting( 'htc_header_box_setting_gtm', array(
+	    'default' => '',
+	    'transport' => 'postMessage'
+	) );
+
+	$wp_customize->add_setting( 'htc_header_box_setting_gtmn', array(
 	    'default' => '',
 	    'transport' => 'postMessage'
 	) );
@@ -644,6 +702,16 @@ function hello_theme_child_customize_register( $wp_customize ) {
 			'description' => __( 'Width (accepts "%" or "px")', $text_domain ),
 			'section' => 'htc_gen_body_bg_section',
 			'settings' => 'htc_gen_setting_content_width'
+		)
+	);
+
+	$wp_customize->add_control( 'htc_gen_control_content_width',
+		array(
+			'type' => 'text',
+			'label' => __( 'Line Height', $text_domain ),
+			'description' => __( 'Accepts "em" or "px"', $text_domain ),
+			'section' => 'htc_gen_body_bg_section',
+			'settings' => 'htc_gen_setting_line_height'
 		)
 	);
 
@@ -1465,12 +1533,101 @@ function hello_theme_child_customize_register( $wp_customize ) {
 		)
 	);
 	
+	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'htc_button_control_bg_def',
+		array(
+			'label' => __( 'Background Color', $text_domain ),
+			'description' => __( 'Default', $text_domain ),
+			'section' => 'htc_button_section',
+			'settings' => 'htc_button_setting_bg_def',
+		)
+	) );
+
+	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'htc_button_control_bg_hov',
+		array(
+			'description' => __( 'Hover', $text_domain ),
+			'section' => 'htc_button_section',
+			'settings' => 'htc_button_setting_bg_hov',
+		)
+	) );
+
+	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'htc_button_control_text_def',
+		array(
+			'label' => __( 'Text Color', $text_domain ),
+			'description' => __( 'Default', $text_domain ),
+			'section' => 'htc_button_section',
+			'settings' => 'htc_button_setting_text_def',
+		)
+	) );
+
+	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'htc_button_control_text_hov',
+		array(
+			'description' => __( 'Hover', $text_domain ),
+			'section' => 'htc_button_section',
+			'settings' => 'htc_button_setting_text_hov',
+		)
+	) );
+
+	$wp_customize->add_control( 'htc_button_control_borw',
+		array(
+			'type' => 'number',
+			'label' => __( 'Border', $text_domain ),
+			'description' => __( 'Width', $text_domain ),
+			'section' => 'htc_button_section',
+			'settings' => 'htc_button_setting_borw',
+			'input_attrs' => array(
+				'min' => 0,
+				'step' => 1,
+			),
+		)
+	);
+
+	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'htc_button_control_borc_def',
+		array(
+			'description' => __( 'Color (default)', $text_domain ),
+			'section' => 'htc_button_section',
+			'settings' => 'htc_button_setting_borc_def',
+		)
+	) );
+
+	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'htc_button_control_borc_hov',
+		array(
+			'description' => __( 'Color (hover)', $text_domain ),
+			'section' => 'htc_button_section',
+			'settings' => 'htc_button_setting_borc_hov',
+		)
+	) );
+
+	$wp_customize->add_control( 'htc_button_control_pad',
+		array(
+			'type' => 'text',
+			'label' => __( 'Padding', $text_domain ),
+			'section' => 'htc_button_section',
+			'settings' => 'htc_button_setting_pad',
+		)
+	);
+
 	// Header hooks controls
 	$wp_customize->add_control( new WP_Customize_Code_Editor_Control( $wp_customize, 'htc_header_box_control_ga',
 		array(
 			'description' => __( 'Google Analytics code', $text_domain ),
 			'section' => 'htc_header_box_ga_section',
 			'settings' => 'htc_header_box_setting_ga',
+		)
+	) );
+
+	$wp_customize->add_control( new WP_Customize_Code_Editor_Control( $wp_customize, 'htc_header_box_control_gtm',
+		array(
+			'description' => __( 'GTM code', $text_domain ),
+			'section' => 'htc_header_box_gtm_section',
+			'settings' => 'htc_header_box_setting_gtm',
+		)
+	) );
+
+	$wp_customize->add_control( new WP_Customize_Code_Editor_Control( $wp_customize, 'htc_header_box_control_gtmn',
+		array(
+			'description' => __( 'GTM code (noscript)', $text_domain ),
+			'section' => 'htc_header_box_gtm_section',
+			'settings' => 'htc_header_box_setting_gtmn',
 		)
 	) );
 

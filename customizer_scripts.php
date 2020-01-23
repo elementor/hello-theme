@@ -14,6 +14,7 @@ function custom_hello_theme_mods_styles() {
 	$bodybg_pos = get_theme_mod('htc_gen_setting_body_bgpos', 'center top');
 	$bodybg_size = get_theme_mod('htc_gen_setting_body_bgsize', 'cover');
 	$bodybg_img = !empty($bodybg_imgmod) ? 'url('. $bodybg_imgmod .')' : 'none';
+	$line_height = get_theme_mod('htc_gen_setting_line_height', '1.5em');
 	$phead_enable = get_theme_mod('htc_gen_setting_phead_enable', 'yes');
 	$phead_enabled = ("yes" == $phead_enable) ? 'display: block;' : '';
 	$phead_width = get_theme_mod('htc_gen_setting_phead_width', '100%');
@@ -34,6 +35,14 @@ function custom_hello_theme_mods_styles() {
 	$a_default = get_theme_mod('htc_font_setting_a_default', '#333333');
 	$a_hover = get_theme_mod('htc_font_setting_a_hover', '#888888');
 	$a_decor = get_theme_mod('htc_font_setting_a_decor', 'none');
+	$button_bg = get_theme_mod('htc_button_setting_bg_def', '#444444');
+	$button_bg_hover = get_theme_mod('htc_button_setting_bg_hov', '#222222');
+	$button_text = get_theme_mod('htc_button_setting_text_def', '#FFFFFF');
+	$button_text_hover = get_theme_mod('htc_button_setting_text_hov', '#FFFFFF');
+	$button_borw = get_theme_mod('htc_button_setting_borw', '1');
+	$button_borc = get_theme_mod('htc_button_setting_borc_def', '#444444');
+	$button_borc_hover = get_theme_mod('htc_button_setting_borc_hov', '#222222');
+	$button_pad = get_theme_mod('htc_button_setting_pad', '10px');
 	$gform_bg = get_theme_mod('htc_gen_setting_gform_bg', 'none');
 	$gform_pad = get_theme_mod('htc_gen_setting_gform_padding', '0');
 	$gform_mar = get_theme_mod('htc_gen_setting_gform_margin', '0');
@@ -68,12 +77,14 @@ function custom_hello_theme_mods_styles() {
 	$gform_but_ali = get_theme_mod('htc_gen_setting_gform_but_ali', 'left');
 
 	echo '<style type="text/css">';
-	printf( "body{background-color: %s;background-image: %s;background-repeat: %s;background-position: %s;background-size: %s;}\n", $bodybg_color, $bodybg_img, $bodybg_rep, $bodybg_pos, $bodybg_size );
-	printf( "a, .elementor-text-editor a{color: %s; text-decoration: %s;}", $a_default, $a_decor );
-	printf( "a:hover, .elementor-text-editor a:hover{color: %s;}", $a_hover );
+	printf( "body{background-color: %s;background-image: %s;background-repeat: %s;background-position: %s;background-size: %s;line-height: %s;}\n", $bodybg_color, $bodybg_img, $bodybg_rep, $bodybg_pos, $bodybg_size, $line_height );
+	printf( "a, .elementor-text-editor a{color: %s; text-decoration: %s;}\n", $a_default, $a_decor );
+	printf( "a:hover, .elementor-text-editor a:hover{color: %s;}\n", $a_hover );
+	printf( ".button, button, input[type=button]{background-color: %s;color: %s;border-width: %spx;border-color: %s;border-style: solid;padding: %s;}\n", $button_bg, $button_text, $button_borw, $button_borc, $button_pad );
+	printf( ".button:hover, button:hover, input[type=button]:hover{background-color: %s;color: %s;border-width: %spx;border-color: %s;border-style: solid;padding: %s;}\n", $button_bg_hover, $button_text_hover, $button_borw, $button_borc_hover, $button_pad );
 	printf( ".page-header{background-color: %s;background-image: %s;background-repeat: %s;background-position: %s;background-size: %s;width: %s;text-align:%s;%s}\n", $pheadbg_color, $pheadbg_img, $pheadbg_rep, $pheadbg_pos, $pheadbg_size, $phead_width, $phead_align, $phead_enabled );
 	printf( ".page-header-inner{max-width: %s;padding: %s;}\n", $page_content_width, $phead_pad );
-	printf( ".page-header .entry-title{font-size: %s%s;color: %s;font-family: %s;}\n", $phead_fontsize, $phead_fonttype, $phead_fontcolor, $phead_fontfamily );
+	printf( ".page-header .entry-title{font-size: %s%s;color: %s;font-family: \"%s\";}\n", $phead_fontsize, $phead_fonttype, $phead_fontcolor, $phead_fontfamily );
 
 	for($i = 1; $i <= 6; $i++) {
 		switch ($i) {
@@ -93,7 +104,7 @@ function custom_hello_theme_mods_styles() {
 		$fontColor = get_theme_mod('htc_font_setting_h'. $i .'_color', '#000000');
 		$fontSize = $fontSizeNum . $fontType;
 
-		printf( "h%s{font-size: %s;color: %s;font-family: %s;}\n", $i, $fontSize, $fontColor, $fontFamily );
+		printf( "h%s{font-size: %s;color: %s;font-family: \"%s\";}\n", $i, $fontSize, $fontColor, $fontFamily );
 	}
 
 	$pfontSize = get_theme_mod('htc_font_setting_p', '14');
@@ -103,9 +114,9 @@ function custom_hello_theme_mods_styles() {
 	$pfontFamily = ( !empty($pfontFamilymod) ) ? $pfontFamilyName[0] : $font_family;
 	$pfontColor = get_theme_mod('htc_font_setting_p_color', '#444444');
 
-	printf( "body{font-size: %s%s;color: %s;font-family: %s;}\n", $pfontSize, $pfontType, $pfontColor, $pfontFamily );
+	printf( "body{font-size: %s%s;color: %s;font-family: \"%s\";}\n", $pfontSize, $pfontType, $pfontColor, $pfontFamily );
 	printf( ".page-content{max-width: %s;}\n", $page_content_width );
-	printf( "div.gform_wrapper form{background: %s;padding: %s;margin: %s;border: %s;color: %s;font-family: %s;font-size: %s;}\n", $gform_bg, $gform_pad, $gform_mar, $gform_bor, $gform_field_color, $gform_fontfamily, $gform_fontsize );
+	printf( "div.gform_wrapper form{background: %s;padding: %s;margin: %s;border: %s;color: %s;font-family: \"%s\";font-size: %s;}\n", $gform_bg, $gform_pad, $gform_mar, $gform_bor, $gform_field_color, $gform_fontfamily, $gform_fontsize );
 	printf( ".gform_wrapper form ::placeholder{color: %s;}\n", $gform_placeholder_color );
 	printf( ".gform_wrapper form ::-webkit-input-placeholder{color: %s;}\n", $gform_placeholder_color );
 	printf( ".gform_wrapper form ::-moz-placeholder{color: %s;}\n", $gform_placeholder_color );
@@ -169,5 +180,5 @@ function custom_hello_theme_mods_scripts() {
 	$custom_mods = get_theme_mods();
 	echo ( !empty($custom_mods['htc_footer_box_setting_fbp']) ) ? $custom_mods['htc_footer_box_setting_fbp'] . "\n" : "";
 	echo ( !empty($custom_mods['htc_footer_box_setting_extra']) ) ? $custom_mods['htc_footer_box_setting_extra'] . "\n" : "";
-	echo ( !empty($custom_mods['htc_custom_js_setting']) ) ? "<script type=\"text/javascript\">\n" . ($custom_mods['htc_custom_js_setting']) . "\n</script>\n" : "";
+	echo ( !empty($custom_mods['htc_custom_js_setting']) ) ? "<script type=\"text/javascript\">\n" . $custom_mods['htc_custom_js_setting'] . "\n</script>\n" : "";
 }
