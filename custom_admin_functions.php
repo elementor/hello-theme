@@ -226,23 +226,8 @@ function custom_hello_theme_attachment_redirect() {
 add_filter( 'rank_math/frontend/remove_credit_notice', '__return_true' );
 
 // Gutenberg toggle functionality for post
-function custom_disable_gutenberg_post($post){
-  $post_type = get_post_type($post->ID);
-  if( $post_type === 'post' ){
-    return false;
-  }
-}
-
-// Gutenberg toggle functionality default
-add_filter( 'use_block_editor_for_post', 'custom_default_gutenberg_post' );
-function custom_default_gutenberg_post($post){
-  $post_type = get_post_type($post->ID);
-  if( $post_type === 'post' ){
-    return true;
-  }
-  elseif( $post_type === 'page' ) {
-    return false;
-  }
+function custom_disable_gutenberg_post(){
+  return false;
 }
 
 $gbg_post_setting = get_theme_mod( 'htc_gbg_post_setting' );
