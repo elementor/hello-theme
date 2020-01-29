@@ -2,7 +2,7 @@
 Contributors: Jezweb
 Requires at least: WordPress 5.0
 Tested up to: WordPress 5.3.2
-Version: 1.4
+Version: 1.4.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,6 +27,9 @@ Elementor (Pro)
 Source: https://elementor.com
 
 == Changelog ==
+
+= 1.4.1 - 2020-1-29 =
+* Fix: Gutenberg options reverted to version 1.3.3
 
 = 1.4 - 2020-1-23 =
 * New: Woocommerce sort option (Alphabetical)
