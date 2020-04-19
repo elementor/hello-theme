@@ -3,10 +3,10 @@
 
 
 **Contributors:** [elemntor](https://profiles.wordpress.org/elemntor), [KingYes](https://profiles.wordpress.org/KingYes), [ariel.k](https://profiles.wordpress.org/ariel.k), [jzaltzberg](https://profiles.wordpress.org/jzaltzberg), [mati1000](https://profiles.wordpress.org/mati1000), [bainternet](https://profiles.wordpress.org/bainternet)  
-**Requires at least:** WordPress 4.7  
-**Tested up to:** WordPress 5.2  
-**Stable tag:** 2.2.2  
-**Version:** 2.2.2  
+**Requires at least:** 4.7  
+**Tested up to:** 5.4  
+**Stable tag:** 2.3.0  
+**Version:** 2.3.0  
 **Requires PHP:** 5.4  
 **License:** GNU General Public License v3 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-3.0.html  
@@ -95,6 +95,12 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 ## Changelog ##
 
+### 2.3.0 - 2020-04-19 ###
+* Tweak: Removed caption centering by default to allow alignment using Elementor (Props [@cirkut](https://github.com/cirkut))
+* Tweak: Removed `text-align` property from table elements to avoid alignment issue in RTL websites (Props [@ramiy](https://github.com/ramiy))
+* Tweak: Added `input[type="url"]` to CSS reset rules
+* Tweak: Update `Tested Up to 5.4`
+
 ### 2.2.2 - 2019-12-23 ###
 * Fix: Conflicts with minifier `cssnano` and CSS animations (Props [@CeliaRozalenM](https://github.com/CeliaRozalenM))
 * Fix: Max-width propety is missing in `_archive.scss` (Props [@redpik](https://github.com/redpik))
@@ -122,7 +128,7 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 * New: Added `hello_elementor_enqueue_theme_style` filter for enqueue theme-specific style
 * Tweak: Hide site name & tagline if logo file is exist
 * Tweak: Hide default page list when there is no primary menu
-* Tweak: Removed `#main` in `archive.php`, `single.php`, 'search.php' & `404.php` files
+* Tweak: Removed `#main` in `archive.php`, `single.php`, `search.php` & `404.php` files
 * Tweak: Removed `#site-header` in `header.php` file
 * Tweak: Replaced `#top-menu` with `.site-navigation`
 * Tweak: Removed custom SCSS directory, it is recommended to use child theme instead of editing parent theme

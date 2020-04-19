@@ -80,8 +80,7 @@ to override any of the settings in this section, add your styling code in the cu
     margin-right: auto; }
 
 .wp-caption-text {
-  margin: 0;
-  text-align: center; }
+  margin: 0; }
 
 .screen-reader-text {
   clip: rect(1px, 1px, 1px, 1px);

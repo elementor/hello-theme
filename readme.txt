@@ -2,9 +2,9 @@
 
 Contributors: elemntor, KingYes, ariel.k, jzaltzberg, mati1000, bainternet
 Requires at least: 4.7
-Tested up to: 5.3
-Stable tag: 2.2.2
-Version: 2.2.2
+Tested up to: 5.4
+Stable tag: 2.3.0
+Version: 2.3.0
 Requires PHP: 5.4
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -92,6 +92,12 @@ License: CC0 1.0 Universal (CC0 1.0)
 Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
+
+= 2.3.0 - 2020-04-19 =
+* Tweak: Removed caption centering by default to allow alignment using Elementor (Props [@cirkut](https://github.com/cirkut))
+* Tweak: Removed `text-align` property from table elements to avoid alignment issue in RTL websites (Props [@ramiy](https://github.com/ramiy))
+* Tweak: Added `input[type="url"]` to CSS reset rules
+* Tweak: Update `Tested Up to 5.4`
 
 = 2.2.2 - 2019-12-23 =
 * Fix: Conflicts with minifier `cssnano` and CSS animations (Props [@CeliaRozalenM](https://github.com/CeliaRozalenM))
