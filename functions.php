@@ -61,6 +61,11 @@ if ( ! function_exists( 'hello_elementor_setup' ) ) {
 			 * Editor Style.
 			 */
 			add_editor_style( 'editor-style.css' );
+			
+			/*
+			 * Gutenberg wide images.
+			 */
+			add_theme_support( 'align-wide' );
 
 			/*
 			 * WooCommerce.
