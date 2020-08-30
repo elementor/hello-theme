@@ -16,6 +16,12 @@ function hello_theme_child_customize_register( $wp_customize ) {
 		'priority' => 25,
 	) );
 
+	// Theme Styles Panel
+	$wp_customize->add_panel( 'htc_themestyles_panel', array(
+		'title' => __( 'Theme Styles' ),
+		'priority' => 28,
+	) );
+
 	// Font Panel
 	$wp_customize->add_panel( 'htc_font_panel', array(
 		'title' => __( 'Font Settings' ),
@@ -68,6 +74,17 @@ function hello_theme_child_customize_register( $wp_customize ) {
 	$wp_customize->add_section( 'htc_gbg_section', array(
 	    'title' => __( 'Gutenberg', $text_domain ),
 	    'panel' => 'htc_general_panel'
+	) );
+
+	// Theme Styles Section
+	$wp_customize->add_section( 'htc_themestyles_gl_section', array(
+	    'title' => __( 'Global Styles', $text_domain ),
+	    'panel' => 'htc_themestyles_panel'
+	) );
+
+	$wp_customize->add_section( 'htc_themestyles_gf_section', array(
+	    'title' => __( 'Gravity Forms', $text_domain ),
+	    'panel' => 'htc_themestyles_panel'
 	) );
 
 	// Font Section
@@ -399,6 +416,17 @@ function hello_theme_child_customize_register( $wp_customize ) {
 		'capability' => 'edit_theme_options',
 		'sanitize_callback' => 'htc_sanitize_checkbox',
 		'transport' => 'postMessage'
+	) );
+
+	// Theme Styles settings
+	$wp_customize->add_setting( 'htc_themestyles_gl_setting', array(
+	    'default' => 'no',
+	    'transport' => 'postMessage'
+	) );
+
+	$wp_customize->add_setting( 'htc_themestyles_gf_setting', array(
+	    'default' => 'no',
+	    'transport' => 'postMessage'
 	) );
 
 	// Font settings
@@ -1186,6 +1214,33 @@ function hello_theme_child_customize_register( $wp_customize ) {
 			'label' => __( 'Disable Gutenberg editor', $text_domain ),
 			'section' => 'htc_gbg_section',
 			'settings' => 'htc_gbg_post_setting',
+		)
+	);
+
+	// Font Controls
+	$wp_customize->add_control( 'htc_themestyles_gl_control',
+		array(
+			'type' => 'radio',
+			'description' => __( 'Disable Jello global styles?', $text_domain ),
+			'section' => 'htc_themestyles_gl_section',
+			'settings' => 'htc_themestyles_gl_setting',
+			'choices' => array(
+				'yes' => 'Yes',
+				'no' => 'No'
+			)
+		)
+	);
+
+	$wp_customize->add_control( 'htc_themestyles_gf_control',
+		array(
+			'type' => 'radio',
+			'description' => __( 'Disable Gravity Forms styles?', $text_domain ),
+			'section' => 'htc_themestyles_gf_section',
+			'settings' => 'htc_themestyles_gf_setting',
+			'choices' => array(
+				'yes' => 'Yes',
+				'no' => 'No'
+			)
 		)
 	);
 

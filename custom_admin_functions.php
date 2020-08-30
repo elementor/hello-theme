@@ -23,7 +23,7 @@ function custom_jw_login_logo_url() {
   return home_url();
 }
 
-add_filter( 'login_headertitle', 'custom_jw_login_logo_title' );
+add_filter( 'login_headertext', 'custom_jw_login_logo_title' );
 function custom_jw_login_logo_title() {
   return get_bloginfo('name');
 }
@@ -195,7 +195,7 @@ function custom_jw_remove_posttype_support() {
 // Admin footer text modification
 add_filter( 'admin_footer_text', 'custom_jw_footer_text_admin' );
 function custom_jw_footer_text_admin () {
-  echo '<span id="footer-thankyou">Jtheme Jello by <a href="https://www.jezweb.com.au" target="_blank">Jezweb</a><br></span>';
+  echo '';
 }
 
 // Enable svg file upload
