@@ -23,6 +23,22 @@ to override any of the settings in this section, add your styling code in the cu
 	margin-right: auto;
 }
 
+.alignwide {
+	margin-left: -80px;
+	margin-right: -80px;
+}
+
+.alignfull {
+	margin-left: calc(50% - 50vw);
+	margin-right: calc(50% - 50vw);
+	max-width: 100vw;
+	width: 100vw;
+
+	img  {
+		width: 100vw;
+	}
+}
+
 .pagination {
 	margin: 20px auto;
 }
