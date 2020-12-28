@@ -7,11 +7,16 @@ module.exports = function( grunt ) {
 
 	require( 'matchdep' ).filterDev( 'grunt-*' ).forEach( grunt.loadNpmTasks );
 
+	const sass = require('node-sass');
+
 	// Project configuration.
 	grunt.initConfig( {
 		pkg: grunt.file.readJSON( 'package.json' ),
 
 		sass: {
+			options: {
+				implementation: sass
+			},
 			dist: {
 				files: [ {
 					expand: true,
