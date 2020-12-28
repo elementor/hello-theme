@@ -23,11 +23,13 @@ to override any of the settings in this section, add your styling code in the cu
 	margin-right: auto;
 }
 
+//Gutenberg support
 .alignwide {
 	margin-left: -80px;
 	margin-right: -80px;
 }
 
+//Gutenberg support
 .alignfull {
 	margin-left: calc(50% - 50vw);
 	margin-right: calc(50% - 50vw);
@@ -37,27 +39,6 @@ to override any of the settings in this section, add your styling code in the cu
 	img  {
 		width: 100vw;
 	}
-}
-
-.pagination {
-	margin: 20px auto;
-}
-
-.sticky {
-	position: relative;
-	display: block;
-}
-
-.bypostauthor {
-	font-size: inherit;
-}
-
-.gallery-caption {
-	display: block;
-	font-size: $sm-font-size;
-	line-height: $line-height-base;
-	margin: 0;
-	padding: $xs-padding;
 }
 
 .wp-caption {
@@ -83,29 +64,23 @@ to override any of the settings in this section, add your styling code in the cu
 	margin: 0;
 }
 
-//Text meant only for screen readers:
-.screen-reader-text {
-	clip: rect(1px, 1px, 1px, 1px);
-	height: 1px;
-	overflow: hidden;
-	position: absolute !important;
-	width: 1px;
-	word-wrap: normal !important; /* Many screen reader and browser combinations announce broken words as they would appear visually. */
+.gallery-caption {
+	display: block;
+	font-size: $sm-font-size;
+	line-height: $line-height-base;
+	margin: 0;
+	padding: $xs-padding;
+}
 
-	&:focus {
-		background-color: $gray-lighter;
-		clip: auto !important;
-		clip-path: none;
-		color: $gray-dark;
-		display: block;
-		font-size: $font-size-base;
-		height: auto;
-		left: 5px;
-		line-height: normal;
-		padding: 15px 23px 14px;
-		text-decoration: none;
-		top: 5px;
-		width: auto;
-		z-index: 100000; /* Above WP toolbar. */
-	}
+.pagination {
+	margin: 20px auto;
+}
+
+.sticky {
+	position: relative;
+	display: block;
+}
+
+.bypostauthor {
+	font-size: inherit;
 }
