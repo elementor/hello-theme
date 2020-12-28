@@ -1,14 +1,14 @@
 === Hello Elementor ===
 
-Contributors: elemntor
-Requires at least: WordPress 4.7
-Tested up to: WordPress 5.2
-Stable tag: 2.0.0
-Version: 2.0.0
-Requires PHP: 5.4
+Contributors: elemntor, KingYes, ariel.k, jzaltzberg, mati1000, bainternet
+Requires at least: 4.7
+Tested up to: 5.6
+Stable tag: 2.3.1
+Version: 2.3.1
+Requires PHP: 5.6
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Tags: flexible-header, accessibility-ready, custom-colors, custom-menu, custom-logo, editor-style, featured-images, rtl-language-support, threaded-comments, translation-ready
+Tags: custom-menu, custom-logo, featured-images, rtl-language-support, threaded-comments, translation-ready
 
 A lightweight, plain-vanilla theme for Elementor page builder.
 
@@ -24,10 +24,15 @@ Screenshot's images & icons are licensed under: Creative Commons (CC0), https://
 
 == Installation ==
 
-1. In your admin panel, go to Appearance > Themes and click the 'Add New' button.
-2. Type in 'Hello Elementor' in the search form and hit the 'Enter' key on your keyboard.
-3. Click on the 'Activate' button to use your new theme right away.
-4. Navigate to Elementor and start building your site.
+1. In your site's admin panel, go to Appearance > Themes and click `Add New`.
+2. Type "Hello Elementor" in the search field.
+3. Click `Install` and then `Activate` to start using the theme.
+4. Navigate to Appearance > Customize in your admin panel and customize to your needs.
+5. A notice box may appear, recommending you to install Elementor Page Builder Plugin. You can either use it or any other editor.
+6. Create a new page, click `Edit with Elementor`.
+7. Once the Elementor Editor is launched, click on the library icon, pick one of the many ready-made templates and click `Insert`.
+8. Edit the page content as you wish, you can add, remove and manipulate any of the elements.
+9. Enjoy :)
 
 == Customizations ==
 
@@ -41,13 +46,7 @@ However, if you have a particular need to adapt this theme, please read on.
 All of your site's styles should be handled directly inside ***Elementor***.
 You should not need to edit the SCSS files in this theme in ordinary circumstances.
 
-However, if for some reason there is still a need to add or change the site's CSS, please pay attention to the following:
-
-1. Files located under `reset` directory, should **NOT** be edited directly
-2. In order to change any of the values defined in `preset/variables.scss`, add your style code to `custom/pre_default.scss`
-3. Any new SCSS files should be located under `custom/` directory, and imported in `custom/custom.scss`
-
-**Remember that any SCSS change requires re-generating the theme's css files.**
+However, if for some reason there is still a need to add or change the site's CSS, please use a child theme.
 
 = Hooks =
 
@@ -56,12 +55,16 @@ To prevent the loading of any of the these settings, use the following as boiler
 add_filter( 'choose-from-the-list-below', '__return_false' );
 ```
 
+* `hello_elementor_enqueue_style`                 enqueue style
+* `hello_elementor_enqueue_theme_style`           load theme-specific style (default: load)
 * `hello_elementor_load_textdomain`               load theme's textdomain
 * `hello_elementor_register_menus`                register the theme's default menu location
 * `hello_elementor_add_theme_support`             register the various supported features
 * `hello_elementor_add_woocommerce_support`       register woocommerce features, including product-gallery zoom, swipe & lightbox features
-* `hello_elementor_enqueue_style`                 enqueue style
 * `hello_elementor_register_elementor_locations`  register elementor settings
+* `hello_elementor_content_width`                 set default content width to 800px
+* `hello_elementor_page_title`                    show\hide page title (default: show)
+* `hello_elementor_viewport_content`              modify `content` of `viewport` meta in header
 
 == Frequently Asked Questions ==
 
@@ -90,14 +93,85 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
 
+= 2.3.1 - 2020-12-28 =
+* Tweak: Improved UI for table  elements
+* Tweak: Added support for Gutenberg Wide and Full image formats
+* Tweak: Added font smoothing
+* Tweak: Added compatibility declaration for WordPress v5.6
+* Fix: Font glitches in editor-style.css ([#128](https://github.com/elementor/hello-theme/issues/128))
+
+= 2.3.0 - 2020-04-19 =
+* Tweak: Removed caption centering by default to allow alignment using Elementor (Props [@cirkut](https://github.com/cirkut))
+* Tweak: Removed `text-align` property from table elements to avoid alignment issue in RTL websites (Props [@ramiy](https://github.com/ramiy))
+* Tweak: Added `input[type="url"]` to CSS reset rules ([#109](https://github.com/elementor/hello-theme/issues/109))
+* Tweak: Update `Tested Up to 5.4`
+
+= 2.2.2 - 2019-12-23 =
+* Fix: Conflicts with minifier `cssnano` and CSS animations (Props [@CeliaRozalenM](https://github.com/CeliaRozalenM))
+* Fix: Max-width propety is missing in `_archive.scss` (Props [@redpik](https://github.com/redpik))
+
+= 2.2.1 - 2019-09-10 =
+* Tweak: Added max width to `wp-caption` ([#91](https://github.com/elementor/hello-theme/issues/91))
+* Tweak: Added support of `wp_body_open`
+
+= 2.2.0 - 2019-07-22 =
+* Tweak: Added viewport content filter ([#49](https://github.com/elementor/hello-theme/issues/49))
+* Tweak: Added support Hide Title in Elementor
+* Tweak: Adhere to TRT's Theme Sniffer
+
+= 2.1.2 - 2019-06-19 =
+* Tweak: Added theme version to enqueued styles
+* Tweak: Remove header tags with `hello_elementor_page_title` filter
+
+= 2.1.1 - 2019-06-13 =
+* Tweak: Rename `Install Elementor Now` button to `Install Elementor`
+
+= 2.1.0 - 2019-06-12 =
+* New: Added basic theme styling
+* New: Added tagline under the site name in header
+* New: Added `hello_elementor_page_title` filter for show\hide page title
+* New: Added `hello_elementor_enqueue_theme_style` filter for enqueue theme-specific style
+* Tweak: Hide site name & tagline if logo file is exist
+* Tweak: Hide default page list when there is no primary menu
+* Tweak: Removed `#main` in `archive.php`, `single.php`, `search.php` & `404.php` files
+* Tweak: Removed `#site-header` in `header.php` file
+* Tweak: Replaced `#top-menu` with `.site-navigation`
+* Tweak: Removed custom SCSS directory, it is recommended to use child theme instead of editing parent theme
+
+= 2.0.7 - 2019-06-04 =
+* Tweak: Added nextpage support to `single.php`
+* Tweak: Keep both original and minified css files
+* Tweak: Removed `flexible-header`, `custom-colors`, `editor-style` tags
+
+= 2.0.6 - 2019-05-08 =
+* Tweak: Removed irrelevant font family from `$font-family-base`
+* Fix: Minified `style.css` for better optimization
+
+= 2.0.5 - 2019-05-21 =
+* New: Inroducing [Hello Theme Child](https://github.com/elementor/hello-theme-child)
+* Tweak: Enqueue only parent theme stylesheet
+* Tweak: Added admin notice box for recommending Elementor plugin
+
+= 2.0.4 - 2019-05-20 =
+* Tweak: Removed `accessibility-ready` tag from `style.css`
+
+= 2.0.3 - 2019-05-19 =
+* Tweak: Removed `accessibility-ready` tag
+
+= 2.0.2 - 2019-05-13 =
+* Tweak: Added `hello_elementor_content_width` filter, as per WordePress best practice
+
+= 2.0.1 - 2019-05-12 =
+* Tweak: Updated theme screenshot (following comment by WP Theme Review team)
+
 = 2.0.0 - 2019-05-12 =
-* Tweak: Updated theme screenshot (following comment by WP Theme Review team).
-* Tweak: Add Copyright & Image and Icon License sections in readme (following comment by WP Theme Review team).
+* Tweak: Updated theme screenshot (following comment by WP Theme Review team)
+* Tweak: Add Copyright & Image and Icon License sections in readme (following comment by WP Theme Review team)
 * Tweak: Remove duplicated call to `add_theme_support( 'custom-logo')`
-* Tweak: Readme file grammar & spelling.
+* Tweak: Readme file grammar & spelling
 * Tweak: Update `Tested Up to 5.2`
-* Tweak: Change functions.php methods names prefix from `hello_elementor_theme_` to `hello_elementor_`.
-* Tweak: Change hook names to fit theme's name. Old hooks are deprecated, users are urged to update their code where needed.
+* Tweak: Change functions.php methods names prefix from `hello_elementor_theme_` to `hello_elementor_`
+* Tweak: Change hook names to fit theme's name. Old hooks are deprecated, users are urged to update their code where needed
 * Tweak: Update style for `img`, `textarea`, 'label'
 
 = 1.2.0 - 2019-02-12 =

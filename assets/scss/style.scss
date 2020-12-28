@@ -1,30 +1,27 @@
 /*!
 	Theme Name: Hello Elementor
-	Theme URI: https://github.com/elementor/elementor-hello-theme
+	Theme URI: https://elementor.com/hello-theme/?utm_source=wp-themes&utm_campaign=theme-uri&utm_medium=wp-dash
 	Description: A plain-vanilla & lightweight theme for Elementor page builder
 	Author: Elementor Team
-	Author URI: https://elementor.com
-	Version: 2.0.0
-	Stable tag: 2.0.0
+	Author URI: https://elementor.com/?utm_source=wp-themes&utm_campaign=author-uri&utm_medium=wp-dash
+	Version: 2.3.1
+	Stable tag: 2.3.1
 	Requires at least: 4.7
-	Tested up to: 5.2
+	Tested up to: 5.6
+	Requires PHP: 5.6
 	License: GNU General Public License v3 or later.
 	License URI: https://www.gnu.org/licenses/gpl-3.0.html
 	Text Domain: hello-elementor
-	Tags: flexible-header, accessibility-ready, custom-colors, custom-menu, custom-logo, editor-style, featured-images, rtl-language-support, threaded-comments, translation-ready
+	Tags: flexible-header, custom-colors, custom-menu, custom-logo, featured-images, rtl-language-support, threaded-comments, translation-ready
 */
 
 /* Style - include Theme style
    ========================================================================== */
 // Root
-@import "custom/custom_variables";
 @import "reset/variables";
 
-// Base CSS (Based on Normalize)
+// Base CSS
 @import "reset/reset";
-
-// Comments
-@import "reset/comments";
 
 // Forms/
 @import "reset/forms";
@@ -34,9 +31,3 @@
 
 // List
 @import "reset/list";
-
-// WordPress
-@import "reset/wordpress";
-
-// Custom Code for Your Website
-@import "custom/custom";

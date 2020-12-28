@@ -1,0 +1,40 @@
+/* Basic responsive layout
+   ========================================================================== */
+
+$containers: '.site-header, body:not([class*="elementor-page-"]) .site-main';
+
+#{$containers} {
+	margin-right: auto;
+	margin-left: auto;
+}
+
+@media (max-width: $screen-xs - $screen-diff){
+	#{$containers} {
+		padding-right: 10px;
+		padding-left: 10px;
+	}
+}
+
+@media (min-width: $screen-xs){
+	#{$containers} {
+		max-width: 500px;
+	}
+}
+
+@media (min-width: $screen-sm){
+	#{$containers} {
+		max-width: 600px;
+	}
+}
+
+@media (min-width: $screen-md) {
+	#{$containers} {
+		max-width: 800px;
+	}
+}
+
+@media (min-width: $screen-xl) {
+	#{$containers} {
+		max-width: 960px;
+	}
+}

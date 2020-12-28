@@ -7,11 +7,16 @@ module.exports = function( grunt ) {
 
 	require( 'matchdep' ).filterDev( 'grunt-*' ).forEach( grunt.loadNpmTasks );
 
+	const sass = require('node-sass');
+
 	// Project configuration.
 	grunt.initConfig( {
 		pkg: grunt.file.readJSON( 'package.json' ),
 
 		sass: {
+			options: {
+				implementation: sass
+			},
 			dist: {
 				files: [ {
 					expand: true,
@@ -30,7 +35,7 @@ module.exports = function( grunt ) {
 
 					processors: [
 						require( 'autoprefixer' )( {
-							browsers: 'last 10 versions'
+							browsers: 'last 3 versions'
 						} )
 					]
 				},
@@ -41,24 +46,27 @@ module.exports = function( grunt ) {
 					]
 				} ]
 			},
-			/*minify: {
+			minify: {
 				options: {
 					processors: [
 						require( 'autoprefixer' )( {
-							browsers: 'last 10 versions'
+							browsers: 'last 3 versions'
 						} ),
-						require( 'cssnano' )()
+						require( "cssnano" )( {
+							reduceIdents: false,
+							zindex: false,
+						} )
 					]
 				},
 				files: [ {
-					//expand: true,
+					expand: true,
 					src: [
 						'*.css',
 						'!*.min.css'
 					],
 					ext: '.min.css'
 				} ]
-			}*/
+			}
 		},
 
 		watch: {

@@ -11,3 +11,4 @@ package-lock.json
 Thumbs.db
 *.log
 *.map
+yarn.lock

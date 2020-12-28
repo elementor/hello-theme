@@ -1,0 +1,19 @@
+/* Post Item in Archive
+   ========================================================================== */
+
+.post {
+
+	.wp-post-image {
+		width: 100%;
+		max-height: 500px;
+		object-fit: cover;
+
+		@media ( max-width: ( $screen-md - $screen-diff ) ) {
+			max-height: 400px;
+		}
+
+		@media ( max-width: ( $screen-xs - $screen-diff ) ) {
+			max-height: 300px;
+		}
+	}
+}

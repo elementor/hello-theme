@@ -1,0 +1,99 @@
+
+
+/* Header layout
+   ========================================================================== */
+
+.site-header {
+	display: flex;
+	flex-wrap: wrap;
+	padding-top: 1rem;
+	padding-bottom: 1rem;
+}
+
+.site-branding {
+	max-width: 300px;
+
+	.site-title,
+	.site-description {
+		margin: 0;
+	}
+}
+
+.custom-logo-link {
+	display: block;
+}
+
+/* Main Menu
+   ========================================================================== */
+
+.site-navigation {
+	grid-area: nav-menu;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	flex-grow: 1;
+
+	ul.menu, ul.menu ul {
+		list-style-type: none;
+		padding: 0;
+	}
+
+	ul.menu {
+		display: flex;
+		flex-wrap: wrap;
+
+		li {
+			position: relative;
+			display: flex;
+
+			a {
+				display: block;
+				padding: 8px 15px;
+			}
+
+			&.menu-item-has-children {
+				padding-right: 15px;
+
+				&:after {
+					display: block;
+					content: '\25BE';
+					font-size: 1.5em;
+					align-items: center;
+					color: $gray;
+				}
+			}
+
+			ul {
+				background: #fff;
+				display: none;
+				min-width: 150px;
+				position: absolute;
+				z-index: 2;
+				left: 0;
+				top: 100%;
+				border: $gray-lighter 1px solid;
+
+				li.menu-item-has-children {
+					a {
+						flex-grow: 1;
+					}
+
+					&:after {
+						transform: rotate(-90deg);
+					}
+				}
+
+				ul {
+					left: 100%;
+					top: 0;
+				}
+			}
+
+			&:hover {
+				& > ul {
+					display: block;
+				}
+			}
+		}
+	}
+}

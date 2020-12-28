@@ -1,0 +1,86 @@
+/*
+DO NOT CHANGE THIS FILE
+to override any of the settings in this section, add your styling code in the custom directory.
+ */
+
+/* General - https://codex.wordpress.org/CSS#WordPress_Generated_Classes
+   ========================================================================== */
+
+.alignright {
+	float: right;
+	margin-left: 1rem;
+}
+
+.alignleft {
+	float: left;
+	margin-right: 1rem;
+}
+
+.aligncenter {
+	clear: both;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+//Gutenberg support
+.alignwide {
+	margin-left: -80px;
+	margin-right: -80px;
+}
+
+//Gutenberg support
+.alignfull {
+	margin-left: calc(50% - 50vw);
+	margin-right: calc(50% - 50vw);
+	max-width: 100vw;
+	width: 100vw;
+
+	img  {
+		width: 100vw;
+	}
+}
+
+.wp-caption {
+	margin-bottom: 1.25rem;
+	max-width: 100%;
+
+	&.alignleft {
+		margin: 5px 20px 20px 0;
+	}
+
+	&.alignright {
+		margin: 5px 0 20px 20px;
+	}
+
+	img {
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+	}
+}
+
+.wp-caption-text {
+	margin: 0;
+}
+
+.gallery-caption {
+	display: block;
+	font-size: $sm-font-size;
+	line-height: $line-height-base;
+	margin: 0;
+	padding: $xs-padding;
+}
+
+.pagination {
+	margin: 20px auto;
+}
+
+.sticky {
+	position: relative;
+	display: block;
+}
+
+.bypostauthor {
+	font-size: inherit;
+}

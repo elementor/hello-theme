@@ -1,23 +1,20 @@
 /*!
 	Theme Name: Hello Elementor
-	Theme URI: https://github.com/elementor/elementor-hello-theme
+	Theme URI: https://elementor.com/hello-theme/?utm_source=wp-themes&utm_campaign=theme-uri&utm_medium=wp-dash
 	Description: A plain-vanilla & lightweight theme for Elementor page builder
 	Author: Elementor Team
-	Author URI: https://elementor.com
-	Version: 2.0.0
-	Stable tag: 2.0.0
+	Author URI: https://elementor.com/?utm_source=wp-themes&utm_campaign=author-uri&utm_medium=wp-dash
+	Version: 2.3.1
+	Stable tag: 2.3.1
 	Requires at least: 4.7
-	Tested up to: 5.2
+	Tested up to: 5.6
 	License: GNU General Public License v3 or later.
 	License URI: https://www.gnu.org/licenses/gpl-3.0.html
 	Text Domain: hello-elementor
-	Tags: flexible-header, accessibility-ready, custom-colors, custom-menu, custom-logo, editor-style, featured-images, rtl-language-support, threaded-comments, translation-ready
+	Tags: flexible-header, custom-colors, custom-menu, custom-logo, featured-images, rtl-language-support, threaded-comments, translation-ready
 */
 /* Style - include Theme style
    ========================================================================== */
-/* Pre Define variables for your theme.
-any values defined here will take precedence over variables definitions.
-========================================================================== */
 /**
  * DO NOT CHANGE THIS FILE!
  * To override any of the settings in this section, add your styling code in the custom directory.
@@ -54,12 +51,14 @@ html {
    ========================================================================== */
 body {
   margin: 0;
-  font-family: aktiv-grotesk, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
   color: #333333;
-  background-color: #fff; }
+  background-color: #fff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
 
 /**
  * Correct the font size and margin on `h1` elements within `section` and
@@ -115,7 +114,7 @@ hr {
  * 2. Correct the odd `em` font sizing in all browsers.
  */
 pre {
-  font-family: monospace, monospace;
+  font-family: monospace;
   /* 1 */
   font-size: 1em;
   /* 2 */
@@ -294,109 +293,6 @@ template {
 DO NOT CHANGE THIS FILE
 to override any of the settings in this section, add your styling code in the custom directory.
  */
-/* Comments
-   ========================================================================== */
-#comments .comment-list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  font-size: .9em; }
-
-#comments .comment,
-#comments .pingback {
-  position: relative; }
-  #comments .comment .comment-body,
-  #comments .pingback .comment-body {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -webkit-flex-direction: column;
-        -ms-flex-direction: column;
-            flex-direction: column;
-    padding: 30px 0 30px 60px;
-    border-bottom: 1px solid #cccccc; }
-    body.rtl #comments .comment .comment-body, body.rtl
-    #comments .pingback .comment-body {
-      padding: 30px 60px 30px 0; }
-  #comments .comment .avatar,
-  #comments .pingback .avatar {
-    position: absolute;
-    left: 0;
-    -webkit-border-radius: 50%;
-            border-radius: 50%;
-    margin-right: 10px; }
-    body.rtl #comments .comment .avatar, body.rtl
-    #comments .pingback .avatar {
-      left: auto;
-      right: 0;
-      margin-right: 0;
-      margin-left: 10px; }
-
-#comments .comment-meta {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  margin-bottom: .9rem; }
-
-#comments .reply,
-#comments .comment-metadata {
-  font-size: 11px;
-  line-height: 1; }
-
-#comments .children {
-  position: relative;
-  list-style: none;
-  margin: 0;
-  padding-left: 30px; }
-  body.rtl #comments .children {
-    padding-left: 0;
-    padding-right: 30px; }
-  #comments .children li:last-child {
-    padding-bottom: 0; }
-
-#comments ol.comment-list .children:before {
-  display: inline-block;
-  font-size: 1em;
-  font-weight: normal;
-  line-height: 100%;
-  content: '\21AA';
-  position: absolute;
-  top: 45px;
-  left: 0;
-  width: auto; }
-  body.rtl #comments ol.comment-list .children:before {
-    content: '\21A9';
-    left: auto;
-    right: 0; }
-
-@media (min-width: 768px) {
-  #comments .comment-author,
-  #comments .comment-metadata {
-    line-height: 1; } }
-
-@media (max-width: 767px) {
-  #comments .comment .comment-body {
-    padding: 30px 0; }
-  #comments .children {
-    padding-left: 20px; }
-  #comments .comment .avatar {
-    position: inherit;
-    float: left; }
-    body.rtl #comments .comment .avatar {
-      float: right; } }
-
-/*
-DO NOT CHANGE THIS FILE
-to override any of the settings in this section, add your styling code in the custom directory.
- */
 /* Forms
    ========================================================================== */
 label {
@@ -429,12 +325,12 @@ input[type="number"],
 input[type="password"],
 input[type="search"],
 input[type="tel"],
+input[type="url"],
 select,
 textarea {
   width: 100%;
   border: solid 1px #666666;
-  -webkit-border-radius: 3px;
-          border-radius: 3px;
+  border-radius: 3px;
   padding: 0.5rem 1rem;
   -webkit-transition: all .3s;
   -o-transition: all .3s;
@@ -446,6 +342,7 @@ textarea {
   input[type="password"]:focus,
   input[type="search"]:focus,
   input[type="tel"]:focus,
+  input[type="url"]:focus,
   select:focus,
   textarea:focus {
     border-color: #333333;
@@ -514,8 +411,7 @@ button,
   border: 1px solid #CC3366;
   padding: 0.5rem 1rem;
   font-size: 1rem;
-  -webkit-border-radius: 3px;
-          border-radius: 3px;
+  border-radius: 3px;
   -webkit-transition: all .3s;
   -o-transition: all .3s;
   transition: all .3s; }
@@ -642,7 +538,6 @@ table {
   table td {
     padding: 15px;
     line-height: 1.5;
-    text-align: left;
     vertical-align: top;
     border: 1px solid #cccccc; }
   table th {
@@ -665,10 +560,7 @@ table {
     border-top: 1px solid #cccccc; }
   table tbody > tr:nth-child(odd) > td,
   table tbody > tr:nth-child(odd) > th {
-    background-color: #eeeeee; }
-  table tbody tr:hover > td,
-  table tbody tr:hover > th {
-    background-color: #e9e9e9; }
+    background-color: #f7f7f7; }
   table tbody + tbody {
     border-top: 2px solid #cccccc; }
   @media (max-width: 767px) {
@@ -700,85 +592,3 @@ li {
   font-size: 100%;
   vertical-align: baseline;
   background: transparent; }
-
-/*
-DO NOT CHANGE THIS FILE
-to override any of the settings in this section, add your styling code in the custom directory.
- */
-/* WordPress
-   ========================================================================== */
-.alignright {
-  float: right;
-  margin-left: 1rem; }
-
-.alignleft {
-  float: left;
-  margin-right: 1rem; }
-
-.aligncenter {
-  clear: both;
-  display: block;
-  margin-left: auto;
-  margin-right: auto; }
-
-.sticky {
-  position: relative;
-  display: block; }
-
-.bypostauthor {
-  font-size: inherit; }
-
-.gallery-caption {
-  display: block;
-  font-size: 0.8125rem;
-  line-height: 1.5;
-  margin: 0;
-  padding: 0.75rem; }
-
-.wp-caption {
-  margin-bottom: 1.25rem; }
-  .wp-caption.alignleft {
-    margin: 5px 20px 20px 0; }
-  .wp-caption.alignright {
-    margin: 5px 0 20px 20px; }
-  .wp-caption img {
-    display: block;
-    margin-left: auto;
-    margin-right: auto; }
-
-.wp-caption-text {
-  margin: 0;
-  text-align: center; }
-
-.screen-reader-text {
-  clip: rect(1px, 1px, 1px, 1px);
-  height: 1px;
-  overflow: hidden;
-  position: absolute !important;
-  width: 1px;
-  word-wrap: normal !important;
-  /* Many screen reader and browser combinations announce broken words as they would appear visually. */ }
-  .screen-reader-text:focus {
-    background-color: #eeeeee;
-    clip: auto !important;
-    -webkit-clip-path: none;
-            clip-path: none;
-    color: #333333;
-    display: block;
-    font-size: 1rem;
-    height: auto;
-    left: 5px;
-    line-height: normal;
-    padding: 15px 23px 14px;
-    text-decoration: none;
-    top: 5px;
-    width: auto;
-    z-index: 100000;
-    /* Above WP toolbar. */ }
-
-/* Custom style for your theme.
-========================================================================== */
-/**
-To change or override any style, add a new scss file under `custom` directory (current directory),
-and include it here.
- */
