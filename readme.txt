@@ -2,7 +2,7 @@
 
 Contributors: elemntor, KingYes, ariel.k, jzaltzberg, mati1000, bainternet
 Requires at least: 4.7
-Tested up to: 5.4
+Tested up to: 5.6
 Stable tag: 2.3.0
 Version: 2.3.0
 Requires PHP: 5.4

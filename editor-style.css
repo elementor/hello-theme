@@ -15,14 +15,86 @@ img {
   border-style: none; }
 
 pre {
+  font-family: monospace, monospace;
+  font-size: 1em;
   white-space: pre-wrap; }
 
 code,
 kbd,
 pre,
 samp {
-  font-family: monospace;
+  font-size: 1rem; }
+
+code,
+kbd,
+pre,
+samp {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   font-size: 1rem; }
 
 blockquote {
   font-style: italic; }
+
+/*
+DO NOT CHANGE THIS FILE
+to override any of the settings in this section, add your styling code in the custom directory.
+ */
+/* General - https://codex.wordpress.org/CSS#WordPress_Generated_Classes
+   ========================================================================== */
+.alignright {
+  float: right;
+  margin-left: 1rem; }
+
+.alignleft {
+  float: left;
+  margin-right: 1rem; }
+
+.aligncenter {
+  clear: both;
+  display: block;
+  margin-left: auto;
+  margin-right: auto; }
+
+.alignwide {
+  margin-left: -80px;
+  margin-right: -80px; }
+
+.alignfull {
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  max-width: 100vw;
+  width: 100vw; }
+  .alignfull img {
+    width: 100vw; }
+
+.wp-caption {
+  margin-bottom: 1.25rem;
+  max-width: 100%; }
+  .wp-caption.alignleft {
+    margin: 5px 20px 20px 0; }
+  .wp-caption.alignright {
+    margin: 5px 0 20px 20px; }
+  .wp-caption img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto; }
+
+.wp-caption-text {
+  margin: 0; }
+
+.gallery-caption {
+  display: block;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0.75rem; }
+
+.pagination {
+  margin: 20px auto; }
+
+.sticky {
+  position: relative;
+  display: block; }
+
+.bypostauthor {
+  font-size: inherit; }
