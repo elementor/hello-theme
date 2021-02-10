@@ -50,25 +50,21 @@ to override any of the settings in this section, add your styling code in the cu
   margin-left: auto;
   margin-right: auto; }
 
-.pagination {
-  margin: 20px auto; }
+.alignwide {
+  margin-left: -80px;
+  margin-right: -80px; }
 
-.sticky {
-  position: relative;
-  display: block; }
-
-.bypostauthor {
-  font-size: inherit; }
-
-.gallery-caption {
-  display: block;
-  font-size: 0.8125rem;
-  line-height: 1.5;
-  margin: 0;
-  padding: 0.75rem; }
+.alignfull {
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  max-width: 100vw;
+  width: 100vw; }
+  .alignfull img {
+    width: 100vw; }
 
 .wp-caption {
-  margin-bottom: 1.25rem; }
+  margin-bottom: 1.25rem;
+  max-width: 100%; }
   .wp-caption.alignleft {
     margin: 5px 20px 20px 0; }
   .wp-caption.alignright {
@@ -79,9 +75,29 @@ to override any of the settings in this section, add your styling code in the cu
     margin-right: auto; }
 
 .wp-caption-text {
-  margin: 0;
-  text-align: center; }
+  margin: 0; }
 
+.gallery-caption {
+  display: block;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0.75rem; }
+
+.pagination {
+  margin: 20px auto; }
+
+.sticky {
+  position: relative;
+  display: block; }
+
+.bypostauthor {
+  font-size: inherit; }
+
+/*
+DO NOT CHANGE THIS FILE
+to override any of the settings in this section, add your styling code in the custom directory.
+ */
 .screen-reader-text {
   clip: rect(1px, 1px, 1px, 1px);
   height: 1px;
@@ -201,10 +217,10 @@ to override any of the settings in this section, add your styling code in the cu
   max-height: 500px;
   -o-object-fit: cover;
      object-fit: cover; }
-  @media (991px) {
+  @media (max-width: 991px) {
     .post .wp-post-image {
       max-height: 400px; } }
-  @media (575px) {
+  @media (max-width: 575px) {
     .post .wp-post-image {
       max-height: 300px; } }
 

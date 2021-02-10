@@ -18,6 +18,7 @@ $gray-dark: lighten($gray-base, 20%) !default; // #333
 $gray: lighten($gray-base, 40%) !default; // #666
 $gray-light: lighten($gray-base, 80%) !default; // #ccc
 $gray-lighter: lighten($gray-base, 93.5%) !default; // #eee
+$gray-lightest: lighten($gray-base, 96.86%) !default; // #f7f7f7
 
 //Text & Paragraph
 $text-color: $gray-dark;

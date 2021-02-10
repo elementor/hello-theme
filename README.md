@@ -3,11 +3,11 @@
 
 
 **Contributors:** [elemntor](https://profiles.wordpress.org/elemntor), [KingYes](https://profiles.wordpress.org/KingYes), [ariel.k](https://profiles.wordpress.org/ariel.k), [jzaltzberg](https://profiles.wordpress.org/jzaltzberg), [mati1000](https://profiles.wordpress.org/mati1000), [bainternet](https://profiles.wordpress.org/bainternet)  
-**Requires at least:** WordPress 4.7  
-**Tested up to:** WordPress 5.2  
-**Stable tag:** 2.1.2  
-**Version:** 2.1.2  
-**Requires PHP:** 5.4  
+**Requires at least:** 4.7  
+**Tested up to:** 5.6  
+**Stable tag:** 2.3.1  
+**Version:** 2.3.1  
+**Requires PHP:** 5.6  
 **License:** GNU General Public License v3 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-3.0.html  
 **Tags:** custom-menu, custom-logo, featured-images, rtl-language-support, threaded-comments, translation-ready  
@@ -48,13 +48,7 @@ However, if you have a particular need to adapt this theme, please read on.
 All of your site's styles should be handled directly inside ***Elementor***.
 You should not need to edit the SCSS files in this theme in ordinary circumstances.
 
-However, if for some reason there is still a need to add or change the site's CSS, please pay attention to the following:
-
-1. Files located under `reset` directory, should **NOT** be edited directly
-2. In order to change any of the values defined in `preset/variables.scss`, add your style code to `custom/pre_default.scss`
-3. Any new SCSS files should be located under `custom/` directory, and imported in `custom/custom.scss`
-
-**Remember that any SCSS change requires re-generating the theme's css files.**
+However, if for some reason there is still a need to add or change the site's CSS, please use a child theme.
 
 ### Hooks ###
 
@@ -72,6 +66,7 @@ add_filter( 'choose-from-the-list-below', '__return_false' );
 * `hello_elementor_register_elementor_locations`  register elementor settings
 * `hello_elementor_content_width`                 set default content width to 800px
 * `hello_elementor_page_title`                    show\hide page title (default: show)
+* `hello_elementor_viewport_content`              modify `content` of `viewport` meta in header
 
 ## Frequently Asked Questions ##
 
@@ -100,6 +95,32 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 ## Changelog ##
 
+### 2.3.1 - 2020-12-28 ###
+* Tweak: Improved UI for table  elements
+* Tweak: Added support for Gutenberg Wide and Full image formats
+* Tweak: Added font smoothing
+* Tweak: Added compatibility declaration for WordPress v5.6
+* Fix: Font glitches in editor-style.css ([#128](https://github.com/elementor/hello-theme/issues/128))
+
+### 2.3.0 - 2020-04-19 ###
+* Tweak: Removed caption centering by default to allow alignment using Elementor (Props [@cirkut](https://github.com/cirkut))
+* Tweak: Removed `text-align` property from table elements to avoid alignment issue in RTL websites (Props [@ramiy](https://github.com/ramiy))
+* Tweak: Added `input[type="url"]` to CSS reset rules ([#109](https://github.com/elementor/hello-theme/issues/109))
+* Tweak: Update `Tested Up to 5.4`
+
+### 2.2.2 - 2019-12-23 ###
+* Fix: Conflicts with minifier `cssnano` and CSS animations (Props [@CeliaRozalenM](https://github.com/CeliaRozalenM))
+* Fix: Max-width propety is missing in `_archive.scss` (Props [@redpik](https://github.com/redpik))
+
+### 2.2.1 - 2019-09-10 ###
+* Tweak: Added max width to `wp-caption` ([#91](https://github.com/elementor/hello-theme/issues/91))
+* Tweak: Added support of `wp_body_open`
+
+### 2.2.0 - 2019-07-22 ###
+* Tweak: Added viewport content filter ([#49](https://github.com/elementor/hello-theme/issues/49))
+* Tweak: Added support Hide Title in Elementor
+* Tweak: Adhere to TRT's Theme Sniffer
+
 ### 2.1.2 - 2019-06-19 ###
 * Tweak: Added theme version to enqueued styles
 * Tweak: Remove header tags with `hello_elementor_page_title` filter
@@ -114,7 +135,7 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 * New: Added `hello_elementor_enqueue_theme_style` filter for enqueue theme-specific style
 * Tweak: Hide site name & tagline if logo file is exist
 * Tweak: Hide default page list when there is no primary menu
-* Tweak: Removed `#main` in `archive.php`, `single.php`, 'search.php' & `404.php` files
+* Tweak: Removed `#main` in `archive.php`, `single.php`, `search.php` & `404.php` files
 * Tweak: Removed `#site-header` in `header.php` file
 * Tweak: Replaced `#top-menu` with `.site-navigation`
 * Tweak: Removed custom SCSS directory, it is recommended to use child theme instead of editing parent theme

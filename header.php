@@ -23,6 +23,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 <body <?php body_class(); ?>>
 
 <?php
+hello_elementor_body_open();
+
 if ( ! function_exists( 'elementor_theme_do_location' ) || ! elementor_theme_do_location( 'header' ) ) {
 	get_template_part( 'template-parts/header' );
 }

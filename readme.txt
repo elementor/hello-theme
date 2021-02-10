@@ -1,11 +1,11 @@
 === Hello Elementor ===
 
 Contributors: elemntor, KingYes, ariel.k, jzaltzberg, mati1000, bainternet
-Requires at least: WordPress 4.7
-Tested up to: WordPress 5.2
-Stable tag: 2.1.2
-Version: 2.1.2
-Requires PHP: 5.4
+Requires at least: 4.7
+Tested up to: 5.6
+Stable tag: 2.3.1
+Version: 2.3.1
+Requires PHP: 5.6
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Tags: custom-menu, custom-logo, featured-images, rtl-language-support, threaded-comments, translation-ready
@@ -93,6 +93,28 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
 
+= 2.3.1 - 2020-12-28 =
+* Tweak: Improved UI for table elements
+* Tweak: Added support for Gutenberg Wide and Full image formats (Props [@ramiy](https://github.com/ramiy))
+* Tweak: Added font smoothing
+* Tweak: Update `Tested Up to 5.6`
+* Tweak: Update `Requires PHP: 5.6`
+* Fix: Adjusted font-family in `code`, `pre`, `kbd` and `samp` elements (Props [@75th](https://github.com/75th))
+
+= 2.3.0 - 2020-04-19 =
+* Tweak: Removed caption centering by default to allow alignment using Elementor (Props [@cirkut](https://github.com/cirkut))
+* Tweak: Removed `text-align` property from table elements to avoid alignment issue in RTL websites (Props [@ramiy](https://github.com/ramiy))
+* Tweak: Added `input[type="url"]` to CSS reset rules ([#109](https://github.com/elementor/hello-theme/issues/109))
+* Tweak: Update `Tested Up to 5.4`
+
+= 2.2.2 - 2019-12-23 =
+* Fix: Conflicts with minifier `cssnano` and CSS animations (Props [@CeliaRozalenM](https://github.com/CeliaRozalenM))
+* Fix: Max-width propety is missing in `_archive.scss` (Props [@redpik](https://github.com/redpik))
+
+= 2.2.1 - 2019-09-10 =
+* Tweak: Added max width to `wp-caption` ([#91](https://github.com/elementor/hello-theme/issues/91))
+* Tweak: Added support of `wp_body_open`
+
 = 2.2.0 - 2019-07-22 =
 * Tweak: Added viewport content filter ([#49](https://github.com/elementor/hello-theme/issues/49))
 * Tweak: Added support Hide Title in Elementor
@@ -112,7 +134,7 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 * New: Added `hello_elementor_enqueue_theme_style` filter for enqueue theme-specific style
 * Tweak: Hide site name & tagline if logo file is exist
 * Tweak: Hide default page list when there is no primary menu
-* Tweak: Removed `#main` in `archive.php`, `single.php`, 'search.php' & `404.php` files
+* Tweak: Removed `#main` in `archive.php`, `single.php`, `search.php` & `404.php` files
 * Tweak: Removed `#site-header` in `header.php` file
 * Tweak: Replaced `#top-menu` with `.site-navigation`
 * Tweak: Removed custom SCSS directory, it is recommended to use child theme instead of editing parent theme

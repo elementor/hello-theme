@@ -18,7 +18,6 @@ table {
 	td {
 		padding: 15px;
 		line-height: 1.5;
-		text-align: left;
 		vertical-align: top;
 		border: 1px solid $gray-light;
 	}
@@ -55,12 +54,7 @@ table {
 
 		> tr:nth-child(odd) > td,
 		> tr:nth-child(odd) > th {
-			background-color: $gray-lighter;
-		}
-
-		tr:hover > td,
-		tr:hover > th {
-			background-color: darken($gray-lighter, 2%);
+			background-color: $gray-lightest;
 		}
 	}
 

@@ -38,6 +38,8 @@ body {
 	line-height: $line-height-base;
 	color: $body-color;
 	background-color: #fff;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 /**
@@ -104,7 +106,7 @@ hr {
  */
 
 pre {
-	font-family: monospace, monospace; /* 1 */
+	font-family: monospace; /* 1 */
 	font-size: 1em; /* 2 */
 	white-space: pre-wrap;
 }
