@@ -16,24 +16,45 @@ const config = {
 	wp_user_email: 'user@example.org',
 	wp_site_name: 'test',
 	/**
-	 * Current plugin (where the PR)
+	 * Current plugin (where the PR Plugin/Theme)
 	 */
-	name: 'elementor',
+	plugin_name: 'elementor',
 	/**
 	 * When needed to used things that exists in yours plugin zip url and not exists in wordpress market plugin folder,
-	 * Than use "pluginUrl" : "emptyVrsion"
+	 * Than use 'pluginUrl': 'emptyVersion'
 	 * When the download link of plugin included version, leave the version empty otherwise the process can fail
 	 *
-	 * Example - "pluginUrl": ""
-	 * Download plugin with version from github -> "https://github.com/elementor/elementor/archive/v3.0.15.zip": ""
+	 * Example - 'pluginUrl': ''
+	 * Download plugin with version from github -> 'https://github.com/elementor/elementor/archive/v3.0.15.zip': ''
 	 *
-	 * Example - "pluginName": "version"
-	 * Download plugin with version from wordpress market -> "elementor": "3.0.15"
+	 * Example - 'pluginName': 'version'
+	 * Download plugin with version from wordpress market -> 'elementor': '3.0.15'
 	 */
-	plugins: {},
-	theme: {
-		'hello-elementor': '2.3.1',
+	plugins: {
+		'https://github.com/elementor/elementor/archive/v3.1.1.zip': ''
 	},
+	/**
+	 * Current theme (where the PR Theme/Plugin)
+	 */
+	theme_name: 'hello-theme',
+	/**
+	 * When needed to used things that exists in yours theme zip url and not exists in wordpress market theme folder,
+	 * Than use 'themeUrl': 'emptyVersion'
+	 * When the download link of theme included version, leave the version empty otherwise the process can fail
+	 *
+	 * Example - 'themeUrl': ''
+	 * Download theme with version from github -> 'https://github.com/elementor/hello-theme/archive/2.2.0.zip': ''
+	 *
+	 * Example - 'themeName': 'version'
+	 * Download theme with version from wordpress market -> 'hello-theme': '2.2.0'
+	 */
+	theme: {},
+	/**
+	 * The type of test
+	 * for testing plugin write 'plugin'
+	 * for testing theme write 'theme'
+	 */
+	test_type: 'theme',
 	/**
 	 * Declare an array of templates to import for testing
 	 * The name of template must be same as the post_name
@@ -43,12 +64,7 @@ const config = {
 		'dividers',
 		'global-settings',
 		'headings',
-		'icons',
-		'icons-box',
-		'icons-list',
 		'image',
-		'image-box',
-		'social-icons',
 		'testimonials',
 		'text-editor',
 	],
