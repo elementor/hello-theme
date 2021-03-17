@@ -157,6 +157,7 @@ function hello_elementor_fail_load_admin_notice() {
  *
  * @return void
  */
+
 function ajax_hello_elementor_set_admin_notice_viewed() {
 	update_user_meta( get_current_user_id(), '_hello_elementor_install_notice', 'true' );
 	die;
@@ -166,4 +167,33 @@ add_action( 'wp_ajax_hello_elementor_set_admin_notice_viewed', 'ajax_hello_eleme
 
 if ( ! did_action( 'elementor/loaded' ) ) {
 	add_action( 'admin_notices', 'hello_elementor_fail_load_admin_notice' );
+}
+
+
+/**
+ * Set Theme Version
+ *
+ * @return void
+ */
+
+add_action( 'after_switch_theme', 'hello_set_theme_ver', 100 );
+function hello_set_theme_ver() {
+	update_option( 'hello_theme_version', HELLO_ELEMENTOR_VERSION, true );
+}
+
+/**
+ * Set Theme Version and set default header style when updating
+ *
+ * @return void
+ */
+add_action( 'set_site_transient_update_themes', 'hello_check_theme_ver', 100 );
+function hello_check_theme_ver() {
+	// If we don't have the theme version of Hello enabled, add it now, and make sure that we turn off the dynamic header
+	if ( ! get_option( 'hello_theme_version' ) ) {
+		update_option( 'hello_header_type_default', 'static', true );
+		update_option( 'hello_footer_type_default', 'static', true );
+	}
+
+	// Update the theme version
+	update_option( 'hello_theme_version', HELLO_ELEMENTOR_VERSION, true );
 }

@@ -7,16 +7,13 @@ module.exports = function( grunt ) {
 
 	require( 'matchdep' ).filterDev( 'grunt-*' ).forEach( grunt.loadNpmTasks );
 
-	const sass = require('node-sass');
-
 	// Project configuration.
 	grunt.initConfig( {
 		pkg: grunt.file.readJSON( 'package.json' ),
 
+		webpack: require( './webpack' ),
+
 		sass: {
-			options: {
-				implementation: sass
-			},
 			dist: {
 				files: [ {
 					expand: true,
@@ -133,6 +130,10 @@ module.exports = function( grunt ) {
 	grunt.registerTask( 'wp_readme', [
 		'wp_readme_to_markdown',
 	] );
+
+	grunt.registerTask( 'watch_scripts', ( isDevMode = false ) => {
+		grunt.task.run( 'webpack:development' );
+	} );
 
 	grunt.registerTask( 'styles', [
 		'sass',

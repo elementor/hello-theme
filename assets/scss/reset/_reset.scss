@@ -3,12 +3,10 @@
 */
 
 /**
+ * Document basic styling
  * DO NOT CHANGE THIS FILE!
  * To override any of the settings in this section, add your styling code in the custom directory.
  */
-
-/* Document
-   ========================================================================== */
 
 /**
  * 1. Correct the line height in all browsers.
@@ -28,7 +26,7 @@ html {
 }
 
 /* Sections
-   ========================================================================== */
+ */
 
 body {
 	margin: 0; //Remove the margin in all browsers.
@@ -38,8 +36,6 @@ body {
 	line-height: $line-height-base;
 	color: $body-color;
 	background-color: #fff;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
 }
 
 /**
@@ -87,7 +83,7 @@ p {
 }
 
 /* Grouping content
-   ========================================================================== */
+ */
 
 /**
  * 1. Add the correct box sizing in Firefox.
@@ -106,13 +102,13 @@ hr {
  */
 
 pre {
-	font-family: monospace; /* 1 */
+	font-family: monospace, monospace; /* 1 */
 	font-size: 1em; /* 2 */
 	white-space: pre-wrap;
 }
 
 /* Text-level semantics
-   ========================================================================== */
+ */
 
 a {
 	background-color: transparent; //Remove the gray background on active links in IE 10.
@@ -202,7 +198,7 @@ sup {
 }
 
 /* Embedded content
-   ========================================================================== */
+ */
 
 /**
  * Remove the border on images inside links in IE 10.
@@ -215,7 +211,7 @@ img {
 }
 
 /* Interactive
-   ========================================================================== */
+ */
 
 /*
  * Add the correct display in Edge, IE 10+, and Firefox.
@@ -242,7 +238,7 @@ figcaption {
 }
 
 /* Misc
-   ========================================================================== */
+ */
 
 /**
  * Add the correct display in IE 10+.
@@ -272,7 +268,7 @@ template {
 }
 
 /* Print
-   ========================================================================== */
+ */
 
 @media print {
 	*,

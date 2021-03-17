@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-define( 'HELLO_ELEMENTOR_VERSION', '2.3.1' );
+define( 'HELLO_ELEMENTOR_VERSION', '2.4.0' );
 
 if ( ! isset( $content_width ) ) {
 	$content_width = 800; // Pixels.
@@ -29,7 +29,8 @@ if ( ! function_exists( 'hello_elementor_setup' ) ) {
 
 		$hook_result = apply_filters_deprecated( 'elementor_hello_theme_register_menus', [ true ], '2.0', 'hello_elementor_register_menus' );
 		if ( apply_filters( 'hello_elementor_register_menus', $hook_result ) ) {
-			register_nav_menus( array( 'menu-1' => __( 'Primary', 'hello-elementor' ) ) );
+			register_nav_menus( [ 'menu-1' => __( 'Header', 'hello-elementor' ) ] );
+			register_nav_menus( [ 'menu-2' => __( 'Footer', 'hello-elementor' ) ] );
 		}
 
 		$hook_result = apply_filters_deprecated( 'elementor_hello_theme_add_theme_support', [ true ], '2.0', 'hello_elementor_add_theme_support' );
@@ -39,33 +40,28 @@ if ( ! function_exists( 'hello_elementor_setup' ) ) {
 			add_theme_support( 'title-tag' );
 			add_theme_support(
 				'html5',
-				array(
+				[
 					'search-form',
 					'comment-form',
 					'comment-list',
 					'gallery',
 					'caption',
-				)
+				]
 			);
 			add_theme_support(
 				'custom-logo',
-				array(
+				[
 					'height'      => 100,
 					'width'       => 350,
 					'flex-height' => true,
 					'flex-width'  => true,
-				)
+				]
 			);
 
 			/*
 			 * Editor Style.
 			 */
 			add_editor_style( 'editor-style.css' );
-			
-			/*
-			 * Gutenberg wide images.
-			 */
-			add_theme_support( 'align-wide' );
 
 			/*
 			 * WooCommerce.
@@ -149,6 +145,18 @@ add_action( 'after_setup_theme', 'hello_elementor_content_width', 0 );
 
 if ( is_admin() ) {
 	require get_template_directory() . '/includes/admin-functions.php';
+}
+
+/**
+ * If Elementor is installed and active, we can load the Elementor-specific Settings & Features
+*/
+require get_template_directory() . '/includes/elementor-functions.php';
+
+/**
+ * Include customizer registration functions
+*/
+if ( is_customize_preview() ) {
+	require get_template_directory() . '/includes/customizer-functions.php';
 }
 
 if ( ! function_exists( 'hello_elementor_check_hide_title' ) ) {

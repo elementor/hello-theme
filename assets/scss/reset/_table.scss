@@ -1,10 +1,8 @@
-/*
-DO NOT CHANGE THIS FILE
-to override any of the settings in this section, add your styling code in the custom directory.
+/**
+ * Table styling
+ * DO NOT CHANGE THIS FILE!
+ * To override any of the settings in this section, add your styling code in the custom directory.
  */
-
-/* Table
-   ========================================================================== */
 
 table {
 	background-color: transparent;
@@ -54,7 +52,12 @@ table {
 
 		> tr:nth-child(odd) > td,
 		> tr:nth-child(odd) > th {
-			background-color: $gray-lightest;
+			background-color: $gray-lighter;
+		}
+
+		tr:hover > td,
+		tr:hover > th {
+			background-color: darken($gray-lighter, 2%);
 		}
 	}
 

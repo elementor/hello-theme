@@ -1,5 +1,7 @@
-/* Style for your classic editor.
-========================================================================== */
+/**
+ * Style for your classic editor.
+ */
+ 
 // Root
 @import "reset/variables";
 
@@ -15,7 +17,7 @@ img {
 }
 
 pre {
-	font-family: monospace;
+	font-family: monospace, monospace;
 	font-size: 1em;
 	white-space: pre-wrap;
 }
