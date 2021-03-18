@@ -64,6 +64,11 @@ if ( ! function_exists( 'hello_elementor_setup' ) ) {
 			add_editor_style( 'editor-style.css' );
 
 			/*
+			 * Gutenberg wide images.
+			 */
+			add_theme_support( 'align-wide' );
+
+			/*
 			 * WooCommerce.
 			 */
 			$hook_result = apply_filters_deprecated( 'elementor_hello_theme_add_woocommerce_support', [ true ], '2.0', 'hello_elementor_add_woocommerce_support' );
