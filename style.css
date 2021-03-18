@@ -7,7 +7,8 @@
 	Version: 2.4.0
 	Stable tag: 2.4.0
 	Requires at least: 4.7
-	Tested up to: 5.4
+	Tested up to: 5.6
+	Requires PHP: 5.6
 	License: GNU General Public License v3 or later.
 	License URI: https://www.gnu.org/licenses/gpl-3.0.html
 	Text Domain: hello-elementor
@@ -53,7 +54,9 @@ body {
   font-weight: 400;
   line-height: 1.5;
   color: #333333;
-  background-color: #fff; }
+  background-color: #fff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
 
 /**
  * Correct the font size and margin on `h1` elements within `section` and
@@ -553,7 +556,7 @@ table {
     border-top: 1px solid #cccccc; }
   table tbody > tr:nth-child(odd) > td,
   table tbody > tr:nth-child(odd) > th {
-    background-color: #eeeeee; }
+    background-color: #f7f7f7; }
   table tbody tr:hover > td,
   table tbody tr:hover > th {
     background-color: #e9e9e9; }

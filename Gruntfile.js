@@ -6,6 +6,8 @@
 module.exports = function( grunt ) {
 
 	require( 'matchdep' ).filterDev( 'grunt-*' ).forEach( grunt.loadNpmTasks );
+	
+	const sass = require('node-sass');
 
 	// Project configuration.
 	grunt.initConfig( {
@@ -14,6 +16,9 @@ module.exports = function( grunt ) {
 		webpack: require( './webpack' ),
 
 		sass: {
+			options: {
+				implementation: sass
+			},
 			dist: {
 				files: [ {
 					expand: true,

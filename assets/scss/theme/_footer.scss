@@ -81,7 +81,6 @@
 @media (max-width: $screen-xs) {
 	
 	.site-footer:not(.footer-stacked) {
-
 		.site-branding,
 		.site-navigation,
 		.copyright {
@@ -116,6 +115,7 @@
 	.site-branding {
 		display: flex;
 		flex-direction: column;
+		justify-content: center;
 	}
 
 	.copyright {

@@ -4,10 +4,10 @@
 
 **Contributors:** [elemntor](https://profiles.wordpress.org/elemntor), [KingYes](https://profiles.wordpress.org/KingYes), [ariel.k](https://profiles.wordpress.org/ariel.k), [jzaltzberg](https://profiles.wordpress.org/jzaltzberg), [mati1000](https://profiles.wordpress.org/mati1000), [bainternet](https://profiles.wordpress.org/bainternet)  
 **Requires at least:** 4.7  
-**Tested up to:** 5.4  
+**Tested up to:** 5.6  
 **Stable tag:** 2.3.0  
 **Version:** 2.3.0  
-**Requires PHP:** 5.4  
+**Requires PHP:** 5.6  
 **License:** GNU General Public License v3 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-3.0.html  
 **Tags:** custom-menu, custom-logo, featured-images, rtl-language-support, threaded-comments, translation-ready  
@@ -95,10 +95,17 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 ## Changelog ##
 
+### 2.3.1 - 2020-12-28 ###
+* Tweak: Improved UI for table  elements
+* Tweak: Added support for Gutenberg Wide and Full image formats
+* Tweak: Added font smoothing
+* Tweak: Added compatibility declaration for WordPress v5.6
+* Fix: Font glitches in editor-style.css ([#128](https://github.com/elementor/hello-theme/issues/128))
+
 ### 2.3.0 - 2020-04-19 ###
 * Tweak: Removed caption centering by default to allow alignment using Elementor (Props [@cirkut](https://github.com/cirkut))
 * Tweak: Removed `text-align` property from table elements to avoid alignment issue in RTL websites (Props [@ramiy](https://github.com/ramiy))
-* Tweak: Added `input[type="url"]` to CSS reset rules
+* Tweak: Added `input[type="url"]` to CSS reset rules ([#109](https://github.com/elementor/hello-theme/issues/109))
 * Tweak: Update `Tested Up to 5.4`
 
 ### 2.2.2 - 2019-12-23 ###

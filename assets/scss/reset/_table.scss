@@ -52,7 +52,7 @@ table {
 
 		> tr:nth-child(odd) > td,
 		> tr:nth-child(odd) > th {
-			background-color: $gray-lighter;
+			background-color: $gray-lightest;
 		}
 
 		tr:hover > td,
