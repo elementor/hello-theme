@@ -175,6 +175,10 @@ function custom_jw_admin_head_scripts(){
   #adminmenu li#menu-settings ul.wp-submenu li a[href="plugin-install.php"], #adminmenu li#menu-settings ul.wp-submenu li a[href="plugin-editor.php"],
   #adminmenu li#menu-settings ul.wp-submenu li a[href="import.php"], #adminmenu li#menu-settings ul.wp-submenu li a[href="export.php"],
   #adminmenu li#menu-settings ul.wp-submenu li a[href*="export_personal_data"], #adminmenu li#menu-settings ul.wp-submenu li a[href*="remove_personal_data"] {padding-left: 24px;}
+  .wp-admin #sgpb-popup-dialog-main-div-wrapper {display: none;}
+  .wp-admin #sgpb-popup-dialog-main-div-wrapper + .sgpb-popup-overlay {display: none;}
+  .wp-admin #sg-backup-review-wrapper {display: none;}
+  body.elementor-editor-active #elementor-switch-mode-button {display: none;}
   </style>
   <script type="text/javascript">
   jQuery(document).ready(function(){
@@ -235,6 +239,16 @@ $gbg_post_setting = get_theme_mod( 'htc_gbg_post_setting' );
 if ( $gbg_post_setting == true ){
   add_filter( 'use_block_editor_for_post', 'custom_disable_gutenberg_post' );
 }
+
+// Disable Gutenberg fullscreen view for all users
+add_action( 'enqueue_block_editor_assets', 'custom_disable_gutenberg_fullscreen_all' );
+function custom_disable_gutenberg_fullscreen_all() {
+  $script = "window.onload = function() { const isFullscreenMode = wp.data.select( 'core/edit-post' ).isFeatureActive( 'fullscreenMode' ); if ( isFullscreenMode ) { wp.data.dispatch( 'core/edit-post' ).toggleFeature( 'fullscreenMode' ); } }";
+  wp_add_inline_script( 'wp-blocks', $script );
+}
+
+// Disable auto-update email notifications for plugins
+add_filter( 'auto_plugin_update_send_email', '__return_false' );
 
 // Woocommerce overrides
 // Woocommerce sorting options by alphabetical

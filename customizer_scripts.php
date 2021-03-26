@@ -132,7 +132,7 @@ function custom_hello_theme_mods_styles() {
 		printf( ".gform_wrapper form ::-webkit-input-placeholder{color: %s;}\n", $gform_placeholder_color );
 		printf( ".gform_wrapper form ::-moz-placeholder{color: %s;}\n", $gform_placeholder_color );
 		printf( ".gform_wrapper form :-ms-input-placeholder{color: %s;}\n", $gform_placeholder_color );
-		printf( ".gform_wrapper form .gform_body .gform_fields .gfield label.gfield_label{color: %s;}\n", $gform_label_color );
+		printf( ".gform_wrapper form .gform_body .gform_fields .gfield label.gfield_label{color: %s;font-family: inherit;}\n", $gform_label_color );
 		printf( ".gform_wrapper form .gform_body .gform_fields .gfield input[type=text], .gform_wrapper form .gform_body .gform_fields .gfield input[type=email], .gform_wrapper form .gform_body .gform_fields .gfield input[type=number]{background: %s;padding: %s !important;margin: %s;border: %s;color: %s;}\n", $gform_text_bg, $gform_text_pad, $gform_text_mar, $gform_text_bor, $gform_field_color );
 		printf( ".gform_wrapper form .gform_body .gform_fields .gfield select{background: %s;padding: %s !important;margin: %s;border: %s;color: %s;}\n", $gform_sel_bg, $gform_sel_pad, $gform_sel_mar, $gform_sel_bor, $gform_field_color );
 		printf( ".gform_wrapper form .gform_body .gform_fields .gfield textarea{background: %s;padding: %s !important;margin: %s;border: %s;color: %s;height: %s;}\n", $gform_texta_bg, $gform_texta_pad, $gform_texta_mar, $gform_texta_bor, $gform_field_color, $gform_texta_hei );
