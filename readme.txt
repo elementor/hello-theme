@@ -1,8 +1,8 @@
 === Jtheme Jello ===
 Contributors: Jezweb
 Requires at least: WordPress 5.0
-Tested up to: WordPress 5.3.2
-Version: 1.4.2
+Tested up to: WordPress 5.7
+Version: 1.4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,6 +27,14 @@ Elementor (Pro)
 Source: https://elementor.com
 
 == Changelog ==
+
+= 1.4.3 - 2021-3-27 =
+* Fix: login_headertitle fix deprecated to "login_headertext"
+* Fix: "div.gform_wrapper form" font-family declaration set to inherit
+* New: Disable auto-update email notifications for plugins
+* New: Hide Backup Guard plugin review banner
+* Tweak: Hide Elementor switch mode button for default Wordpress editor
+* Tweak: Disable Gutenberg fullscreen view for all users
 
 = 1.4.2 - 2020-8-30 =
 * New: Theme styles toggle for global elements and Gravity forms
