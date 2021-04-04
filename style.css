@@ -6,7 +6,7 @@ Author: Jezweb
 Author URI: https://www.jezweb.com.au/
 Text Domain: elementor-hello-theme
 Details URI: https://zoro.com.au/theme_updater_versions/versionreadme.txt
-Version: 1.4.3
+Version: 1.4.4
 Stable tag: 1.0
 Requires at least: 5.0
 Tested up to: 5.7
@@ -55,6 +55,11 @@ sup{
 }
 img{
 	border-style:none;
+}
+button,input,optgroup,select,textarea{
+	font-family:inherit;
+	font-size:inherit;
+	outline: none;
 }
 button,input{
 	overflow:visible;
@@ -169,4 +174,9 @@ ul, ol{
 }
 .gform_wrapper form .gform_footer .gform_button{
 	cursor: pointer;
+}
+
+/* Elementor gallery line fix */
+.elementor-lightbox .elementor-swiper-button:focus {
+	outline-width: 0px;
 }

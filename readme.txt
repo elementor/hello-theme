@@ -28,6 +28,10 @@ Source: https://elementor.com
 
 == Changelog ==
 
+= 1.4.4 - 2021-4-5 =
+* Fix: Elementor gallery line css fix
+* Fix: button, input, optgroup, select, textarea tags font-family and font-size set to inherit
+
 = 1.4.3 - 2021-3-27 =
 * Fix: login_headertitle fix deprecated to "login_headertext"
 * Fix: "div.gform_wrapper form" font-family declaration set to inherit
