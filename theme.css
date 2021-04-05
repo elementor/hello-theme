@@ -94,6 +94,9 @@ to override any of the settings in this section, add your styling code in the cu
 .bypostauthor {
   font-size: inherit; }
 
+.elementor-widget-wp-widget-search .search-submit {
+  vertical-align: middle; }
+
 /*
 DO NOT CHANGE THIS FILE
 to override any of the settings in this section, add your styling code in the custom directory.
