@@ -153,7 +153,7 @@ to override any of the settings in this section, add your styling code in the cu
     display: block; }
 
 /**
- * Footer styling and layout 
+ * Footer styling and layout
  */
 .site-footer {
   display: -webkit-box;
@@ -248,7 +248,7 @@ to override any of the settings in this section, add your styling code in the cu
         -ms-flex-pack: end;
             justify-content: flex-end; }
     .site-footer .copyright p {
-      margin: 0px; }
+      margin: 0; }
   .site-footer.footer-stacked .site-branding h4.site-title {
     text-align: center; }
   .site-footer.footer-stacked .site-navigation .menu {
@@ -292,8 +292,8 @@ to override any of the settings in this section, add your styling code in the cu
             flex-direction: column;
     padding: 30px 0 30px 60px;
     border-bottom: 1px solid #cccccc; }
-    body.rtl #comments .comment .comment-body, body.rtl
-    #comments .pingback .comment-body {
+    #comments .comment .comment-body body.rtl,
+    #comments .pingback .comment-body body.rtl {
       padding: 30px 60px 30px 0; }
   #comments .comment .avatar,
   #comments .pingback .avatar {
@@ -531,7 +531,6 @@ footer .site-navigation ul.menu a {
     .site-navigation-dropdown ul.menu li {
       display: block;
       width: 100%;
-      display: block;
       position: relative; }
     .site-navigation-dropdown ul.menu li a {
       display: block;

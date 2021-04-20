@@ -142,8 +142,6 @@ a {
 abbr[title] {
   border-bottom: none;
   /* 1 */
-  text-decoration: underline;
-  /* 2 */
   -webkit-text-decoration: underline dotted;
           text-decoration: underline dotted;
   /* 2 */ }
@@ -415,7 +413,6 @@ button,
   button:focus,
   [type="submit"]:focus,
   [type="button"]:focus {
-    outline: 1px dotted;
     outline: 5px auto -webkit-focus-ring-color; }
   button:hover, button:focus,
   [type="submit"]:hover,

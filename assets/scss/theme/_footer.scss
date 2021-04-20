@@ -1,5 +1,5 @@
 /**
- * Footer styling and layout 
+ * Footer styling and layout
  */
 
 .site-footer {
@@ -16,16 +16,16 @@
 	&.footer-inverted {
 
 		flex-direction: row-reverse;
-		
+
 		.site-branding {
 			text-align: right;
 		}
-		
+
 		.site-navigation {
 			justify-content: flex-start;
 		}
 	}
-	
+
 	&.footer-has-copyright {
 
 		.site-navigation {
@@ -38,7 +38,7 @@
 		flex-direction: column;
 		text-align: center;
 	}
-	
+
 	&:not(.footer-stacked) .site-branding {
 		max-width: 20%;
 	}
@@ -66,7 +66,7 @@
 		}
 
 		&.show-logo {
-			
+
 			.site-title {
 				display: none !important;
 			}
@@ -79,7 +79,7 @@
 }
 
 @media (max-width: $screen-xs) {
-	
+
 	.site-footer:not(.footer-stacked) {
 		.site-branding,
 		.site-navigation,
@@ -124,7 +124,7 @@
 		justify-content: flex-end;
 
 		p {
-			margin: 0px;
+			margin: 0;
 		}
 	}
 
