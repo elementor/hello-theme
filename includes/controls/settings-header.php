@@ -44,40 +44,6 @@ class Hello_Settings_Header extends Tab_Base {
 			]
 		);
 
-		if ( false === get_option( 'hello_header_type_default' ) ) {
-			$this->add_control(
-				'hello_header_type',
-				[
-					'type' => Controls_Manager::HIDDEN,
-					'default' => 'dynamic',
-				]
-			);
-
-		} else {
-			$this->add_control(
-				'hello_header_type',
-				[
-					'type' => Controls_Manager::SELECT,
-					'label' => __( 'Header Design', 'hello-elementor' ),
-					'options' => [
-						'static' => __( 'Basic (Legacy)', 'hello-elementor' ),
-						'dynamic' => __( 'Customized', 'hello-elementor' ),
-					],
-					'default' => ( false === get_option( 'hello_header_type_default' ) ? 'dynamic' : get_option( 'hello_header_type_default' ) ),
-				]
-			);
-
-			$this->add_control(
-				'hello_header_type_warning',
-				[
-					'type' => Controls_Manager::RAW_HTML,
-					'raw' => __( 'Changes will be reflected in the preview only after the page reloads.', 'hello-elementor' ),
-					'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
-				]
-			);
-
-		}
-
 		$this->add_control(
 			'hello_header_logo_display',
 			[
