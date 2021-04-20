@@ -545,7 +545,7 @@ class Hello_Settings_Header extends Tab_Base {
 				__( 'With the new Theme Builder you can jump directly into each part of your site', 'hello-elementor' ),
 				__( 'Create Header', 'hello-elementor' ),
 				get_template_directory_uri() . '/assets/images/go-pro.svg',
-				get_admin_url( null, 'edit.php?post_type=elementor_library&tabs_group=theme&elementor_library_type=header' )
+				get_admin_url( null, 'admin.php?page=elementor-app#/site-editor/templates/header' )
 			);
 		}
 	}
