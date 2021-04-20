@@ -407,7 +407,7 @@ class Hello_Settings_Footer extends Tab_Base {
 						'hello_footer_copyright_display' => 'yes',
 					],
 					'selectors' => [
-						'.site-footer .copyright p' => 'color: {{VALUE}};',
+						'footer .site-navigation a' => 'color: {{VALUE}};',
 					],
 				]
 			);
@@ -420,7 +420,7 @@ class Hello_Settings_Footer extends Tab_Base {
 					'condition' => [
 						'hello_footer_copyright_display' => 'yes',
 					],
-					'selector' => '.site-footer .copyright p',
+					'selector' => 'footer .site-navigation a',
 				]
 			);
 		}
