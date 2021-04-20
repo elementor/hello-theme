@@ -1,6 +1,7 @@
 <?php
 namespace Elementor\Core\Kits\Documents\Tabs;
 
+use Elementor\Plugin;
 use Elementor\Controls_Manager;
 use Elementor\Core\Responsive\Responsive;
 
@@ -8,6 +9,9 @@ use Elementor\Core\Responsive\Responsive;
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
+
+// Allow active/inactive via the Experiments
+if ( ! hello_elementor_header_footer_setting() ) return;
 
 class Hello_Settings_Header extends Tab_Base {
 
@@ -82,9 +86,6 @@ class Hello_Settings_Header extends Tab_Base {
 				'default' => 'yes',
 				'label_on' => 'Show',
 				'label_off' => 'Hide',
-				'condition' => [
-					'hello_header_type' => 'dynamic',
-				],
 			]
 		);
 
@@ -96,9 +97,6 @@ class Hello_Settings_Header extends Tab_Base {
 				'default' => 'yes',
 				'label_on' => 'Show',
 				'label_off' => 'Hide',
-				'condition' => [
-					'hello_header_type' => 'dynamic',
-				],
 			]
 		);
 
@@ -110,9 +108,6 @@ class Hello_Settings_Header extends Tab_Base {
 				'default' => 'yes',
 				'label_on' => 'Show',
 				'label_off' => 'Hide',
-				'condition' => [
-					'hello_header_type' => 'dynamic',
-				],
 			]
 		);
 
@@ -128,9 +123,6 @@ class Hello_Settings_Header extends Tab_Base {
 				],
 				'selector' => '.site-header',
 				'default' => 'default',
-				'condition' => [
-					'hello_header_type' => 'dynamic',
-				],
 			]
 		);
 
@@ -145,9 +137,6 @@ class Hello_Settings_Header extends Tab_Base {
 				],
 				'selector' => '.site-header',
 				'default' => 'boxed',
-				'condition' => [
-					'hello_header_type' => 'dynamic',
-				],
 			]
 		);
 
@@ -180,11 +169,6 @@ class Hello_Settings_Header extends Tab_Base {
 							'name' => 'hello_header_width',
 							'operator' => '=',
 							'value' => 'boxed',
-						],
-						[
-							'name' => 'hello_header_type',
-							'operator' => '=',
-							'value' => 'dynamic',
 						],
 						[
 							'name' => 'hello_header_layout',
@@ -228,11 +212,6 @@ class Hello_Settings_Header extends Tab_Base {
 					'relation' => 'and',
 					'terms' => [
 						[
-							'name' => 'hello_header_type',
-							'operator' => '=',
-							'value' => 'dynamic',
-						],
-						[
 							'name' => 'hello_header_layout',
 							'operator' => '!=',
 							'value' => 'stacked',
@@ -249,9 +228,6 @@ class Hello_Settings_Header extends Tab_Base {
 				'label' => __( 'Background', 'hello-elementor' ),
 				'types' => [ 'classic', 'gradient' ],
 				'selector' => '.site-header',
-				'condition' => [
-					'hello_header_type' => 'dynamic',
-				],
 			]
 		);
 
@@ -269,12 +245,7 @@ class Hello_Settings_Header extends Tab_Base {
 							'name' => 'hello_header_logo_display',
 							'operator' => '=',
 							'value' => 'yes',
-						],
-						[
-							'name' => 'hello_header_type',
-							'operator' => '=',
-							'value' => 'dynamic',
-						],
+						]
 					],
 				],
 			]
@@ -386,12 +357,7 @@ class Hello_Settings_Header extends Tab_Base {
 							'name' => 'hello_header_tagline_display',
 							'operator' => '=',
 							'value' => 'yes',
-						],
-						[
-							'name' => 'hello_header_type',
-							'operator' => '=',
-							'value' => 'dynamic',
-						],
+						]
 					],
 				],
 			]
@@ -447,12 +413,7 @@ class Hello_Settings_Header extends Tab_Base {
 							'name' => 'hello_header_menu_display',
 							'operator' => '=',
 							'value' => 'yes',
-						],
-						[
-							'name' => 'hello_header_type',
-							'operator' => '=',
-							'value' => 'dynamic',
-						],
+						]
 					],
 				],
 			]

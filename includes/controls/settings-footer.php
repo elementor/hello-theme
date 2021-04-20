@@ -1,6 +1,7 @@
 <?php
 namespace Elementor\Core\Kits\Documents\Tabs;
 
+use Elementor\Plugin;
 use Elementor\Controls_Manager;
 use Elementor\Core\Responsive\Responsive;
 
@@ -8,6 +9,9 @@ use Elementor\Core\Responsive\Responsive;
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
+
+// Allow active/inactive via the Experiments
+if ( ! hello_elementor_header_footer_setting() ) return;
 
 class Hello_Settings_Footer extends Tab_Base {
 
