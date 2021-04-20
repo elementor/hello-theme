@@ -22,12 +22,26 @@ $containers: '.site-header, body:not([class*="elementor-page-"]) .site-main, .si
 	#{$containers} {
 		max-width: 500px;
 	}
+	
+	.site-header {
+
+		&.header-full-width {
+			max-width: 100%;
+		}
+	}
 }
 
 @media (min-width: $screen-sm){
 
 	#{$containers} {
 		max-width: 600px;
+	}
+	
+	.site-header {
+
+		&.header-full-width {
+			max-width: 100%;
+		}
 	}
 }
 

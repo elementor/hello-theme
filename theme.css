@@ -595,11 +595,15 @@ footer .site-navigation ul.menu a {
 
 @media (min-width: 576px) {
   .site-header, body:not([class*="elementor-page-"]) .site-main, .site-footer {
-    max-width: 500px; } }
+    max-width: 500px; }
+  .site-header.header-full-width {
+    max-width: 100%; } }
 
 @media (min-width: 768px) {
   .site-header, body:not([class*="elementor-page-"]) .site-main, .site-footer {
-    max-width: 600px; } }
+    max-width: 600px; }
+  .site-header.header-full-width {
+    max-width: 100%; } }
 
 @media (min-width: 992px) {
   .site-header, body:not([class*="elementor-page-"]) .site-main, .site-footer {
