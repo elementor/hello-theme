@@ -203,7 +203,7 @@ add_action( 'elementor/experiments/default-features-registered', function( Exper
 		'title' => __( 'Hello Theme Header & Footer', 'hello-elementor' ),
 		'description' => sprintf( __( 'Use this experiment to design header and footer using Elementor Site Settings. <a href="%s" target="_blank">Learn More</a>', 'hello-elementor' ), 'https://go.elementor.com/wp-dash-header-footer' ),
 		'release_status' => Experiments_Manager::RELEASE_STATUS_BETA,
-		'default' => ( false === get_option( 'hello_header_type_default' ) ? Experiments_Manager::STATE_INACTIVE : Experiments_Manager::STATE_ACTIVE ),
+		'default' => ( false == get_option( 'hello_header_footer_experiment' ) ? Experiments_Manager::STATE_ACTIVE : Experiments_Manager::STATE_INACTIVE ),
 	] );
 } );
 
@@ -211,6 +211,9 @@ add_action( 'elementor/experiments/default-features-registered', function( Exper
  * Helper function to check if Header & Footer Experiment is Active/Inactive
  */
 function hello_elementor_header_footer_setting() {
+	
+	// Backwards compat.
+	if ( ! method_exists( Plugin::$instance->experiments, 'is_feature_active' ) ) return FALSE;
 	
 	return ( bool )( Plugin::$instance->experiments->is_feature_active( 'hello-theme-header-footer' ) );
 }
