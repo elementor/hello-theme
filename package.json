@@ -13,7 +13,7 @@
 		"babel-eslint": "^8.2.6",
 		"babel-loader": "8.0.0",
 		"cssnano": "~3.10.0",
-		"eslint": "^5.4.0",
+		"eslint": "^5.16.0",
 		"eslint-config-wordpress": "^2.0.0",
 		"eslint-loader": "^2.1.2",
 		"eslint-plugin-babel": "^5.3.0",
@@ -32,8 +32,8 @@
 		"grunt-wp-readme-to-markdown-with-extra": "~2.2.0",
 		"load-grunt-tasks": "^4.0.0",
 		"matchdep": "~2.0.0",
-		"webpack": "^5.11.0",
-		"node-sass": "^5.0.0"
+		"node-sass": "^5.0.0",
+		"webpack": "^5.11.0"
 	},
 	"dependencies": {
 		"@babel/plugin-transform-modules-commonjs": "^7.2.0",
