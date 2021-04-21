@@ -190,8 +190,7 @@ add_action( 'set_site_transient_update_themes', 'hello_check_theme_ver', 100 );
 function hello_check_theme_ver() {
 	// If we don't have the theme version of Hello enabled, add it now, and make sure that we turn off the dynamic header
 	if ( ! get_option( 'hello_theme_version' ) ) {
-		update_option( 'hello_header_type_default', 'static', true );
-		update_option( 'hello_footer_type_default', 'static', true );
+		update_option( 'hello_header_footer_experiment', 'inactive', true );
 	}
 
 	// Update the theme version
