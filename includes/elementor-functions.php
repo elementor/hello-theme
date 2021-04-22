@@ -132,7 +132,7 @@ add_action( 'elementor/editor/after_enqueue_scripts', function() {
 		HELLO_ELEMENTOR_VERSION,
 		true
 	);
-	
+
 	wp_enqueue_style(
 		'hello-elementor-customizer',
 		get_template_directory_uri() . '/elementor-customizer' . $suffix . '.css',
@@ -211,9 +211,9 @@ add_action( 'elementor/experiments/default-features-registered', function( Exper
  * Helper function to check if Header & Footer Experiment is Active/Inactive
  */
 function hello_elementor_header_footer_setting() {
-	
+
 	// Backwards compat.
 	if ( ! method_exists( Plugin::$instance->experiments, 'is_feature_active' ) ) return FALSE;
-	
+
 	return ( bool )( Plugin::$instance->experiments->is_feature_active( 'hello-theme-header-footer' ) );
 }
