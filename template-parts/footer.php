@@ -38,9 +38,9 @@ $footer_class = did_action( 'elementor/loaded' ) ? esc_attr( hello_get_footer_la
 			<?php endif; ?>
 		</div>
 
-		<?php if ( has_nav_menu( 'menu-2' ) ) : ?>
+		<?php if ( wp_nav_menu( [ 'theme_location' => 'menu-2', 'fallback_cb' => false, 'echo' => false ] ) ) : ?>
 			<nav class="site-navigation <?php echo hello_show_or_hide( 'hello_footer_menu_display' ); ?>" role="navigation">
-				<?php wp_nav_menu( [ 'theme_location' => 'menu-2' ] ); ?>
+				<?php wp_nav_menu( [ 'theme_location' => 'menu-2', 'fallback_cb' => false ] ); ?>
 			</nav>
 		<?php endif; ?>
 

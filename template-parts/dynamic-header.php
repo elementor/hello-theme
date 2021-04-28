@@ -40,9 +40,9 @@ $tagline   = get_bloginfo( 'description', 'display' );
 		<?php endif; ?>
 	</div>
 
-	<?php if ( has_nav_menu( 'menu-1' ) ) : ?>
+	<?php if ( wp_nav_menu( array( 'theme_location' => 'menu-1', 'fallback_cb' => false, 'echo' => false ) ) ) : ?>
 		<nav class="site-navigation <?php echo hello_show_or_hide( 'hello_header_menu_display' ); ?>" role="navigation">
-			<?php wp_nav_menu( array( 'theme_location' => 'menu-1' ) ); ?>
+			<?php wp_nav_menu( array( 'theme_location' => 'menu-1', 'fallback_cb' => false ) ); ?>
 		</nav>
 		<div class="site-navigation-toggle-holder <?php echo hello_show_or_hide( 'hello_header_menu_display' ); ?>">
 			<div class="site-navigation-toggle">
@@ -51,7 +51,7 @@ $tagline   = get_bloginfo( 'description', 'display' );
 			</div>
 		</div>
 		<nav class="site-navigation-dropdown <?php echo hello_show_or_hide( 'hello_header_menu_display' ); ?>" role="navigation">
-			<?php wp_nav_menu( array( 'theme_location' => 'menu-1' ) ); ?>
+			<?php wp_nav_menu( array( 'theme_location' => 'menu-1', 'fallback_cb' => false ) ); ?>
 		</nav>
 	<?php endif; ?>
 </header>
