@@ -84,3 +84,10 @@ to override any of the settings in this section, add your styling code in the cu
 .bypostauthor {
 	font-size: inherit;
 }
+
+// Specific style for 'wp search' widget: same alignment for the button and label elements.
+.elementor-widget-wp-widget-search {
+	.search-submit {
+		vertical-align: middle;
+	}
+}
