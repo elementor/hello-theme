@@ -32,7 +32,7 @@ function hello_elementor_get_setting( $setting_id ) {
 
 	$return = '';
 
-	if ( ! isset( $hello_elementor_settings['active_kit'] ) ) {
+	if ( ! isset( $hello_elementor_settings['kit_settings'] ) ) {
 		$kit = Plugin::$instance->documents->get( Plugin::$instance->kits_manager->get_active_id(), false );
 		$hello_elementor_settings['kit_settings'] = $kit->get_settings();
 	}
