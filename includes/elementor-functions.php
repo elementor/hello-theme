@@ -134,8 +134,8 @@ add_action( 'elementor/editor/after_enqueue_scripts', function() {
 	);
 
 	wp_enqueue_style(
-		'hello-elementor-customizer',
-		get_template_directory_uri() . '/elementor-customizer' . $suffix . '.css',
+		'hello-editor',
+		get_template_directory_uri() . '/editor' . $suffix . '.css',
 		[],
 		HELLO_ELEMENTOR_VERSION
 	);

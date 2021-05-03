@@ -61,7 +61,7 @@ if ( ! function_exists( 'hello_elementor_setup' ) ) {
 			/*
 			 * Editor Style.
 			 */
-			add_editor_style( 'editor-style.css' );
+			add_editor_style( 'classic-editor.css' );
 
 			/*
 			 * Gutenberg wide images.
