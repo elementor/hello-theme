@@ -602,6 +602,8 @@ footer .site-navigation ul.menu a {
   .site-header, body:not([class*="elementor-page-"]) .site-main, .site-footer {
     max-width: 600px; }
   .site-header.header-full-width {
+    max-width: 100%; }
+  .site-footer.footer-full-width {
     max-width: 100%; } }
 
 @media (min-width: 992px) {

@@ -43,6 +43,13 @@ $containers: '.site-header, body:not([class*="elementor-page-"]) .site-main, .si
 			max-width: 100%;
 		}
 	}
+
+	.site-footer {
+
+		&.footer-full-width {
+			max-width: 100%;
+		}
+	}
 }
 
 @media (min-width: $screen-md) {
