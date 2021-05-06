@@ -152,6 +152,10 @@ to override any of the settings in this section, add your styling code in the cu
   .site-header .custom-logo-link {
     display: block; }
 
+@media (max-width: 576px) {
+  .site-header:not(.header-stacked) .site-branding {
+    max-width: 80%; } }
+
 /**
  * Footer styling and layout
  */

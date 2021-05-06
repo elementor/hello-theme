@@ -67,3 +67,12 @@
 		display: block;
 	}
 }
+
+@media (max-width: $screen-xs) {
+	.site-header {
+		
+		&:not(.header-stacked) .site-branding {
+			max-width: 80%;
+		}
+	}
+}
