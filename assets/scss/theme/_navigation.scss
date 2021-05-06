@@ -230,15 +230,6 @@ footer {
 	}
 }
 
-@media (max-width: $screen-sm) {
-	.site-header.menu-dropdown-mobile:not(.menu-layout-dropdown) {
-
-		.site-navigation {
-			display: none !important;
-		}
-	}
-}
-
 @media (min-width: $screen-xl) {
 	.site-header.menu-dropdown-tablet:not(.menu-layout-dropdown) {
 
