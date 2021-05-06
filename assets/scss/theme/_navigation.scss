@@ -221,6 +221,15 @@ footer {
 	}
 }
 
+@media (max-width: $screen-xs) {
+	.site-header.menu-dropdown-mobile:not(.menu-layout-dropdown) {
+
+		.site-navigation {
+			display: none !important;
+		}
+	}
+}
+
 @media (min-width: $screen-sm) {
 	.site-header.menu-dropdown-mobile:not(.menu-layout-dropdown) {
 

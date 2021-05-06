@@ -565,6 +565,10 @@ footer .site-navigation ul.menu a {
               transform: scaleY(1);
       max-height: 100vh; }
 
+@media (max-width: 576px) {
+  .site-header.menu-dropdown-mobile:not(.menu-layout-dropdown) .site-navigation {
+    display: none !important; } }
+
 @media (min-width: 768px) {
   .site-header.menu-dropdown-mobile:not(.menu-layout-dropdown) .site-navigation-toggle-holder {
     display: none !important; } }
