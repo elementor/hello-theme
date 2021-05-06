@@ -136,11 +136,6 @@ class Hello_Settings_Header extends Tab_Base {
 							'operator' => '=',
 							'value' => 'boxed',
 						],
-						[
-							'name' => 'hello_header_layout',
-							'operator' => '!=',
-							'value' => 'stacked',
-						],
 					],
 				],
 				'selectors' => [
