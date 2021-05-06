@@ -128,15 +128,8 @@ class Hello_Settings_Header extends Tab_Base {
 						'step' => 1,
 					],
 				],
-				'conditions' => [
-					'relation' => 'and',
-					'terms' => [
-						[
-							'name' => 'hello_header_width',
-							'operator' => '=',
-							'value' => 'boxed',
-						],
-					],
+				'condition' => [
+					'hello_header_width' => 'boxed',
 				],
 				'selectors' => [
 					'.site-header' => 'width: {{SIZE}}{{UNIT}}; max-width: 100%;',
