@@ -686,8 +686,7 @@ var ControlsHook = /*#__PURE__*/function (_$e$modules$hookUI$Af) {
           selector: '.site-footer .copyright',
           callback: function callback($element, args) {
             var inputValue = args.settings.hello_footer_copyright_text;
-            
-            $element.find('p').text( inputValue );
+            $element.find('p').text(inputValue);
           }
         }
       };

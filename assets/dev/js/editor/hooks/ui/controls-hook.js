@@ -145,6 +145,14 @@ export default class ControlsHook extends $e.modules.hookUI.After {
                     this.toggleLayoutClass( $element, classPrefix, inputOptions, inputValue );
                 },
             },
+            hello_footer_copyright_text: {
+                selector: '.site-footer .copyright',
+                callback: ( $element, args ) => {
+                    var inputValue = args.settings.hello_footer_copyright_text;
+
+                    $element.find('p').text( inputValue );
+                }
+            }
         };
     }
 
