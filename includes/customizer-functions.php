@@ -11,6 +11,11 @@
  */
 add_action( 'customize_register', 'hello_customizer_register' );
 function hello_customizer_register( $wp_customize ) {
+	// Allow active/inactive via the Experiments
+	if ( ! hello_elementor_header_footer_setting() ) {
+		return;
+	}
+
 	require get_template_directory() . '/includes/controls/customizer-upsell-control.php';
 
 	$wp_customize->add_section(
