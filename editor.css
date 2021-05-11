@@ -14,12 +14,12 @@
 .elementor-nerd-box .elementor-nerd-box-message .elementor-nerd-box-title {
   margin: 24px 0 0;
   font-size: 16px;
-  color: #6d7882; }
+  /*color: #6d7882;*/ }
 
 .elementor-nerd-box .elementor-nerd-box-message .elementor-nerd-box-message {
   margin: 12px 0 0;
   font-size: 11px;
-  color: #6d7882; }
+  /*color: #6d7882;*/ }
 
 .elementor-nerd-box .elementor-nerd-box-link {
   margin: 24px 0 0; }
