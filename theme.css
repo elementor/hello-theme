@@ -573,7 +573,7 @@ footer .site-navigation ul.menu a {
   .site-header.menu-dropdown-mobile:not(.menu-layout-dropdown) .site-navigation-toggle-holder {
     display: none !important; } }
 
-@media (max-width: 768px) {
+@media (min-width: 576px) and (max-width: 767px) {
   .site-header.menu-dropdown-mobile:not(.menu-layout-dropdown) .site-navigation {
     display: none !important; } }
 

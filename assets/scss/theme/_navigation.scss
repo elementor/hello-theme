@@ -239,8 +239,8 @@ footer {
 	}
 }
 
-@media (max-width: $screen-sm) {
-    .site-header.menu-dropdown-mobile:not(.menu-layout-dropdown) {
+@media (min-width: $screen-xs) and (max-width: 767px) {
+	.site-header.menu-dropdown-mobile:not(.menu-layout-dropdown) {
 
         .site-navigation {
             display: none !important;
