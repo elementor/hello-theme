@@ -379,7 +379,8 @@ to override any of the settings in this section, add your styling code in the cu
 .site-header.header-stacked .site-navigation-toggle-holder {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
-          justify-content: center; }
+          justify-content: center;
+  max-width: 100%; }
 
 .site-header.menu-layout-dropdown .site-navigation {
   display: none; }
@@ -397,6 +398,7 @@ to override any of the settings in this section, add your styling code in the cu
   -webkit-box-flex: 1;
       -ms-flex-positive: 1;
           flex-grow: 1;
+  max-width: 20%;
   padding: 8px 15px; }
   .site-navigation-toggle-holder .site-navigation-toggle {
     display: -webkit-box;
