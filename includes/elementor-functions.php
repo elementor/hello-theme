@@ -212,6 +212,10 @@ add_action( 'elementor/experiments/default-features-registered', function( Exper
  */
 function hello_elementor_header_footer_setting() {
 
+	// If Elementor is not active, return false
+	if ( ! did_action( 'elementor/loaded' ) ) {
+		return FALSE;
+	}
 	// Backwards compat.
 	if ( ! method_exists( Plugin::$instance->experiments, 'is_feature_active' ) ) return FALSE;
 
