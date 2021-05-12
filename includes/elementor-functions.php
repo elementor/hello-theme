@@ -211,7 +211,6 @@ add_action( 'elementor/experiments/default-features-registered', function( Exper
  * Helper function to check if Header & Footer Experiment is Active/Inactive
  */
 function hello_elementor_header_footer_setting() {
-
 	// If Elementor is not active, return false
 	if ( ! did_action( 'elementor/loaded' ) ) {
 		return FALSE;
