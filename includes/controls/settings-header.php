@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Allow active/inactive via the Experiments
-if ( ! hello_elementor_header_footer_setting() ) return;
+if ( ! hello_header_footer_experiment_active() ) return;
 
 class Hello_Settings_Header extends Tab_Base {
 
