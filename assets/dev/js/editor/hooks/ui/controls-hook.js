@@ -78,6 +78,10 @@ export default class ControlsHook extends $e.modules.hookUI.After {
                         inputOptions = args.container.controls.hello_header_menu_layout.options,
                         inputValue = args.settings.hello_header_menu_layout;
 
+                    // No matter what, close the mobile menu
+                    $element.find( '.site-navigation-toggle-holder' ).removeClass( 'elementor-active' );
+                    $element.find( '.site-navigation-dropdown' ).removeClass( 'show' );
+
                     this.toggleLayoutClass( $element, classPrefix, inputOptions, inputValue );
                 },
             },
@@ -150,9 +154,9 @@ export default class ControlsHook extends $e.modules.hookUI.After {
                 callback: ( $element, args ) => {
                     var inputValue = args.settings.hello_footer_copyright_text;
 
-                    $element.find('p').text( inputValue );
-                }
-            }
+                    $element.find( 'p' ).text( inputValue );
+                },
+            },
         };
     }
 

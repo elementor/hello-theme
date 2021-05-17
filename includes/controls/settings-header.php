@@ -401,7 +401,7 @@ class Hello_Settings_Header extends Tab_Base {
 					'description' => sprintf( __( 'Go to the <a href="%s" target="_blank">Menus screen</a> to manage your menus.', 'hello-elementor' ), admin_url( 'nav-menus.php' ) ),
 				]
 			);
-			
+
 			$this->add_control(
 				'hello_header_menu_warning',
 				[
@@ -456,7 +456,7 @@ class Hello_Settings_Header extends Tab_Base {
 						'hello_header_menu_display' => 'yes',
 					],
 					'selectors' => [
-						'.site-header .menu li a' => 'color: {{VALUE}};',
+						'.site-header ul.menu > li > a' => 'color: {{VALUE}};',
 					],
 				]
 			);
