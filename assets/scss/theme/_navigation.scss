@@ -250,7 +250,7 @@ footer {
     }
 }
 
-@media (min-width: $screen-xl) {
+@media (min-width: $screen-md) {
 	.site-header.menu-dropdown-tablet:not(.menu-layout-dropdown) {
 
 		.site-navigation-toggle-holder {
@@ -259,7 +259,7 @@ footer {
 	}
 }
 
-@media (max-width: $screen-xl) {
+@media (max-width: $screen-md) {
 	.site-header.menu-dropdown-tablet:not(.menu-layout-dropdown) {
 
 		.site-navigation {

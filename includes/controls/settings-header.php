@@ -456,7 +456,7 @@ class Hello_Settings_Header extends Tab_Base {
 						'hello_header_menu_display' => 'yes',
 					],
 					'selectors' => [
-						'.site-header ul.menu > li > a' => 'color: {{VALUE}};',
+						'.site-header ul.menu li a' => 'color: {{VALUE}};',
 					],
 				]
 			);
