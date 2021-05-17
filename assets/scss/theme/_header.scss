@@ -9,11 +9,11 @@
 	padding-top: 1rem;
 	padding-bottom: 1rem;
 	position: relative;
-	
+
 	&:not(.header-stacked) .site-branding {
 		max-width: 30%;
 	}
-	
+
 	&:not(.header-stacked) .site-navigation {
 		max-width: 70%;
 	}
@@ -33,7 +33,7 @@
 			justify-content: start;
 		}
 	}
-	
+
 	&.header-stacked {
 	    align-items: center;
 		flex-direction: column;
@@ -54,7 +54,6 @@
 			}
 		}
 
-
 		&.show-logo {
 
 			.site-title {
@@ -70,7 +69,7 @@
 
 @media (max-width: $screen-xs) {
 	.site-header {
-		
+
 		&:not(.header-stacked) .site-branding {
 			max-width: 80%;
 		}
