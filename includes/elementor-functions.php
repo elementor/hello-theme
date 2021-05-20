@@ -24,7 +24,7 @@ function hello_elementor_settings_init() {
 			$kit->register_tab( 'hello-settings-footer', Hello_Elementor\Hello_Settings_Footer::class );
 		} );
 
-		add_action( 'elementor/kit/register_tabs', function( \Elementor\Core\Kits\Documents\Kit $kit ) {
+		add_action( 'elementor/kit/register_tabs', function( Kit $kit ) {
 			$kit->register_tab( 'hello-settings-header', Hello_Elementor\Hello_Settings_Header::class );
 		}, 1, 40 );
 	}

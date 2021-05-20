@@ -5,6 +5,8 @@
  * @package HelloElementor
  */
 
+use Elementor\Plugin;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
@@ -179,7 +181,7 @@ if ( ! function_exists( 'hello_elementor_check_hide_title' ) ) {
 	 */
 	function hello_elementor_check_hide_title( $val ) {
 		if ( defined( 'ELEMENTOR_VERSION' ) ) {
-			$current_doc = \Elementor\Plugin::instance()->documents->get( get_the_ID() );
+			$current_doc = Plugin::instance()->documents->get( get_the_ID() );
 			if ( $current_doc && 'yes' === $current_doc->get_settings( 'hide_title' ) ) {
 				$val = false;
 			}
