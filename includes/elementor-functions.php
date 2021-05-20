@@ -179,13 +179,14 @@ add_action( 'wp_enqueue_scripts', function() {
  * @return bool
  */
 function hello_get_header_display() {
-	$is_editor = isset( $_GET['elementor-preview'] );
+	if( isset( $_GET['elementor-preview'] ) ) {
+		return true;
+	}
 
 	return (
 		hello_elementor_get_setting( 'hello_header_logo_display' )
 		|| hello_elementor_get_setting( 'hello_header_tagline_display' )
 		|| hello_elementor_get_setting( 'hello_header_menu_display' )
-		|| $is_editor
 	);
 }
 
@@ -195,15 +196,15 @@ function hello_get_header_display() {
  * @return bool
  */
 function hello_get_footer_display() {
-
-	$is_editor = isset( $_GET['elementor-preview'] );
+	if( isset( $_GET['elementor-preview'] ) ) {
+		return true;
+	}
 
 	return (
 		hello_elementor_get_setting( 'hello_footer_logo_display' )
 		|| hello_elementor_get_setting( 'hello_footer_tagline_display' )
 		|| hello_elementor_get_setting( 'hello_footer_menu_display' )
 		|| hello_elementor_get_setting( 'hello_footer_copyright_display' )
-		|| $is_editor
 	);
 }
 
