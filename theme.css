@@ -296,8 +296,8 @@ to override any of the settings in this section, add your styling code in the cu
             flex-direction: column;
     padding: 30px 0 30px 60px;
     border-bottom: 1px solid #cccccc; }
-    #comments .comment .comment-body body.rtl,
-    #comments .pingback .comment-body body.rtl {
+    body.rtl #comments .comment .comment-body, body.rtl
+    #comments .pingback .comment-body {
       padding: 30px 60px 30px 0; }
   #comments .comment .avatar,
   #comments .pingback .avatar {

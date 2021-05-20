@@ -5,6 +5,8 @@
  * @package HelloElementor
  */
 
+use Elementor\Plugin;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
@@ -155,14 +157,19 @@ if ( is_admin() ) {
 /**
  * If Elementor is installed and active, we can load the Elementor-specific Settings & Features
 */
+
+// Allow active/inactive via the Experiments
 require get_template_directory() . '/includes/elementor-functions.php';
 
 /**
  * Include customizer registration functions
 */
-if ( is_customize_preview() ) {
-	require get_template_directory() . '/includes/customizer-functions.php';
+function hello_register_customizer_functions() {
+	if ( hello_header_footer_experiment_active() && is_customize_preview() ) {
+		require get_template_directory() . '/includes/customizer-functions.php';
+	}
 }
+add_action( 'init', 'hello_register_customizer_functions' );
 
 if ( ! function_exists( 'hello_elementor_check_hide_title' ) ) {
 	/**
@@ -174,7 +181,7 @@ if ( ! function_exists( 'hello_elementor_check_hide_title' ) ) {
 	 */
 	function hello_elementor_check_hide_title( $val ) {
 		if ( defined( 'ELEMENTOR_VERSION' ) ) {
-			$current_doc = \Elementor\Plugin::instance()->documents->get( get_the_ID() );
+			$current_doc = Plugin::instance()->documents->get( get_the_ID() );
 			if ( $current_doc && 'yes' === $current_doc->get_settings( 'hide_title' ) ) {
 				$val = false;
 			}

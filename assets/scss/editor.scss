@@ -11,26 +11,29 @@
 	border-radius: 0 0 6px 6px;
 }
 
-.elementor-nerd-box {
+.hello-elementor {
 
-	.elementor-nerd-box-icon {
-		margin: 0;
-	}
+	&.elementor-nerd-box {
 
-	.elementor-nerd-box-message {
-
-		.elementor-nerd-box-title {
-			margin: 24px 0 0;
-			font-size: 16px;
+		.elementor-nerd-box-icon {
+			margin: 0;
 		}
 
 		.elementor-nerd-box-message {
-			margin: 12px 0 0;
-			font-size: 11px;
-		}
-	}
 
-	.elementor-nerd-box-link {
-		margin: 24px 0 0;
+			.elementor-nerd-box-title {
+				margin: 24px 0 0;
+				font-size: 16px;
+			}
+
+			.elementor-nerd-box-message {
+				margin: 12px 0 0;
+				font-size: 11px;
+			}
+		}
+
+		.elementor-nerd-box-link {
+			margin: 24px 0 0;
+		}
 	}
 }

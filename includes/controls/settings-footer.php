@@ -1,17 +1,21 @@
-<?php
-namespace Elementor\Core\Kits\Documents\Tabs;
+<?php /**
+ * Hello Elementor additional Footer options
+ *
+ * @package HelloElementor
+ */
+
+namespace Hello_Elementor;
 
 use Elementor\Plugin;
 use Elementor\Controls_Manager;
+use Elementor\Group_Control_Background;
+use Elementor\Group_Control_Typography;
 use Elementor\Core\Responsive\Responsive;
-
+use Elementor\Core\Kits\Documents\Tabs\Tab_Base;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
-
-// Allow active/inactive via the Experiments
-if ( ! hello_header_footer_experiment_active() ) return;
 
 class Hello_Settings_Footer extends Tab_Base {
 
@@ -36,6 +40,7 @@ class Hello_Settings_Footer extends Tab_Base {
 	}
 
 	protected function register_tab_controls() {
+
 		$this->start_controls_section(
 			'hello_footer_section',
 			[
@@ -49,9 +54,9 @@ class Hello_Settings_Footer extends Tab_Base {
 			[
 				'type' => Controls_Manager::SWITCHER,
 				'label' => __( 'Site Logo', 'hello-elementor' ),
-				'default' => ( false === get_option( 'hello_footer_type_default' ) ? 'yes' : false ),
-				'label_on' => 'Show',
-				'label_off' => 'Hide',
+				'default' => 'yes',
+				'label_on' => __( 'Show', 'hello-elementor' ),
+				'label_off' => __( 'Hide', 'hello-elementor' ),
 				'selector' => '.site-footer .site-branding',
 			]
 		);
@@ -61,9 +66,9 @@ class Hello_Settings_Footer extends Tab_Base {
 			[
 				'type' => Controls_Manager::SWITCHER,
 				'label' => __( 'Tagline', 'hello-elementor' ),
-				'default' => ( false === get_option( 'hello_footer_type_default' ) ? 'yes' : false ),
-				'label_on' => 'Show',
-				'label_off' => 'Hide',
+				'default' => 'yes',
+				'label_on' => __( 'Show', 'hello-elementor' ),
+				'label_off' => __( 'Hide', 'hello-elementor' ),
 				'selector' => '.site-footer .site-description',
 			]
 		);
@@ -73,9 +78,9 @@ class Hello_Settings_Footer extends Tab_Base {
 			[
 				'type' => Controls_Manager::SWITCHER,
 				'label' => __( 'Menu', 'hello-elementor' ),
-				'default' => ( false === get_option( 'hello_footer_type_default' ) ? 'yes' : false ),
-				'label_on' => 'Show',
-				'label_off' => 'Hide',
+				'default' => 'yes',
+				'label_on' => __( 'Show', 'hello-elementor' ),
+				'label_off' => __( 'Hide', 'hello-elementor' ),
 				'selector' => '.site-footer .site-navigation',
 			]
 		);
@@ -85,9 +90,9 @@ class Hello_Settings_Footer extends Tab_Base {
 			[
 				'type' => Controls_Manager::SWITCHER,
 				'label' => __( 'Copyright', 'hello-elementor' ),
-				'default' => ( false === get_option( 'hello_footer_type_default' ) ? 'yes' : false ),
-				'label_on' => 'Show',
-				'label_off' => 'Hide',
+				'default' => 'yes',
+				'label_on' => __( 'Show', 'hello-elementor' ),
+				'label_off' => __( 'Hide', 'hello-elementor' ),
 				'selector' => '.site-footer .copyright',
 			]
 		);
@@ -184,7 +189,7 @@ class Hello_Settings_Footer extends Tab_Base {
 		);
 
 		$this->add_group_control(
-			\Elementor\Group_Control_Background::get_type(),
+			Group_Control_Background::get_type(),
 			[
 				'name' => 'hello_footer_background',
 				'label' => __( 'Background', 'hello-elementor' ),
@@ -272,7 +277,7 @@ class Hello_Settings_Footer extends Tab_Base {
 		);
 
 		$this->add_group_control(
-			\Elementor\Group_Control_Typography::get_type(),
+			Group_Control_Typography::get_type(),
 			[
 				'name' => 'hello_footer_title_typography',
 				'label' => __( 'Typography', 'hello-elementor' ),
@@ -327,7 +332,7 @@ class Hello_Settings_Footer extends Tab_Base {
 		);
 
 		$this->add_group_control(
-			\Elementor\Group_Control_Typography::get_type(),
+			Group_Control_Typography::get_type(),
 			[
 				'name' => 'hello_footer_tagline_typography',
 				'label' => __( 'Typography', 'hello-elementor' ),
@@ -413,7 +418,7 @@ class Hello_Settings_Footer extends Tab_Base {
 			);
 
 			$this->add_group_control(
-				\Elementor\Group_Control_Typography::get_type(),
+				Group_Control_Typography::get_type(),
 				[
 					'name' => 'hello_footer_menu_typography',
 					'label' => __( 'Typography', 'hello-elementor' ),
@@ -468,7 +473,7 @@ class Hello_Settings_Footer extends Tab_Base {
 		);
 
 		$this->add_group_control(
-			\Elementor\Group_Control_Typography::get_type(),
+			Group_Control_Typography::get_type(),
 			[
 				'name' => 'hello_footer_copyright_typography',
 				'label' => __( 'Typography', 'hello-elementor' ),
@@ -494,8 +499,8 @@ class Hello_Settings_Footer extends Tab_Base {
 
 	public function get_additional_tab_content() {
 		if ( ! defined( 'ELEMENTOR_PRO_VERSION' ) ) {
-			return wp_sprintf( '
-				<div class="elementor-nerd-box">
+			return sprintf( '
+				<div class="hello-elementor elementor-nerd-box">
 					<img src="%4$s" class="elementor-nerd-box-icon">
 					<div class="elementor-nerd-box-message">
 						<p class="elementor-panel-heading-title elementor-nerd-box-title">%1$s</p>
@@ -510,12 +515,12 @@ class Hello_Settings_Footer extends Tab_Base {
 				get_template_directory_uri() . '/assets/images/go-pro.svg'
 			);
 		} else {
-			return wp_sprintf( '
-				<div class="elementor-nerd-box">
+			return sprintf( '
+				<div class="hello-elementor elementor-nerd-box">
 					<img src="%4$s" class="elementor-nerd-box-icon">
 					<div class="elementor-nerd-box-message">
 						<p class="elementor-panel-heading-title elementor-nerd-box-title">%1$s</p>
-						<p class="elementor-nerd-box-message">%2$s</p>
+						<p class="elementor-nerd-box-message">%2$s</p>	
 					</div>
 					<a class="elementor-button elementor-button-success elementor-nerd-box-link" target="_blank" href="%5$s">%3$s</a>
 				</div>
@@ -529,7 +534,3 @@ class Hello_Settings_Footer extends Tab_Base {
 		}
 	}
 }
-
-add_action( 'elementor/kit/register_tabs', function( \Elementor\Core\Kits\Documents\Kit $kit ) {
-	$kit->register_tab( 'hello-settings-footer', Hello_Settings_Footer::class );
-} );

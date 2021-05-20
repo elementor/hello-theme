@@ -182,9 +182,15 @@ function hello_set_theme_ver() {
 }
 
 /**
- * Set Theme Version and set default header style when updating
+ * Hello Check Theme Version
  *
- * @return void
+ * Fired when the theme is updated, on the hook 'set_site_transient_update_themes'.
+ * This method updates two database options: 'hello_theme_version', and potentially also 'hello_header_footer_experiment'.
+ * 'hello_theme_version' is a new option that is added here in version 2.4.0.
+ * If it does not exist in the database, it means the theme is upgraded to a >=2.4.0 version from a <2.4.0 version.
+ * If the 'hello_theme_version' option has not been set, we default the new Hello Header & Footer experiment to 'inactive'.
+ *
+ * @since 2.4.0
  */
 add_action( 'set_site_transient_update_themes', 'hello_check_theme_ver', 100 );
 function hello_check_theme_ver() {
