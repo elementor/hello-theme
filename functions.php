@@ -5,6 +5,9 @@
  * @package HelloElementor
  */
 
+use Hello_Elemementor\Hello_Settings_Footer;
+use Hello_Elemementor\Hello_Settings_Header;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
@@ -155,14 +158,19 @@ if ( is_admin() ) {
 /**
  * If Elementor is installed and active, we can load the Elementor-specific Settings & Features
 */
+
+// Allow active/inactive via the Experiments
 require get_template_directory() . '/includes/elementor-functions.php';
 
 /**
  * Include customizer registration functions
 */
-if ( is_customize_preview() ) {
-	require get_template_directory() . '/includes/customizer-functions.php';
+function hello_register_customizer_functions() {
+	if ( hello_header_footer_experiment_active() && is_customize_preview() ) {
+		require get_template_directory() . '/includes/customizer-functions.php';
+	}
 }
+add_action( 'init', 'hello_register_customizer_functions' );
 
 if ( ! function_exists( 'hello_elementor_check_hide_title' ) ) {
 	/**

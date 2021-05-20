@@ -1,17 +1,21 @@
-<?php
-namespace Elementor\Core\Kits\Documents\Tabs;
+<?php /**
+ * Hello Elementor additional Header options
+ *
+ * @package HelloElementor
+ */
+
+namespace Hello_Elementor;
 
 use Elementor\Plugin;
 use Elementor\Controls_Manager;
+use Elementor\Group_Control_Background;
+use Elementor\Group_Control_Typography;
 use Elementor\Core\Responsive\Responsive;
-
+use Elementor\Core\Kits\Documents\Tabs\Tab_Base;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
-
-// Allow active/inactive via the Experiments
-if ( ! hello_header_footer_experiment_active() ) return;
 
 class Hello_Settings_Header extends Tab_Base {
 
@@ -176,7 +180,7 @@ class Hello_Settings_Header extends Tab_Base {
 		);
 
 		$this->add_group_control(
-			\Elementor\Group_Control_Background::get_type(),
+			Group_Control_Background::get_type(),
 			[
 				'name' => 'hello_header_background',
 				'label' => __( 'Background', 'hello-elementor' ),
@@ -271,7 +275,7 @@ class Hello_Settings_Header extends Tab_Base {
 		);
 
 		$this->add_group_control(
-			\Elementor\Group_Control_Typography::get_type(),
+			Group_Control_Typography::get_type(),
 			[
 				'name' => 'hello_header_title_typography',
 				'label' => __( 'Typography', 'hello-elementor' ),
@@ -333,7 +337,7 @@ class Hello_Settings_Header extends Tab_Base {
 		);
 
 		$this->add_group_control(
-			\Elementor\Group_Control_Typography::get_type(),
+			Group_Control_Typography::get_type(),
 			[
 				'name' => 'hello_header_tagline_typography',
 				'label' => __( 'Typography', 'hello-elementor' ),
@@ -476,7 +480,7 @@ class Hello_Settings_Header extends Tab_Base {
 			);
 
 			$this->add_group_control(
-				\Elementor\Group_Control_Typography::get_type(),
+				Group_Control_Typography::get_type(),
 				[
 					'name' => 'hello_header_menu_typography',
 					'label' => __( 'Typography', 'hello-elementor' ),
@@ -538,7 +542,3 @@ class Hello_Settings_Header extends Tab_Base {
 		}
 	}
 }
-
-add_action( 'elementor/kit/register_tabs', function( \Elementor\Core\Kits\Documents\Kit $kit ) {
-	$kit->register_tab( 'hello-settings-header', Hello_Settings_Header::class );
-}, 1, 40 );

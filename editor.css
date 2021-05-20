@@ -8,16 +8,16 @@
 .elementor-panel-menu-item-theme-style-form-fields {
   border-radius: 0 0 6px 6px; }
 
-.elementor-nerd-box .elementor-nerd-box-icon {
+.hello-elementor.elementor-nerd-box .elementor-nerd-box-icon {
   margin: 0; }
 
-.elementor-nerd-box .elementor-nerd-box-message .elementor-nerd-box-title {
+.hello-elementor.elementor-nerd-box .elementor-nerd-box-message .elementor-nerd-box-title {
   margin: 24px 0 0;
   font-size: 16px; }
 
-.elementor-nerd-box .elementor-nerd-box-message .elementor-nerd-box-message {
+.hello-elementor.elementor-nerd-box .elementor-nerd-box-message .elementor-nerd-box-message {
   margin: 12px 0 0;
   font-size: 11px; }
 
-.elementor-nerd-box .elementor-nerd-box-link {
+.hello-elementor.elementor-nerd-box .elementor-nerd-box-link {
   margin: 24px 0 0; }

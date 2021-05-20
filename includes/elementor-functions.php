@@ -6,6 +6,7 @@
  */
 
 use Elementor\Plugin;
+use Elementor\Core\Kits\Documents\Kit;
 use Elementor\Core\Experiments\Manager as Experiments_Manager;
 
 /**
@@ -15,8 +16,18 @@ use Elementor\Core\Experiments\Manager as Experiments_Manager;
 add_action( 'elementor/init', 'hello_elementor_settings_init' );
 
 function hello_elementor_settings_init() {
-	require 'controls/settings-header.php';
-	require 'controls/settings-footer.php';
+	if ( hello_header_footer_experiment_active() ) {
+		require 'controls/settings-header.php';
+		require 'controls/settings-footer.php';
+
+		add_action( 'elementor/kit/register_tabs', function( Kit $kit ) {
+			$kit->register_tab( 'hello-settings-footer', Hello_Elementor\Hello_Settings_Footer::class );
+		} );
+
+		add_action( 'elementor/kit/register_tabs', function( \Elementor\Core\Kits\Documents\Kit $kit ) {
+			$kit->register_tab( 'hello-settings-header', Hello_Elementor\Hello_Settings_Header::class );
+		}, 1, 40 );
+	}
 }
 
 /**
@@ -123,22 +134,24 @@ function hello_get_footer_layout_class() {
 }
 
 add_action( 'elementor/editor/after_enqueue_scripts', function() {
-	$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+	if ( hello_header_footer_experiment_active() ) {
+		$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
-	wp_enqueue_script(
-		'hello-theme-editor',
-		get_template_directory_uri() . '/assets/js/hello-editor' . $suffix . '.js',
-		[ 'jquery', 'elementor-editor' ],
-		HELLO_ELEMENTOR_VERSION,
-		true
-	);
+		wp_enqueue_script(
+			'hello-theme-editor',
+			get_template_directory_uri() . '/assets/js/hello-editor' . $suffix . '.js',
+			[ 'jquery', 'elementor-editor' ],
+			HELLO_ELEMENTOR_VERSION,
+			true
+		);
 
-	wp_enqueue_style(
-		'hello-editor',
-		get_template_directory_uri() . '/editor' . $suffix . '.css',
-		[],
-		HELLO_ELEMENTOR_VERSION
-	);
+		wp_enqueue_style(
+			'hello-editor',
+			get_template_directory_uri() . '/editor' . $suffix . '.css',
+			[],
+			HELLO_ELEMENTOR_VERSION
+		);
+	}
 } );
 
 add_action( 'wp_enqueue_scripts', function() {
@@ -152,7 +165,7 @@ add_action( 'wp_enqueue_scripts', function() {
 		true
 	);
 
-	if ( did_action( 'elementor/loaded' ) ) {
+	if ( did_action( 'elementor/loaded' ) && hello_header_footer_experiment_active() ) {
 		// Load the kit site-wide
 		Elementor\Plugin::$instance->kits_manager->frontend_before_enqueue_styles();
 	}
