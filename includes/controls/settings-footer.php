@@ -50,8 +50,8 @@ class Hello_Settings_Footer extends Tab_Base {
 				'type' => Controls_Manager::SWITCHER,
 				'label' => __( 'Site Logo', 'hello-elementor' ),
 				'default' => ( false === get_option( 'hello_footer_type_default' ) ? 'yes' : false ),
-				'label_on' => 'Show',
-				'label_off' => 'Hide',
+				'label_on' => __( 'Show', 'hello-elementor' ),
+				'label_off' => __( 'Hide', 'hello-elementor' ),
 				'selector' => '.site-footer .site-branding',
 			]
 		);
@@ -62,8 +62,8 @@ class Hello_Settings_Footer extends Tab_Base {
 				'type' => Controls_Manager::SWITCHER,
 				'label' => __( 'Tagline', 'hello-elementor' ),
 				'default' => ( false === get_option( 'hello_footer_type_default' ) ? 'yes' : false ),
-				'label_on' => 'Show',
-				'label_off' => 'Hide',
+				'label_on' => __( 'Show', 'hello-elementor' ),
+				'label_off' => __( 'Hide', 'hello-elementor' ),
 				'selector' => '.site-footer .site-description',
 			]
 		);
@@ -74,8 +74,8 @@ class Hello_Settings_Footer extends Tab_Base {
 				'type' => Controls_Manager::SWITCHER,
 				'label' => __( 'Menu', 'hello-elementor' ),
 				'default' => ( false === get_option( 'hello_footer_type_default' ) ? 'yes' : false ),
-				'label_on' => 'Show',
-				'label_off' => 'Hide',
+				'label_on' => __( 'Show', 'hello-elementor' ),
+				'label_off' => __( 'Hide', 'hello-elementor' ),
 				'selector' => '.site-footer .site-navigation',
 			]
 		);
@@ -86,8 +86,8 @@ class Hello_Settings_Footer extends Tab_Base {
 				'type' => Controls_Manager::SWITCHER,
 				'label' => __( 'Copyright', 'hello-elementor' ),
 				'default' => ( false === get_option( 'hello_footer_type_default' ) ? 'yes' : false ),
-				'label_on' => 'Show',
-				'label_off' => 'Hide',
+				'label_on' => __( 'Show', 'hello-elementor' ),
+				'label_off' => __( 'Hide', 'hello-elementor' ),
 				'selector' => '.site-footer .copyright',
 			]
 		);
@@ -495,7 +495,7 @@ class Hello_Settings_Footer extends Tab_Base {
 	public function get_additional_tab_content() {
 		if ( ! defined( 'ELEMENTOR_PRO_VERSION' ) ) {
 			return wp_sprintf( '
-				<div class="elementor-nerd-box">
+				<div class="hello-elementor elementor-nerd-box">
 					<img src="%4$s" class="elementor-nerd-box-icon">
 					<div class="elementor-nerd-box-message">
 						<p class="elementor-panel-heading-title elementor-nerd-box-title">%1$s</p>
@@ -511,7 +511,7 @@ class Hello_Settings_Footer extends Tab_Base {
 			);
 		} else {
 			return wp_sprintf( '
-				<div class="elementor-nerd-box">
+				<div class="hello-elementor elementor-nerd-box">
 					<img src="%4$s" class="elementor-nerd-box-icon">
 					<div class="elementor-nerd-box-message">
 						<p class="elementor-panel-heading-title elementor-nerd-box-title">%1$s</p>
