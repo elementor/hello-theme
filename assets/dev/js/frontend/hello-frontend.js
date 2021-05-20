@@ -11,6 +11,12 @@
 
         // Always close all sub active items.
         $dropdownMenu.find( '.elementor-active' ).removeClass( 'elementor-active' );
+
+        if ( isDropdownVisible ) {
+            $( window ).on( 'resize', closeItemsOnResize );
+        } else {
+            $( window ).off( 'resize', closeItemsOnResize );
+        }
     } );
 
     $( document ).on( 'click', '.site-navigation-dropdown .menu-item-has-children > a', ( event ) => {
@@ -25,9 +31,12 @@
         }
     } );
 
-    $( window ).on( 'resize', () => {
-         if ( $( '.site-navigation-dropdown' ).siblings( '.site-navigation-toggle-holder.elementor-active' ).length ) {
-            $( '.site-navigation-toggle-holder.elementor-active' ).removeClass( 'elementor-active' );
+    function closeItemsOnResize() {
+        const $activeToggleHolder = $( '.site-navigation-toggle-holder.elementor-active' );
+
+        if ( $activeToggleHolder.length ) {
+            $activeToggleHolder.removeClass( 'elementor-active' );
+            $( window ).off( 'resize', closeItemsOnResize );
         }
-    } );
+    }
 } )( jQuery );
