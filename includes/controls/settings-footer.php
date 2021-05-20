@@ -501,7 +501,7 @@ class Hello_Settings_Footer extends Tab_Base {
 
 	public function get_additional_tab_content() {
 		if ( ! defined( 'ELEMENTOR_PRO_VERSION' ) ) {
-			return wp_sprintf( '
+			return sprintf( '
 				<div class="hello-elementor elementor-nerd-box">
 					<img src="%4$s" class="elementor-nerd-box-icon">
 					<div class="elementor-nerd-box-message">
@@ -517,7 +517,7 @@ class Hello_Settings_Footer extends Tab_Base {
 				get_template_directory_uri() . '/assets/images/go-pro.svg'
 			);
 		} else {
-			return wp_sprintf( '
+			return sprintf( '
 				<div class="hello-elementor elementor-nerd-box">
 					<img src="%4$s" class="elementor-nerd-box-icon">
 					<div class="elementor-nerd-box-message">

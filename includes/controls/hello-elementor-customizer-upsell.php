@@ -88,7 +88,7 @@ class Hello_Elementor_Customizer_Upsell extends WP_Customize_Control {
 	}
 
 	private function get_customizer_upsell_html( $title, $text, $url, $button_text, $image ){
-		return wp_sprintf( '
+		return sprintf( '
 			<div class="customize-control-header-footer-holder">
 				<img src="%5$s">
 				<div class="elementor-nerd-box-message">
