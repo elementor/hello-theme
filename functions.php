@@ -5,9 +5,6 @@
  * @package HelloElementor
  */
 
-use Hello_Elemementor\Hello_Settings_Footer;
-use Hello_Elemementor\Hello_Settings_Header;
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }

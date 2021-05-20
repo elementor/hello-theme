@@ -41,8 +41,6 @@ class Hello_Settings_Footer extends Tab_Base {
 
 	protected function register_tab_controls() {
 
-		$hello_header_footer_experiment = get_option( 'hello_header_footer_experiment' );
-
 		$this->start_controls_section(
 			'hello_footer_section',
 			[
@@ -56,7 +54,7 @@ class Hello_Settings_Footer extends Tab_Base {
 			[
 				'type' => Controls_Manager::SWITCHER,
 				'label' => __( 'Site Logo', 'hello-elementor' ),
-				'default' => ( false === $hello_header_footer_experiment ? 'yes' : false ),
+				'default' => 'yes',
 				'label_on' => __( 'Show', 'hello-elementor' ),
 				'label_off' => __( 'Hide', 'hello-elementor' ),
 				'selector' => '.site-footer .site-branding',
@@ -68,7 +66,7 @@ class Hello_Settings_Footer extends Tab_Base {
 			[
 				'type' => Controls_Manager::SWITCHER,
 				'label' => __( 'Tagline', 'hello-elementor' ),
-				'default' => ( false === $hello_header_footer_experiment ? 'yes' : false ),
+				'default' => 'yes',
 				'label_on' => __( 'Show', 'hello-elementor' ),
 				'label_off' => __( 'Hide', 'hello-elementor' ),
 				'selector' => '.site-footer .site-description',
@@ -80,7 +78,7 @@ class Hello_Settings_Footer extends Tab_Base {
 			[
 				'type' => Controls_Manager::SWITCHER,
 				'label' => __( 'Menu', 'hello-elementor' ),
-				'default' => ( false === $hello_header_footer_experiment ? 'yes' : false ),
+				'default' => 'yes',
 				'label_on' => __( 'Show', 'hello-elementor' ),
 				'label_off' => __( 'Hide', 'hello-elementor' ),
 				'selector' => '.site-footer .site-navigation',
@@ -92,7 +90,7 @@ class Hello_Settings_Footer extends Tab_Base {
 			[
 				'type' => Controls_Manager::SWITCHER,
 				'label' => __( 'Copyright', 'hello-elementor' ),
-				'default' => ( false === $hello_header_footer_experiment ? 'yes' : false ),
+				'default' => 'yes',
 				'label_on' => __( 'Show', 'hello-elementor' ),
 				'label_off' => __( 'Hide', 'hello-elementor' ),
 				'selector' => '.site-footer .copyright',
@@ -522,7 +520,7 @@ class Hello_Settings_Footer extends Tab_Base {
 					<img src="%4$s" class="elementor-nerd-box-icon">
 					<div class="elementor-nerd-box-message">
 						<p class="elementor-panel-heading-title elementor-nerd-box-title">%1$s</p>
-						<p class="elementor-nerd-box-message">%2$s</p>
+						<p class="elementor-nerd-box-message">%2$s</p>	
 					</div>
 					<a class="elementor-button elementor-button-success elementor-nerd-box-link" target="_blank" href="%5$s">%3$s</a>
 				</div>
