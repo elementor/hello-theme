@@ -255,17 +255,14 @@ module.exports.default = module.exports, module.exports.__esModule = true;
 /***/ ((module) => {
 
 function _iterableToArrayLimit(arr, i) {
-  var _i = arr && (typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]);
-
-  if (_i == null) return;
+  if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
   var _arr = [];
   var _n = true;
   var _d = false;
-
-  var _s, _e;
+  var _e = undefined;
 
   try {
-    for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
+    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
       _arr.push(_s.value);
 
       if (i && _arr.length === i) break;
@@ -613,7 +610,10 @@ var ControlsHook = /*#__PURE__*/function (_$e$modules$hookUI$Af) {
           callback: function callback($element, args) {
             var classPrefix = 'menu-layout-',
                 inputOptions = args.container.controls.hello_header_menu_layout.options,
-                inputValue = args.settings.hello_header_menu_layout;
+                inputValue = args.settings.hello_header_menu_layout; // No matter what, close the mobile menu
+
+            $element.find('.site-navigation-toggle-holder').removeClass('elementor-active');
+            $element.find('.site-navigation-dropdown').removeClass('show');
 
             _this.toggleLayoutClass($element, classPrefix, inputOptions, inputValue);
           }
@@ -777,9 +777,8 @@ exports.default = ControlsHook;
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
-/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
-/******/ 		if (cachedModule !== undefined) {
-/******/ 			return cachedModule.exports;
+/******/ 		if(__webpack_module_cache__[moduleId]) {
+/******/ 			return __webpack_module_cache__[moduleId].exports;
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {

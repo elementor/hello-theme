@@ -1,10 +1,12 @@
-<?php /**
- * Hello Elementor custom Customizer control for the promos and cross-sells used in the WP Customizer
- *
- * @package HelloElementor
- */
+<?php
 
-class Hello_Elementor_Customizer_Upsell extends WP_Customize_Control {
+namespace HelloElementor\Includes\Controls;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
+class Hello_Elementor_Customizer_Upsell extends \WP_Customize_Control {
 
 	// Whitelist content parameter
 	public $content = '';

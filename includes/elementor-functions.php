@@ -1,13 +1,12 @@
 <?php
-/**
- * Hello Elementor functions.
- *
- * @package HelloElementor
- */
 
 use Elementor\Plugin;
 use Elementor\Core\Kits\Documents\Kit;
 use Elementor\Core\Experiments\Manager as Experiments_Manager;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
 
 /**
  * Register Site Settings Controls.
@@ -17,15 +16,12 @@ add_action( 'elementor/init', 'hello_elementor_settings_init' );
 
 function hello_elementor_settings_init() {
 	if ( hello_header_footer_experiment_active() ) {
-		require 'controls/settings-header.php';
-		require 'controls/settings-footer.php';
+		require 'settings/settings-header.php';
+		require 'settings/settings-footer.php';
 
 		add_action( 'elementor/kit/register_tabs', function( Kit $kit ) {
-			$kit->register_tab( 'hello-settings-footer', Hello_Elementor\Hello_Settings_Footer::class );
-		} );
-
-		add_action( 'elementor/kit/register_tabs', function( Kit $kit ) {
-			$kit->register_tab( 'hello-settings-header', Hello_Elementor\Hello_Settings_Header::class );
+			$kit->register_tab( 'hello-settings-header', HelloElementor\Includes\Controls\Settings_Header::class );
+			$kit->register_tab( 'hello-settings-footer', HelloElementor\Includes\Controls\Settings_Footer::class );
 		}, 1, 40 );
 	}
 }
@@ -179,12 +175,11 @@ add_action( 'wp_enqueue_scripts', function() {
  * @return bool
  */
 function hello_get_header_display() {
-	if( isset( $_GET['elementor-preview'] ) ) {
-		return true;
-	}
+	$is_editor = isset( $_GET['elementor-preview'] );
 
 	return (
-		hello_elementor_get_setting( 'hello_header_logo_display' )
+		$is_editor
+		|| hello_elementor_get_setting( 'hello_header_logo_display' )
 		|| hello_elementor_get_setting( 'hello_header_tagline_display' )
 		|| hello_elementor_get_setting( 'hello_header_menu_display' )
 	);
@@ -196,12 +191,11 @@ function hello_get_header_display() {
  * @return bool
  */
 function hello_get_footer_display() {
-	if( isset( $_GET['elementor-preview'] ) ) {
-		return true;
-	}
+	$is_editor = isset( $_GET['elementor-preview'] );
 
 	return (
-		hello_elementor_get_setting( 'hello_footer_logo_display' )
+		$is_editor
+		|| hello_elementor_get_setting( 'hello_footer_logo_display' )
 		|| hello_elementor_get_setting( 'hello_footer_tagline_display' )
 		|| hello_elementor_get_setting( 'hello_footer_menu_display' )
 		|| hello_elementor_get_setting( 'hello_footer_copyright_display' )
@@ -230,7 +224,9 @@ function hello_header_footer_experiment_active() {
 		return FALSE;
 	}
 	// Backwards compat.
-	if ( ! method_exists( Plugin::$instance->experiments, 'is_feature_active' ) ) return FALSE;
+	if ( ! method_exists( Plugin::$instance->experiments, 'is_feature_active' ) ) {
+		return FALSE;
+	}
 
 	return ( bool )( Plugin::$instance->experiments->is_feature_active( 'hello-theme-header-footer' ) );
 }

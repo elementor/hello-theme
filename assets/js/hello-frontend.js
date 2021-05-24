@@ -38,6 +38,7 @@ var __webpack_exports__ = {};
 
   function closeItemsOnResize() {
     var $activeToggleHolder = $('.site-navigation-toggle-holder.elementor-active');
+    console.log('closeItemsOnResize');
 
     if ($activeToggleHolder.length) {
       $activeToggleHolder.removeClass('elementor-active');
