@@ -1,9 +1,8 @@
 <?php
-/**
- * Hello Elementor admin functions.
- *
- * @package HelloElementor
- */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
 
 /**
  * Show in WP Dashboard notice about the plugin is not activated.
@@ -157,25 +156,21 @@ function hello_elementor_fail_load_admin_notice() {
  *
  * @return void
  */
-
 function ajax_hello_elementor_set_admin_notice_viewed() {
 	update_user_meta( get_current_user_id(), '_hello_elementor_install_notice', 'true' );
 	die;
 }
 
 add_action( 'wp_ajax_hello_elementor_set_admin_notice_viewed', 'ajax_hello_elementor_set_admin_notice_viewed' );
-
 if ( ! did_action( 'elementor/loaded' ) ) {
 	add_action( 'admin_notices', 'hello_elementor_fail_load_admin_notice' );
 }
-
 
 /**
  * Set Theme Version
  *
  * @return void
  */
-
 add_action( 'after_switch_theme', 'hello_set_theme_ver', 100 );
 function hello_set_theme_ver() {
 	update_option( 'hello_theme_version', HELLO_ELEMENTOR_VERSION, true );
