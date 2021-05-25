@@ -12,3 +12,5 @@ Thumbs.db
 *.log
 *.map
 yarn.lock
+assets/js/
+*.css
