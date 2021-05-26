@@ -1,5 +1,7 @@
 class elementorHelloThemeHandler {
     constructor() {
+        this.closeMenuItems = this.closeMenuItems.bind( this );
+
         this.initSettings();
         this.initElements();
         this.bindEvents();
@@ -30,9 +32,7 @@ class elementorHelloThemeHandler {
     }
 
     bindEvents() {
-        const self = this;
-
-        self.elements.$menuToggle.on( 'click', ( event ) => {
+        this.elements.$menuToggle.on( 'click', () => {
             const isDropdownVisible = ! this.elements.$menuToggleHolder.hasClass( 'elementor-active' );
 
             this.elements.$menuToggle.attr( 'aria-expanded', isDropdownVisible );
@@ -43,28 +43,30 @@ class elementorHelloThemeHandler {
             this.elements.$dropdownMenu.find( '.elementor-active' ).removeClass( 'elementor-active' );
 
             if ( isDropdownVisible ) {
-                self.elements.$window.on( 'resize', closeItemsOnResize );
+                this.elements.$window.on( 'resize', this.closeMenuItems );
             } else {
-                self.elements.$window.off( 'resize', closeItemsOnResize );
+                this.elements.$window.off( 'resize', this.closeMenuItems );
             }
         } );
 
-        function closeItemsOnResize() {
-            self.elements.$menuToggleHolder.removeClass( 'elementor-active' );
-            self.elements.$window.off( 'resize', closeItemsOnResize );
+        this.elements.$dropdownMenu.on( 'click', '.menu-item-has-children > a', this.handleMenuChildren );
+    }
+
+    closeMenuItems() {
+        this.elements.$menuToggleHolder.removeClass( 'elementor-active' );
+        this.elements.$window.off( 'resize', this.closeMenuItems );
+    }
+
+    handleMenuChildren( event ) {
+        const $anchor = jQuery( event.currentTarget ),
+            $parentLi = $anchor.parent( 'li' ),
+            isSubmenuVisible = $parentLi.hasClass( 'elementor-active' );
+
+        if ( ! isSubmenuVisible ) {
+            $parentLi.addClass( 'elementor-active' );
+        } else {
+            $parentLi.removeClass( 'elementor-active' );
         }
-
-        self.elements.$dropdownMenu.on( 'click', '.menu-item-has-children > a', ( event ) => {
-            const $anchor = jQuery( event.currentTarget ),
-                $parentLi = $anchor.parent( 'li' ),
-                isSubmenuVisible = $parentLi.hasClass( 'elementor-active' );
-
-            if ( ! isSubmenuVisible ) {
-                $parentLi.addClass( 'elementor-active' );
-            } else {
-                $parentLi.removeClass( 'elementor-active' );
-            }
-        } );
     }
 }
 
