@@ -154,7 +154,7 @@ add_action( 'wp_enqueue_scripts', function() {
 	$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 	wp_enqueue_script(
-		'hello-theme-editor',
+		'hello-theme-frontend',
 		get_template_directory_uri() . '/assets/js/hello-frontend' . $suffix . '.js',
 		[ 'jquery' ],
 		'1.0.0',
@@ -165,7 +165,6 @@ add_action( 'wp_enqueue_scripts', function() {
 		// Load the kit site-wide
 		Elementor\Plugin::$instance->kits_manager->frontend_before_enqueue_styles();
 	}
-
 } );
 
 
