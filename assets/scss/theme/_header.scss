@@ -1,77 +1,98 @@
 /**
- * Header layout
+ * Header styling and layout
  */
 
 .site-header {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-between;
 	padding-top: 1rem;
 	padding-bottom: 1rem;
 	position: relative;
 
-	&:not(.header-stacked) .site-branding {
-		max-width: 30%;
-	}
+	.header-inner {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
 
-	&:not(.header-stacked) .site-navigation {
-		max-width: 70%;
-	}
-
-	.site-navigation {
-		justify-content: flex-end;
-	}
-
-	&.header-inverted {
-		flex-direction: row-reverse;
-
-		.site-branding {
-			text-align: right;
+		.custom-logo-link {
+			display: block;
 		}
 
 		.site-navigation {
-			justify-content: start;
+			justify-content: flex-end;
+		}
+
+		.site-branding {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+
+			.site-title,
+			.site-description {
+				margin: 0;
+			}
+
+			&.show-title {
+
+				.site-logo {
+					display: none !important;
+				}
+			}
+
+			&.show-logo {
+
+				.site-title {
+					display: none !important;
+				}
+			}
+		}
+	}
+
+	&:not(.header-stacked) {
+
+		.header-inner {
+
+			.site-branding {
+				max-width: 30%;
+			}
+
+			.site-navigation {
+				max-width: 70%;
+			}
+		}
+	}
+
+	&.header-inverted {
+
+		.header-inner {
+			flex-direction: row-reverse;
+
+			.site-branding {
+				text-align: right;
+			}
+
+			.site-navigation {
+				justify-content: start;
+			}
 		}
 	}
 
 	&.header-stacked {
-	    align-items: center;
-		flex-direction: column;
-		text-align: center;
-	}
 
-	.site-branding {
-
-		.site-title,
-		.site-description {
-			margin: 0;
+		.header-inner {
+			align-items: center;
+			flex-direction: column;
+			text-align: center;
 		}
-
-		&.show-title {
-
-			.site-logo {
-				display: none !important;
-			}
-		}
-
-		&.show-logo {
-
-			.site-title {
-				display: none !important;
-			}
-		}
-	}
-
-	.custom-logo-link {
-		display: block;
 	}
 }
 
 @media (max-width: $screen-xs) {
 	.site-header {
 
-		&:not(.header-stacked) .site-branding {
-			max-width: 80%;
+		.header-inner {
+
+			&:not(.header-stacked) .site-branding {
+				max-width: 80%;
+			}
 		}
 	}
 }

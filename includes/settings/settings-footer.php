@@ -148,7 +148,7 @@ class Settings_Footer extends Tab_Base {
 					'hello_footer_width' =>'boxed',
 				],
 				'selectors' => [
-					'.site-footer' => 'width: {{SIZE}}{{UNIT}}; max-width: 100%;',
+					'.site-footer .footer-inner' => 'width: {{SIZE}}{{UNIT}}; max-width: 100%;',
 				],
 			]
 		);

@@ -2,7 +2,7 @@
  * Basic responsive layout
  */
 
-$containers: '.site-header, body:not([class*="elementor-page-"]) .site-main, .site-footer';
+$containers: '.site-header .header-inner, body:not([class*="elementor-page-"]) .site-main, .site-footer .footer-inner';
 
 #{$containers} {
 	margin-right: auto;
@@ -26,14 +26,20 @@ $containers: '.site-header, body:not([class*="elementor-page-"]) .site-main, .si
 	.site-header {
 
 		&.header-full-width {
-			max-width: 100%;
+
+			.header-inner {
+				max-width: 100%;
+			}
 		}
 	}
 
 	.site-footer {
 
 		&.footer-full-width {
-			max-width: 100%;
+
+			.footer-inner {
+				max-width: 100%;
+			}
 		}
 	}
 }

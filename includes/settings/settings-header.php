@@ -132,7 +132,7 @@ class Settings_Header extends Tab_Base {
 					'hello_header_width' => 'boxed',
 				],
 				'selectors' => [
-					'.site-header' => 'width: {{SIZE}}{{UNIT}}; max-width: 100%;',
+					'.site-header .header-inner' => 'width: {{SIZE}}{{UNIT}}; max-width: 100%;',
 				],
 			]
 		);
