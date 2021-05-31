@@ -54,7 +54,7 @@ class elementorHelloThemeHandler {
 
     closeMenuItems() {
         this.elements.$menuToggleHolder.removeClass( 'elementor-active' );
-        this.elements.$window.off( 'resize', this.closeMenuItems );
+        this.elements.$window.off( 'resize', () => this.closeMenuItems() );
     }
 
     handleMenuChildren( event ) {
