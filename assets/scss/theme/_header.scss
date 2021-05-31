@@ -90,8 +90,11 @@
 
 		.header-inner {
 
-			&:not(.header-stacked) .site-branding {
-				max-width: 80%;
+			&:not(.header-stacked) {
+
+				.site-branding {
+					max-width: 80%;
+				}
 			}
 		}
 	}

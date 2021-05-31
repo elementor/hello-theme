@@ -122,17 +122,20 @@
 
 @media (max-width: $screen-xs) {
 
-	.site-footer:not(.footer-stacked) {
+	.site-footer {
 
-		.footer-inner {
+		&:not(.footer-stacked) {
 
-			.site-branding,
-			.site-navigation,
-			.copyright {
-				display: block;
-				text-align: center;
-				width: 100%;
-				max-width: none;
+			.footer-inner {
+
+				.site-branding,
+				.site-navigation,
+				.copyright {
+					display: block;
+					text-align: center;
+					width: 100%;
+					max-width: none;
+				}
 			}
 		}
 	}

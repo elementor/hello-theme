@@ -14,7 +14,7 @@ $site_name = get_bloginfo( 'name' );
 $tagline   = get_bloginfo( 'description', 'display' );
 $footer_class = did_action( 'elementor/loaded' ) ? esc_attr( hello_get_footer_layout_class() ) : '';
 ?>
-<div id="site-footer" class="site-footer <?php echo $footer_class; ?>" role="contentinfo">
+<footer id="site-footer" class="site-footer <?php echo $footer_class; ?>" role="contentinfo">
 	<div class="footer-inner">
 		<div class="site-branding show-<?php echo hello_elementor_get_setting( 'hello_footer_logo_type' ); ?>">
 			<?php if ( has_custom_logo() && ( 'title' !== hello_elementor_get_setting( 'hello_footer_logo_type' ) || $is_editor ) ) : ?>

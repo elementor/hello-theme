@@ -11,8 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 add_action( 'customize_register', 'hello_customizer_register' );
 function hello_customizer_register( $wp_customize ) {
-
-	require get_template_directory() . '/includes/settings/hello-elementor-customizer-upsell.php';
+	require get_template_directory() . '/includes/settings/customizer/elementor-upsell.php';
 
 	$wp_customize->add_section(
 		'hello_theme_options',
@@ -25,7 +24,7 @@ function hello_customizer_register( $wp_customize ) {
 	$wp_customize->add_setting( 'hello-elementor-header-footer', [ 'transport' => 'refresh' ] );
 
 	$wp_customize->add_control(
-		new HelloElementor\Includes\Controls\Hello_Elementor_Customizer_Upsell(
+		new HelloElementor\Includes\Customizer\Elementor_Upsell(
 			$wp_customize,
 			'hello-elementor-header-footer',
 			[

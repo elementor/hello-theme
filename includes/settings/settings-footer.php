@@ -1,6 +1,6 @@
 <?php
 
-namespace HelloElementor\Includes\Controls;
+namespace HelloElementor\Includes\Settings;
 
 use Elementor\Plugin;
 use Elementor\Controls_Manager;
@@ -408,7 +408,7 @@ class Settings_Footer extends Tab_Base {
 						'hello_footer_copyright_display' => 'yes',
 					],
 					'selectors' => [
-						'footer .site-navigation a' => 'color: {{VALUE}};',
+						'footer .footer-inner .site-navigation a' => 'color: {{VALUE}};',
 					],
 				]
 			);
@@ -421,7 +421,7 @@ class Settings_Footer extends Tab_Base {
 					'condition' => [
 						'hello_footer_copyright_display' => 'yes',
 					],
-					'selector' => 'footer .site-navigation a',
+					'selector' => 'footer .footer-inner .site-navigation a',
 				]
 			);
 		}
@@ -521,7 +521,7 @@ class Settings_Footer extends Tab_Base {
 					<a class="elementor-button elementor-button-success elementor-nerd-box-link" target="_blank" href="%5$s">%3$s</a>
 				</div>
 				',
-				__( 'Create a custom header with the new Theme Builder', 'hello-elementor' ),
+				__( 'Create a custom footer with the new Theme Builder', 'hello-elementor' ),
 				__( 'With the new Theme Builder you can jump directly into each part of your site', 'hello-elementor' ),
 				__( 'Create Footer', 'hello-elementor' ),
 				get_template_directory_uri() . '/assets/images/go-pro.svg',

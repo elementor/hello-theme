@@ -1,12 +1,12 @@
 <?php
 
-namespace HelloElementor\Includes\Controls;
+namespace HelloElementor\Includes\Customizer;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-class Hello_Elementor_Customizer_Upsell extends \WP_Customize_Control {
+class Elementor_Upsell extends \WP_Customize_Control {
 
 	// Whitelist content parameter
 	public $content = '';

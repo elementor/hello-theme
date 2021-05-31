@@ -1,6 +1,6 @@
 <?php
 
-namespace HelloElementor\Includes\Controls;
+namespace HelloElementor\Includes\Settings;
 
 use Elementor\Plugin;
 use Elementor\Controls_Manager;
