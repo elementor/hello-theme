@@ -21,8 +21,8 @@ class elementorHelloThemeHandler {
 
     initElements() {
         this.elements = {
-            $window: jQuery( window ),
-            $document: jQuery( document ),
+            $window: elementorFrontend.elements.$window,
+            $document: elementorFrontend.elements.$document,
             $header: jQuery( this.settings.selectors.header ),
             $footer: jQuery( this.settings.selectors.footer ),
             $menuToggle: jQuery( this.settings.selectors.menuToggle ),
@@ -73,4 +73,3 @@ class elementorHelloThemeHandler {
 jQuery( () => {
     new elementorHelloThemeHandler();
 } );
-
