@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 add_action( 'customize_register', 'hello_customizer_register' );
 function hello_customizer_register( $wp_customize ) {
-	require get_template_directory() . '/includes/settings/customizer/elementor-upsell.php';
+	require get_template_directory() . '/includes/customizer/elementor-upsell.php';
 
 	$wp_customize->add_section(
 		'hello_theme_options',
