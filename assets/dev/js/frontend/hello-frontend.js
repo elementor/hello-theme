@@ -1,7 +1,5 @@
 class elementorHelloThemeHandler {
     constructor() {
-        this.closeMenuItems = this.closeMenuItems.bind( this );
-
         this.initSettings();
         this.initElements();
         this.bindEvents();
@@ -32,29 +30,30 @@ class elementorHelloThemeHandler {
     }
 
     bindEvents() {
-        this.elements.$menuToggle.on( 'click', () => {
-            const isDropdownVisible = ! this.elements.$menuToggleHolder.hasClass( 'elementor-active' );
-
-            this.elements.$menuToggle.attr( 'aria-expanded', isDropdownVisible );
-            this.elements.$dropdownMenu.attr( 'aria-hidden', ! isDropdownVisible );
-            this.elements.$menuToggleHolder.toggleClass( 'elementor-active', isDropdownVisible );
-
-            // Always close all sub active items.
-            this.elements.$dropdownMenu.find( '.elementor-active' ).removeClass( 'elementor-active' );
-
-            if ( isDropdownVisible ) {
-                this.elements.$window.on( 'resize', this.closeMenuItems );
-            } else {
-                this.elements.$window.off( 'resize', this.closeMenuItems );
-            }
-        } );
-
+        this.elements.$menuToggle.on( 'click', () => this.handleMenuToggle() );
         this.elements.$dropdownMenu.on( 'click', '.menu-item-has-children > a', this.handleMenuChildren );
     }
 
     closeMenuItems() {
         this.elements.$menuToggleHolder.removeClass( 'elementor-active' );
-        this.elements.$window.off( 'resize', this.closeMenuItems );
+        this.elements.$window.off( 'resize', () => this.closeMenuItems() );
+    }
+
+    handleMenuToggle() {
+        const isDropdownVisible = ! this.elements.$menuToggleHolder.hasClass( 'elementor-active' );
+
+        this.elements.$menuToggle.attr( 'aria-expanded', isDropdownVisible );
+        this.elements.$dropdownMenu.attr( 'aria-hidden', ! isDropdownVisible );
+        this.elements.$menuToggleHolder.toggleClass( 'elementor-active', isDropdownVisible );
+
+        // Always close all sub active items.
+        this.elements.$dropdownMenu.find( '.elementor-active' ).removeClass( 'elementor-active' );
+
+        if ( isDropdownVisible ) {
+            this.elements.$window.on( 'resize', () => this.closeMenuItems() );
+        } else {
+            this.elements.$window.off( 'resize', () => this.closeMenuItems() );
+        }
     }
 
     handleMenuChildren( event ) {
