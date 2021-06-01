@@ -19,13 +19,13 @@ class elementorHelloThemeHandler {
 
     initElements() {
         this.elements = {
-            $window: $( window ),
-            $document: $( document ),
-            $header: $( this.settings.selectors.header ),
-            $footer: $( this.settings.selectors.footer ),
-            $menuToggle: $( this.settings.selectors.menuToggle ),
-            $menuToggleHolder: $( this.settings.selectors.menuToggleHolder ),
-            $dropdownMenu: $( this.settings.selectors.dropdownMenu ),
+            $window: elementorFrontend.elements.$window,
+            $document: elementorFrontend.elements.$document,
+            $header: jQuery( this.settings.selectors.header ),
+            $footer: jQuery( this.settings.selectors.footer ),
+            $menuToggle: jQuery( this.settings.selectors.menuToggle ),
+            $menuToggleHolder: jQuery( this.settings.selectors.menuToggleHolder ),
+            $dropdownMenu: jQuery( this.settings.selectors.dropdownMenu ),
         };
     }
 
@@ -57,7 +57,7 @@ class elementorHelloThemeHandler {
     }
 
     handleMenuChildren( event ) {
-        const $anchor = $( event.currentTarget ),
+        const $anchor = jQuery( event.currentTarget ),
             $parentLi = $anchor.parent( 'li' ),
             isSubmenuVisible = $parentLi.hasClass( 'elementor-active' );
 
@@ -69,6 +69,4 @@ class elementorHelloThemeHandler {
     }
 }
 
-jQuery( ( $ ) => {
-    new elementorHelloThemeHandler();
-} );
+jQuery( window ).on( 'elementor/frontend/init', () => new elementorHelloThemeHandler() );

@@ -150,13 +150,13 @@ add_action( 'elementor/editor/after_enqueue_scripts', function() {
 	}
 } );
 
-add_action( 'wp_enqueue_scripts', function() {
+add_action( 'elementor/frontend/before_enqueue_scripts', function() {
 	$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 	wp_enqueue_script(
 		'hello-theme-frontend',
 		get_template_directory_uri() . '/assets/js/hello-frontend' . $suffix . '.js',
-		[ 'jquery' ],
+		[ 'elementor-frontend-modules' ],
 		'1.0.0',
 		true
 	);
