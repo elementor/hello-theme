@@ -456,7 +456,7 @@ class Settings_Header extends Tab_Base {
 						'hello_header_menu_display' => 'yes',
 					],
 					'selectors' => [
-						'.site-header ul.menu li a' => 'color: {{VALUE}};',
+						'.site-header .site-navigation ul.menu li a' => 'color: {{VALUE}};',
 					],
 				]
 			);
@@ -483,7 +483,7 @@ class Settings_Header extends Tab_Base {
 					'condition' => [
 						'hello_header_menu_display' => 'yes',
 					],
-					'selector' => '.site-header .menu li',
+					'selector' => '.site-header .site-navigation .menu li',
 				]
 			);
 		}
