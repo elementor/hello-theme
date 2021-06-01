@@ -17,7 +17,7 @@ $is_editor = isset( $_GET['elementor-preview'] );
 $site_name = get_bloginfo( 'name' );
 $tagline   = get_bloginfo( 'description', 'display' );
 ?>
-<header class="site-header <?php echo esc_attr( hello_get_header_layout_class() ); ?>" role="banner">
+<header class="site-header dynamic-header <?php echo esc_attr( hello_get_header_layout_class() ); ?>" role="banner">
     <div class="header-inner">
         <div class="site-branding show-<?php echo hello_elementor_get_setting( 'hello_header_logo_type' ); ?>">
             <?php if ( has_custom_logo() && ( 'title' !== hello_elementor_get_setting( 'hello_header_logo_type' ) || $is_editor ) ) : ?>

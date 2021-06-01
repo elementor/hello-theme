@@ -3,9 +3,23 @@
  */
 
 .site-header {
+	/* Backwards compat for Hello 2.3.0 */
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
 	padding-top: 1rem;
 	padding-bottom: 1rem;
 	position: relative;
+
+	.site-navigation {
+		justify-content: flex-end;
+	}
+
+	.site-branding {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
 
 	.header-inner {
 		display: flex;
@@ -16,14 +30,7 @@
 			display: block;
 		}
 
-		.site-navigation {
-			justify-content: flex-end;
-		}
-
 		.site-branding {
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
 
 			.site-title,
 			.site-description {
