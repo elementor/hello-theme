@@ -404,9 +404,6 @@ class Settings_Footer extends Tab_Base {
 				[
 					'label' => __( 'Color', 'hello-elementor' ),
 					'type' => Controls_Manager::COLOR,
-					'condition' => [
-						'hello_footer_copyright_display' => 'yes',
-					],
 					'selectors' => [
 						'footer .footer-inner .site-navigation a' => 'color: {{VALUE}};',
 					],
@@ -418,9 +415,6 @@ class Settings_Footer extends Tab_Base {
 				[
 					'name' => 'hello_footer_menu_typography',
 					'label' => __( 'Typography', 'hello-elementor' ),
-					'condition' => [
-						'hello_footer_copyright_display' => 'yes',
-					],
 					'selector' => 'footer .footer-inner .site-navigation a',
 				]
 			);

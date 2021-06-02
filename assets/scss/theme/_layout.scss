@@ -7,6 +7,7 @@ $containers: '.site-header .header-inner, .site-header:not(.dynamic-header), bod
 #{$containers} {
 	margin-right: auto;
 	margin-left: auto;
+	width: 100%;
 }
 
 @media (max-width: $screen-xs - $screen-diff){
@@ -29,7 +30,6 @@ $containers: '.site-header .header-inner, .site-header:not(.dynamic-header), bod
 
 			.header-inner {
 				max-width: 100%;
-				width: 100%;
 			}
 		}
 	}
