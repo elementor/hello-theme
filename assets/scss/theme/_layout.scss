@@ -1,7 +1,8 @@
-/* Basic responsive layout
-   ========================================================================== */
+/**
+ * Basic responsive layout
+ */
 
-$containers: '.site-header, body:not([class*="elementor-page-"]) .site-main';
+$containers: '.site-header .header-inner, .site-header:not(.dynamic-header), body:not([class*="elementor-page-"]) .site-main, .site-footer .footer-inner';
 
 #{$containers} {
 	margin-right: auto;
@@ -9,6 +10,7 @@ $containers: '.site-header, body:not([class*="elementor-page-"]) .site-main';
 }
 
 @media (max-width: $screen-xs - $screen-diff){
+
 	#{$containers} {
 		padding-right: 10px;
 		padding-left: 10px;
@@ -16,25 +18,96 @@ $containers: '.site-header, body:not([class*="elementor-page-"]) .site-main';
 }
 
 @media (min-width: $screen-xs){
+
 	#{$containers} {
 		max-width: 500px;
+	}
+
+	.site-header {
+
+		&.header-full-width {
+
+			.header-inner {
+				max-width: 100%;
+				width: 100%;
+			}
+		}
+	}
+
+	.site-footer {
+
+		&.footer-full-width {
+
+			.footer-inner {
+				max-width: 100%;
+			}
+		}
 	}
 }
 
 @media (min-width: $screen-sm){
+
 	#{$containers} {
 		max-width: 600px;
+	}
+
+	.site-header {
+
+		&.header-full-width {
+			max-width: 100%;
+		}
+	}
+
+	.site-footer {
+
+		&.footer-full-width {
+			max-width: 100%;
+		}
 	}
 }
 
 @media (min-width: $screen-md) {
+
 	#{$containers} {
 		max-width: 800px;
+	}
+
+	.site-header {
+
+		&.header-full-width {
+			max-width: 100%;
+		}
+	}
+
+	.site-footer {
+
+		&.footer-full-width {
+			max-width: 100%;
+		}
 	}
 }
 
 @media (min-width: $screen-xl) {
+
 	#{$containers} {
 		max-width: 960px;
 	}
+
+	.site-header {
+
+		&.header-full-width {
+			max-width: 100%;
+		}
+	}
+
+	.site-footer {
+
+		&.footer-full-width {
+			max-width: 100%;
+		}
+	}
+}
+
+.site-header + .elementor  {
+	min-height: calc( 100vh - 320px );
 }

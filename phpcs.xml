@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<ruleset name="Hello Theme Coding Standards">
+    <description>Hello Theme Coding Standard</description>
+
+    <config name="text_domain" value="hello-elementor" />
+
+    <exclude-pattern>vendor/</exclude-pattern>
+    <exclude-pattern>node_modules/</exclude-pattern>
+
+    <!-- Rules -->
+    <rule ref="Elementor-Core" />
+</ruleset>

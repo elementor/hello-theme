@@ -1,10 +1,8 @@
-/*
-DO NOT CHANGE THIS FILE
-to override any of the settings in this section, add your styling code in the custom directory.
+/**
+ * Form styling
+ * DO NOT CHANGE THIS FILE!
+ * To override any of the settings in this section, add your styling code in the custom directory.
  */
-
-/* Forms
-   ========================================================================== */
 
 label {
 	// Allow labels to use `margin` for spacing.
@@ -123,7 +121,6 @@ button,
 	transition: all .3s;
 
 	&:focus {
-		outline: 1px dotted;
 		outline: 5px auto -webkit-focus-ring-color;
 	}
 
