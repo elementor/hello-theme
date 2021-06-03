@@ -232,7 +232,7 @@ class Settings_Header extends Tab_Base {
 				],
 				'range' => [
 					'px' => [
-						'max' => 960,
+						'max' => 1000,
 						'step' => 1,
 					],
 					'%' => [
