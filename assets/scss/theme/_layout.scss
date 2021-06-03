@@ -2,7 +2,7 @@
  * Basic responsive layout
  */
 
-$containers: '.site-header .header-inner, .site-header:not(.dynamic-header), body:not([class*="elementor-page-"]) .site-main, .site-footer .footer-inner';
+$containers: '.site-header .header-inner,.site-header:not(.dynamic-header), .site-footer .footer-inner, .site-footer:not(.dynamic-footer),body:not([class*="elementor-page-"]) .site-main';
 
 #{$containers} {
 	margin-right: auto;
@@ -91,6 +91,11 @@ $containers: '.site-header .header-inner, .site-header:not(.dynamic-header), bod
 
 	#{$containers} {
 		max-width: 960px;
+	}
+
+	/* Override the default width for the dynamic header and footer */
+	.site-header .header-inner, .site-footer .footer-inner {
+		max-width: 1140px;
 	}
 
 	.site-header {

@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 $site_name = get_bloginfo( 'name' );
 $tagline   = get_bloginfo( 'description', 'display' );
 ?>
-<header class="site-header" role="banner">
+<header id="site-header" class="site-header" role="banner">
 
 	<div class="site-branding">
 		<?php
