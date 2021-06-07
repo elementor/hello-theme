@@ -115,9 +115,6 @@ class Settings_Header extends Tab_Base {
 					'%',
 					'px',
 				],
-				'default' => [
-					'size' => '1140',
-				],
 				'range' => [
 					'px' => [
 						'max' => 2000,
@@ -246,10 +243,6 @@ class Settings_Header extends Tab_Base {
 				],
 				'selectors' => [
 					'.site-header .site-branding .site-logo img' => 'width: {{SIZE}}{{UNIT}}; max-width: {{SIZE}}{{UNIT}}',
-				],
-				'default' => [
-					'size' => '230',
-					'unit' => 'px',
 				],
 			]
 		);

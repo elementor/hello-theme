@@ -131,9 +131,6 @@ class Settings_Footer extends Tab_Base {
 					'%',
 					'px',
 				],
-				'default' => [
-					'size' => '1140',
-				],
 				'range' => [
 					'px' => [
 						'max' => 2000,
@@ -161,9 +158,6 @@ class Settings_Footer extends Tab_Base {
 				'size_units' => [
 					'%',
 					'px',
-				],
-				'default' => [
-					'size' => '0',
 				],
 				'range' => [
 					'px' => [
@@ -248,10 +242,6 @@ class Settings_Footer extends Tab_Base {
 				],
 				'selectors' => [
 					'.site-footer .site-branding .site-logo img' => 'width: {{SIZE}}{{UNIT}}; max-width: {{SIZE}}{{UNIT}}',
-				],
-				'default' => [
-					'size' => '100',
-					'unit' => 'px',
 				],
 			]
 		);
