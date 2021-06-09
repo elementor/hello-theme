@@ -131,9 +131,6 @@ class Settings_Footer extends Tab_Base {
 					'%',
 					'px',
 				],
-				'default' => [
-					'size' => '1140',
-				],
 				'range' => [
 					'px' => [
 						'max' => 2000,
@@ -161,9 +158,6 @@ class Settings_Footer extends Tab_Base {
 				'size_units' => [
 					'%',
 					'px',
-				],
-				'default' => [
-					'size' => '0',
 				],
 				'range' => [
 					'px' => [
@@ -234,7 +228,7 @@ class Settings_Footer extends Tab_Base {
 				],
 				'range' => [
 					'px' => [
-						'max' => 960,
+						'max' => 1000,
 						'step' => 1,
 					],
 					'%' => [
@@ -248,10 +242,6 @@ class Settings_Footer extends Tab_Base {
 				],
 				'selectors' => [
 					'.site-footer .site-branding .site-logo img' => 'width: {{SIZE}}{{UNIT}}; max-width: {{SIZE}}{{UNIT}}',
-				],
-				'default' => [
-					'size' => '100',
-					'unit' => 'px',
 				],
 			]
 		);
@@ -404,9 +394,6 @@ class Settings_Footer extends Tab_Base {
 				[
 					'label' => __( 'Color', 'hello-elementor' ),
 					'type' => Controls_Manager::COLOR,
-					'condition' => [
-						'hello_footer_copyright_display' => 'yes',
-					],
 					'selectors' => [
 						'footer .footer-inner .site-navigation a' => 'color: {{VALUE}};',
 					],
@@ -418,9 +405,6 @@ class Settings_Footer extends Tab_Base {
 				[
 					'name' => 'hello_footer_menu_typography',
 					'label' => __( 'Typography', 'hello-elementor' ),
-					'condition' => [
-						'hello_footer_copyright_display' => 'yes',
-					],
 					'selector' => 'footer .footer-inner .site-navigation a',
 				]
 			);
