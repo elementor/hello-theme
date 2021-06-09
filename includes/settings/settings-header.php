@@ -252,7 +252,6 @@ class Settings_Header extends Tab_Base {
 			[
 				'label' => __( 'Text Color', 'hello-elementor' ),
 				'type' => Controls_Manager::COLOR,
-				'dynamic' => [],
 				'condition' => [
 					'hello_header_logo_display' => 'yes',
 					'hello_header_logo_type' => 'title',
@@ -315,7 +314,6 @@ class Settings_Header extends Tab_Base {
 			[
 				'label' => __( 'Text Color', 'hello-elementor' ),
 				'type' => Controls_Manager::COLOR,
-				'dynamic' => [],
 				'condition' => [
 					'hello_header_tagline_display' => 'yes',
 				],

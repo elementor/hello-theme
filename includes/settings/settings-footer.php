@@ -251,7 +251,6 @@ class Settings_Footer extends Tab_Base {
 			[
 				'label' => __( 'Text Color', 'hello-elementor' ),
 				'type' => Controls_Manager::COLOR,
-				'dynamic' => [],
 				'condition' => [
 					'hello_footer_logo_display' => 'yes',
 					'hello_footer_logo_type' => 'title',
@@ -307,7 +306,6 @@ class Settings_Footer extends Tab_Base {
 			[
 				'label' => __( 'Text Color', 'hello-elementor' ),
 				'type' => Controls_Manager::COLOR,
-				'dynamic' => [],
 				'condition' => [
 					'hello_footer_tagline_display' => 'yes',
 				],
