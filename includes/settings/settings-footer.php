@@ -142,7 +142,7 @@ class Settings_Footer extends Tab_Base {
 					],
 				],
 				'condition' => [
-					'hello_footer_width' =>'boxed',
+					'hello_footer_width' => 'boxed',
 				],
 				'selectors' => [
 					'.site-footer .footer-inner' => 'width: {{SIZE}}{{UNIT}}; max-width: 100%;',
@@ -196,7 +196,7 @@ class Settings_Footer extends Tab_Base {
 				'tab' => 'hello-settings-footer',
 				'label' => __( 'Site Logo', 'hello-elementor' ),
 				'condition' => [
-					'hello_footer_logo_display!' => ''
+					'hello_footer_logo_display!' => '',
 				],
 			]
 		);
