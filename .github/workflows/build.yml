@@ -6,7 +6,6 @@ on: [push, pull_request]
 jobs:
   build_plugin:
     name: Build theme
-    if: startsWith( github.repository, 'elementor/' )
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

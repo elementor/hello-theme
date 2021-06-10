@@ -6,7 +6,6 @@ jobs:
   eslint:
     name: ESLint
     runs-on: ubuntu-latest
-    if: startsWith( github.repository, 'elementor/' )
 
     steps:
       - name: Checkout
@@ -34,7 +33,6 @@ jobs:
   phpcs:
     name: PHPCS
     runs-on: ubuntu-latest
-    if: startsWith( github.repository, 'elementor/' )
 
     steps:
       - name: Checkout
