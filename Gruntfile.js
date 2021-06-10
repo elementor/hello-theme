@@ -12,8 +12,6 @@ module.exports = function( grunt ) {
 	grunt.initConfig( {
 		pkg: grunt.file.readJSON( 'package.json' ),
 
-		webpack: require( './webpack' ),
-
 		sass: {
 			options: {
 				implementation: sass,
@@ -23,7 +21,7 @@ module.exports = function( grunt ) {
 					expand: true,
 					cwd: 'assets/scss',
 					src: '*.scss',
-					dest: './',
+					dest: './build',
 					ext: '.css',
 				} ],
 			},
@@ -62,8 +60,8 @@ module.exports = function( grunt ) {
 				files: [ {
 					expand: true,
 					src: [
-						'*.css',
-						'!*.min.css',
+						'build/*.css',
+						'!build/*.min.css',
 					],
 					ext: '.min.css',
 				} ],
@@ -134,10 +132,6 @@ module.exports = function( grunt ) {
 	grunt.registerTask( 'wp_readme', [
 		'wp_readme_to_markdown',
 	] );
-
-	grunt.registerTask( 'watch_scripts', ( isDevMode = false ) => {
-		grunt.task.run( 'webpack:development' );
-	} );
 
 	grunt.registerTask( 'styles', [
 		'sass',
