@@ -196,7 +196,7 @@ class Settings_Header extends Tab_Base {
 							'name' => 'hello_header_logo_display',
 							'operator' => '=',
 							'value' => 'yes',
-						]
+						],
 					],
 				],
 			]
@@ -225,7 +225,7 @@ class Settings_Header extends Tab_Base {
 				'size_units' => [
 					'%',
 					'px',
-					'vh'
+					'vh',
 				],
 				'range' => [
 					'px' => [
@@ -303,7 +303,7 @@ class Settings_Header extends Tab_Base {
 							'name' => 'hello_header_tagline_display',
 							'operator' => '=',
 							'value' => 'yes',
-						]
+						],
 					],
 				],
 			]
@@ -358,7 +358,7 @@ class Settings_Header extends Tab_Base {
 							'name' => 'hello_header_menu_display',
 							'operator' => '=',
 							'value' => 'yes',
-						]
+						],
 					],
 				],
 			]

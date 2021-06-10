@@ -178,7 +178,7 @@ export default class ControlsHook extends $e.modules.hookUI.After {
      */
     toggleLayoutClass( element, classPrefix, inputOptions, inputValue ) {
         // Loop through the possible classes and remove the one that's not in use
-        Object.entries( inputOptions ).forEach( ( [ key, value ] ) => {
+        Object.entries( inputOptions ).forEach( ( [ key ] ) => {
             element.removeClass( classPrefix + key );
         } );
 
@@ -210,7 +210,7 @@ export default class ControlsHook extends $e.modules.hookUI.After {
     /**
      * The hook logic.
      */
-    apply( args, result ) {
+    apply( args ) {
         const allThemeControls = this.getHelloThemeControls(),
             // Extract the control ID from the passed args
             controlId = Object.keys( args.settings )[ 0 ],

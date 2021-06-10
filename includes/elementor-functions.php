@@ -220,12 +220,12 @@ add_action( 'elementor/experiments/default-features-registered', function( Exper
 function hello_header_footer_experiment_active() {
 	// If Elementor is not active, return false
 	if ( ! did_action( 'elementor/loaded' ) ) {
-		return FALSE;
+		return false;
 	}
 	// Backwards compat.
 	if ( ! method_exists( Plugin::$instance->experiments, 'is_feature_active' ) ) {
-		return FALSE;
+		return false;
 	}
 
-	return ( bool )( Plugin::$instance->experiments->is_feature_active( 'hello-theme-header-footer' ) );
+	return (bool) ( Plugin::$instance->experiments->is_feature_active( 'hello-theme-header-footer' ) );
 }

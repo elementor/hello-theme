@@ -89,7 +89,7 @@ class Elementor_Upsell extends \WP_Customize_Control {
 		echo $customizer_content;
 	}
 
-	private function get_customizer_upsell_html( $title, $text, $url, $button_text, $image ){
+	private function get_customizer_upsell_html( $title, $text, $url, $button_text, $image ) {
 		return sprintf( '
 			<div class="customize-control-header-footer-holder">
 				<img src="%5$s">
