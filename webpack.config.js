@@ -4,7 +4,7 @@
  */
 const path = require( 'path' );
 
-const CopyPlugin = require("copy-webpack-plugin");
+const CopyPlugin = require( 'copy-webpack-plugin' );
 const TerserPlugin = require( 'terser-webpack-plugin' );
 
 const moduleRules = {
@@ -42,12 +42,12 @@ const webpackConfig = {
 	entry: entry,
 	mode: 'development',
 	plugins: [
-		new CopyPlugin({
+		new CopyPlugin( {
 			patterns: [
 				{
-					from: "**/*",
+					from: '**/*',
 					context: __dirname,
-					to: path.resolve(__dirname, "build"),
+					to: path.resolve( __dirname, 'build' ),
 					// Terser skip this file for minimization
 					info: { minimized: true },
 					globOptions: {
@@ -71,12 +71,12 @@ const webpackConfig = {
 							'**/README.md',
 							'**/readme.txt',
 							'**/webpack.config.js',
-							'**/vendor/**'
-						]
-					}
+							'**/vendor/**',
+						],
+					},
 				},
 			],
-		}),
+		} ),
 	],
 	output: {
 		path: path.resolve( __dirname, './build/assets/js' ),
@@ -118,22 +118,22 @@ Object.entries( webpackProductionConfig.entry ).forEach( ( [ wpEntry, value ] ) 
 	delete webpackProductionConfig.entry[ wpEntry ];
 } );
 
-module.exports = (env) => {
-	if (env.developmentWithWatch) {
+module.exports = ( env ) => {
+	if ( env.developmentWithWatch ) {
 		return { ...webpackConfig, watch: true, devtool: 'source-map' };
 	}
 
-	if (env.productionWithWatch) {
+	if ( env.productionWithWatch ) {
 		return { ...webpackProductionConfig, watch: true, devtool: 'source-map' };
 	}
 
-	if (env.production) {
+	if ( env.production ) {
 		return webpackProductionConfig;
 	}
 
-	if (env.development) {
+	if ( env.development ) {
 		return webpackConfig;
 	}
 
-	throw new Error('missing or invalid --env= development/production/developmentWithWatch/productionWithWatch');
-}
+	throw new Error( 'missing or invalid --env= development/production/developmentWithWatch/productionWithWatch' );
+};
