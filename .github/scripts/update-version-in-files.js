@@ -1,9 +1,8 @@
 'use strict';
 
 const replaceInFile = require( 'replace-in-file' );
-const pkg = require( '../package.json' );
 
-const version = pkg.version;
+const { VERSION } = process.env;
 
 const replaceInFileWithLog = async ( options ) => {
 	const results = await replaceInFile( options );
@@ -15,19 +14,31 @@ const run = async () => {
 		await replaceInFileWithLog( {
 			files: './assets/scss/style.scss',
 			from: /Version:.*$/m,
-			to: `Version: ${ version }`,
+			to: `Version: ${ VERSION }`,
 		} );
 
 		await replaceInFileWithLog( {
 			files: './assets/scss/style.scss',
 			from: /Stable tag:.*$/m,
-			to: `Stable tag: ${ version }`,
+			to: `Stable tag: ${ VERSION }`,
 		} );
 
 		await replaceInFileWithLog( {
 			files: './functions.php',
 			from: /HELLO_ELEMENTOR_VERSION', '(.*?)'/m,
-			to: `HELLO_ELEMENTOR_VERSION', '${ version }'`,
+			to: `HELLO_ELEMENTOR_VERSION', '${ VERSION }'`,
+		} );
+
+		await replaceInFileWithLog( {
+			files: './readme.txt',
+			from: /Version:.*$/m,
+			to: `Version: ${ VERSION }`,
+		} );
+
+		await replaceInFileWithLog( {
+			files: './readme.txt',
+			from: /Stable tag:.*$/m,
+			to: `Stable tag: ${ VERSION }`,
 		} );
 	} catch ( err ) {
 		// eslint-disable-next-line no-console
