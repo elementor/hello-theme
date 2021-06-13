@@ -5,10 +5,11 @@
 	"description": "A sample theme for Elementor.",
 	"version": "2.2.1",
 	"scripts": {
+		"update-version": "node scripts/update-version.js",
 		"build": "grunt default && webpack --env=development && webpack --env=production",
-		"build:watch": "grunt default watch & webpack --env=developmentWithWatch & webpack --env=productionWithWatch",
+		"build:watch": "concurrently \"grunt default watch\" \"webpack --env=developmentWithWatch\" \"webpack --env=productionWithWatch\"",
 		"clean:build": "rimraf build && rimraf hello-elementor",
-		"zip": "npm run clean:build && npm run build && mv build hello-elementor && zip -r hello-elementor.$npm_package_version.zip hello-elementor/*",
+		"zip": "npm run clean:build && npm run update-version && npm run build && mv build hello-elementor && zip -r hello-elementor.$npm_package_version.zip hello-elementor/*",
 		"lint:js": "eslint ."
 	},
 	"devDependencies": {
@@ -19,6 +20,7 @@
 		"autoprefixer": "~8.5.2",
 		"babel-eslint": "^8.2.6",
 		"babel-loader": "8.0.0",
+		"concurrently": "^6.2.0",
 		"copy-webpack-plugin": "^9.0.0",
 		"cssnano": "~3.10.0",
 		"eslint": "^5.16.0",
@@ -42,6 +44,7 @@
 		"matchdep": "~2.0.0",
 		"node-sass": "^5.0.0",
 		"npm-build-zip": "^1.0.3",
+		"replace-in-file": "^6.2.0",
 		"rimraf": "^3.0.2",
 		"webpack": "^5.11.0",
 		"webpack-cli": "^4.7.2"
