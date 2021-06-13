@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a622e373d113e65b40d9fc8226a50733",
+    "content-hash": "fb532360aa2153f005e713784f2f1a50",
     "packages": [
         {
             "name": "dealerdirect/phpcodesniffer-composer-installer",
@@ -75,48 +75,6 @@
                 "source": "https://github.com/dealerdirect/phpcodesniffer-composer-installer"
             },
             "time": "2020-12-07T18:04:37+00:00"
-        },
-        {
-            "name": "elementor/elementor-sniffs",
-            "version": "v0.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/elementor/elementor-sniffs.git",
-                "reference": "065f099cbe1a216e92ec23c573b3739b5f805dcb"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/elementor/elementor-sniffs/zipball/065f099cbe1a216e92ec23c573b3739b5f805dcb",
-                "reference": "065f099cbe1a216e92ec23c573b3739b5f805dcb",
-                "shasum": ""
-            },
-            "require": {
-                "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
-                "php": ">=5.6",
-                "wp-coding-standards/wpcs": "^2.3"
-            },
-            "type": "phpcodesniffer-standard",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-3.0+"
-            ],
-            "authors": [
-                {
-                    "name": "Elementor Team",
-                    "email": "support@elementor.com"
-                }
-            ],
-            "description": "Elementor sniffs",
-            "keywords": [
-                "elementor",
-                "phpcs",
-                "standards",
-                "wordpress"
-            ],
-            "support": {
-                "source": "https://github.com/elementor/elementor-sniffs/tree/v0.2.0"
-            },
-            "time": "2020-12-06T15:03:57+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",

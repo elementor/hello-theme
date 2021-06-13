@@ -1,10 +1,10 @@
 {
     "name": "elementor/hello-theme",
     "require": {
-        "squizlabs/php_codesniffer": "^3.5",
+        "squizlabs/php_codesniffer": "^3.6",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
-        "elementor/elementor-sniffs": "^0.2.0"
-    },
+	  	"wp-coding-standards/wpcs": "^2.3"
+	},
     "scripts": {
         "lint": "phpcs --extensions=php -p"
     }
