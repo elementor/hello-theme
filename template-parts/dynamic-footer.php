@@ -13,6 +13,11 @@ $is_editor = isset( $_GET['elementor-preview'] );
 $site_name = get_bloginfo( 'name' );
 $tagline   = get_bloginfo( 'description', 'display' );
 $footer_class = did_action( 'elementor/loaded' ) ? esc_attr( hello_get_footer_layout_class() ) : '';
+$footer_nav_menu = wp_nav_menu( [
+	'theme_location' => 'menu-2',
+	'fallback_cb' => false,
+	'echo' => false,
+] );
 ?>
 <footer id="site-footer" class="site-footer dynamic-footer <?php echo $footer_class; ?>" role="contentinfo">
 	<div class="footer-inner">
@@ -38,9 +43,9 @@ $footer_class = did_action( 'elementor/loaded' ) ? esc_attr( hello_get_footer_la
 			<?php endif; ?>
 		</div>
 
-		<?php if ( wp_nav_menu( [ 'theme_location' => 'menu-2', 'fallback_cb' => false, 'echo' => false ] ) ) : ?>
+		<?php if ( $footer_nav_menu ) : ?>
 			<nav class="site-navigation <?php echo hello_show_or_hide( 'hello_footer_menu_display' ); ?>" role="navigation">
-				<?php wp_nav_menu( [ 'theme_location' => 'menu-2', 'fallback_cb' => false ] ); ?>
+				<?php echo $footer_nav_menu; ?>
 			</nav>
 		<?php endif; ?>
 

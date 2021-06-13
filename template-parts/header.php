@@ -10,6 +10,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 $site_name = get_bloginfo( 'name' );
 $tagline   = get_bloginfo( 'description', 'display' );
+$header_nav_menu = wp_nav_menu( [
+	'theme_location' => 'menu-1',
+	'fallback_cb' => false,
+	'echo' => false,
+] );
 ?>
 <header id="site-header" class="site-header" role="banner">
 
@@ -34,9 +39,9 @@ $tagline   = get_bloginfo( 'description', 'display' );
 		<?php } ?>
 	</div>
 
-	<?php if ( wp_nav_menu( array( 'theme_location' => 'menu-1', 'fallback_cb' => false, 'echo' => false ) ) ) : ?>
+	<?php if ( $header_nav_menu ) : ?>
 		<nav class="site-navigation" role="navigation">
-			<?php wp_nav_menu( array( 'theme_location' => 'menu-1', 'fallback_cb' => false ) ); ?>
+			<?php echo $header_nav_menu; ?>
 		</nav>
 	<?php endif; ?>
 </header>
