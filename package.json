@@ -3,13 +3,13 @@
 	"slug": "elementor-hello-theme",
 	"homepage": "https://elementor.com/",
 	"description": "A sample theme for Elementor.",
-	"version": "2.2.1",
+	"version": "2.3.1",
 	"scripts": {
 		"update-version": "node scripts/update-version.js",
 		"build": "grunt default && webpack --env=development && webpack --env=production",
 		"build:watch": "concurrently \"grunt default watch\" \"webpack --env=developmentWithWatch\" \"webpack --env=productionWithWatch\"",
 		"clean:build": "rimraf build && rimraf hello-elementor",
-		"zip": "npm run clean:build && npm run update-version && npm run build && mv build hello-elementor && zip -r hello-elementor.$npm_package_version.zip hello-elementor/*",
+		"zip": "npm run clean:build && npm run build && mv build hello-elementor && zip -r hello-elementor.$npm_package_version.zip hello-elementor/*",
 		"lint:js": "eslint ."
 	},
 	"devDependencies": {
