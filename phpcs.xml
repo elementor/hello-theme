@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <ruleset name="WordPress.Elementor">
-	<description>Elementor Coding Standard</description>
+	<description>Hello Theme Coding Standard</description>
 
 	<arg name="parallel" value="8" />
 
