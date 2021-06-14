@@ -7,6 +7,42 @@ const path = require( 'path' );
 const CopyPlugin = require( 'copy-webpack-plugin' );
 const TerserPlugin = require( 'terser-webpack-plugin' );
 
+const copyPluginConfig = new CopyPlugin( {
+	patterns: [
+		{
+			from: '**/*',
+			context: __dirname,
+			to: path.resolve( __dirname, 'build' ),
+			// Terser skip this file for minimization
+			info: { minimized: true },
+			globOptions: {
+				ignore: [
+					'**.zip',
+					'**.css',
+					'**/karma.conf.js',
+					'**/assets/dev/**',
+					'**/assets/scss/**',
+					'**/assets/js/qunit-tests*',
+					'**/bin/**',
+					'**/build/**',
+					'**/composer.json',
+					'**/composer.lock',
+					'**/Gruntfile.js',
+					'**/node_modules/**',
+					'**/npm-debug.log',
+					'**/package-lock.json',
+					'**/package.json',
+					'**/phpcs.xml',
+					'**/README.md',
+					'**/readme.txt',
+					'**/webpack.config.js',
+					'**/vendor/**',
+				],
+			},
+		},
+	],
+} );
+
 const moduleRules = {
 	rules: [
 		{
@@ -41,43 +77,6 @@ const webpackConfig = {
 	module: moduleRules,
 	entry: entry,
 	mode: 'development',
-	plugins: [
-		new CopyPlugin( {
-			patterns: [
-				{
-					from: '**/*',
-					context: __dirname,
-					to: path.resolve( __dirname, 'build' ),
-					// Terser skip this file for minimization
-					info: { minimized: true },
-					globOptions: {
-						ignore: [
-							'**.zip',
-							'**.css',
-							'**/karma.conf.js',
-							'**/assets/dev/**',
-							'**/assets/scss/**',
-							'**/assets/js/qunit-tests*',
-							'**/bin/**',
-							'**/build/**',
-							'**/composer.json',
-							'**/composer.lock',
-							'**/Gruntfile.js',
-							'**/node_modules/**',
-							'**/npm-debug.log',
-							'**/package-lock.json',
-							'**/package.json',
-							'**/phpcs.xml',
-							'**/README.md',
-							'**/readme.txt',
-							'**/webpack.config.js',
-							'**/vendor/**',
-						],
-					},
-				},
-			],
-		} ),
-	],
 	output: {
 		path: path.resolve( __dirname, './build/assets/js' ),
 		filename: '[name].js',
@@ -118,13 +117,23 @@ Object.entries( webpackProductionConfig.entry ).forEach( ( [ wpEntry, value ] ) 
 	delete webpackProductionConfig.entry[ wpEntry ];
 } );
 
+const localOutputPath = { ...webpackProductionConfig.output, path: path.resolve( __dirname, './assets/js' ) };
+
 module.exports = ( env ) => {
-	if ( env.developmentWithWatch ) {
-		return { ...webpackConfig, watch: true, devtool: 'source-map' };
+	if ( env.developmentLocalWithWatch ) {
+		return { ...webpackConfig, watch: true, devtool: 'source-map', output: localOutputPath };
 	}
 
-	if ( env.productionWithWatch ) {
-		return { ...webpackProductionConfig, watch: true, devtool: 'source-map' };
+	if ( env.productionLocalWithWatch ) {
+		return { ...webpackProductionConfig, watch: true, devtool: 'source-map', output: localOutputPath };
+	}
+
+	if ( env.productionLocal ) {
+		return { ...webpackProductionConfig, devtool: 'source-map', output: localOutputPath };
+	}
+
+	if ( env.developmentLocal ) {
+		return { ...webpackConfig, devtool: 'source-map', output: localOutputPath };
 	}
 
 	if ( env.production ) {
@@ -132,7 +141,7 @@ module.exports = ( env ) => {
 	}
 
 	if ( env.development ) {
-		return webpackConfig;
+		return { ...webpackConfig, plugins: [ copyPluginConfig ] };
 	}
 
 	throw new Error( 'missing or invalid --env= development/production/developmentWithWatch/productionWithWatch' );
