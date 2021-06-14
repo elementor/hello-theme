@@ -17,11 +17,17 @@ module.exports = function( grunt ) {
 				implementation: sass,
 			},
 			dist: {
-				files: [ {
+				files: 'production' === grunt.option( 'environment' ) ? [ {
 					expand: true,
 					cwd: 'assets/scss',
 					src: '*.scss',
 					dest: './build',
+					ext: '.css',
+				} ] : [ {
+					expand: true,
+					cwd: 'assets/scss',
+					src: '*.scss',
+					dest: './',
 					ext: '.css',
 				} ],
 			},
@@ -59,9 +65,12 @@ module.exports = function( grunt ) {
 				},
 				files: [ {
 					expand: true,
-					src: [
+					src: 'production' === grunt.option( 'environment' ) ? [
 						'build/*.css',
 						'!build/*.min.css',
+					] : [
+						'*.css',
+						'!*.min.css',
 					],
 					ext: '.min.css',
 				} ],
