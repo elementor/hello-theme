@@ -7,7 +7,7 @@
     "last_beta_version": "2.4.0-beta1",
     "scripts": {
         "update-version": "node .github/scripts/update-version-in-files.js",
-        "build": "grunt prod && webpack --env=development && webpack --env=production",
+        "build": "grunt default --environment=production && webpack --env=development && webpack --env=production",
 	  	"build:dev": "concurrently \"grunt default\" \"webpack --env=developmentLocal\" \"webpack --env=productionLocal\"",
 	  	"build:dev:watch": "concurrently \"grunt default watch\" \"webpack --env=developmentLocalWithWatch\" \"webpack --env=productionLocalWithWatch\"",
         "clean:build": "rimraf build && rimraf hello-elementor",
