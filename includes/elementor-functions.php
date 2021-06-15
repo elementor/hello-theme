@@ -150,21 +150,23 @@ add_action( 'elementor/editor/after_enqueue_scripts', function() {
 	}
 } );
 
-add_action( 'elementor/frontend/before_enqueue_scripts', function() {
+add_action( 'wp_enqueue_scripts', function() {
+
+	if( ! hello_header_footer_experiment_active() ) {
+		return;
+	}
+
 	$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 	wp_enqueue_script(
 		'hello-theme-frontend',
 		get_template_directory_uri() . '/assets/js/hello-frontend' . $suffix . '.js',
-		[ 'elementor-frontend-modules' ],
+		[ 'jquery' ],
 		'1.0.0',
 		true
 	);
 
-	if ( did_action( 'elementor/loaded' ) && hello_header_footer_experiment_active() ) {
-		// Load the kit site-wide
-		Elementor\Plugin::$instance->kits_manager->frontend_before_enqueue_styles();
-	}
+	Elementor\Plugin::$instance->kits_manager->frontend_before_enqueue_styles();
 } );
 
 
