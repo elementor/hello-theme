@@ -1,6 +1,11 @@
 name: Publish Release Version
 
-on: [workflow_dispatch, push]
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release branch version'
+        required: false
 
 jobs:
   merge-release-branch-to-develop:

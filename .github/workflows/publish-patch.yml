@@ -1,6 +1,7 @@
 name: Publish Patch Version
 
-on: [workflow_dispatch, push]
+on:
+  workflow_dispatch:
 
 jobs:
   bump-version:
