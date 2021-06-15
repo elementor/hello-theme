@@ -1,7 +1,6 @@
 name: Publish Beta Version
 
-on:
-  workflow_dispatch:
+on: [workflow_dispatch, push]
 
 jobs:
   bump-version:
