@@ -8,8 +8,8 @@
     "scripts": {
         "update-version": "node .github/scripts/update-version-in-files.js",
         "build:prod": "grunt default --environment=production && webpack --env=development && webpack --env=production",
-	  	"build:dev": "concurrently \"grunt default\" \"webpack --env=developmentLocal\" \"webpack --env=productionLocal\"",
-	  	"build:dev:watch": "concurrently \"grunt default watch\" \"webpack --env=developmentLocalWithWatch\" \"webpack --env=productionLocalWithWatch\"",
+        "build:dev": "concurrently \"grunt default\" \"webpack --env=developmentLocal\" \"webpack --env=productionLocal\"",
+        "build:dev:watch": "concurrently \"grunt default watch\" \"webpack --env=developmentLocalWithWatch\" \"webpack --env=productionLocalWithWatch\"",
         "clean:build": "rimraf build && rimraf hello-elementor",
         "zip": "npm run clean:build && npm run build:prod && mv build hello-elementor && zip -r hello-elementor.$npm_package_version.zip hello-elementor/*",
         "lint:js": "eslint ."

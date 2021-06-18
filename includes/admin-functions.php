@@ -53,26 +53,30 @@ function hello_elementor_fail_load_admin_notice() {
 	?>
 	<style>
 		.notice.hello-elementor-notice {
-			border-left-color: #9b0a46 !important;
-			padding: 20px;
+			border: 1px solid #ccd0d4;
+			border-left: 4px solid #9b0a46 !important;
+			box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+			display: flex;
+			padding: 0px;
 		}
 		.rtl .notice.hello-elementor-notice {
 			border-right-color: #9b0a46 !important;
 		}
+		.notice.hello-elementor-notice .hello-elementor-notice-aside {
+			width: 50px;
+			display: flex;
+			align-items: start;
+			justify-content: center;
+			padding-top: 15px;
+			background: rgba(215,43,63,0.04);
+		}
+		.notice.hello-elementor-notice .hello-elementor-notice-aside img{
+			width: 1.5rem;
+		}
 		.notice.hello-elementor-notice .hello-elementor-notice-inner {
 			display: table;
+			padding: 20px 0px;
 			width: 100%;
-		}
-		.notice.hello-elementor-notice .hello-elementor-notice-inner .hello-elementor-notice-icon,
-		.notice.hello-elementor-notice .hello-elementor-notice-inner .hello-elementor-notice-content,
-		.notice.hello-elementor-notice .hello-elementor-notice-inner .hello-elementor-install-now {
-			display: table-cell;
-			vertical-align: middle;
-		}
-		.notice.hello-elementor-notice .hello-elementor-notice-icon {
-			color: #9b0a46;
-			font-size: 50px;
-			width: 50px;
 		}
 		.notice.hello-elementor-notice .hello-elementor-notice-content {
 			padding: 0 20px;
@@ -85,36 +89,34 @@ function hello_elementor_fail_load_admin_notice() {
 			margin: 0 0 5px;
 		}
 		.notice.hello-elementor-notice .hello-elementor-install-now {
-			text-align: center;
+			display: block;
+			margin-top: 15px;
 		}
 		.notice.hello-elementor-notice .hello-elementor-install-now .hello-elementor-install-button {
-			padding: 5px 30px;
+			background: #127DB8;
+			border-radius: 3px;
+			color: #fff;
+			text-decoration: none;
 			height: auto;
 			line-height: 20px;
+			padding: 0.4375rem 0.75rem;
 			text-transform: capitalize;
-		}
-		.notice.hello-elementor-notice .hello-elementor-install-now .hello-elementor-install-button i {
-			padding-right: 5px;
-		}
-		.rtl .notice.hello-elementor-notice .hello-elementor-install-now .hello-elementor-install-button i {
-			padding-right: 0;
-			padding-left: 5px;
 		}
 		.notice.hello-elementor-notice .hello-elementor-install-now .hello-elementor-install-button:active {
 			transform: translateY(1px);
 		}
 		@media (max-width: 767px) {
-			.notice.hello-elementor-notice {
-				padding: 10px;
+			.notice.hello-elementor-notice.hello-elementor-install-elementor {
+				padding: 0px;
 			}
 			.notice.hello-elementor-notice .hello-elementor-notice-inner {
 				display: block;
+				padding: 10px;
 			}
 			.notice.hello-elementor-notice .hello-elementor-notice-inner .hello-elementor-notice-content {
 				display: block;
 				padding: 0;
 			}
-			.notice.hello-elementor-notice .hello-elementor-notice-inner .hello-elementor-notice-icon,
 			.notice.hello-elementor-notice .hello-elementor-notice-inner .hello-elementor-install-now {
 				display: none;
 			}
@@ -130,21 +132,17 @@ function hello_elementor_fail_load_admin_notice() {
 			} );
 		} );</script>
 	<div class="notice updated is-dismissible hello-elementor-notice hello-elementor-install-elementor">
+		<div class="hello-elementor-notice-aside">
+			<img src="<?php echo get_template_directory_uri() . '/assets/images/elementor-notice-icon.svg'; ?>" alt="Get Elementor" />
+		</div>
 		<div class="hello-elementor-notice-inner">
-			<div class="hello-elementor-notice-icon">
-				<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/elementor-logo.png' ); ?>" alt="Elementor Logo" />
-			</div>
-
 			<div class="hello-elementor-notice-content">
 				<h3><?php esc_html_e( 'Thanks for installing Hello Theme!', 'hello-elementor' ); ?></h3>
-				<p>
-					<p><?php echo esc_html( $message ); ?></p>
-					<a href="https://go.elementor.com/hello-theme-learn/" target="_blank"><?php esc_html_e( 'Learn more about Elementor', 'hello-elementor' ); ?></a>
-				</p>
-			</div>
-
-			<div class="hello-elementor-install-now">
-				<a class="button button-primary hello-elementor-install-button" href="<?php echo esc_attr( $button_link ); ?>"><i class="dashicons dashicons-download"></i><?php echo esc_html( $button_text ); ?></a>
+				<p><?php echo esc_html( $message ); ?></p>
+				<a href="https://go.elementor.com/hello-theme-learn/" target="_blank"><?php esc_html_e( 'Learn more about Elementor', 'hello-elementor' ); ?></a>
+				<div class="hello-elementor-install-now">
+					<a class="hello-elementor-install-button" href="<?php echo esc_attr( $button_link ); ?>"><?php echo esc_html( $button_text ); ?></a>
+				</div>
 			</div>
 		</div>
 	</div>
