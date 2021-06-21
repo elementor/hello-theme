@@ -3,7 +3,7 @@
 	"slug": "elementor-hello-theme",
 	"homepage": "https://elementor.com/",
 	"description": "A sample theme for Elementor.",
-	"version": "2.2.1",
+	"version": "2.3.1",
 	"devDependencies": {
 		"autoprefixer": "~8.5.2",
 		"cssnano": "~3.10.0",
