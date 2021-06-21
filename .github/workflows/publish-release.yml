@@ -1,0 +1,130 @@
+name: Publish Release Version
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release branch version'
+        required: false
+
+jobs:
+  merge-release-branch-to-develop:
+    if: (github.actor == 'ronkelementor' || github.actor == 'KingYes') && startsWith(github.repository, 'elementor/')
+    runs-on: ubuntu-16.04
+    steps:
+      - name: Checkout master branch
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.MAINTAIN_TOKEN }}
+          ref: master
+      - name: Get release branch
+        env:
+          INPUT_VERSION: ${{ github.event.inputs.version }}
+        run: |
+          bash "${GITHUB_WORKSPACE}/.github/scripts/get-release-branch-name.sh"
+      - name: Checkout release branch
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.MAINTAIN_TOKEN }}
+          ref: ${{ env.RELEASE_BRANCH }}
+      - name: Merge release -> develop
+        uses: devmasx/merge-branch@a1752b9ba42bb417ec19be7dc974e2faf77d3ef2 # v1.3.1
+        with:
+          type: now
+          from_branch: ${{ env.RELEASE_BRANCH }}
+          target_branch: develop
+          github_token: ${{ secrets.MAINTAIN_TOKEN }}
+  bump-version:
+    needs: merge-release-branch-to-develop
+    runs-on: ubuntu-16.04
+    outputs:
+      prev_version: ${{ steps.bump_version_step.outputs.prev_version }}
+    steps:
+      - name: Checkout develop branch
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.MAINTAIN_TOKEN }}
+          ref: develop
+      - name: Bump version
+        id: bump_version_step
+        run: |
+          npm config set git-tag-version false
+          PREV_PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          npm version minor
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          echo "PACKAGE_VERSION=${PACKAGE_VERSION}" >> $GITHUB_ENV
+          echo "::set-output name=prev_version::${PREV_PACKAGE_VERSION}"
+      - name: Update version in files
+        run: |
+          npm install --no-package-lock --no-save replace-in-file@6.2.0
+          node ./.github/scripts/update-version-in-files.js
+      - name: Check if readme.txt update
+        env:
+          VERSION: ${{ env.PACKAGE_VERSION }}
+        run: |
+          npm install --no-package-lock --no-save marked@2.0.6
+          node ./.github/scripts/get-changelog-from-readme-txt.js
+      - name: Push new version to develop
+        env:
+          PACKAGE_VERSION: ${{ env.PACKAGE_VERSION }}
+          MAINTAIN_EMAIL: ${{ secrets.MAINTAIN_EMAIL }}
+          MAINTAIN_USERNAME: ${{ secrets.MAINTAIN_USERNAME }}
+        run: |
+          bash "${GITHUB_WORKSPACE}/.github/scripts/commit-push-bump.sh"
+  publish:
+    needs: bump-version
+    runs-on: ubuntu-16.04
+    steps:
+      - name: Checkout master branch
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.MAINTAIN_TOKEN }}
+          ref: master
+      - name: Merge develop -> master
+        uses: devmasx/merge-branch@a1752b9ba42bb417ec19be7dc974e2faf77d3ef2 # v1.3.1
+        with:
+          type: now
+          from_branch: develop
+          target_branch: master
+          github_token: ${{ secrets.MAINTAIN_TOKEN }}
+      - name: Checkout updated master branch
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.MAINTAIN_TOKEN }}
+          ref: master
+      - name: Install Dependencies
+        run: |
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          echo "PACKAGE_VERSION=${PACKAGE_VERSION}" >> $GITHUB_ENV
+          npm ci
+      - name: Build
+        env:
+          PACKAGE_VERSION: ${{ env.PACKAGE_VERSION }}
+        run: npm run zip
+      - name: Upload zip file to GitHub actions artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: hello-elementor.${{ env.PACKAGE_VERSION }}
+          path: hello-elementor.*.zip
+          if-no-files-found: error
+      - name: Create tag
+        env:
+          PACKAGE_VERSION: ${{ env.PACKAGE_VERSION }}
+          MAINTAIN_EMAIL: ${{ secrets.MAINTAIN_EMAIL }}
+          MAINTAIN_USERNAME: ${{ secrets.MAINTAIN_USERNAME }}
+        run: |
+          bash "${GITHUB_WORKSPACE}/.github/scripts/create-git-tag.sh"
+      - name: Read changelog from readme.txt
+        env:
+          VERSION: ${{ env.PACKAGE_VERSION }}
+        run: |
+          npm install --no-package-lock --no-save marked@2.0.6
+          node ./.github/scripts/get-changelog-from-readme-txt.js
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ env.PACKAGE_VERSION }}
+          files: hello-elementor.*.zip
+          body_path: temp-changelog-from-readme.txt
+        env:
+          GITHUB_TOKEN: ${{ secrets.MAINTAIN_TOKEN }}
