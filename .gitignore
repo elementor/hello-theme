@@ -2,6 +2,7 @@
 node_modules/
 .sass-cache/
 build/
+hello-elementor/
 log/
 vendor/
 composer.lock
@@ -12,3 +13,6 @@ Thumbs.db
 *.log
 *.map
 yarn.lock
+assets/js/
+*.css
+*.zip
