@@ -1,0 +1,24 @@
+name: Sync Branches
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 */2 * * *'
+
+jobs:
+  run:
+    runs-on: ubuntu-16.04
+    if: startsWith( github.repository, 'elementor/' )
+    steps:
+      - name: Checkout master branch
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.MAINTAIN_TOKEN }}
+          ref: master
+      - name: Sync
+        env:
+          MAINTAIN_EMAIL: ${{ secrets.MAINTAIN_EMAIL }}
+          MAINTAIN_USERNAME: ${{ secrets.MAINTAIN_USERNAME }}
+        run: |
+          bash "${GITHUB_WORKSPACE}/.github/scripts/sync-branches.sh"
