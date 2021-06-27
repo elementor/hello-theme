@@ -74,6 +74,10 @@ jobs:
         run: |
           npm install --no-package-lock --no-save replace-in-file@6.2.0
           node ./.github/scripts/update-version-in-files.js
+
+          npm config set git-tag-version false
+          npm version $VERSION
+
           npm run zip
       - name: Upload zip file to GitHub actions artifact
         uses: actions/upload-artifact@v2
