@@ -93,6 +93,10 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
 
+= 2.4.0 - 2021-06-29 =
+* New: Introducing Header and Footer site elements as an Elementor Experiment
+* Tweak: Updated Elementor admin notices UI
+
 = 2.3.1 - 2020-12-28 =
 * Tweak: Improved UI for table elements
 * Tweak: Added support for Gutenberg Wide and Full image formats (Props [@ramiy](https://github.com/ramiy))
