@@ -25,7 +25,7 @@ function hello_customizer_register( $wp_customize ) {
 		'hello-elementor-header-footer',
 		[
 			'sanitize_callback' => 'esc_url',
-			'transport' => 'refresh'
+			'transport' => 'refresh',
 		]
 	);
 
