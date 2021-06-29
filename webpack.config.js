@@ -34,7 +34,6 @@ const copyPluginConfig = new CopyPlugin( {
 					'**/package.json',
 					'**/phpcs.xml',
 					'**/README.md',
-					'**/readme.txt',
 					'**/webpack.config.js',
 					'**/vendor/**',
 				],
