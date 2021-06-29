@@ -21,7 +21,13 @@ function hello_customizer_register( $wp_customize ) {
 		]
 	);
 
-	$wp_customize->add_setting( 'hello-elementor-header-footer', [ 'transport' => 'refresh' ] );
+	$wp_customize->add_setting(
+		'hello-elementor-header-footer',
+		[
+			'sanitize_callback' => false,
+			'transport' => 'refresh',
+		]
+	);
 
 	$wp_customize->add_control(
 		new HelloElementor\Includes\Customizer\Elementor_Upsell(
