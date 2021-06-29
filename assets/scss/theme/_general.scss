@@ -1,10 +1,9 @@
-/*
-DO NOT CHANGE THIS FILE
-to override any of the settings in this section, add your styling code in the custom directory.
+/**
+ * General - https://codex.wordpress.org/CSS#WordPress_Generated_Classes
+ * DO NOT CHANGE THIS FILE
+ * to override any of the settings in this section, add your styling code in the custom directory.
  */
 
-/* General - https://codex.wordpress.org/CSS#WordPress_Generated_Classes
-   ========================================================================== */
 
 .alignright {
 	float: right;
@@ -85,9 +84,6 @@ to override any of the settings in this section, add your styling code in the cu
 	font-size: inherit;
 }
 
-// Specific style for 'wp search' widget: same alignment for the button and label elements.
-.elementor-widget-wp-widget-search {
-	.search-submit {
-		vertical-align: middle;
-	}
+.hide {
+    display: none !important;
 }

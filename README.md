@@ -95,12 +95,17 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 ## Changelog ##
 
+### 2.4.0 - 2021-06-29 ###
+* New: Introducing Header and Footer site elements as an Elementor Experiment
+* Tweak: Updated Elementor admin notices UI
+
 ### 2.3.1 - 2020-12-28 ###
-* Tweak: Improved UI for table  elements
-* Tweak: Added support for Gutenberg Wide and Full image formats
+* Tweak: Improved UI for table elements
+* Tweak: Added support for Gutenberg Wide and Full image formats (Props [@ramiy](https://github.com/ramiy))
 * Tweak: Added font smoothing
-* Tweak: Added compatibility declaration for WordPress v5.6
-* Fix: Font glitches in editor-style.css ([#128](https://github.com/elementor/hello-theme/issues/128))
+* Tweak: Update `Tested Up to 5.6`
+* Tweak: Update `Requires PHP: 5.6`
+* Fix: Adjusted font-family in `code`, `pre`, `kbd` and `samp` elements (Props [@75th](https://github.com/75th))
 
 ### 2.3.0 - 2020-04-19 ###
 * Tweak: Removed caption centering by default to allow alignment using Elementor (Props [@cirkut](https://github.com/cirkut))
@@ -177,7 +182,7 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 * Tweak: Update style for `img`, `textarea`, 'label'
 
 ### 1.2.0 - 2019-02-12 ###
-* New: Added editor-style.css for Classic editor
+* New: Added classic-editor.css for Classic editor
 * Tweak: A lot of changes to match theme review guidelines
 * Tweak: Updated theme screenshot
 
