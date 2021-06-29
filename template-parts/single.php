@@ -10,7 +10,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 <?php
-while ( have_posts() ) : the_post();
+while ( have_posts() ) :
+	the_post();
 	?>
 
 <main <?php post_class( 'site-main' ); ?> role="main">

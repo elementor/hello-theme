@@ -3,8 +3,8 @@
 Contributors: elemntor, KingYes, ariel.k, jzaltzberg, mati1000, bainternet
 Requires at least: 4.7
 Tested up to: 5.6
-Stable tag: 2.3.1
-Version: 2.3.1
+Stable tag: undefined
+Version: undefined
 Requires PHP: 5.6
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -93,6 +93,10 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
 
+= 2.4.0 - 2021-06-29 =
+* New: Introducing Header and Footer site elements as an Elementor Experiment
+* Tweak: Updated Elementor admin notices UI
+
 = 2.3.1 - 2020-12-28 =
 * Tweak: Improved UI for table elements
 * Tweak: Added support for Gutenberg Wide and Full image formats (Props [@ramiy](https://github.com/ramiy))
@@ -176,7 +180,7 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 * Tweak: Update style for `img`, `textarea`, 'label'
 
 = 1.2.0 - 2019-02-12 =
-* New: Added editor-style.css for Classic editor
+* New: Added classic-editor.css for Classic editor
 * Tweak: A lot of changes to match theme review guidelines
 * Tweak: Updated theme screenshot
 
