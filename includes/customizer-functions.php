@@ -24,7 +24,7 @@ function hello_customizer_register( $wp_customize ) {
 	$wp_customize->add_setting(
 		'hello-elementor-header-footer',
 		[
-			'sanitize_callback' => 'esc_url',
+			'sanitize_callback' => false,
 			'transport' => 'refresh',
 		]
 	);
