@@ -7,14 +7,15 @@ add_action( 'login_enqueue_scripts', 'custom_jw_login_logo' );
 function custom_jw_login_logo() {
   $loginsc_bg = get_theme_mod( 'htc_loginsc_bg_setting', '#F1F1F1' );
   $site_logo_enable = get_theme_mod( 'htc_logo_enable_setting', 'yes' );
-  $site_logo_bg = get_theme_mod( 'htc_logo_bg_setting', 'none' );
-  $default_logo = get_stylesheet_directory_uri() . '/images/favicon.png';
+  $site_logo_height = !empty( get_theme_mod( 'htc_logo_height_setting' ) ) ? get_theme_mod( 'htc_logo_height_setting' ) : '100';
+  $site_logo_width = !empty( get_theme_mod( 'htc_logo_width_setting' ) ) ? get_theme_mod( 'htc_logo_width_setting' ) : '320';
+  $site_logo_bg = !empty( get_theme_mod( 'htc_logo_bg_setting' ) ) ? get_theme_mod( 'htc_logo_bg_setting' ) : 'transparent';
+  $default_logo = get_template_directory_uri() . '/images/favicon.png';
   $site_logo = get_theme_mod('custom_logo');
-  $custom_logo = !empty($site_logo) ? wp_get_attachment_image_src($site_logo, 'login-logo') : $default_logo;
-  $custom_logo_type = strpos( $custom_logo[0], ".svg" );
-  $logo_bg_size = ( $custom_logo_type !== false ) ? '300px auto' : 'auto';
+  $site_logo_array = wp_get_attachment_image_src($site_logo, 'login-logo');
+  $custom_logo = !empty($site_logo) ? $site_logo_array[0] : $default_logo;
   echo '<style type="text/css">body.login{background: '. $loginsc_bg .'}';
-  echo ( $site_logo_enable == 'yes' ) ? '#login h1 a, .login h1 a {background-image: url('. $custom_logo[0] .');height: 100px;width: 320px;background-repeat: no-repeat;background-size: '. $logo_bg_size .';background-position: center;background-color: '. $site_logo_bg .'}' : '';
+  echo ( $site_logo_enable == 'yes' ) ? '#login h1 a, .login h1 a {background-image: url('. $custom_logo .');height: '. $site_logo_height .'px;width: '. $site_logo_width .'px;background-repeat: no-repeat;background-size: contain;background-position: center;background-color: '. $site_logo_bg .'}' : '';
   echo '</style>';
 }
 
@@ -179,6 +180,7 @@ function custom_jw_admin_head_scripts(){
   .wp-admin #sgpb-popup-dialog-main-div-wrapper + .sgpb-popup-overlay {display: none;}
   .wp-admin #sg-backup-review-wrapper {display: none;}
   body.elementor-editor-active #elementor-switch-mode-button {display: none;}
+  .notice.wcs-nux__notice{display: none !important;}
   </style>
   <script type="text/javascript">
   jQuery(document).ready(function(){
@@ -198,7 +200,7 @@ function custom_jw_remove_posttype_support() {
 
 // Admin footer text modification
 add_filter( 'admin_footer_text', 'custom_jw_footer_text_admin' );
-function custom_jw_footer_text_admin () {
+function custom_jw_footer_text_admin() {
   echo '';
 }
 
@@ -249,6 +251,12 @@ function custom_disable_gutenberg_fullscreen_all() {
 
 // Disable auto-update email notifications for plugins
 add_filter( 'auto_plugin_update_send_email', '__return_false' );
+
+// Disable Elementor usage tracker notice
+add_action( 'admin_init', function(){
+  update_option( 'elementor_pro_tracker_notice', 1 );
+  update_option( 'elementor_tracker_notice', 1 );
+}, 10 );
 
 // Woocommerce overrides
 // Woocommerce sorting options by alphabetical

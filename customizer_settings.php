@@ -397,6 +397,16 @@ function hello_theme_child_customize_register( $wp_customize ) {
 	    'transport' => 'postMessage'
 	) );
 
+	$wp_customize->add_setting( 'htc_logo_height_setting', array(
+	    'default' => '100',
+	    'transport' => 'postMessage'
+	) );
+
+	$wp_customize->add_setting( 'htc_logo_width_setting', array(
+	    'default' => '320',
+	    'transport' => 'postMessage'
+	) );
+
 	$wp_customize->add_setting( 'htc_logo_bg_setting', array(
 	    'default' => '',
 	    'transport' => 'postMessage'
@@ -1186,6 +1196,32 @@ function hello_theme_child_customize_register( $wp_customize ) {
 				'yes' => 'Yes',
 				'no' => 'No'
 			)
+		)
+	);
+
+	$wp_customize->add_control( 'htc_logo_height_control',
+		array(
+			'type' => 'number',
+			'description' => __( 'Logo Height (px)', $text_domain ),
+			'section' => 'htc_login_screen_section',
+			'settings' => 'htc_logo_height_setting',
+			'input_attrs' => array(
+				'min' => 0,
+				'step' => 1,
+			),
+		)
+	);
+
+	$wp_customize->add_control( 'htc_logo_width_control',
+		array(
+			'type' => 'number',
+			'description' => __( 'Logo Width (px)', $text_domain ),
+			'section' => 'htc_login_screen_section',
+			'settings' => 'htc_logo_width_setting',
+			'input_attrs' => array(
+				'min' => 0,
+				'step' => 1,
+			),
 		)
 	);
 

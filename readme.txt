@@ -1,8 +1,8 @@
 === Jtheme Jello ===
 Contributors: Jezweb
 Requires at least: WordPress 5.0
-Tested up to: WordPress 5.7
-Version: 1.4.3
+Tested up to: WordPress 5.7.2
+Version: 1.4.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,6 +27,12 @@ Elementor (Pro)
 Source: https://elementor.com
 
 == Changelog ==
+
+= 1.4.5 - 2021-7-6 =
+* New: Hide Jetpack notice (Woocommerce Services plugin)
+* New: Hide Elementor usage tracking notice
+* New: Login screen logo height and width settings
+* Fix: Login screen logo display issue
 
 = 1.4.4 - 2021-4-5 =
 * Fix: Elementor gallery line css fix
