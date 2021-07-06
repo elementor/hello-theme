@@ -85,21 +85,19 @@ if ( ! function_exists( 'hello_elementor_setup' ) ) {
 			}
 		}
 
-		maybe_update_theme_version_in_db();
+		hello_maybe_update_theme_version_in_db();
 	}
 }
 add_action( 'after_setup_theme', 'hello_elementor_setup' );
 
-if ( ! function_exists( 'maybe_update_theme_version_in_db' ) ) {
-	function maybe_update_theme_version_in_db() {
-		$theme_version_option_name = 'hello_theme_version';
-		// The theme version saved in the database.
-		$hello_theme_db_version = get_option( $theme_version_option_name );
+function hello_maybe_update_theme_version_in_db() {
+	$theme_version_option_name = 'hello_theme_version';
+	// The theme version saved in the database.
+	$hello_theme_db_version = get_option( $theme_version_option_name );
 
-		// If the 'hello_theme_version' option does not exist in the DB, or the version needs to be updated, do the update.
-		if ( ! $hello_theme_db_version || version_compare( $hello_theme_db_version, HELLO_ELEMENTOR_VERSION, '<' ) ) {
-			update_option( $theme_version_option_name, HELLO_ELEMENTOR_VERSION, true );
-		}
+	// If the 'hello_theme_version' option does not exist in the DB, or the version needs to be updated, do the update.
+	if ( ! $hello_theme_db_version || version_compare( $hello_theme_db_version, HELLO_ELEMENTOR_VERSION, '<' ) ) {
+		update_option( $theme_version_option_name, HELLO_ELEMENTOR_VERSION, true );
 	}
 }
 
