@@ -22,6 +22,10 @@ if ( ! function_exists( 'hello_elementor_setup' ) ) {
 	 * @return void
 	 */
 	function hello_elementor_setup() {
+		if ( is_admin() ) {
+			hello_maybe_update_theme_version_in_db();
+		}
+
 		$hook_result = apply_filters_deprecated( 'elementor_hello_theme_load_textdomain', [ true ], '2.0', 'hello_elementor_load_textdomain' );
 		if ( apply_filters( 'hello_elementor_load_textdomain', $hook_result ) ) {
 			load_theme_textdomain( 'hello-elementor', get_template_directory() . '/languages' );
@@ -84,8 +88,6 @@ if ( ! function_exists( 'hello_elementor_setup' ) ) {
 				add_theme_support( 'wc-product-gallery-slider' );
 			}
 		}
-
-		hello_maybe_update_theme_version_in_db();
 	}
 }
 add_action( 'after_setup_theme', 'hello_elementor_setup' );
