@@ -97,7 +97,7 @@ function hello_maybe_update_theme_version_in_db() {
 
 	// If the 'hello_theme_version' option does not exist in the DB, or the version needs to be updated, do the update.
 	if ( ! $hello_theme_db_version || version_compare( $hello_theme_db_version, HELLO_ELEMENTOR_VERSION, '<' ) ) {
-		update_option( $theme_version_option_name, HELLO_ELEMENTOR_VERSION, true );
+		update_option( $theme_version_option_name, HELLO_ELEMENTOR_VERSION );
 	}
 }
 
