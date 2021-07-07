@@ -3,8 +3,8 @@
 Contributors: elemntor, KingYes, ariel.k, jzaltzberg, mati1000, bainternet
 Requires at least: 4.7
 Tested up to: 5.6
-Stable tag: 2.4.0
-Version: 2.4.0
+Stable tag: 2.4.1
+Version: 2.4.1
 Requires PHP: 5.6
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -92,6 +92,9 @@ License: CC0 1.0 Universal (CC0 1.0)
 Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
+
+= 2.4.1 - 2021-07-07 =
+* Fix: Hello Theme Header & Footer experiment should be inactive for existing sites
 
 = 2.4.0 - 2021-06-29 =
 * New: Introducing Header and Footer site elements as an Elementor Experiment

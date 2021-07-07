@@ -2,11 +2,9 @@
 
 namespace HelloElementor\Includes\Settings;
 
-use Elementor\Plugin;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Background;
 use Elementor\Group_Control_Typography;
-use Elementor\Core\Responsive\Responsive;
 use Elementor\Core\Kits\Documents\Tabs\Tab_Base;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -498,7 +496,7 @@ class Settings_Footer extends Tab_Base {
 					<img src="%4$s" class="elementor-nerd-box-icon">
 					<div class="elementor-nerd-box-message">
 						<p class="elementor-panel-heading-title elementor-nerd-box-title">%1$s</p>
-						<p class="elementor-nerd-box-message">%2$s</p>	
+						<p class="elementor-nerd-box-message">%2$s</p>
 					</div>
 					<a class="elementor-button elementor-button-success elementor-nerd-box-link" target="_blank" href="%5$s">%3$s</a>
 				</div>

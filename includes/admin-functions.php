@@ -163,35 +163,3 @@ add_action( 'wp_ajax_hello_elementor_set_admin_notice_viewed', 'ajax_hello_eleme
 if ( ! did_action( 'elementor/loaded' ) ) {
 	add_action( 'admin_notices', 'hello_elementor_fail_load_admin_notice' );
 }
-
-/**
- * Set Theme Version
- *
- * @return void
- */
-add_action( 'after_switch_theme', 'hello_set_theme_ver', 100 );
-function hello_set_theme_ver() {
-	update_option( 'hello_theme_version', HELLO_ELEMENTOR_VERSION, true );
-}
-
-/**
- * Hello Check Theme Version
- *
- * Fired when the theme is updated, on the hook 'set_site_transient_update_themes'.
- * This method updates two database options: 'hello_theme_version', and potentially also 'hello_header_footer_experiment'.
- * 'hello_theme_version' is a new option that is added here in version 2.4.0.
- * If it does not exist in the database, it means the theme is upgraded to a >=2.4.0 version from a <2.4.0 version.
- * If the 'hello_theme_version' option has not been set, we default the new Hello Header & Footer experiment to 'inactive'.
- *
- * @since 2.4.0
- */
-add_action( 'set_site_transient_update_themes', 'hello_check_theme_ver', 100 );
-function hello_check_theme_ver() {
-	// If we don't have the theme version of Hello enabled, add it now, and make sure that we turn off the dynamic header
-	if ( ! get_option( 'hello_theme_version' ) ) {
-		update_option( 'hello_header_footer_experiment', 'inactive', true );
-	}
-
-	// Update the theme version
-	update_option( 'hello_theme_version', HELLO_ELEMENTOR_VERSION, true );
-}
