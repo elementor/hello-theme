@@ -5,8 +5,8 @@
 **Contributors:** [elemntor](https://profiles.wordpress.org/elemntor), [KingYes](https://profiles.wordpress.org/KingYes), [ariel.k](https://profiles.wordpress.org/ariel.k), [jzaltzberg](https://profiles.wordpress.org/jzaltzberg), [mati1000](https://profiles.wordpress.org/mati1000), [bainternet](https://profiles.wordpress.org/bainternet)  
 **Requires at least:** 4.7  
 **Tested up to:** 5.6  
-**Stable tag:** 2.4.0  
-**Version:** 2.4.0  
+**Stable tag:** 2.4.1  
+**Version:** 2.4.1  
 **Requires PHP:** 5.6  
 **License:** GNU General Public License v3 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-3.0.html  
