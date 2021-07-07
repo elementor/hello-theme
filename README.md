@@ -95,6 +95,9 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 ## Changelog ##
 
+### 2.4.1 - 2021-07-07 ###
+* Fix: Hello Theme Header & Footer experiment should be inactive for existing sites
+
 ### 2.4.0 - 2021-06-29 ###
 * New: Introducing Header and Footer site elements as an Elementor Experiment
 * Tweak: Updated Elementor admin notices UI
