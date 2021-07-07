@@ -1,9 +1,5 @@
 <?php
 
-use Elementor\Plugin;
-use Elementor\Core\Kits\Documents\Kit;
-use Elementor\Core\Experiments\Manager as Experiments_Manager;
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
@@ -19,7 +15,7 @@ function hello_elementor_settings_init() {
 		require 'settings/settings-header.php';
 		require 'settings/settings-footer.php';
 
-		add_action( 'elementor/kit/register_tabs', function( Kit $kit ) {
+		add_action( 'elementor/kit/register_tabs', function( \Elementor\Core\Kits\Documents\Kit $kit ) {
 			$kit->register_tab( 'hello-settings-header', HelloElementor\Includes\Settings\Settings_Header::class );
 			$kit->register_tab( 'hello-settings-footer', HelloElementor\Includes\Settings\Settings_Footer::class );
 		}, 1, 40 );
@@ -40,7 +36,7 @@ function hello_elementor_get_setting( $setting_id ) {
 	$return = '';
 
 	if ( ! isset( $hello_elementor_settings['kit_settings'] ) ) {
-		$kit = Plugin::$instance->documents->get( Plugin::$instance->kits_manager->get_active_id(), false );
+		$kit = \Elementor\Plugin::$instance->documents->get( \Elementor\Plugin::$instance->kits_manager->get_active_id(), false );
 		$hello_elementor_settings['kit_settings'] = $kit->get_settings();
 	}
 
@@ -151,7 +147,6 @@ add_action( 'elementor/editor/after_enqueue_scripts', function() {
 } );
 
 add_action( 'wp_enqueue_scripts', function() {
-
 	if ( ! hello_header_footer_experiment_active() ) {
 		return;
 	}
@@ -166,7 +161,7 @@ add_action( 'wp_enqueue_scripts', function() {
 		true
 	);
 
-	Elementor\Plugin::$instance->kits_manager->frontend_before_enqueue_styles();
+	\Elementor\Plugin::$instance->kits_manager->frontend_before_enqueue_styles();
 } );
 
 
@@ -206,13 +201,16 @@ function hello_get_footer_display() {
 /**
  * Add Hello Theme Header & Footer to Experiments.
  */
-add_action( 'elementor/experiments/default-features-registered', function( Experiments_Manager $experiments_manager ) {
+add_action( 'elementor/experiments/default-features-registered', function( \Elementor\Core\Experiments\Manager $experiments_manager ) {
 	$experiments_manager->add_feature( [
 		'name' => 'hello-theme-header-footer',
 		'title' => __( 'Hello Theme Header & Footer', 'hello-elementor' ),
 		'description' => sprintf( __( 'Use this experiment to design header and footer using Elementor Site Settings. <a href="%s" target="_blank">Learn More</a>', 'hello-elementor' ), 'https://go.elementor.com/wp-dash-header-footer' ),
-		'release_status' => Experiments_Manager::RELEASE_STATUS_BETA,
-		'default' => ( false === get_option( 'hello_header_footer_experiment' ) ? Experiments_Manager::STATE_ACTIVE : Experiments_Manager::STATE_INACTIVE ),
+		'release_status' => $experiments_manager::RELEASE_STATUS_BETA,
+		'new_site' => [
+			'minimum_installation_version' => '3.3.0',
+			'default_active' => $experiments_manager::STATE_ACTIVE,
+		],
 	] );
 } );
 
@@ -225,9 +223,9 @@ function hello_header_footer_experiment_active() {
 		return false;
 	}
 	// Backwards compat.
-	if ( ! method_exists( Plugin::$instance->experiments, 'is_feature_active' ) ) {
+	if ( ! method_exists( \Elementor\Plugin::$instance->experiments, 'is_feature_active' ) ) {
 		return false;
 	}
 
-	return (bool) ( Plugin::$instance->experiments->is_feature_active( 'hello-theme-header-footer' ) );
+	return (bool) ( \Elementor\Plugin::$instance->experiments->is_feature_active( 'hello-theme-header-footer' ) );
 }
