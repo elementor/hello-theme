@@ -3,8 +3,8 @@
 Contributors: elemntor, KingYes, ariel.k, jzaltzberg, mati1000, bainternet
 Requires at least: 4.7
 Tested up to: 5.6
-Stable tag: 2.4.1
-Version: 2.4.1
+Stable tag: 2.4.2
+Version: 2.4.2
 Requires PHP: 5.6
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -92,6 +92,11 @@ License: CC0 1.0 Universal (CC0 1.0)
 Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
+
+= 2.4.2 - 2021-12-20 =
+* Tweak: Use HTTPS in XFN profile link to prevent mixed content error ([Topic](https://wordpress.org/support/topic/url-scheme-in-xfn-profile-link/))
+* Tweak: Remove comments in `style.min.css` output ([#179](https://github.com/elementor/hello-theme/issues/179))
+* Tweak: Added compatibility for upcoming WordPress version 5.9
 
 = 2.4.1 - 2021-07-07 =
 * Fix: Hello Theme Header & Footer experiment should be inactive for existing sites
