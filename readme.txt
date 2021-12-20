@@ -96,6 +96,7 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 = 2.4.2 - 2021-12-20 =
 * Tweak: Use HTTPS in XFN profile link to prevent mixed content error ([Topic](https://wordpress.org/support/topic/url-scheme-in-xfn-profile-link/))
 * Tweak: Remove comments in `style.min.css` output ([#179](https://github.com/elementor/hello-theme/issues/179))
+* Tweak: Promoted Hello Theme Header & Footer experiment status to Stable
 * Tweak: Added compatibility for upcoming WordPress version 5.9
 
 = 2.4.1 - 2021-07-07 =
