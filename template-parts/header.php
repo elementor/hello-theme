@@ -16,6 +16,9 @@ $header_nav_menu = wp_nav_menu( [
 	'echo' => false,
 ] );
 ?>
+<a class="skip-link screen-reader-text" href="#content">
+	<?php _e( 'Skip to content', 'hello-elementor' ); ?></a>
+
 <header id="site-header" class="site-header" role="banner">
 
 	<div class="site-branding">
