@@ -3,6 +3,10 @@
  */
 .post {
 
+	.entry-title a {
+		text-decoration: none;
+	}
+
 	.wp-post-image {
 		width: 100%;
 		max-height: 500px;

@@ -4,6 +4,13 @@
  * to override any of the settings in this section, add your styling code in the custom directory.
  */
 
+.page-content,
+.comments-area {
+
+	a {
+		text-decoration: underline;
+	}
+}
 
 .alignright {
 	float: right;
