@@ -92,7 +92,7 @@
 
 				&:focus-within {
 
-					ul {
+					& > ul {
 						display: block;
 					}
 				}
