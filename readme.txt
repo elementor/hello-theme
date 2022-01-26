@@ -93,6 +93,13 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
 
+= 2.4.3 - 2022-01-26 =
+* Tweak: Added keyboard navigation to Hello theme menus
+* Tweak: Added Skip Links for better accessibility
+* Tweak: Added underline for text links in Post Content for better accessibility 
+* Tweak: Removed `outline: none` from inputs for better accessibility
+* Fix: Footer menu location is not being presented on sites that are not running Elementor
+
 = 2.4.2 - 2021-12-20 =
 * Tweak: Use HTTPS in XFN profile link to prevent mixed content error ([Topic](https://wordpress.org/support/topic/url-scheme-in-xfn-profile-link/))
 * Tweak: Remove comments in `style.min.css` output ([#179](https://github.com/elementor/hello-theme/issues/179))
