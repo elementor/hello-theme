@@ -3,8 +3,8 @@
 Contributors: elemntor, KingYes, ariel.k, jzaltzberg, mati1000, bainternet
 Requires at least: 4.7
 Tested up to: 5.9
-Stable tag: 2.4.3
-Version: 2.4.3
+Stable tag: 2.5.0
+Version: 2.5.0
 Requires PHP: 5.6
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -93,7 +93,7 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
 
-= 2.4.3 - 2022-01-26 =
+= 2.5.0 - 2022-01-26 =
 * Tweak: Added keyboard navigation to Hello theme menus
 * Tweak: Added Skip Links for better accessibility
 * Tweak: Added underline for text links in Post Content for better accessibility 
