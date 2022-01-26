@@ -3,8 +3,8 @@
 Contributors: elemntor, KingYes, ariel.k, jzaltzberg, mati1000, bainternet
 Requires at least: 4.7
 Tested up to: 5.9
-Stable tag: 2.4.2
-Version: 2.4.2
+Stable tag: 2.4.3
+Version: 2.4.3
 Requires PHP: 5.6
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
