@@ -14,7 +14,7 @@ while ( have_posts() ) :
 	the_post();
 	?>
 
-<main <?php post_class( 'site-main' ); ?> role="main">
+<main id="content" <?php post_class( 'site-main' ); ?> role="main">
 	<?php if ( apply_filters( 'hello_elementor_page_title', true ) ) : ?>
 		<header class="page-header">
 			<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>

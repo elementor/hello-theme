@@ -89,6 +89,13 @@
 					transform: translateY(-50%);
 					text-decoration: none;
 				}
+
+				&:focus-within {
+
+					& > ul {
+						display: block;
+					}
+				}
 			}
 
 			ul {
