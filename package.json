@@ -33,7 +33,7 @@
         "eslint-plugin-no-jquery": "^2.5.0",
         "eslint-plugin-react": "^7.11.1",
         "eslint-plugin-wordpress": "git://github.com/WordPress-Coding-Standards/eslint-plugin-wordpress.git#1774343f6226052a46b081e01db3fca8793cc9f1",
-        "grunt": "^1.4.1",
+        "grunt": "^1.5.2",
         "grunt-checktextdomain": "^1.0.1",
         "grunt-contrib-sass": "~1.0.0",
         "grunt-contrib-watch": "~1.1.0",
