@@ -44,6 +44,8 @@ $header_nav_menu = wp_nav_menu( [
 
 	<?php if ( $header_nav_menu ) : ?>
 		<nav class="site-navigation" role="navigation">
+                        <label for="toggle-mobile-menu" aria-label="Menu">&#9776;</label>
+	                <input id="toggle-mobile-menu" type="checkbox" />
 			<?php echo $header_nav_menu; ?>
 		</nav>
 	<?php endif; ?>
