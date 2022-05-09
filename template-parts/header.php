@@ -18,7 +18,6 @@ $header_nav_menu = wp_nav_menu( [
 ?>
 <a class="skip-link screen-reader-text" href="#content">
 	<?php _e( 'Skip to content', 'hello-elementor' ); ?></a>
-
 <header id="site-header" class="site-header" role="banner">
 
 	<div class="site-branding">
@@ -41,12 +40,13 @@ $header_nav_menu = wp_nav_menu( [
 			</p>
 		<?php } ?>
 	</div>
-
 	<?php if ( $header_nav_menu ) : ?>
+
 		<nav class="site-navigation" role="navigation">
-                        <label for="toggle-mobile-menu" aria-label="Menu">&#9776;</label>
-	                <input id="toggle-mobile-menu" type="checkbox" />
-			<?php echo $header_nav_menu; ?>
+		    <input id="toggle-mobile-menu" type="checkbox" />
+		    <label for="toggle-mobile-menu" aria-label="Menu" class="menu-open">&#9776;</label>
+		    <label for="toggle-mobile-menu" aria-label="Menu" class="menu-close">x</label>
+		    <?php echo $header_nav_menu; ?>
 		</nav>
 	<?php endif; ?>
 </header>

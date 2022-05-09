@@ -16,11 +16,18 @@ while ( have_posts() ) :
 
 <main id="content" <?php post_class( 'site-main' ); ?> role="main">
 	<?php if ( apply_filters( 'hello_elementor_page_title', true ) ) : ?>
-		<header class="page-header">
-			<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
-		</header>
+	
+	<?php
+	if ( function_exists('yoast_breadcrumb') && ! is_front_page() && ! is_page('SOBRE') ) {
+		yoast_breadcrumb( '<p id="breadcrumbs">','</p>' );
+	}
+	?>
+	<header class="page-header">
+		<?php if ( ! is_page('SOBRE') ) { the_title( '<h1 class="entry-title">', '</h1>' ); } ?>
+	</header>
 	<?php endif; ?>
 	<div class="page-content">
+		<?php if( has_post_thumbnail() ): echo get_the_post_thumbnail(); endif; ?>
 		<?php the_content(); ?>
 		<div class="post-tags">
 			<?php the_tags( '<span class="tag-links">' . __( 'Tagged ', 'hello-elementor' ), null, '</span>' ); ?>
@@ -29,7 +36,14 @@ while ( have_posts() ) :
 	</div>
 
 	<?php comments_template(); ?>
+	
+	<?php
+	if ( function_exists('yoast_breadcrumb') && is_page('sobre') ) {
+		yoast_breadcrumb( '<p id="breadcrumbs">','</p>' );
+	}
+	?>
 </main>
 
 	<?php
 endwhile;
+
