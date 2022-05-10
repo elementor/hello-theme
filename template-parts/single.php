@@ -18,12 +18,15 @@ while ( have_posts() ) :
 	<?php if ( apply_filters( 'hello_elementor_page_title', true ) ) : ?>
 	
 	<?php
-	if ( function_exists('yoast_breadcrumb') && ! is_front_page() && ! is_page('SOBRE') ) {
+	if ( function_exists('yoast_breadcrumb') && ! is_front_page() && ! is_page('sobre') ) {
 		yoast_breadcrumb( '<p id="breadcrumbs">','</p>' );
 	}
 	?>
 	<header class="page-header">
-		<?php if ( ! is_page('SOBRE') ) { the_title( '<h1 class="entry-title">', '</h1>' ); } ?>
+		<?php if ( ! is_page( array ('sobre', 'descontos') ) ) {
+	            the_title( '<h1 class="entry-title">', '</h1>' );
+                }
+		?>
 	</header>
 	<?php endif; ?>
 	<div class="page-content">
