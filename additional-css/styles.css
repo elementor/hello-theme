@@ -1,0 +1,290 @@
+
+/** Menu CSS */
+.site-navigation ul.menu li.menu-item-has-children:after {
+  display: none;}
+
+img.custom-logo {
+  width: 50px;
+  height: auto;
+  max-width: 400px;
+  display: flex;
+}
+
+nav.site-navigation a {
+  font-size: 14px;
+  color: #7A7A7A
+}
+
+.site-header .site-navigation {
+  justify-content: flex-start;
+}
+
+.site-navigation ul.menu li {
+  display: block;
+}
+
+nav ul li {
+  float: inherit !important;
+}
+
+[aria-current] {
+  font-weight: bold;
+}
+
+.menu > .current-menu-item > a {
+  font-weight: bold;
+  content: '';
+  text-decoration: underline solid #ea3974 3px;
+  display: block;
+  text-underline-offset: -25px;
+}
+
+nav.site-navigation > .menu-de-lugar-nenhum-menu-principal-container > ul > li > a:hover,
+nav.site-navigation > .menu-de-lugar-nenhum-menu-principal-container > ul > li.current-menu-ancestor {
+  content: '';
+  text-decoration: underline solid #ea3974 3px;
+  display: block;
+  text-underline-offset: -25px;
+}
+
+nav.site-navigation li ul a:hover {
+  content: '';
+  background: #7A7A7A;
+  color: #fff;
+  transition: width 0.3s ease-in-out;
+  text-decoration-thickness: 3px;
+  text-decoration-color: #fff;
+}
+
+.site-navigation .icon {
+  display: none;
+}
+
+/* Responsive Menu Toggle */
+.site-navigation .menu-de-lugar-nenhum-menu-principal-container,
+.site-navigation > input {
+  display: none;
+}
+
+.site-navigation > label.menu-open {
+  display: block;
+  font-size: 26px;
+  color: black;
+  position: absolute;
+  right: 10px;
+  top: 29px;
+  width: 26px;
+  padding: 0;
+  cursor: pointer;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.site-navigation > label.menu-close {
+  display: block;
+  font-size: 26px;
+  color: black;
+  position: absolute;
+  right: 7px;
+  top: 29px;
+  width: 26px;
+  padding: 0;
+  cursor: pointer;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.site-navigation > input:checked ~ .menu-de-lugar-nenhum-menu-principal-container  {
+  display: block;
+  color: #fff;
+}
+
+@media (min-width: 1200px) {
+  .site-navigation .menu-de-lugar-nenhum-menu-principal-container  {
+    display: block;
+    float: left;
+  }
+  .site-navigation > label {
+    display: none !important;
+  }
+  .site-header .site-navigation {
+    justify-content: end;
+  }
+  .site-navigation ul.menu li.menu-item-has-children {
+    padding-right: 0px;
+  }
+}
+
+@media (max-width: 1199px) {
+  .site-navigation ul.menu {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: block;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    top: 56px;
+    left: 60px;
+    width: 84%;
+    position: absolute;
+    background: white;
+  }
+  .site-navigation ul.menu li ul {
+    position: inherit;
+  }
+  .site-navigation ul.menu li ul ul {
+    background: #fff;
+    position: initial;
+    float: none;
+    display:absolute;
+    left:2px
+  }
+  .site-navigation ul.menu ul.sub-menu li.menu-item-has-children,
+  .site-navigation ul.menu ul.sub-menu li.menu-item-has-children ul.sub-menu li.menu-item {
+    margin-left: 10px;
+  }
+  .site-navigation > input:checked ~ label.menu-close,
+  .site-navigation > input:not(checked) ~ label.menu-open {
+    display:block;
+  }
+  .site-navigation > input:checked ~ label.menu-open,
+  .site-navigation > input:not(checked) ~ label.menu-close {
+    display:none;
+  }
+}
+
+/* home and privacy page CSS*/
+.home header.page-header {
+  display: none;
+}
+
+.page #content > div > img {
+  display:none;
+}
+
+.recent-posts-home a {
+  font-weight: 600;
+}
+
+.recent-posts-home li div img {
+  border-radius: 4px;
+}
+
+.comments-area a, .page-content a {
+  text-decoration: none;
+}
+
+/* Search Form*/
+.wp-block-search.wp-block-search__button-inside .wp-block-search__inside-wrapper {
+  border: none;
+  background-color: whitesmoke;
+}
+
+.wp-block-search.wp-block-search__button-inside .wp-block-search__inside-wrapper .wp-block-search__input {
+  padding: 8px;
+  background-color: whitesmoke;
+}
+
+.recent-posts-home .wp-block-latest-posts__post-date {
+  display: block;
+  font-weight: 400;
+  color: #adadad;
+}
+
+@media (min-width: 600px) and (max-width: 781px) {
+  .wp-block-columns:not(.is-not-stacked-on-mobile)>.wp-block-column:nth-child(2n) {
+    margin-left: 0 !important;
+  }
+  .wp-block-columns:not(.is-not-stacked-on-mobile)>.wp-block-column.home-page:not(:only-child) {
+    flex-basis: calc(100%)!important;
+    flex-grow: 0;
+  }
+  .wp-block-columns:not(.is-not-stacked-on-mobile)>.wp-block-column:not(:only-child) {
+    flex-basis: calc(100%) !important;
+    flex-grow: 0;
+  }
+}
+
+@media (max-width: 599px) {
+  .wp-block-latest-posts.is-grid li {
+    margin: 0 0em 1.25em 0;
+  }
+}
+
+/* Category */
+#content > header > h1:not(:first-child),
+#content > header > h2, #content > header > h3, #content > header > p,
+#content > header > ul {
+  display: none;
+}
+
+/* Posts */
+h3.posts-related-content {
+  font-size: inherit;
+}
+
+.post-meta-description {
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.post-meta-description ul {
+  align-items: center;
+  word-break: initial;
+  display: inline-flex;
+  text-align: center;
+  padding-inline-start: 0px;
+}
+
+.post-meta-description ul li:not(:last-child) {
+  border-right: 1px solid #ccc;
+}
+
+.post-meta-description ul li {
+  margin-right: 8px;
+  padding-right: 8px;
+  list-style: none;
+}
+
+/* General */
+
+h2.home-page,
+.privacy-policy h1,
+.privacy-policy h2,
+.page-id-2404 h1,
+.page-id-2404 h2,
+h1.de-lugar-nenhum-posts,
+h2.de-lugar-nenhum-posts
+{
+  border-style: double;
+  border-width: 0 0 6px;
+  border-radius: 0 0 0 0;
+  font-weight: 600;
+}
+
+figcaption {
+  font-style: normal;
+  text-align: center;
+}
+
+span.breadcrumb_last {
+    font-weight: normal;
+}
+
+/* Descontos */
+
+@media (max-width: 599px) {
+  .wp-block-columns.coluna-descontos:not(.is-not-stacked-on-mobile)>.wp-block-column,
+  .wp-block-columns.coluna-descontos:not(.is-not-stacked-on-mobile)>.wp-block-column {
+    flex-basis: calc(50%) !important;
+  }
+}
