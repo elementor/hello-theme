@@ -135,6 +135,7 @@ nav.site-navigation li ul a:hover {
     width: 84%;
     position: absolute;
     background: white;
+		z-index: 1;
   }
   .site-navigation ul.menu li ul {
     position: inherit;
@@ -206,10 +207,10 @@ nav.site-navigation li ul a:hover {
     flex-basis: calc(100%)!important;
     flex-grow: 0;
   }
-  .wp-block-columns:not(.is-not-stacked-on-mobile)>.wp-block-column:not(:only-child) {
+	.wp-block-columns:not(.is-not-stacked-on-mobile)>.wp-block-column:not(:only-child) {
     flex-basis: calc(100%) !important;
     flex-grow: 0;
-  }
+	}
 }
 
 @media (max-width: 599px) {
@@ -226,8 +227,21 @@ nav.site-navigation li ul a:hover {
 }
 
 /* Posts */
+h1.de-lugar-nenhum-posts {
+	font-size: xx-large;
+}
+
+.single-post h2,
+.single-post h3 {
+    font-weight: 600;
+}
+
 h3.posts-related-content {
-  font-size: inherit;
+    font-size: inherit;
+}
+
+p.ez-toc-title {
+    font-weight: bold;
 }
 
 .post-meta-description {
@@ -235,6 +249,7 @@ h3.posts-related-content {
   display: flex;
   justify-content: center;
   margin-bottom: 10px;
+  margin-top: 5px;
 }
 
 .post-meta-description ul {
@@ -255,7 +270,50 @@ h3.posts-related-content {
   list-style: none;
 }
 
+div#ez-toc-container {
+  border: 1px solid #aaa;
+  padding: 10px;
+  background-color: snow;
+  width: 100%;
+  display: table;
+}
+
+#ez-toc-container input {
+  position: absolute;
+  left: -999em;
+}
+
+#ez-toc-container label {
+  float: right;
+  font-size: 16px;
+  cursor: pointer;
+  transform: rotate(90deg);
+  line-height: inherit;
+}
+
+div#ez-toc-container p.ez-toc-title {
+  display: contents;
+}
+
+.ez-toc-icon-toggle:before {
+  content: "❮❯";
+  font-style: normal;
+  font-size: x-small;
+}
+
+#ez-toc-container nav {
+  padding-top: 10px;
+}
+
+input#item:checked + nav {
+  display: none;
+}
+
 /* General */
+
+html {
+  scroll-behavior: smooth;
+}
 
 h2.home-page,
 .privacy-policy h1,
@@ -277,7 +335,43 @@ figcaption {
 }
 
 span.breadcrumb_last {
-    font-weight: normal;
+  font-weight: normal;
+}
+
+main {
+  position:relative;
+}
+
+p {
+  text-align: justify;
+}
+
+@media (max-width: 1199px) {
+  .back-to-top-wrapper {
+    position: absolute;
+    right: 0.25rem;
+    bottom: -5em;
+    pointer-events: none;
+    top: 110vh;
+  }
+  a.back-to-top-link {
+    position: sticky;
+    pointer-events: all;
+    top: calc(100vh - 9em);
+    display: inline-block;
+    -moz-opacity: .5;
+    -khtml-opacity: .5;
+    opacity: .5;
+    font-size: large;
+    padding: 1.25em;
+  }
+  button#mybtn {
+    border-radius: 100%;
+    background-color: snow;
+    width: 3.5em;
+    color: #c36;
+    height: 3.5em;
+  }
 }
 
 /* Descontos */

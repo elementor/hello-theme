@@ -64,6 +64,40 @@ while ( have_posts() ) :
 				</ul>
 			</div>
 			<?php if( has_post_thumbnail() ): echo get_the_post_thumbnail(); endif; ?>
+			<div class="post-meta-description">
+				<ul>
+					<li>
+							<a href="<?php
+									 $author_url = get_author_posts_url( get_the_author_meta( 'ID' ) );
+									 echo ( $author_url ); 
+									 ?>"
+							   target= "_blank">
+								<?php
+								$mycontent = get_the_content(); // wordpress users only
+								$word = str_word_count(strip_tags($mycontent));
+								$m = floor($word / 200);
+								$s = floor($word % 200 / (200 / 60));
+								$est = $m . ' minuto' . ($m == 1 ? '' : 's');
+								if ( ! $est ) {
+									return;
+								}
+								echo ( "Leitura estimada: " . $est ); ?>
+						</a>
+					</li>
+					<li>
+						<a href="<?php
+								 $comments_url = get_permalink();
+								 echo ( $comments_url );
+								 ?>#comments">
+							<?php
+							$comments = get_comments_number();
+							if ( $comments == 0) {
+								$comments = "-";
+							}
+							echo ( "Comentários: " . $comments );?></a>
+					</li>
+				</ul>
+			</div>
 			<?php the_content(); ?>
 			<div class="post-tags">
 				<?php the_tags( '<span class="tag-links">' . __( 'Tagged ', 'hello-elementor' ), null, '</span>' ); ?>
@@ -97,12 +131,7 @@ while ( have_posts() ) :
 	?>
 		</li>
 	</ul>
-	<div class="wp-container-4 wp-block-buttons" style="display: flex;
-														gap: 0.5em;
-														flex-wrap: wrap;
-														align-items: center;
-														align-items: center;
-														justify-content: center;">
+	<div class="wp-container-4 wp-block-buttons" style="display: flex; gap: 0.5em; flex-wrap: wrap;	align-items: center; align-items: center; justify-content: center;">
 		<div class="wp-block-button"><a class="wp-block-button__link has-background"
 										href="https://qa.delugarnenhum.com/categoria/viagens/"
 										style="border-radius:4px;background-color:#ea3974"
@@ -116,6 +145,7 @@ while ( have_posts() ) :
 	</p>
 	<?php echo do_shortcode( '[mc4wp_form id="1458"]' ); ?>
 	<p>© 2022 De Lugar Nenhum. Todos os direitos reservados.</p>
+	<div class="back-to-top-wrapper"><a class="back-to-top-link" href="#top"><button id="mybtn">↑</button></a></div>
 </main>
 
 	<?php
