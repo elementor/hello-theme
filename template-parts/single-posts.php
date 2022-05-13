@@ -28,86 +28,92 @@ while ( have_posts() ) :
 				<?php the_title( '<h1 class="entry-title de-lugar-nenhum-posts">', '</h1>' ); ?>
 	        </header>
 			<?php endif; ?>
-	    <div class="page-content">
-			<div class="post-meta-description">
-				<ul>
-					<li>
-						<a href="https://delugarnenhum.com/sobre/" target= "_blank"><?php
-							$author = get_the_author_meta('display_name', $author_id);
-							echo ( "Escrito por " . $author );?></a>
-					</li>
-					<li>
-						<a href="<?php $current_url = home_url();
-								 echo ( $current_url ); ?>"target="_blank">
-							<?php
-							$published_date = wp_date( 'd/m/Y', date ( get_the_date('U') ) );
-							echo ( "em " . $published_date );
-							?>
-						</a>
-					</li>
-					<?php
-					$custom_content = get_the_modified_date('U');
-					if ( date('Ymd', $custom_content) > date('Ymd', get_the_date('U')) ) { 
-						$value = "Atualizado em " . wp_date( 'd/m/Y', $custom_content);
-					} else {
-						$value = false;
-					}
-					if ( $value ) { ?>
-					<li>	
-						<a href="<?php
-								   $current_url = home_url();
-								   echo ( $current_url ); ?>";
-						   target="_blank"><?php echo ( $value ); ?>
-						</a>
-					</li>
-					<?php }  ?>
-				</ul>
-			</div>
-			<?php if( has_post_thumbnail() ): echo get_the_post_thumbnail(); endif; ?>
-			<div class="post-meta-description">
-				<ul>
-					<li>
+			<div class="page-content">
+				<div class="post-meta-description">
+					<ul>
+						<li>
+							<a href="https://delugarnenhum.com/sobre/" target= "_blank"><?php
+								$author = get_the_author_meta('display_name', $author_id);
+								echo ( "Escrito por " . $author );?></a>
+						</li>
+						<li>
+							<a href="<?php $current_url = home_url();
+									 echo ( $current_url ); ?>"target="_blank">
+								<?php
+								$published_date = wp_date( 'd/m/Y', date ( get_the_date('U') ) );
+								echo ( "em " . $published_date );
+								?>
+							</a>
+						</li>
+						<?php
+						$custom_content = get_the_modified_date('U');
+						if ( date('Ymd', $custom_content) > date('Ymd', get_the_date('U')) ) { 
+							$value = "Atualizado em " . wp_date( 'd/m/Y', $custom_content);
+						} else {
+							$value = false;
+						}
+						if ( $value ) { ?>
+						<li>	
+							<a href="<?php
+							$current_url = home_url();
+							echo ( $current_url ); ?>";
+							   target="_blank"><?php echo ( $value ); ?>
+							</a>
+						</li>
+						<?php }  ?>
+					</ul>
+				</div>
+				<?php if( has_post_thumbnail() ): echo get_the_post_thumbnail(); endif; ?>
+				<div class="post-meta-description">
+					<ul>
+						<li>
 							<a href="<?php
 									 $author_url = get_author_posts_url( get_the_author_meta( 'ID' ) );
 									 echo ( $author_url ); 
-									 ?>"
-							   target= "_blank">
-								<?php
-								$mycontent = get_the_content(); // wordpress users only
-								$word = str_word_count(strip_tags($mycontent));
-								$m = floor($word / 200);
-								$s = floor($word % 200 / (200 / 60));
-								$est = $m . ' minuto' . ($m == 1 ? '' : 's');
-								if ( ! $est ) {
-									return;
-								}
-								echo ( "Leitura estimada: " . $est ); ?>
-						</a>
-					</li>
-					<li>
-						<a href="<?php
-								 $comments_url = get_permalink();
-								 echo ( $comments_url );
-								 ?>#comments">
-							<?php
-							$comments = get_comments_number();
-							if ( $comments == 0) {
-								$comments = "-";
-							}
-							echo ( "Comentários: " . $comments );?></a>
-					</li>
-				</ul>
+									 ?>" target= "_blank">
+								<?php estimated_reading_time () ?>
+							</a>
+						</li>
+						<li>
+							<a href="<?php $comments_url = get_permalink();
+								echo ( $comments_url ); ?>#comments">
+								<?php total_comments_number () ?></a>
+						</li>
+					</ul>
+				</div>
+				<?php the_content(); ?>
+				<div class="post-tags">
+					<?php the_tags( '<span class="tag-links">' . __( 'Tagged ', 'hello-elementor' ), null, '</span>' ); ?>
+				</div>
+				<?php wp_link_pages(); ?>
 			</div>
-			<?php the_content(); ?>
-			<div class="post-tags">
-				<?php the_tags( '<span class="tag-links">' . __( 'Tagged ', 'hello-elementor' ), null, '</span>' ); ?>
+			<br />
+			<div class="author-description">
+				<a href="https://qa.delugarnenhum.com/sobre/" target="_blank"><?php echo get_avatar( get_the_author_meta( 'ID' ), 96 ); ?></a>
+				<br />
+				<a href="https://qa.delugarnenhum.com/sobre/" target="_blank"><?php the_author(); ?>
+				</a>
+				<br />
+				<?php the_author_meta( 'description' ); ?>
 			</div>
-			<?php wp_link_pages(); ?>
-			</div>
+			<br />
 			<?php comments_template(); ?>
 		</div>
-		<div class="wp-block-column" style="flex-basis:33.33%">
+		<div class="wp-block-column de-lugar-nenhum-post-coluna-dois" style="flex-basis:33.33%">
 			<h2 class="has-text-align-left home-page" id="h-navegue">Navegue</h2>
+			<?php get_search_form(); ?>
+			<br />
+			<a href="https://www.booking.com/index.html?aid=939617" target="_blank" rel="nofollow"><center><img src="https://qa.delugarnenhum.com/wp-content/uploads/2020/12/booking.jpg" alt="booking" loading="lazy"></center>
+			</a>		
+			<br />
+			<a href="https://www.segurospromo.com.br/?utm_medium=afiliado&pcrid=5235&utm_source=site-blog&cupom=EMNENHUMLUGAR5" target="_blank" rel="nofollow"><center><img src="https://qa.delugarnenhum.com/wp-content/uploads/2021/01/banner_SP-menorpreco_336x280.png" alt="seguros-promo-logo" loading="lazy"></center>
+			</a>
+			<br />
+			<a href="https://www.civitatis.com/br/?aid=13128" target="_blank" rel="nofollow"><center><img src="https://qa.delugarnenhum.com/wp-content/uploads/2021/08/civitatis_logo-2048x848.png" alt="civitats-logo" loading="lazy"></center>
+			</a>		
+			<br />
+			<a href="https://www.hostelworld.com/?source=affiliate-PHG-1011ljghf&affiliate=PHhttps://www.easysim4u.com/pt/?utm_source=Delugarnenhum&utm_campaign=campanha_Delugarnenhum&G&ref_id=1100lj6jsozH" target="_blank" rel="nofollow"><center><img src="https://delugarnenhum.com/wp-content/uploads/2021/08/hostelworld.webp" alt="hostel-word-logo" loading="lazy"></center>
+			</a>
 		</div>
 	</div>
 	<h2 class="has-text-align-center de-lugar-nenhum-posts">Posts Relacionados</h2>
@@ -134,7 +140,7 @@ while ( have_posts() ) :
 	<div class="wp-container-4 wp-block-buttons" style="display: flex; gap: 0.5em; flex-wrap: wrap;	align-items: center; align-items: center; justify-content: center;">
 		<div class="wp-block-button"><a class="wp-block-button__link has-background"
 										href="https://qa.delugarnenhum.com/categoria/viagens/"
-										style="border-radius:4px;background-color:#ea3974"
+										style="border-radius:4px;background-color:#c36"
 										target="_blank" rel="noreferrer noopener">Mais Dicas de Viagem
 			</a>
 		</div>
@@ -150,4 +156,3 @@ while ( have_posts() ) :
 
 	<?php
 endwhile;
-

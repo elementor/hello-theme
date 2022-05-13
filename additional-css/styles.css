@@ -34,7 +34,7 @@ nav ul li {
 .menu > .current-menu-item > a {
   font-weight: bold;
   content: '';
-  text-decoration: underline solid #ea3974 3px;
+  text-decoration: underline solid #c36 3px;
   display: block;
   text-underline-offset: -25px;
 }
@@ -199,7 +199,7 @@ nav.site-navigation li ul a:hover {
   color: #adadad;
 }
 
-@media (min-width: 600px) and (max-width: 781px) {
+@media (min-width: 539px) and (max-width: 781px) {
   .wp-block-columns:not(.is-not-stacked-on-mobile)>.wp-block-column:nth-child(2n) {
     margin-left: 0 !important;
   }
@@ -207,10 +207,10 @@ nav.site-navigation li ul a:hover {
     flex-basis: calc(100%)!important;
     flex-grow: 0;
   }
-	.wp-block-columns:not(.is-not-stacked-on-mobile)>.wp-block-column:not(:only-child) {
-    flex-basis: calc(100%) !important;
+  .coluna-descontos .wp-block-columns:not(.is-not-stacked-on-mobile)>.wp-block-column:not(:only-child) {
+    flex-basis: calc(50%);
     flex-grow: 0;
-	}
+  }
 }
 
 @media (max-width: 599px) {
@@ -228,20 +228,20 @@ nav.site-navigation li ul a:hover {
 
 /* Posts */
 h1.de-lugar-nenhum-posts {
-	font-size: xx-large;
+  font-size: xx-large;
 }
 
 .single-post h2,
 .single-post h3 {
-    font-weight: 600;
+  font-weight: 600;
 }
 
 h3.posts-related-content {
-    font-size: inherit;
+  font-size: inherit;
 }
 
 p.ez-toc-title {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .post-meta-description {
@@ -262,6 +262,10 @@ p.ez-toc-title {
 
 .post-meta-description ul li:not(:last-child) {
   border-right: 1px solid #ccc;
+}
+
+.post-meta-description ul li {
+  font-size: smaller;
 }
 
 .post-meta-description ul li {
@@ -309,6 +313,81 @@ input#item:checked + nav {
   display: none;
 }
 
+.author-description {
+  text-align: center;
+}
+
+.author-description img {
+  border-radius: 100%;
+}
+
+@media (max-width: 1199px) {
+  .de-lugar-nenhum-post-coluna-dois {
+    display:none;
+  }
+  .wp-block-column.de-lugar-nenhum-posts {
+    flex-basis: auto!important;
+  }
+}
+
+/* Archive */
+.pagination {
+  display: inline-flex;
+  width: 100%;
+  white-space: pre-wrap;
+  justify-content: center;
+}
+
+.nav-next::before {
+  content: " ... ";
+}
+
+.post-card-de-lugar-nenhum {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow: hidden;
+  position: relative;
+  background-color: #fff;
+  width: 100%;
+  min-height: 100%;
+  border-radius: 3px;
+  border: 0 solid #818a91;
+  -webkit-transition: all .25s;
+  -o-transition: all .25s;
+  transition: all .25s;
+}
+
+.post-card-de-lugar-nenhum:hover {
+  box-shadow: 0 0 30px rgb(0 0 0 / 15%);
+}
+
+.post__badge {
+  right: 10px;
+  top: 10px;
+  position: absolute;
+  text-transform: uppercase;
+  color: #fff;
+  background-color: #c36;
+  border-radius: 888px;
+  font-size: 12px;
+  line-height: 1em;
+  padding: 0.6em 1.2em;
+}
+
+.post__text h2 {
+  font-size: 25px;
+}
+
+.post__text p,
+.post__metadata {
+  color: #777;
+}
+
+.post__meta-data {
+  color: #777;
+}
+
 /* General */
 
 html {
@@ -346,6 +425,12 @@ p {
   text-align: justify;
 }
 
+@media (min-width: 1200px) {
+  .back-to-top-wrapper {
+    display:none;
+  }
+}
+
 @media (max-width: 1199px) {
   .back-to-top-wrapper {
     position: absolute;
@@ -361,7 +446,7 @@ p {
     display: inline-block;
     -moz-opacity: .5;
     -khtml-opacity: .5;
-    opacity: .5;
+    opacity: .7;
     font-size: large;
     padding: 1.25em;
   }
@@ -376,9 +461,16 @@ p {
 
 /* Descontos */
 
-@media (max-width: 599px) {
+@media (max-width: 539px) {
   .wp-block-columns.coluna-descontos:not(.is-not-stacked-on-mobile)>.wp-block-column,
   .wp-block-columns.coluna-descontos:not(.is-not-stacked-on-mobile)>.wp-block-column {
-    flex-basis: calc(50%) !important;
+    flex-basis: calc(100%);
   }
 }
+
+@media (max-width: 1199px) and (min-width: 600px) {
+  .wp-block-latest-posts.columns-4 li {
+    width: calc(49% - 0.9375em);
+  }
+}
+

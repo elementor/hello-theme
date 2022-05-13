@@ -215,4 +215,216 @@ if ( ! function_exists( 'hello_elementor_body_open' ) ) {
 			do_action( 'wp_body_open' );
 		}
 	}
+};
+
+/*
+// Deferring AdSense
+function wpb_hook_javascript() {
+    ?>
+    <bl>
+    <script>
+		function downloadJSAtOnload() {
+	    var element = document.createElement("script");
+        element.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8102204981363700";
+		element.async = true;
+		element.setAttribute('crossorigin', 'anonymous');
+        document.body.appendChild(element);
+		}
+        window.addEventListener("DOMContentLoaded", downloadJSAtOnload);
+    </script>
+    <?php
+}
+add_action('wp_head', 'wpb_hook_javascript');
+
+// Don't load Gutenberg-related stylesheets.
+add_action( 'wp_enqueue_scripts', 'remove_block_css', 100 );
+function remove_block_css() {
+    wp_dequeue_style( 'wp-block-library-theme' ); // Wordpress core
+    wp_dequeue_style( 'wc-block-style' ); // WooCommerce
+    wp_dequeue_style( 'storefront-gutenberg-blocks' ); // Storefront theme
+}
+*/
+
+/* Related Posts */
+function get_max_related_posts( $taxonomy_1 = 'post_tag', $taxonomy_2 = 'category', $total_posts = 4 )
+{
+    // First, make sure we are on a single page, if not, bail
+    if ( !is_single() )
+        return false;
+
+    // Sanitize and vaidate our incoming data
+    if ( 'post_tag' !== $taxonomy_1 ) {
+        $taxonomy_1 = filter_var( $taxonomy_1, FILTER_SANITIZE_STRING );
+        if ( !taxonomy_exists( $taxonomy_1 ) )
+            return false;
+    }
+
+    if ( 'category' !== $taxonomy_2 ) {
+        $taxonomy_2 = filter_var( $taxonomy_2, FILTER_SANITIZE_STRING );
+        if ( !taxonomy_exists( $taxonomy_2 ) )
+            return false;
+    }
+
+    if ( 4 !== $total_posts ) {
+        $total_posts = filter_var( $total_posts, FILTER_VALIDATE_INT );
+            if ( !$total_posts )
+                return false;
+    }
+
+    // Everything checks out and is sanitized, lets get the current post
+    $current_post = sanitize_post( $GLOBALS['wp_the_query']->get_queried_object() );
+
+    // Lets get the first taxonomy's terms belonging to the post
+    $terms_1 = get_the_terms( $current_post, $taxonomy_1 );
+
+    // Set a varaible to hold the post count from first query
+    $count = 0;
+    // Set a variable to hold the results from query 1
+    $q_1   = [];
+
+    // Make sure we have terms
+    if ( $terms_1 ) {
+        // Lets get the term ID's
+        $term_1_ids = wp_list_pluck( $terms_1, 'term_id' );
+
+        // Lets build the query to get related posts
+        $args_1 = [
+            'post_type'      => $current_post->post_type,
+            'post__not_in'   => [$current_post->ID],
+            'posts_per_page' => $total_posts,
+            'fields'         => 'ids',
+            'tax_query'      => [
+                [
+                    'taxonomy'         => $taxonomy_1,
+                    'terms'            => $term_1_ids,
+                    'include_children' => false
+                ]
+            ],
+        ];
+        $q_1 = get_posts( $args_1 );
+        // Count the total amount of posts
+        $q_1_count = count( $q_1 );
+
+        // Update our counter
+        $count = $q_1_count;
+    }
+
+    // We will now run the second query if $count is less than $total_posts
+    if ( $count < $total_posts ) {
+        $terms_2 = get_the_terms( $current_post, $taxonomy_2 );
+        // Make sure we have terms
+        if ( $terms_2 ) {
+            // Lets get the term ID's
+            $term_2_ids = wp_list_pluck( $terms_2, 'term_id' );
+
+            // Calculate the amount of post to get
+            $diff = $total_posts - $count;
+
+            // Create an array of post ID's to exclude
+            if ( $q_1 ) {
+                $exclude = array_merge( [$current_post->ID], $q_1 );
+            } else {
+                $exclude = [$current_post->ID];
+            }
+
+            $args_2 = [
+                'post_type'      => $current_post->post_type,
+                'post__not_in'   => $exclude,
+                'posts_per_page' => $diff,
+                'fields'         => 'ids',
+                'tax_query'      => [
+                    [
+                        'taxonomy'         => $taxonomy_2,
+                        'terms'            => $term_2_ids,
+                        'include_children' => false
+                    ]
+                ],
+            ];
+            $q_2 = get_posts( $args_2 );
+
+            if ( $q_2 ) {
+                // Merge the two results into one array of ID's
+                $q_1 = array_merge( $q_1, $q_2 );
+            }
+        }
+    }
+
+    // Make sure we have an array of ID's
+    if ( !$q_1 )
+        return false;
+
+    // Run our last query, and output the results
+    $final_args = [
+        'ignore_sticky_posts' => 1,
+        'post_type'           => $current_post->post_type,
+        'posts_per_page'      => count( $q_1 ),
+        'post__in'            => $q_1,
+        'order'               => 'rand',
+        'orderby'             => 'post__in',
+        'suppress_filters'    => true,
+        'no_found_rows'       => true
+    ];
+    $final_query = new WP_Query( $final_args );
+
+    return $final_query;
+}
+
+function wpdocs_my_search_form( $form ) {
+    $form = '<form role="search" method="get" action="' . home_url( '/' ) . '" class="wp-block-search__button-inside wp-block-search__icon-button search-form wp-block-search"><div class="wp-block-search__inside-wrapper " style="width: 100%"><input type="search" id="wp-block-search__input-1" class="wp-block-search__input " name="s" value="" placeholder="Pesquise seu destino..." required=""><button type="submit" class="wp-block-search__button has-text-color has-white-color has-background has-icon" style="background-color: #c36" aria-label="Pesquisar" value="'. esc_attr__( 'Search' ) .'"><svg id="search-icon" class="search-icon" viewBox="0 0 24 24" width="24" height="24"><path d="M13.5 6C10.5 6 8 8.5 8 11.5c0 1.1.3 2.1.9 3l-3.4 3 1 1.1 3.4-2.9c1 .9 2.2 1.4 3.6 1.4 3 0 5.5-2.5 5.5-5.5C19 8.5 16.5 6 13.5 6zm0 9.5c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4z"></path></svg></button></div>    </form>';
+    return $form;
+}
+add_filter( 'get_search_form', 'wpdocs_my_search_form' );
+
+//custom archive header
+add_filter( 'get_the_archive_title', 'errorsea_archive_title' );
+function errorsea_archive_title( $title ) {
+	if ( is_category() ) {
+		// Remove prefix in category archive page
+		$title = single_cat_title( '', false );
+	} elseif ( is_tag() ) {
+		// Remove prefix in tag archive page
+		$title = single_tag_title( '', false );
+	} elseif ( is_author() ) {
+		// Remove prefix in author archive page
+		$title = get_the_author();
+	}
+	return $title;
+}
+
+// Get the first category of a post
+function get_first_category_of_a_post () {
+	$categories = get_the_category();
+	if ( ! empty( $categories ) ) {
+		$category_ok = '';
+		foreach( $categories as $key => $category ) :
+		$category_name = $category->cat_name;
+		if ( $category_name !== 'Uncategorised' && $category_name !== 'Event' ) {
+			$category_ok = esc_html( $category_name );
+			break;
+		}
+		endforeach;
+	}
+	echo $category_ok;
+}
+
+// Get the estimated reading time of a post
+function estimated_reading_time () {
+	$mycontent = get_the_content(); // wordpress users only
+	$word = str_word_count(strip_tags($mycontent));
+	$m = floor($word / 200);
+	$s = floor($word % 200 / (200 / 60));
+	$est = $m . ' minuto' . ($m == 1 ? '' : 's');
+	if ( ! $est ) {
+		return;
+	}
+	echo ( "Leitura estimada: " . $est );
+}
+
+// Get the total of comments number
+function total_comments_number () {
+	$comments = get_comments_number();
+	if ( $comments == 0) {
+		$comments = "-";
+	}
+	echo ( "Comentários: " . $comments );
 }
