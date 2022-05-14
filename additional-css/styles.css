@@ -498,7 +498,7 @@ p {
   a.back-to-top-link {
     position: sticky;
     pointer-events: all;
-    top: calc(100vh - 9em);
+    top: calc(100vh - 10em);
     display: inline-block;
     -moz-opacity: .5;
     -khtml-opacity: .5;

@@ -23,7 +23,7 @@ while ( have_posts() ) :
 	}
 	?>
 	<div class="wp-block-columns de-lugar-nenhum-colunas">
-		<div class="wp-block-column de-lugar-nenhum-posts" style="flex-basis:66.66%">
+		<div class="wp-block-column de-lugar-nenhum-posts" style="flex-basis:76%">
 			<header class="page-header">
 				<?php the_title( '<h1 class="entry-title de-lugar-nenhum-posts">', '</h1>' ); ?>
 	        </header>
@@ -99,21 +99,29 @@ while ( have_posts() ) :
 			<br />
 			<?php comments_template(); ?>
 		</div>
-		<div class="wp-block-column de-lugar-nenhum-post-coluna-dois" style="flex-basis:33.33%">
+		<div class="wp-block-column de-lugar-nenhum-post-coluna-dois" style="flex-basis:23.99%">
 			<h2 class="has-text-align-left home-page" id="h-navegue">Navegue</h2>
+			<div class="ads-space-top">
 			<?php get_search_form(); ?>
 			<br />
+			<div class="ads-space">
 			<a href="https://www.booking.com/index.html?aid=939617" target="_blank" rel="nofollow"><center><img src="https://delugarnenhum.com/wp-content/uploads/2020/12/booking.jpg" alt="booking" loading="lazy"></center>
-			</a>		
+			</a>	
 			<br />
+			</div>
+			<div class="ads-space">
 			<a href="https://www.segurospromo.com.br/?utm_medium=afiliado&pcrid=5235&utm_source=site-blog&cupom=EMNENHUMLUGAR5" target="_blank" rel="nofollow"><center><img src="https://delugarnenhum.com/wp-content/uploads/2021/01/banner_SP-menorpreco_336x280.png" alt="seguros-promo-logo" loading="lazy"></center>
 			</a>
 			<br />
+			</div>
 			<a href="https://www.civitatis.com/br/?aid=13128" target="_blank" rel="nofollow"><center><img src="https://delugarnenhum.com/wp-content/uploads/2021/08/civitatis_logo-2048x848.png" alt="civitats-logo" loading="lazy"></center>
 			</a>		
 			<br />
+			<div class="ads-space">
 			<a href="https://www.hostelworld.com/?source=affiliate-PHG-1011ljghf&affiliate=PHhttps://www.easysim4u.com/pt/?utm_source=Delugarnenhum&utm_campaign=campanha_Delugarnenhum&G&ref_id=1100lj6jsozH" target="_blank" rel="nofollow"><center><img src="https://delugarnenhum.com/wp-content/uploads/2021/08/hostelworld.webp" alt="hostel-word-logo" loading="lazy"></center>
-			</a>
+			</a>				
+			</div>
+			</div>
 		</div>
 	</div>
 	<h2 class="has-text-align-center de-lugar-nenhum-posts">Posts Relacionados</h2>
@@ -156,3 +164,4 @@ while ( have_posts() ) :
 
 	<?php
 endwhile;
+
