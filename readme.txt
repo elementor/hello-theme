@@ -1,4 +1,4 @@
-This is my changes to the Hello Elementor Official theme I made for the [De Lugar Nenhum](https://delugarnenhum.com) website.
+This is my changes to the Hello Elementor Official theme I made for the De Lugar Nenhum website.
 
 === Hello Elementor ===
 

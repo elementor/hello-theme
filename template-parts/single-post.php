@@ -89,9 +89,9 @@ while ( have_posts() ) :
 			</div>
 			<br />
 			<div class="author-description">
-				<a href="https://qa.delugarnenhum.com/sobre/" target="_blank"><?php echo get_avatar( get_the_author_meta( 'ID' ), 96 ); ?></a>
+				<a href="https://delugarnenhum.com/sobre/" target="_blank"><?php echo get_avatar( get_the_author_meta( 'ID' ), 96 ); ?></a>
 				<br />
-				<a href="https://qa.delugarnenhum.com/sobre/" target="_blank"><?php the_author(); ?>
+				<a href="https://delugarnenhum.com/sobre/" target="_blank"><?php the_author(); ?>
 				</a>
 				<br />
 				<?php the_author_meta( 'description' ); ?>
@@ -103,13 +103,13 @@ while ( have_posts() ) :
 			<h2 class="has-text-align-left home-page" id="h-navegue">Navegue</h2>
 			<?php get_search_form(); ?>
 			<br />
-			<a href="https://www.booking.com/index.html?aid=939617" target="_blank" rel="nofollow"><center><img src="https://qa.delugarnenhum.com/wp-content/uploads/2020/12/booking.jpg" alt="booking" loading="lazy"></center>
+			<a href="https://www.booking.com/index.html?aid=939617" target="_blank" rel="nofollow"><center><img src="https://delugarnenhum.com/wp-content/uploads/2020/12/booking.jpg" alt="booking" loading="lazy"></center>
 			</a>		
 			<br />
-			<a href="https://www.segurospromo.com.br/?utm_medium=afiliado&pcrid=5235&utm_source=site-blog&cupom=EMNENHUMLUGAR5" target="_blank" rel="nofollow"><center><img src="https://qa.delugarnenhum.com/wp-content/uploads/2021/01/banner_SP-menorpreco_336x280.png" alt="seguros-promo-logo" loading="lazy"></center>
+			<a href="https://www.segurospromo.com.br/?utm_medium=afiliado&pcrid=5235&utm_source=site-blog&cupom=EMNENHUMLUGAR5" target="_blank" rel="nofollow"><center><img src="https://delugarnenhum.com/wp-content/uploads/2021/01/banner_SP-menorpreco_336x280.png" alt="seguros-promo-logo" loading="lazy"></center>
 			</a>
 			<br />
-			<a href="https://www.civitatis.com/br/?aid=13128" target="_blank" rel="nofollow"><center><img src="https://qa.delugarnenhum.com/wp-content/uploads/2021/08/civitatis_logo-2048x848.png" alt="civitats-logo" loading="lazy"></center>
+			<a href="https://www.civitatis.com/br/?aid=13128" target="_blank" rel="nofollow"><center><img src="https://delugarnenhum.com/wp-content/uploads/2021/08/civitatis_logo-2048x848.png" alt="civitats-logo" loading="lazy"></center>
 			</a>		
 			<br />
 			<a href="https://www.hostelworld.com/?source=affiliate-PHG-1011ljghf&affiliate=PHhttps://www.easysim4u.com/pt/?utm_source=Delugarnenhum&utm_campaign=campanha_Delugarnenhum&G&ref_id=1100lj6jsozH" target="_blank" rel="nofollow"><center><img src="https://delugarnenhum.com/wp-content/uploads/2021/08/hostelworld.webp" alt="hostel-word-logo" loading="lazy"></center>
@@ -139,7 +139,7 @@ while ( have_posts() ) :
 	</ul>
 	<div class="wp-container-4 wp-block-buttons" style="display: flex; gap: 0.5em; flex-wrap: wrap;	align-items: center; align-items: center; justify-content: center;">
 		<div class="wp-block-button"><a class="wp-block-button__link has-background"
-										href="https://qa.delugarnenhum.com/categoria/viagens/"
+										href="https://delugarnenhum.com/categoria/viagens/"
 										style="border-radius:4px;background-color:#c36"
 										target="_blank" rel="noreferrer noopener">Mais Dicas de Viagem
 			</a>
