@@ -19,17 +19,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 	?>
 	<header class="page-header">
 		<?php
-		the_archive_title( '<h1 class="entry-title">', '</h1>' );
+		the_archive_title( '<h1 class="entry-title archive-title">', '</h1>' );
 		the_archive_description( '<p class="archive-description">', '</p>' );
 		?>
 	</header>
 	<?php endif; ?>
 	<div class="page-content">
-		<ul class="wp-block-latest-posts__list is-grid columns-4 has-dates aligncenter wp-block-latest-posts">
+		<ul class="wp-block-latest-posts__list is-grid columns-3 has-dates aligncenter wp-block-latest-posts">
 		<?php
-		while ( have_posts() ) {
-			the_post();
-			$post_link = get_permalink();
+			global $wp;
+			$s_array = array( 'posts_per_page' => 6 ); 
+			$new_query = array_merge( $s_array, (array) $wp->query_vars );
+			$the_query = new WP_Query( $new_query );
+			while ( $the_query -> have_posts() ) {
+				$the_query -> the_post();
+				$post_link = get_permalink();
 			?>
 			<li>	
 			<article class="post">
@@ -61,9 +65,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		?>
 		<nav class="pagination" role="navigation">
 			<?php /* Translators: HTML arrow */ ?>
-			<div class="nav-previous"><?php next_posts_link( sprintf( __( '%s older', 'hello-elementor' ), '<span class="meta-nav">&larr;</span>' ) ); ?></div>
-			<?php /* Translators: HTML arrow */ ?>
-			<div class="nav-next"><?php previous_posts_link( sprintf( __( 'newer %s', 'hello-elementor' ), '<span class="meta-nav">&rarr;</span>' ) ); ?></div>
+			<?php  if ( function_exists( 'numeric_posts_nav' ) ) { numeric_posts_nav(); } ?>
 		</nav>
 		<h2 class="has-text-align-center de-lugar-nenhum-posts" id="h-fique-por-dentro">Fique por dentro</h2>
 	<p>Inscreva-se na nossa newsletter e receba sempre em seu e-mail todas as novidades, promoções e dicas.<br>Basta digitar seu e-mail no campo abaixo e pronto!

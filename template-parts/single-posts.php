@@ -22,7 +22,7 @@ while ( have_posts() ) :
 		yoast_breadcrumb( '<p id="breadcrumbs">','</p>' );
 	}
 	?>
-	<div class="wp-block-columns">
+	<div class="wp-block-columns de-lugar-nenhum-colunas">
 		<div class="wp-block-column de-lugar-nenhum-posts" style="flex-basis:66.66%">
 			<header class="page-header">
 				<?php the_title( '<h1 class="entry-title de-lugar-nenhum-posts">', '</h1>' ); ?>
@@ -83,7 +83,7 @@ while ( have_posts() ) :
 				</div>
 				<?php the_content(); ?>
 				<div class="post-tags">
-					<?php the_tags( '<span class="tag-links">' . __( 'Tagged ', 'hello-elementor' ), null, '</span>' ); ?>
+					<?php the_tags( '<span class="tag-links">', null, '</span>' ); ?>
 				</div>
 				<?php wp_link_pages(); ?>
 			</div>

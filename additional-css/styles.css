@@ -191,6 +191,7 @@ nav.site-navigation li ul a:hover {
 .wp-block-search.wp-block-search__button-inside .wp-block-search__inside-wrapper .wp-block-search__input {
   padding: 8px;
   background-color: whitesmoke;
+  text-overflow: ellipsis;
 }
 
 .recent-posts-home .wp-block-latest-posts__post-date {
@@ -199,23 +200,31 @@ nav.site-navigation li ul a:hover {
   color: #adadad;
 }
 
-@media (min-width: 539px) and (max-width: 781px) {
-  .wp-block-columns:not(.is-not-stacked-on-mobile)>.wp-block-column:nth-child(2n) {
-    margin-left: 0 !important;
-  }
-  .wp-block-columns:not(.is-not-stacked-on-mobile)>.wp-block-column.home-page:not(:only-child) {
+@media (min-width: 600px) and (max-width: 821px) {
+  .wp-block-columns:not(.is-not-stacked-on-mobile)>.wp-block-column:not(:only-child) {
     flex-basis: calc(100%)!important;
-    flex-grow: 0;
+    flex-grow: 0!important;
+    margin: 1%;
   }
-  .coluna-descontos .wp-block-columns:not(.is-not-stacked-on-mobile)>.wp-block-column:not(:only-child) {
-    flex-basis: calc(50%);
-    flex-grow: 0;
+  .wp-block-latest-posts.columns-4 li {
+    width: calc(47%);
+    margin: 1%;
   }
 }
 
 @media (max-width: 599px) {
   .wp-block-latest-posts.is-grid li {
-    margin: 0 0em 1.25em 0;
+    margin: 1%;
+  }
+}
+
+@media (max-width: 1199px) and (min-width: 600px) {
+  .wp-block-latest-posts.columns-3 li {
+    width: calc(48%);
+    margin: 1%;
+  }
+  .wp-block-latest-posts.columns-3 li:nth-child(3n) {
+    margin-right: 1%;
   }
 }
 
@@ -330,17 +339,28 @@ input#item:checked + nav {
   }
 }
 
-/* Archive */
-.pagination {
-  display: inline-flex;
-  width: 100%;
-  white-space: pre-wrap;
-  justify-content: center;
+.post-tags {
+  text-align: center;
 }
 
-.nav-next::before {
-  content: " ... ";
+.post-tags .tag-links a {
+  padding-left: 4px;
+  text-transform: capitalize;
 }
+
+.post-tags .tag-links a:not(:last-child):after {
+  content: "|";
+  padding-left: 4px;
+}
+
+@media (min-width: 600px) and (max-width: 781px){
+  .de-lugar-nenhum-colunas:not(.is-not-stacked-on-mobile)>.wp-block-column:not(:only-child) {
+    flex-basis: auto!important;
+    flex-grow: 0;
+  }
+}
+
+/* Archive */
 
 .post-card-de-lugar-nenhum {
   display: flex;
@@ -356,6 +376,7 @@ input#item:checked + nav {
   -webkit-transition: all .25s;
   -o-transition: all .25s;
   transition: all .25s;
+  box-shadow: 0 0 10px rgb(0 0 0 / 15%);
 }
 
 .post-card-de-lugar-nenhum:hover {
@@ -376,16 +397,46 @@ input#item:checked + nav {
 }
 
 .post__text h2 {
-  font-size: 25px;
+  font-size: 22px;
+  padding: 10px;
+  font-weight: bold;
 }
 
-.post__text p,
-.post__metadata {
+.post__text,
+.post__text p {
   color: #777;
+  text-align: center;
+  font-size: 15px;
+  padding: 10px;
+}
+.post-card-de-lugar-nenhum .post__meta-data {
+  color: #777;
+  border-top: 1px solid #eaeaea;
+  font-size: 12px;
+  line-height: 3em;
+  text-align:center;
 }
 
-.post__meta-data {
-  color: #777;
+.post__meta-data span + span::before {
+  content: "•";
+  padding: 10px;
+}
+
+.pagination {
+  display: inline-flex;
+  width: 100%;
+  white-space: pre-wrap;
+  justify-content: center;
+}
+
+.pagination .navigation ul li {
+  padding: 5px;
+}
+
+.pagination .navigation ul {
+  list-style: none;
+  display: inline-flex;
+  padding: 5px;
 }
 
 /* General */
@@ -400,7 +451,12 @@ h2.home-page,
 .page-id-2404 h1,
 .page-id-2404 h2,
 h1.de-lugar-nenhum-posts,
-h2.de-lugar-nenhum-posts
+h2.de-lugar-nenhum-posts,
+h1.entry-title.archive-title,
+h1.entry-title.de-lugar-nenhum-404,
+h2.de-lugar-nenhum-posts-404,
+h1.entry-title.de-lugar-nenhum-busca,
+h2.de-lugar-nenhum-posts-busca
 {
   border-style: double;
   border-width: 0 0 6px;
@@ -460,17 +516,3 @@ p {
 }
 
 /* Descontos */
-
-@media (max-width: 539px) {
-  .wp-block-columns.coluna-descontos:not(.is-not-stacked-on-mobile)>.wp-block-column,
-  .wp-block-columns.coluna-descontos:not(.is-not-stacked-on-mobile)>.wp-block-column {
-    flex-basis: calc(100%);
-  }
-}
-
-@media (max-width: 1199px) and (min-width: 600px) {
-  .wp-block-latest-posts.columns-4 li {
-    width: calc(49% - 0.9375em);
-  }
-}
-
