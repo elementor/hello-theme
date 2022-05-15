@@ -253,6 +253,10 @@ p.ez-toc-title {
   font-weight: bold;
 }
 
+a.ez-toc-link {
+    font-size: 18px;
+}
+
 .post-meta-description {
   overflow: hidden;
   display: flex;
@@ -281,6 +285,10 @@ p.ez-toc-title {
   margin-right: 8px;
   padding-right: 8px;
   list-style: none;
+}
+
+.post-meta-description ul li a {
+	font-size: 15px;
 }
 
 div#ez-toc-container {
@@ -479,6 +487,15 @@ main {
 
 p {
   text-align: justify;
+  font-size: 18px;
+}
+
+li {
+  font-size: 18px;
+}
+
+.comment-content p {
+  font-size: 15px!important;
 }
 
 @media (min-width: 1200px) {
@@ -516,3 +533,11 @@ p {
 }
 
 /* Descontos */
+
+/* AMP */
+@media (max-width: 767px) {
+  html[amp] #comments .comment .avatar {
+    position: relative;
+    float: left;
+  }
+}

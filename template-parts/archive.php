@@ -67,11 +67,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<?php /* Translators: HTML arrow */ ?>
 			<?php  if ( function_exists( 'numeric_posts_nav' ) ) { numeric_posts_nav(); } ?>
 		</nav>
-		<h2 class="has-text-align-center de-lugar-nenhum-posts" id="h-fique-por-dentro">Fique por dentro</h2>
+	<?php endif; ?>
+	<h2 class="has-text-align-center de-lugar-nenhum-posts" id="h-fique-por-dentro">Fique por dentro</h2>
 	<p>Inscreva-se na nossa newsletter e receba sempre em seu e-mail todas as novidades, promoções e dicas.<br>Basta digitar seu e-mail no campo abaixo e pronto!
 	</p>
 	<?php echo do_shortcode( '[mc4wp_form id="1458"]' ); ?>
 	<p>© 2022 De Lugar Nenhum. Todos os direitos reservados.</p>
-	<?php endif; ?>
 </main>
+
 

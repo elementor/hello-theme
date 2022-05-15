@@ -217,25 +217,6 @@ if ( ! function_exists( 'hello_elementor_body_open' ) ) {
 	}
 };
 
-/*
-// Deferring AdSense
-function wpb_hook_javascript() {
-    ?>
-    <bl>
-    <script>
-		function downloadJSAtOnload() {
-	    var element = document.createElement("script");
-        element.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8102204981363700";
-		element.async = true;
-		element.setAttribute('crossorigin', 'anonymous');
-        document.body.appendChild(element);
-		}
-        window.addEventListener("DOMContentLoaded", downloadJSAtOnload);
-    </script>
-    <?php
-}
-add_action('wp_head', 'wpb_hook_javascript');
-
 // Don't load Gutenberg-related stylesheets.
 add_action( 'wp_enqueue_scripts', 'remove_block_css', 100 );
 function remove_block_css() {
@@ -484,14 +465,13 @@ function numeric_posts_nav() {
 }
 
 /* AMP */
-add_action( 'amp_post_template_css', function() {
-      ?>
-      /* Put Custom CSS below */
-@media (max-width: 767px) {
-#comments .comment .avatar {
-    position: relative;
-    float: left;
+add_filter('amp_to_amp_linking_enabled', '__return_false');
+
+// Web Stories Filter WP-Meteor
+add_filter('wpmeteor_enabled', function ($value) {
+    $url = get_permalink();
+    if ( preg_match("/.*\/web-stories\//", $url, )) {
+        return false;
     }
-  }
-      <?php
-} );
+    return $value;
+});
