@@ -74,5 +74,3 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<?php echo do_shortcode( '[mc4wp_form id="1458"]' ); ?>
 	<p>© 2022 De Lugar Nenhum. Todos os direitos reservados.</p>
 </main>
-
-

@@ -368,6 +368,16 @@ input#item:checked + nav {
   }
 }
 
+.container {
+  display: flex;
+  align-items: center;
+  justify-items: center;
+	justify-content: center;
+}
+
+td {
+  word-break: initial!important;
+}
 /* Archive */
 
 .post-card-de-lugar-nenhum {
@@ -447,7 +457,17 @@ input#item:checked + nav {
   padding: 5px;
 }
 
+.container {
+  text-align:center;
+}
+
 /* General */
+
+@media (min-width: 1200px) {
+  .site-header .header-inner, .site-header:not(.dynamic-header), .site-footer .footer-inner, .site-footer:not(.dynamic-footer), body:not([class*="elementor-page-"]) .site-main {
+  max-width: 1140px;
+  }
+}
 
 html {
   scroll-behavior: smooth;
@@ -540,4 +560,14 @@ li {
     position: relative;
     float: left;
   }
+}
+
+html[amp] .container {
+  display: block;
+  align-items: center;
+  justify-items: center;
+}
+
+html[amp] td {
+  word-break: initial!important;
 }
