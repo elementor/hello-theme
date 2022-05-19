@@ -118,7 +118,7 @@ while ( have_posts() ) :
 			</a>		
 			<br />
 			<div class="ads-space">
-			<a href="https://www.hostelworld.com/?source=affiliate-PHG-1011ljghf&affiliate=PHhttps://www.easysim4u.com/pt/?utm_source=Delugarnenhum&utm_campaign=campanha_Delugarnenhum&G&ref_id=1100lj6jsozH" target="_blank" rel="nofollow"><center><img src="https://delugarnenhum.com/wp-content/uploads/2021/08/hostelworld.webp" alt="hostel-word-logo" loading="lazy"></center>
+			<a href="https://www.hostelworld.com/?source=affiliate-PHG-1011ljghf&affiliate=PHG&ref_id=1100lj6EQotL" target="_blank" rel="nofollow"><center><img src="https://delugarnenhum.com/wp-content/uploads/2021/08/hostelworld.webp" alt="hostel-word-logo" loading="lazy"></center>
 			</a>				
 			</div>
 			</div>
