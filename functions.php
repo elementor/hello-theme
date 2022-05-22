@@ -220,11 +220,10 @@ if ( ! function_exists( 'hello_elementor_body_open' ) ) {
 // Don't load Gutenberg-related stylesheets.
 add_action( 'wp_enqueue_scripts', 'remove_block_css', 100 );
 function remove_block_css() {
-    wp_dequeue_style( 'wp-block-library-theme' ); // Wordpress core
+    wp_dequeue_style( 'wp-block-library-theme' ); // Wordpress core
     wp_dequeue_style( 'wc-block-style' ); // WooCommerce
     wp_dequeue_style( 'storefront-gutenberg-blocks' ); // Storefront theme
 }
-*/
 
 /* Related Posts */
 function get_max_related_posts( $taxonomy_1 = 'post_tag', $taxonomy_2 = 'category', $total_posts = 4 )
@@ -409,8 +408,6 @@ function total_comments_number () {
 	}
 	echo ( "Comentários: " . $comments );
 }
-
-
 
 // Numbere Pagination
 function numeric_posts_nav() {

@@ -212,6 +212,10 @@ nav.site-navigation li ul a:hover {
   }
 }
 
+.wp-block-latest-posts__post-excerpt {
+  font-size: 16px;
+}
+
 @media (max-width: 599px) {
   .wp-block-latest-posts.is-grid li {
     margin: 1%;
@@ -225,6 +229,12 @@ nav.site-navigation li ul a:hover {
   }
   .wp-block-latest-posts.columns-3 li:nth-child(3n) {
     margin-right: 1%;
+  }
+}
+
+@media (max-width: 1199px) {
+  .home-page-columns-block {
+    flex-basis: 25%!important;
   }
 }
 
@@ -254,7 +264,7 @@ p.ez-toc-title {
 }
 
 a.ez-toc-link {
-    font-size: 18px;
+  font-size: 18px;
 }
 
 .post-meta-description {
@@ -288,7 +298,7 @@ a.ez-toc-link {
 }
 
 .post-meta-description ul li a {
-	font-size: 15px;
+  font-size: 15px;
 }
 
 div#ez-toc-container {
@@ -372,7 +382,7 @@ input#item:checked + nav {
   display: flex;
   align-items: center;
   justify-items: center;
-	justify-content: center;
+  justify-content: center;
 }
 
 td {
@@ -461,11 +471,15 @@ td {
   text-align:center;
 }
 
+strong.schema-faq-question {
+  font-size: 18px;
+}
+
 /* General */
 
 @media (min-width: 1200px) {
   .site-header .header-inner, .site-header:not(.dynamic-header), .site-footer .footer-inner, .site-footer:not(.dynamic-footer), body:not([class*="elementor-page-"]) .site-main {
-  max-width: 1140px;
+    max-width: 1140px;
   }
 }
 
@@ -550,6 +564,13 @@ li {
     color: #c36;
     height: 3.5em;
   }
+}
+
+div.page-content img.attachment-post-thumbnail {
+  width: 80%;
+  display: block;
+  margin-left: 8.5%;
+  margin-right: auto;
 }
 
 /* Descontos */
