@@ -1,0 +1,15 @@
+/**
+ * Single post/page
+ */
+
+@media (min-width: $screen-xl) {
+
+	.page-header {
+
+		.entry-title {
+			max-width: 1140px;
+			margin-right: auto;
+			margin-left: auto;
+		}
+	}
+}

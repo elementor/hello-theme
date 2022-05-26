@@ -97,8 +97,8 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 ### 2.5.0 - 2022-01-26 ###
 * Tweak: Added keyboard navigation to Hello theme menus
-* Tweak: Added Skip Links for better accessibility
-* Tweak: Added underline for text links in Post Content for better accessibility 
+* Tweak: Added Skip Links and `#content` for the main wrapper for better accessibility ([#133](https://github.com/elementor/hello-theme/issues/133))
+* Tweak: Added underline for text links in Post Content for better accessibility
 * Tweak: Removed `outline: none` from inputs for better accessibility
 * Fix: Footer menu location is not being presented on sites that are not running Elementor
 
