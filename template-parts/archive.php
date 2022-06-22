@@ -20,7 +20,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<header class="page-header">
 		<?php
 		the_archive_title( '<h1 class="entry-title archive-title">', '</h1>' );
-		the_archive_description( '<p class="archive-description">', '</p>' );
+		if ( !is_paged() ) {
+			//true
+			the_archive_description( '<p class="archive-description">', '</p>' );
+		}
 		?>
 	</header>
 	<?php endif; ?>
