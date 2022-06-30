@@ -8,11 +8,8 @@ Version: 2.5.0
 Requires PHP: 5.6
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Tags: custom-menu, custom-logo, featured-images, rtl-language-support, threaded-comments, translation-ready
 
 A lightweight, plain-vanilla theme for Elementor page builder.
-
-***Hello Elementor*** is distributed under the terms of the GNU GPL v3 or later.
 
 == Description ==
 
