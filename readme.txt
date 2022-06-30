@@ -90,6 +90,10 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
 
+= 2.6.0 - 2022-07-XX =
+* Tweak: Added link between the customizer to Elementor global settings
+* Fix: Post Password Form Submit button alignment (Props [@romanbondar](https://github.com/romanbondar))
+
 = 2.5.0 - 2022-01-26 =
 * Tweak: Added keyboard navigation to Hello theme menus
 * Tweak: Added Skip Links and `#content` for the main wrapper for better accessibility ([#133](https://github.com/elementor/hello-theme/issues/133))

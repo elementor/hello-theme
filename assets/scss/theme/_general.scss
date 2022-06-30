@@ -94,3 +94,13 @@
 .hide {
     display: none !important;
 }
+
+.post-password-form p {
+	width: 100%;
+	display: flex;
+	align-items: flex-end;
+}
+
+.post-password-form [type=submit] {
+	margin-left: 3px;
+}
