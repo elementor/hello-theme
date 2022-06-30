@@ -76,6 +76,14 @@ class Elementor_Upsell extends \WP_Customize_Control {
 				__( 'Update Elementor', 'hello-elementor' ),
 				get_template_directory_uri() . '/assets/images/go-pro.svg'
 			);
+		} elseif ( ! hello_header_footer_experiment_active() ) {
+			$customizer_content .= $this->get_customizer_upsell_html(
+				__( 'Set Your Header &amp; Footer', 'hello-elementor' ),
+				__( 'Create cross-site Header and Footer using Elementor & Hello theme', 'hello-elementor' ),
+				wp_nonce_url( 'admin.php?page=elementor#tab-experiments' ),
+				__( 'Activate Now', 'hello-elementor' ),
+				get_template_directory_uri() . '/assets/images/go-pro.svg'
+			);
 		} else {
 			$customizer_content .= $this->get_customizer_upsell_html(
 				__( 'Set Your Header &amp; Footer', 'hello-elementor' ),
