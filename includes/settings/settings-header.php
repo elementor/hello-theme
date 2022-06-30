@@ -501,7 +501,7 @@ class Settings_Header extends Tab_Base {
 						<p class="elementor-panel-heading-title elementor-nerd-box-title">%1$s</p>
 						<p>%2$s</p>
 					</div>
-					<a class="elementor-button elementor-button-default elementor-nerd-box-link" target="_blank" href="">%3$s</a>
+					<a class="elementor-button elementor-button-default elementor-nerd-box-link" target="_blank" href="https://go.elementor.com/hello-theme-header/">%3$s</a>
 				</div>
 				',
 				__( 'Create a custom header with multiple options', 'hello-elementor' ),
