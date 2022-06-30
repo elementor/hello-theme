@@ -178,7 +178,7 @@ require get_template_directory() . '/includes/elementor-functions.php';
  * Include customizer registration functions
 */
 function hello_register_customizer_functions() {
-	if ( hello_header_footer_experiment_active() && is_customize_preview() ) {
+	if ( is_customize_preview() ) {
 		require get_template_directory() . '/includes/customizer-functions.php';
 	}
 }
