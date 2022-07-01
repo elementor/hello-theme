@@ -50,6 +50,8 @@ if ( ! function_exists( 'hello_elementor_setup' ) ) {
 					'comment-list',
 					'gallery',
 					'caption',
+					'script',
+					'style',
 				]
 			);
 			add_theme_support(
