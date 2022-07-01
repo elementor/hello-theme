@@ -90,14 +90,9 @@ $containers: '.site-header .header-inner,.site-header:not(.dynamic-header), .sit
 @media (min-width: $screen-xl) {
 
 	#{$containers} {
-		max-width: 960px;
-	}
-
-	/* Override the default width for the dynamic header and footer */
-	.site-header .header-inner, .site-footer .footer-inner {
 		max-width: 1140px;
 	}
-
+	
 	.site-header {
 
 		&.header-full-width {
