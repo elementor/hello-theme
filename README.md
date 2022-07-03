@@ -10,11 +10,8 @@
 **Requires PHP:** 5.6  
 **License:** GNU General Public License v3 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-3.0.html  
-**Tags:** custom-menu, custom-logo, featured-images, rtl-language-support, threaded-comments, translation-ready  
 
 A lightweight, plain-vanilla theme for Elementor page builder.
-
-***Hello Elementor*** is distributed under the terms of the GNU GPL v3 or later.
 
 ## Description ##
 
@@ -95,10 +92,16 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 ## Changelog ##
 
+### 2.6.0 - 2022-07-XX ###
+* Tweak: Changed the containers to `max-width: 1140px` instead of `960px` to align with the header-footer width
+  Tweak: Centering the page title for better consistency in some cases
+* Tweak: Added link between the customizer to Elementor global settings
+* Fix: Post Password Form Submit button alignment (Props [@romanbondar](https://github.com/romanbondar))
+
 ### 2.5.0 - 2022-01-26 ###
 * Tweak: Added keyboard navigation to Hello theme menus
-* Tweak: Added Skip Links for better accessibility
-* Tweak: Added underline for text links in Post Content for better accessibility 
+* Tweak: Added Skip Links and `#content` for the main wrapper for better accessibility ([#133](https://github.com/elementor/hello-theme/issues/133))
+* Tweak: Added underline for text links in Post Content for better accessibility
 * Tweak: Removed `outline: none` from inputs for better accessibility
 * Fix: Footer menu location is not being presented on sites that are not running Elementor
 

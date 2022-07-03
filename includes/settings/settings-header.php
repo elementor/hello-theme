@@ -501,12 +501,12 @@ class Settings_Header extends Tab_Base {
 						<p class="elementor-panel-heading-title elementor-nerd-box-title">%1$s</p>
 						<p>%2$s</p>
 					</div>
-					<a class="elementor-button elementor-button-default elementor-nerd-box-link" target="_blank" href="https://elementor.com/pro/?utm_source=panel-widgets&amp;utm_campaign=gopro&amp;utm_medium=wp-dash&amp;utm_term=helloelementor">%3$s</a>
+					<a class="elementor-button elementor-button-default elementor-nerd-box-link" target="_blank" href="https://go.elementor.com/hello-theme-header/">%3$s</a>
 				</div>
 				',
 				__( 'Create a custom header with multiple options', 'hello-elementor' ),
 				__( 'Upgrade to Elementor Pro and enjoy free design and many more features', 'hello-elementor' ),
-				__( 'Go Pro', 'hello-elementor' ),
+				__( 'Upgrade', 'hello-elementor' ),
 				get_template_directory_uri() . '/assets/images/go-pro.svg'
 			);
 		} else {

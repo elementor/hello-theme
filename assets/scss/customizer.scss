@@ -2,6 +2,14 @@
  * Style for your Customizer editor.
  */
 
+#accordion-section-hello_theme_options .accordion-section-title {
+	color: #c36;
+
+	&:after {
+		color: #c36;
+	}
+}
+
 #sub-accordion-section-hello_theme_options.accordion-section-content {
 	background: #fff;
 }
