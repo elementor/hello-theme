@@ -92,8 +92,10 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 = 2.6.0 - 2022-07-XX =
 * Tweak: Changed the containers to `max-width: 1140px` instead of `960px` to align with the header-footer width
-  Tweak: Centering the page title for better consistency in some cases
+* Tweak: Centering the page title for better consistency in some cases
 * Tweak: Added link between the customizer to Elementor global settings
+* Tweak: Added `theme_support` for `script` and `style` to avoid validation warnings ([#184](https://github.com/elementor/hello-theme/issues/184))
+* Tweak: Sanitize content for allowed HTML tags in post title ([#118](https://github.com/elementor/hello-theme/issues/118))
 * Fix: Post Password Form Submit button alignment (Props [@romanbondar](https://github.com/romanbondar))
 
 = 2.5.0 - 2022-01-26 =
