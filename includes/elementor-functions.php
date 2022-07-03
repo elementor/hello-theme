@@ -36,7 +36,7 @@ function hello_elementor_get_setting( $setting_id ) {
 	$return = '';
 
 	if ( ! isset( $hello_elementor_settings['kit_settings'] ) ) {
-		$kit = \Elementor\Plugin::$instance->documents->get( \Elementor\Plugin::$instance->kits_manager->get_active_id(), false );
+		$kit = \Elementor\Plugin::$instance->kits_manager->get_active_kit();
 		$hello_elementor_settings['kit_settings'] = $kit->get_settings();
 	}
 
