@@ -133,7 +133,7 @@ function hello_elementor_fail_load_admin_notice() {
 		} );</script>
 	<div class="notice updated is-dismissible hello-elementor-notice hello-elementor-install-elementor">
 		<div class="hello-elementor-notice-aside">
-			<img src="<?php echo esc_url( get_template_directory_uri() ) . '/assets/images/elementor-notice-icon.svg'; ?>" alt="<?php _e( 'Get Elementor', 'hello-elementor' ); ?>" />
+			<img src="<?php echo esc_url( get_template_directory_uri() ) . '/assets/images/elementor-notice-icon.svg'; ?>" alt="<?php esc_attr_e( 'Get Elementor', 'hello-elementor' ); ?>" />
 		</div>
 		<div class="hello-elementor-notice-inner">
 			<div class="hello-elementor-notice-content">

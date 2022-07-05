@@ -23,15 +23,9 @@ class Elementor_Upsell extends \WP_Customize_Control {
 		$this->print_customizer_upsell();
 
 		if ( isset( $this->description ) ) {
-			echo '<span class="description customize-control-description">' . $this->description . '</span>';
+			echo '<span class="description customize-control-description">' . wp_kses_post( $this->description ) . '</span>';
 		}
 	}
-
-	/**
-	 * Customizer deeplinks HTML
-	 *
-	 * @return string HTML to use in the customizer panel
-	 */
 
 	private function print_customizer_upsell() {
 		if ( ! function_exists( 'get_plugins' ) ) {
@@ -94,7 +88,7 @@ class Elementor_Upsell extends \WP_Customize_Control {
 			);
 		}
 
-		echo $customizer_content;
+		echo wp_kses_post( $customizer_content );
 	}
 
 	private function get_customizer_upsell_html( $title, $text, $url, $button_text, $image ) {

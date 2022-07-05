@@ -17,7 +17,7 @@ $header_nav_menu = wp_nav_menu( [
 ] );
 ?>
 <a class="skip-link screen-reader-text" href="#content">
-	<?php _e( 'Skip to content', 'hello-elementor' ); ?></a>
+	<?php esc_html_e( 'Skip to content', 'hello-elementor' ); ?></a>
 
 <header id="site-header" class="site-header" role="banner">
 
@@ -44,7 +44,10 @@ $header_nav_menu = wp_nav_menu( [
 
 	<?php if ( $header_nav_menu ) : ?>
 		<nav class="site-navigation" role="navigation">
-			<?php echo $header_nav_menu; ?>
+			<?php
+			// PHPCS - escaped by WordPress with "wp_nav_menu"
+			echo $header_nav_menu; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			?>
 		</nav>
 	<?php endif; ?>
 </header>
