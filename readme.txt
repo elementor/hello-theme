@@ -90,7 +90,7 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
 
-= 2.6.0 - 2022-07-06 =
+= 2.6.0 - 2022-07-10 =
 * Tweak: Added `theme_support` for `script` and `style` to avoid validation warnings ([#184](https://github.com/elementor/hello-theme/issues/184))
 * Tweak: Sanitized content for allowed HTML tags in post title ([#118](https://github.com/elementor/hello-theme/issues/118))
 * Tweak: Changed the containers to `max-width: 1140px` instead of `960px` to align with the header-footer width
