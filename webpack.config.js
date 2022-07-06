@@ -1,6 +1,7 @@
 /**
  * Grunt webpack task config
- * @package Elementor
+ *
+ * @package
  */
 const path = require( 'path' );
 
@@ -74,7 +75,7 @@ const webpackConfig = {
 	target: 'web',
 	context: __dirname,
 	module: moduleRules,
-	entry: entry,
+	entry,
 	mode: 'development',
 	output: {
 		path: path.resolve( __dirname, './build/assets/js' ),
