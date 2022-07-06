@@ -90,7 +90,7 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
 
-= 2.6.0 - 2022-07-XX =
+= 2.6.0 - 2022-07-06 =
 * Tweak: Added `theme_support` for `script` and `style` to avoid validation warnings ([#184](https://github.com/elementor/hello-theme/issues/184))
 * Tweak: Sanitize content for allowed HTML tags in post title ([#118](https://github.com/elementor/hello-theme/issues/118))
 * Tweak: Changed the containers to `max-width: 1140px` instead of `960px` to align with the header-footer width
@@ -98,6 +98,7 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 * Tweak: Added link between the customizer to Elementor global settings
 * Fix: Added output escaping in several places ([#194](https://github.com/elementor/hello-theme/issues/194))
 * Fix: Post Password Form Submit button alignment (Props [@romanbondar](https://github.com/romanbondar))
+* Fix: Fatal error when kit doesn't exist or needs to be recreated ([#175](https://github.com/elementor/hello-theme/issues/175))
 
 = 2.5.0 - 2022-01-26 =
 * Tweak: Added keyboard navigation to Hello theme menus
