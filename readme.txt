@@ -98,6 +98,7 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 * Tweak: Added link between the customizer to Elementor global settings
 * Fix: Added output escaping in several places ([#194](https://github.com/elementor/hello-theme/issues/194))
 * Fix: Post Password Form Submit button alignment (Props [@romanbondar](https://github.com/romanbondar))
+* Fix: Fatal error when kit doesn't exist or needs to be recreated ([#175](https://github.com/elementor/hello-theme/issues/175))
 
 = 2.5.0 - 2022-01-26 =
 * Tweak: Added keyboard navigation to Hello theme menus
