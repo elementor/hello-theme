@@ -170,6 +170,8 @@ export default class ControlsHook extends $e.modules.hookUI.After {
 	 *
 	 * This will remove the .show and .hide clases from the element, then apply the new class
 	 *
+	 * @param {jQuery} element
+	 * @param {string} inputValue
 	 */
 	toggleShowHideClass( element, inputValue ) {
 		element.removeClass( 'hide' ).removeClass( 'show' ).addClass( inputValue ? 'show' : 'hide' );
@@ -179,6 +181,11 @@ export default class ControlsHook extends $e.modules.hookUI.After {
 	 * Toggle layout classes on containers
 	 *
 	 * This will cleanly set classes onto which ever container we want to target, removing the old classes and adding the new one
+	 *
+	 * @param {jQuery} element
+	 * @param {string} classPrefix
+	 * @param {Object} inputOptions
+	 * @param {string} inputValue
 	 *
 	 */
 	toggleLayoutClass( element, classPrefix, inputOptions, inputValue ) {
@@ -195,6 +202,8 @@ export default class ControlsHook extends $e.modules.hookUI.After {
 
 	/**
 	 * Set the conditions under which the hook will run.
+	 *
+	 * @param {Object} args
 	 */
 	getConditions( args ) {
 		const isKit = 'kit' === elementor.documents.getCurrent().config.type,
@@ -214,6 +223,8 @@ export default class ControlsHook extends $e.modules.hookUI.After {
 
 	/**
 	 * The hook logic.
+	 *
+	 * @param {Object} args
 	 */
 	apply( args ) {
 		const allThemeControls = this.getHelloThemeControls(),
