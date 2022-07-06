@@ -1,17 +1,15 @@
 module.exports = {
     extends: [
-        'wordpress',
-        'plugin:wordpress/esnext',
         'plugin:react/recommended',
         'plugin:no-jquery/deprecated',
+        'plugin:@wordpress/eslint-plugin/recommended-with-formatting',
     ],
     plugins: [
-        'wordpress',
         'babel',
         'react',
         'no-jquery',
     ],
-    parser: 'babel-eslint',
+    parser: '@babel/eslint-parser',
     globals: {
         wp: true,
         window: true,
