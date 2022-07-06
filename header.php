@@ -22,8 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 </head>
 <body <?php body_class(); ?>>
 
-<?php
-hello_elementor_body_open(); ?>
+<?php hello_elementor_body_open(); ?>
 
 <a class="skip-link screen-reader-text" href="#content">
 	<?php esc_html_e( 'Skip to content', 'hello-elementor' ); ?></a>
