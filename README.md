@@ -5,8 +5,8 @@
 **Contributors:** [elemntor](https://profiles.wordpress.org/elemntor), [KingYes](https://profiles.wordpress.org/KingYes), [ariel.k](https://profiles.wordpress.org/ariel.k), [jzaltzberg](https://profiles.wordpress.org/jzaltzberg), [mati1000](https://profiles.wordpress.org/mati1000), [bainternet](https://profiles.wordpress.org/bainternet)  
 **Requires at least:** 4.7  
 **Tested up to:** 5.9  
-**Stable tag:** 2.5.0  
-**Version:** 2.5.0  
+**Stable tag:** 2.6.0  
+**Version:** 2.6.0  
 **Requires PHP:** 5.6  
 **License:** GNU General Public License v3 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-3.0.html  
@@ -92,11 +92,15 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 ## Changelog ##
 
-### 2.6.0 - 2022-07-XX ###
+### 2.6.0 - 2022-07-10 ###
+* Tweak: Added `theme_support` for `script` and `style` to avoid validation warnings ([#184](https://github.com/elementor/hello-theme/issues/184))
+* Tweak: Sanitized content for allowed HTML tags in post title ([#118](https://github.com/elementor/hello-theme/issues/118))
 * Tweak: Changed the containers to `max-width: 1140px` instead of `960px` to align with the header-footer width
-  Tweak: Centering the page title for better consistency in some cases
+* Tweak: Centering the page title for better consistency in all cases
 * Tweak: Added link between the customizer to Elementor global settings
+* Fix: Added output escaping in several places ([#194](https://github.com/elementor/hello-theme/issues/194))
 * Fix: Post Password Form Submit button alignment (Props [@romanbondar](https://github.com/romanbondar))
+* Fix: Fatal error when kit doesn't exist or needs to be recreated ([#175](https://github.com/elementor/hello-theme/issues/175))
 
 ### 2.5.0 - 2022-01-26 ###
 * Tweak: Added keyboard navigation to Hello theme menus
