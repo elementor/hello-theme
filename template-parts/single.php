@@ -8,8 +8,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
-?>
-<?php
+
 while ( have_posts() ) :
 	the_post();
 	?>
