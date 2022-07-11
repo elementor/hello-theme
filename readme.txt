@@ -100,6 +100,7 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 * Tweak: Changed the containers to `max-width: 1140px` instead of `960px` to align with the header-footer width
 * Tweak: Centering the page title for better consistency in all cases
 * Tweak: Added link between the customizer to Elementor global settings
+* Tweak: Added Skip Links for custom or dynamic header
 * Fix: Added output escaping in several places ([#194](https://github.com/elementor/hello-theme/issues/194))
 * Fix: Post Password Form Submit button alignment (Props [@romanbondar](https://github.com/romanbondar))
 * Fix: Fatal error when kit doesn't exist or needs to be recreated ([#175](https://github.com/elementor/hello-theme/issues/175))
