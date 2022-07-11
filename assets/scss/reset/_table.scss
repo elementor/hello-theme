@@ -4,8 +4,13 @@
  * To override any of the settings in this section, add your styling code in the custom directory.
  */
 
+$table-border-color: #80808080;
+$table-bg: transparent;
+$table-bg-odd: #80808012;
+$table-bg-hover: #8080801a;
+
 table {
-	background-color: transparent;
+	background-color: $table-bg;
 	width: 100%;
 	margin-bottom: 15px;
 	font-size: 0.9em;
@@ -17,7 +22,7 @@ table {
 		padding: 15px;
 		line-height: 1.5;
 		vertical-align: top;
-		border: 1px solid $gray-light;
+		border: 1px solid $table-border-color;
 	}
 
 	th {
@@ -42,7 +47,7 @@ table {
 
 				th,
 				td {
-					border-top: 1px solid $gray-light;
+					border-top: 1px solid $table-border-color;
 				}
 			}
 		}
@@ -52,17 +57,17 @@ table {
 
 		> tr:nth-child(odd) > td,
 		> tr:nth-child(odd) > th {
-			background-color: $gray-lightest;
+			background-color: $table-bg-odd;
 		}
 
 		tr:hover > td,
 		tr:hover > th {
-			background-color: darken($gray-lighter, 2%);
+			background-color: $table-bg-hover;
 		}
 	}
 
 	tbody + tbody {
-		border-top: 2px solid $gray-light;
+		border-top: 2px solid $table-border-color;
 	}
 
 	@media (max-width: $screen-sm - $screen-diff) {
