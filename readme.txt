@@ -90,6 +90,10 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
 
+= 2.6.1 - 2022-07-12 =
+* Fix: Tables looks weird on certain backgrounds ([#126](https://github.com/elementor/hello-theme/issues/126))
+* Fix: Remove unnecessary PHP tags ([#213](https://github.com/elementor/hello-theme/issues/213))
+
 = 2.6.0 - 2022-07-10 =
 * Tweak: Added `theme_support` for `script` and `style` to avoid validation warnings ([#184](https://github.com/elementor/hello-theme/issues/184))
 * Tweak: Sanitized content for allowed HTML tags in post title ([#118](https://github.com/elementor/hello-theme/issues/118))
