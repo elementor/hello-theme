@@ -92,8 +92,8 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 ## Changelog ##
 
-### 2.6.1 - 2022-07-12 ###
-* Fix: Tables looks weird on certain backgrounds ([#126](https://github.com/elementor/hello-theme/issues/126))
+### 2.6.1 - 2022-07-11 ###
+* Tweak: Tables looks weird on dark backgrounds ([#126](https://github.com/elementor/hello-theme/issues/126))
 * Fix: Remove unnecessary PHP tags ([#213](https://github.com/elementor/hello-theme/issues/213))
 
 ### 2.6.0 - 2022-07-10 ###
@@ -102,6 +102,7 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 * Tweak: Changed the containers to `max-width: 1140px` instead of `960px` to align with the header-footer width
 * Tweak: Centering the page title for better consistency in all cases
 * Tweak: Added link between the customizer to Elementor global settings
+* Tweak: Added Skip Links to custom or dynamic header for better accessibility
 * Fix: Added output escaping in several places ([#194](https://github.com/elementor/hello-theme/issues/194))
 * Fix: Post Password Form Submit button alignment (Props [@romanbondar](https://github.com/romanbondar))
 * Fix: Fatal error when kit doesn't exist or needs to be recreated ([#175](https://github.com/elementor/hello-theme/issues/175))
