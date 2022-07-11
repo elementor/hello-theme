@@ -44,7 +44,7 @@
         "grunt-wp-readme-to-markdown-with-extra": "~2.2.0",
         "load-grunt-tasks": "^4.0.0",
         "matchdep": "~2.0.0",
-        "node-sass": "^5.0.0",
+        "node-sass": "^7.0.0",
         "npm-build-zip": "^1.0.3",
         "rimraf": "^3.0.2",
         "terser-webpack-plugin": "^5.0.3",
