@@ -59,3 +59,42 @@ function hello_customizer_print_styles() {
 		HELLO_ELEMENTOR_VERSION
 	);
 }
+
+function hello_customizer_custom_logo_button() {
+	?>
+	<script>
+		jQuery( function( $ ) {
+			function insertLogoButton( elementId ) {
+				var button = $( '<a class="button create-logo-button" target="_blank" href="https://go.elementor.com/hello-theme-logo-maker/" />' )
+					.text( '<?php echo esc_attr__( 'Create a Logo in Minutes', 'hello-elementor' ); ?>' ),
+					description = $( '<span />' )
+						.text( '<?php echo esc_html__( 'Add a logo to display on your website, or create your own professional logo using Fiverr logo maker.', 'hello-elementor' ); ?>' );
+
+				setTimeout( function() {
+					$( elementId + ' .actions' ).prepend( button ).before( description );
+				}, 10 );
+			}
+
+			wp.customize.bind( 'ready', function() {
+				var logoThumbnail,
+					controlId = 'custom_logo',
+					logoControlId = '#customize-control-' + controlId;
+
+				if ( wp.customize( controlId ) ) {
+					wp.customize( controlId ).bind( 'change', function( to ) {
+						if ( ! to ) {
+							insertLogoButton( logoControlId );
+						}
+					} );
+
+					logoThumbnail = $( logoControlId + ' .thumbnail' );
+					if ( ! logoThumbnail.length ) {
+						insertLogoButton( logoControlId );
+					}
+				}
+			} );
+		} );
+	</script>
+	<?php
+}
+add_action( 'customize_controls_print_scripts', 'hello_customizer_custom_logo_button' );
