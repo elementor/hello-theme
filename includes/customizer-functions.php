@@ -65,9 +65,9 @@ function hello_customizer_custom_logo_button() {
 	<script>
 		jQuery( function( $ ) {
 			function insertLogoButton( elementId ) {
-				var button = $( '<a class="button create-logo-button" target="_blank" href="https://go.elementor.com/hello-theme-logo-maker/" />' )
+				var button = $( '<a class="button button-primary create-logo-button" target="_blank" href="https://go.elementor.com/hello-theme-logo-maker/" />' )
 					.text( '<?php echo esc_attr__( 'Create a Logo in Minutes', 'hello-elementor' ); ?>' ),
-					description = $( '<span />' )
+					description = $( '<div class="create-logo-desc" />' )
 						.text( '<?php echo esc_html__( 'Add a logo to display on your website. Don\'t have one yet? Create a professional logo with Fiverr\'s logo maker.', 'hello-elementor' ); ?>' );
 
 				setTimeout( function() {
