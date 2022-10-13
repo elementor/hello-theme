@@ -37,3 +37,22 @@
 		margin: .1em 0 1.3em;
 	}
 }
+
+.create-logo-desc {
+	margin-top: 10px;
+	padding: 10px;
+	background: white;
+	font-style: italic;
+
+	+ .actions {
+		background: white;
+		padding: 0 10px 10px;
+		margin-bottom: 15px;
+
+		.button {
+			margin-top: 0;
+			width: 100%;
+			text-align: center;
+		}
+	}
+}
