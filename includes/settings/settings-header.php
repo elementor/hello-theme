@@ -49,7 +49,7 @@ class Settings_Header extends Tab_Base {
 			[
 				'type' => Controls_Manager::SWITCHER,
 				'label' => __( 'Site Logo', 'hello-elementor' ),
-				'default' => 'yes',
+				'default' => 'no',
 				'label_on' => __( 'Show', 'hello-elementor' ),
 				'label_off' => __( 'Hide', 'hello-elementor' ),
 			]
@@ -60,7 +60,7 @@ class Settings_Header extends Tab_Base {
 			[
 				'type' => Controls_Manager::SWITCHER,
 				'label' => __( 'Tagline', 'hello-elementor' ),
-				'default' => 'yes',
+				'default' => 'no',
 				'label_on' => __( 'Show', 'hello-elementor' ),
 				'label_off' => __( 'Hide', 'hello-elementor' ),
 			]
@@ -71,7 +71,7 @@ class Settings_Header extends Tab_Base {
 			[
 				'type' => Controls_Manager::SWITCHER,
 				'label' => __( 'Menu', 'hello-elementor' ),
-				'default' => 'yes',
+				'default' => 'no',
 				'label_on' => __( 'Show', 'hello-elementor' ),
 				'label_off' => __( 'Hide', 'hello-elementor' ),
 			]
