@@ -31,6 +31,12 @@ class elementorHelloThemeHandler {
 
     bindEvents() {
         this.elements.$menuToggle.on( 'click', () => this.handleMenuToggle() );
+        this.elements.$menuToggle.on( 'keyup', (event) => {
+            const ENTER_KEY = 13;
+            if ( ENTER_KEY === event.keyCode ) {
+                this.handleMenuToggle()
+            }
+        });
         this.elements.$dropdownMenu.on( 'click', '.menu-item-has-children > a', this.handleMenuChildren );
     }
 
