@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<?php if ( apply_filters( 'hello_elementor_page_title', true ) ) : ?>
 		<header class="page-header">
 			<h1 class="entry-title">
-				<?php esc_html_e( 'Search results for: ', 'hello-elementor' ); ?>
+				<?php echo esc_html__( 'Search results for: ', 'hello-elementor' ); ?>
 				<span><?php echo get_search_query(); ?></span>
 			</h1>
 		</header>
@@ -29,7 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			endwhile;
 			?>
 		<?php else : ?>
-			<p><?php esc_html_e( 'It seems we can\'t find what you\'re looking for.', 'hello-elementor' ); ?></p>
+			<p><?php echo esc_html__( 'It seems we can\'t find what you\'re looking for.', 'hello-elementor' ); ?></p>
 		<?php endif; ?>
 	</div>
 

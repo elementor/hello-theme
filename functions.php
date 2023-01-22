@@ -33,8 +33,8 @@ if ( ! function_exists( 'hello_elementor_setup' ) ) {
 
 		$hook_result = apply_filters_deprecated( 'elementor_hello_theme_register_menus', [ true ], '2.0', 'hello_elementor_register_menus' );
 		if ( apply_filters( 'hello_elementor_register_menus', $hook_result ) ) {
-			register_nav_menus( [ 'menu-1' => __( 'Header', 'hello-elementor' ) ] );
-			register_nav_menus( [ 'menu-2' => __( 'Footer', 'hello-elementor' ) ] );
+			register_nav_menus( [ 'menu-1' => esc_html__( 'Header', 'hello-elementor' ) ] );
+			register_nav_menus( [ 'menu-2' => esc_html__( 'Footer', 'hello-elementor' ) ] );
 		}
 
 		$hook_result = apply_filters_deprecated( 'elementor_hello_theme_add_theme_support', [ true ], '2.0', 'hello_elementor_add_theme_support' );
