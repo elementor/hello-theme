@@ -39,8 +39,8 @@ class Elementor_Upsell extends \WP_Customize_Control {
 
 		if ( ! isset( $plugins['elementor/elementor.php'] ) ) {
 			$customizer_content .= $this->get_customizer_upsell_html(
-				__( 'Install Elementor', 'hello-elementor' ),
-				__( 'Create a cross-site Header and Footer using Elementor & Hello theme.', 'hello-elementor' ),
+				esc_html__( 'Install Elementor', 'hello-elementor' ),
+				esc_html__( 'Create a cross-site Header and Footer using Elementor & Hello theme.', 'hello-elementor' ),
 				wp_nonce_url(
 					add_query_arg(
 						[
@@ -51,39 +51,39 @@ class Elementor_Upsell extends \WP_Customize_Control {
 					),
 					'install-plugin_elementor'
 				),
-				__( 'Install &amp; Activate', 'hello-elementor' ),
+				esc_html__( 'Install &amp; Activate', 'hello-elementor' ),
 				get_template_directory_uri() . '/assets/images/go-pro.svg'
 			);
 		} elseif ( ! defined( 'ELEMENTOR_VERSION' ) ) {
 			$customizer_content .= $this->get_customizer_upsell_html(
-				__( 'Activate Elementor', 'hello-elementor' ),
-				__( 'Create a cross-site Header and Footer using Elementor & Hello theme.', 'hello-elementor' ),
+				esc_html__( 'Activate Elementor', 'hello-elementor' ),
+				esc_html__( 'Create a cross-site Header and Footer using Elementor & Hello theme.', 'hello-elementor' ),
 				wp_nonce_url( 'plugins.php?action=activate&plugin=elementor/elementor.php', 'activate-plugin_elementor/elementor.php' ),
-				__( 'Activate Elementor', 'hello-elementor' ),
+				esc_html__( 'Activate Elementor', 'hello-elementor' ),
 				get_template_directory_uri() . '/assets/images/go-pro.svg'
 			);
 		} elseif ( defined( 'ELEMENTOR_VERSION' ) && version_compare( ELEMENTOR_VERSION, '3.0.12', '<' ) ) {
 			$customizer_content .= $this->get_customizer_upsell_html(
-				__( 'Update Elementor', 'hello-elementor' ),
-				__( 'You need Elementor version 3.1.0 or above to create a cross-site Header and Footer.', 'hello-elementor' ),
+				esc_html__( 'Update Elementor', 'hello-elementor' ),
+				esc_html__( 'You need Elementor version 3.1.0 or above to create a cross-site Header and Footer.', 'hello-elementor' ),
 				wp_nonce_url( 'update-core.php' ),
-				__( 'Update Elementor', 'hello-elementor' ),
+				esc_html__( 'Update Elementor', 'hello-elementor' ),
 				get_template_directory_uri() . '/assets/images/go-pro.svg'
 			);
 		} elseif ( ! hello_header_footer_experiment_active() ) {
 			$customizer_content .= $this->get_customizer_upsell_html(
-				__( 'Set Your Header &amp; Footer', 'hello-elementor' ),
-				__( 'Create cross-site Header and Footer using Elementor & Hello theme.', 'hello-elementor' ),
+				esc_html__( 'Set Your Header &amp; Footer', 'hello-elementor' ),
+				esc_html__( 'Create cross-site Header and Footer using Elementor & Hello theme.', 'hello-elementor' ),
 				wp_nonce_url( 'admin.php?page=elementor#tab-experiments' ),
-				__( 'Activate Now', 'hello-elementor' ),
+				esc_html__( 'Activate Now', 'hello-elementor' ),
 				get_template_directory_uri() . '/assets/images/go-pro.svg'
 			);
 		} else {
 			$customizer_content .= $this->get_customizer_upsell_html(
-				__( 'Set Your Header &amp; Footer', 'hello-elementor' ),
-				__( 'Create cross-site Header and Footer using Elementor & Hello theme.', 'hello-elementor' ),
+				esc_html__( 'Set Your Header &amp; Footer', 'hello-elementor' ),
+				esc_html__( 'Create cross-site Header and Footer using Elementor & Hello theme.', 'hello-elementor' ),
 				wp_nonce_url( 'post.php?post=' . get_option( 'elementor_active_kit' ) . '&action=elementor' ),
-				__( 'Start Here', 'hello-elementor' ),
+				esc_html__( 'Start Here', 'hello-elementor' ),
 				get_template_directory_uri() . '/assets/images/go-pro.svg'
 			);
 		}

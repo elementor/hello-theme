@@ -26,7 +26,7 @@ $header_nav_menu = wp_nav_menu( [
 		} elseif ( $site_name ) {
 			?>
 			<h1 class="site-title">
-				<a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php esc_attr_e( 'Home', 'hello-elementor' ); ?>" rel="home">
+				<a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr__( 'Home', 'hello-elementor' ); ?>" rel="home">
 					<?php echo esc_html( $site_name ); ?>
 				</a>
 			</h1>

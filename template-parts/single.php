@@ -22,7 +22,7 @@ while ( have_posts() ) :
 	<div class="page-content">
 		<?php the_content(); ?>
 		<div class="post-tags">
-			<?php the_tags( '<span class="tag-links">' . __( 'Tagged ', 'hello-elementor' ), null, '</span>' ); ?>
+			<?php the_tags( '<span class="tag-links">' . esc_html__( 'Tagged ', 'hello-elementor' ), null, '</span>' ); ?>
 		</div>
 		<?php wp_link_pages(); ?>
 	</div>

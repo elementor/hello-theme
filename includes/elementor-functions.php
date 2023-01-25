@@ -204,7 +204,7 @@ function hello_get_footer_display() {
 add_action( 'elementor/experiments/default-features-registered', function( \Elementor\Core\Experiments\Manager $experiments_manager ) {
 	$experiments_manager->add_feature( [
 		'name' => 'hello-theme-header-footer',
-		'title' => __( 'Hello Theme Header & Footer', 'hello-elementor' ),
+		'title' => esc_html__( 'Hello Theme Header & Footer', 'hello-elementor' ),
 		'description' => sprintf( __( 'Use this experiment to design header and footer using Elementor Site Settings. <a href="%s" target="_blank">Learn More</a>', 'hello-elementor' ), 'https://go.elementor.com/wp-dash-header-footer' ),
 		'release_status' => $experiments_manager::RELEASE_STATUS_STABLE,
 		'new_site' => [
