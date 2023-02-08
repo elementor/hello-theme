@@ -47,7 +47,7 @@ $header_nav_menu = wp_nav_menu( [
 		</div>
 
 		<?php if ( $header_nav_menu ) : ?>
-			<nav class="site-navigation <?php echo esc_attr( hello_show_or_hide( 'hello_header_menu_display' ) ); ?>" role="navigation">
+			<nav class="site-navigation <?php echo esc_attr( hello_show_or_hide( 'hello_header_menu_display' ) ); ?>">
 				<?php
 				// PHPCS - escaped by WordPress with "wp_nav_menu"
 				echo $header_nav_menu; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -59,7 +59,7 @@ $header_nav_menu = wp_nav_menu( [
 					<span class="elementor-screen-only">Menu</span>
 				</div>
 			</div>
-			<nav class="site-navigation-dropdown <?php echo esc_attr( hello_show_or_hide( 'hello_header_menu_display' ) ); ?>" role="navigation">
+			<nav class="site-navigation-dropdown <?php echo esc_attr( hello_show_or_hide( 'hello_header_menu_display' ) ); ?>">
 				<?php
 				// PHPCS - escaped by WordPress with "wp_nav_menu"
 				echo $header_nav_menu; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

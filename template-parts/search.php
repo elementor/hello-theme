@@ -39,7 +39,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	global $wp_query;
 	if ( $wp_query->max_num_pages > 1 ) :
 		?>
-		<nav class="pagination" role="navigation">
+		<nav class="pagination">
 			<?php /* Translators: HTML arrow */ ?>
 			<div class="nav-previous"><?php next_posts_link( sprintf( __( '%s older', 'hello-elementor' ), '<span class="meta-nav">&larr;</span>' ) ); ?></div>
 			<?php /* Translators: HTML arrow */ ?>
