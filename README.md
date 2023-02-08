@@ -3,8 +3,8 @@
 
 
 **Contributors:** [elemntor](https://profiles.wordpress.org/elemntor), [KingYes](https://profiles.wordpress.org/KingYes), [ariel.k](https://profiles.wordpress.org/ariel.k), [jzaltzberg](https://profiles.wordpress.org/jzaltzberg), [mati1000](https://profiles.wordpress.org/mati1000), [bainternet](https://profiles.wordpress.org/bainternet)  
-**Requires at least:** 4.7  
-**Tested up to:** 5.9  
+**Requires at least:** 5.9  
+**Tested up to:** 6.1  
 **Stable tag:** 2.6.1  
 **Version:** 2.6.1  
 **Requires PHP:** 5.6  
