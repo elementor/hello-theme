@@ -31,7 +31,7 @@ class elementorHelloThemeHandler {
 
     bindEvents() {
         this.elements.$menuToggle
-            .on( 'click', () => this.handleMenuToggle() );
+            .on( 'click', () => this.handleMenuToggle() )
             .on( 'keyup', ( event ) => {
                 const ENTER_KEY = 13;
                 if ( ENTER_KEY === event.keyCode ) {
