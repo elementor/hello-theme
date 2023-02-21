@@ -23,9 +23,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<?php
 			while ( have_posts() ) :
 				the_post();
-				printf( '<h2><a href="%s">%s</a></h2>', esc_url( get_permalink() ), esc_html( get_the_title() ) );
-				the_post_thumbnail();
-				the_excerpt();
+				$post_link = get_permalink();
+				?>
+				<article class="post">
+					<?php
+					printf( '<h2 class="%s"><a href="%s">%s</a></h2>', 'entry-title', esc_url( $post_link ), wp_kses_post( get_the_title() ) );
+					printf( '<a href="%s">%s</a>', esc_url( $post_link ), get_the_post_thumbnail( $post, 'large' ) );
+					the_excerpt();
+					?>
+				</article>
+				<?php
 			endwhile;
 			?>
 		<?php else : ?>
