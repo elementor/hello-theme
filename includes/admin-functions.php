@@ -35,18 +35,18 @@ function hello_elementor_fail_load_admin_notice() {
 			return;
 		}
 
-		$message = __( 'Hello theme is a lightweight starter theme designed to work perfectly with Elementor Page Builder plugin.', 'hello-elementor' );
+		$message = esc_html__( 'The Hello Theme is a lightweight starter theme that works perfectly with the Elementor award-winning page builder plugin. Once you activate the plugin, you are only 1 click away from building an amazing website.', 'hello-elementor' );
 
-		$button_text = __( 'Activate Elementor', 'hello-elementor' );
+		$button_text = esc_html__( 'Activate Elementor', 'hello-elementor' );
 		$button_link = wp_nonce_url( 'plugins.php?action=activate&amp;plugin=' . $plugin . '&amp;plugin_status=all&amp;paged=1&amp;s', 'activate-plugin_' . $plugin );
 	} else {
 		if ( ! current_user_can( 'install_plugins' ) ) {
 			return;
 		}
 
-		$message = __( 'Hello theme is a lightweight starter theme. We recommend you use it together with Elementor Page Builder plugin, they work perfectly together!', 'hello-elementor' );
+		$message = esc_html__( 'The Hello Theme is a lightweight starter theme that works perfectly with the Elementor award-winning page builder plugin. Once you download and activate the plugin, you are only 1 click away from building an amazing website.', 'hello-elementor' );
 
-		$button_text = __( 'Install Elementor', 'hello-elementor' );
+		$button_text = esc_html__( 'Install Elementor', 'hello-elementor' );
 		$button_link = wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=elementor' ), 'install-plugin_elementor' );
 	}
 
@@ -133,13 +133,13 @@ function hello_elementor_fail_load_admin_notice() {
 		} );</script>
 	<div class="notice updated is-dismissible hello-elementor-notice hello-elementor-install-elementor">
 		<div class="hello-elementor-notice-aside">
-			<img src="<?php echo esc_url( get_template_directory_uri() ) . '/assets/images/elementor-notice-icon.svg'; ?>" alt="<?php esc_attr_e( 'Get Elementor', 'hello-elementor' ); ?>" />
+			<img src="<?php echo esc_url( get_template_directory_uri() ) . '/assets/images/elementor-notice-icon.svg'; ?>" alt="<?php echo esc_attr__( 'Get Elementor', 'hello-elementor' ); ?>" />
 		</div>
 		<div class="hello-elementor-notice-inner">
 			<div class="hello-elementor-notice-content">
-				<h3><?php esc_html_e( 'Thanks for installing Hello Theme!', 'hello-elementor' ); ?></h3>
+				<h3><?php echo esc_html__( 'Thanks for installing the Hello Theme!', 'hello-elementor' ); ?></h3>
 				<p><?php echo esc_html( $message ); ?></p>
-				<a href="https://go.elementor.com/hello-theme-learn/" target="_blank"><?php esc_html_e( 'Learn more about Elementor', 'hello-elementor' ); ?></a>
+				<a href="https://go.elementor.com/hello-theme-learn/" target="_blank"><?php echo esc_html__( 'Explore Elementor Page Builder Plugin', 'hello-elementor' ); ?></a>
 				<div class="hello-elementor-install-now">
 					<a class="hello-elementor-install-button" href="<?php echo esc_attr( $button_link ); ?>"><?php echo esc_html( $button_text ); ?></a>
 				</div>

@@ -22,10 +22,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 </head>
 <body <?php body_class(); ?>>
 
-<?php hello_elementor_body_open(); ?>
+<?php wp_body_open(); ?>
 
 <a class="skip-link screen-reader-text" href="#content">
-	<?php esc_html_e( 'Skip to content', 'hello-elementor' ); ?></a>
+	<?php echo esc_html__( 'Skip to content', 'hello-elementor' ); ?></a>
 
 <?php
 if ( ! function_exists( 'elementor_theme_do_location' ) || ! elementor_theme_do_location( 'header' ) ) {
