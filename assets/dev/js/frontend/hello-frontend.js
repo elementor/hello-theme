@@ -36,7 +36,7 @@ class elementorHelloThemeHandler {
                 const ENTER_KEY = 13,
                     SPACE_KEY = 32;
 
-                if ( ENTER_KEY === event.which || SPACE_KEY === event.which ) {
+                if ( ENTER_KEY === event.keyCode || SPACE_KEY === event.keyCode ) {
                     jQuery( event.currentTarget ).trigger( 'click' );
                 }
             } );
