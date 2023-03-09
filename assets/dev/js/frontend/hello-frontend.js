@@ -37,7 +37,7 @@ class elementorHelloThemeHandler {
                     SPACE_KEY = 32;
 
                 if ( ENTER_KEY === event.keyCode || SPACE_KEY === event.keyCode ) {
-                    jQuery( event.currentTarget ).trigger( 'click' );
+                    event.currentTarget.click();
                 }
             } );
         this.elements.$dropdownMenu.on( 'click', '.menu-item-has-children > a', this.handleMenuChildren );
