@@ -28,7 +28,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<article class="post">
 					<?php
 					printf( '<h2 class="%s"><a href="%s">%s</a></h2>', 'entry-title', esc_url( $post_link ), wp_kses_post( get_the_title() ) );
-					printf( '<a href="%s">%s</a>', esc_url( $post_link ), get_the_post_thumbnail( $post, 'large' ) );
+					if ( has_post_thumbnail() ) {
+						printf( '<a href="%s">%s</a>', esc_url( $post_link ), get_the_post_thumbnail( $post, 'large' ) );
+					}
 					the_excerpt();
 					?>
 				</article>
