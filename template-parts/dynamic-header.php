@@ -56,7 +56,7 @@ $header_nav_menu = wp_nav_menu( [
 			<div class="site-navigation-toggle-holder <?php echo esc_attr( hello_show_or_hide( 'hello_header_menu_display' ) ); ?>">
 				<div class="site-navigation-toggle" tabindex="0">
 					<i class="eicon-menu-bar" aria-hidden="true"></i>
-					<span class="screen-reader-text"><?php echo esc_attr__( 'Menu', 'hello-elementor' ); ?></span>
+					<span class="screen-reader-text"><?php echo esc_html__( 'Menu', 'hello-elementor' ); ?></span>
 				</div>
 			</div>
 			<nav class="site-navigation-dropdown <?php echo esc_attr( hello_show_or_hide( 'hello_header_menu_display' ) ); ?>">
