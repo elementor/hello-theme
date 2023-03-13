@@ -75,7 +75,7 @@
 			}
 
 			&.menu-item-has-children {
-				padding-right: 15px;
+				padding-inline-end: 15px;
 
 				&:after {
 					display: block;
@@ -108,11 +108,11 @@
 				top: 100%;
 
 				li {
-					border-bottom: $gray-lighter 1px solid;
+					border-block-end: $gray-lighter 1px solid;
 				}
 
 				li:last-child {
-					border-bottom: none;
+					border-block-end: none;
 				}
 
 				li.menu-item-has-children {
@@ -165,7 +165,7 @@ footer {
 }
 
 .site-navigation-dropdown {
-	margin-top: 10px;
+	margin-block-start: 10px;
 	transition: max-height 0.3s, transform 0.3s;
 	transform-origin: top;
 	position: absolute;

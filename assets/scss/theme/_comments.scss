@@ -18,30 +18,22 @@
 		.comment-body {
 			display: flex;
 			flex-direction: column;
-			padding: 30px 0 30px 60px;
-			border-bottom: 1px solid $gray-light;
-
-			@at-root {
-
-				body.rtl & {
-					padding: 30px 60px 30px 0;
-				}
-			}
+			padding-block: 30px;
+			padding-inline: 60px 0;
+			border-block-end: 1px solid $gray-light;
 		}
 
 		.avatar {
 			position: absolute;
 			left: 0;
 			border-radius: 50%;
-			margin-right: 10px;
+			margin-inline-end: 10px;
 
 			@at-root {
 
 				body.rtl & {
 					left: auto;
 					right: 0;
-					margin-right: 0;
-					margin-left: 10px;
 				}
 			}
 		}
@@ -50,7 +42,7 @@
 	.comment-meta {
 		display: flex;
 		justify-content: space-between;
-		margin-bottom: .9rem;
+		margin-block-end: .9rem;
 	}
 
 	.reply,
@@ -63,18 +55,10 @@
 		position: relative;
 		list-style: none;
 		margin: 0;
-		padding-left: 30px;
-
-		@at-root {
-
-			body.rtl & {
-				padding-left: 0;
-				padding-right: 30px;
-			}
-		}
+		padding-inline-start: 30px;
 
 		li:last-child {
-			padding-bottom: 0;
+			padding-block-end: 0;
 		}
 	}
 
@@ -117,7 +101,7 @@
 		}
 
 		.children {
-			padding-left: 20px;
+			padding-inline-start: 20px;
 		}
 
 		.comment .avatar {

@@ -12,7 +12,7 @@ $table-bg-hover: #8080801a;
 table {
 	background-color: $table-bg;
 	width: 100%;
-	margin-bottom: 15px;
+	margin-block-end: 15px;
 	font-size: 0.9em;
 	border-spacing: 0;
 	border-collapse: collapse;
@@ -47,7 +47,7 @@ table {
 
 				th,
 				td {
-					border-top: 1px solid $table-border-color;
+					border-block-start: 1px solid $table-border-color;
 				}
 			}
 		}
@@ -67,7 +67,7 @@ table {
 	}
 
 	tbody + tbody {
-		border-top: 2px solid $table-border-color;
+		border-block-start: 2px solid $table-border-color;
 	}
 
 	@media (max-width: $screen-sm - $screen-diff) {
