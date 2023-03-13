@@ -40,7 +40,7 @@ module.exports = function( grunt ) {
 
 					processors: [
 						require( 'autoprefixer' )( {
-							browsers: 'last 3 versions',
+							browsers: [ 'last 3 versions', 'not dead' ],
 						} ),
 					],
 				},
@@ -55,7 +55,7 @@ module.exports = function( grunt ) {
 				options: {
 					processors: [
 						require( 'autoprefixer' )( {
-							browsers: 'last 3 versions',
+							browsers: [ 'last 3 versions', 'not dead' ],
 						} ),
 						require( 'cssnano' )( {
 							reduceIdents: false,
