@@ -482,7 +482,7 @@ class Settings_Footer extends Tab_Base {
 						<p class="elementor-panel-heading-title elementor-nerd-box-title">%1$s</p>
 						<p>%2$s</p>
 					</div>
-					<a class="elementor-button elementor-button-default elementor-nerd-box-link" target="_blank" href="https://go.elementor.com/hello-theme-footer/">%3$s</a>
+					<a class="elementor-button go-pro" target="_blank" href="https://go.elementor.com/hello-theme-footer/">%3$s</a>
 				</div>
 				',
 				esc_html__( 'Create a custom footer with multiple options', 'hello-elementor' ),
@@ -498,7 +498,7 @@ class Settings_Footer extends Tab_Base {
 						<p class="elementor-panel-heading-title elementor-nerd-box-title">%1$s</p>
 						<p class="elementor-nerd-box-message">%2$s</p>
 					</div>
-					<a class="elementor-button elementor-button-success elementor-nerd-box-link" target="_blank" href="%5$s">%3$s</a>
+					<a class="elementor-button e-primary" target="_blank" href="%5$s">%3$s</a>
 				</div>
 				',
 				esc_html__( 'Create a custom footer with the new Theme Builder', 'hello-elementor' ),
