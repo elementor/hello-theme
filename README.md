@@ -5,8 +5,8 @@
 **Contributors:** [elemntor](https://profiles.wordpress.org/elemntor), [KingYes](https://profiles.wordpress.org/KingYes), [ariel.k](https://profiles.wordpress.org/ariel.k), [jzaltzberg](https://profiles.wordpress.org/jzaltzberg), [mati1000](https://profiles.wordpress.org/mati1000), [bainternet](https://profiles.wordpress.org/bainternet)  
 **Requires at least:** 5.9  
 **Tested up to:** 6.1  
-**Stable tag:** 2.6.1  
-**Version:** 2.6.1  
+**Stable tag:** 2.7.0  
+**Version:** 2.7.0  
 **Requires PHP:** 5.6  
 **License:** GNU General Public License v3 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-3.0.html  
@@ -91,6 +91,26 @@ License: CC0 1.0 Universal (CC0 1.0)
 Source: https://stocksnap.io/photo/4B83RD7BV9
 
 ## Changelog ##
+
+### 2.7.0 - 2023-03-21 ###
+* Tweak: Update `Requires at least: 5.9`
+* Tweak: Update `Tested Up to 6.1`
+* Tweak: Remove backwards compatibility support for `wp_body_open()`
+* Tweak: Match `search.php` markup to `archive.php` markup
+* Tweak: Check if posts have featured images set
+* Tweak: Remove unnecessary `role` attributes from HTML landmark elements
+* Tweak: Escape translation strings for secure HTML output
+* Tweak: Use i18n function to make the "Menu" string translatable
+* Tweak: Minify SVG assets
+* Tweak: Make header nav-menu keyboard accessible
+* Tweak: Add `role="button"` to the nav-menu toggle for better accessibility
+* Tweak: Toggle mobile nav-menu with `Enter` & `Space` keyboard keys
+* Tweak: Use theme CSS not Elementor plugins CSS
+* Tweak: Match CSS to the new Elementor Editor Facelift
+* Tweak: Added support for the new Elementor version
+* Tweak: Match autoprefixer browsers list settings to Elementor plugin
+* Tweak: Move autoprefixer settings to `.browserslistrc` file
+* Tweak: Upgrade the autoprefixer package to minify CSS files
 
 ### 2.6.1 - 2022-07-11 ###
 * Tweak: Tables looks weird on dark backgrounds ([#126](https://github.com/elementor/hello-theme/issues/126))
