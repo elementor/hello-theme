@@ -10,6 +10,9 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
+
+$enable_skip_link = apply_filters( 'hello_elementor_enable_skip_link', true );
+$skip_link_url = apply_filters( 'hello_elementor_skip_link_url', '#content' );
 ?>
 <!doctype html>
 <html <?php language_attributes(); ?>>
@@ -24,8 +27,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <?php wp_body_open(); ?>
 
-<a class="skip-link screen-reader-text" href="#content">
-	<?php echo esc_html__( 'Skip to content', 'hello-elementor' ); ?></a>
+<?php if ( $enable_skip_link ) { ?>
+<a class="skip-link screen-reader-text" href="<?php esc_url( $skip_link_url ); ?>"><?php echo esc_html__( 'Skip to content', 'hello-elementor' ); ?></a>
+<?php } ?>
 
 <?php
 if ( ! function_exists( 'elementor_theme_do_location' ) || ! elementor_theme_do_location( 'header' ) ) {
