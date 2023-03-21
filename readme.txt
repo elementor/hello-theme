@@ -2,7 +2,7 @@
 
 Contributors: elemntor, KingYes, ariel.k, jzaltzberg, mati1000, bainternet
 Requires at least: 5.9
-Tested up to: 6.1
+Tested up to: 6.2
 Stable tag: 2.7.0
 Version: 2.7.0
 Requires PHP: 5.6
@@ -91,8 +91,8 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 == Changelog ==
 
 = 2.7.0 - 2023-03-21 =
-* Tweak: Update `Requires at least: 5.9`
-* Tweak: Update `Tested Up to 6.1`
+* Tweak: Update `Requires at least 5.9`
+* Tweak: Update `Tested up to 6.2`
 * Tweak: Remove backwards compatibility support for `wp_body_open()`
 * Tweak: Match `search.php` markup to `archive.php` markup
 * Tweak: Check if posts have featured images set
@@ -103,7 +103,7 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 * Tweak: Make header nav-menu keyboard accessible
 * Tweak: Add `role="button"` to the nav-menu toggle for better accessibility
 * Tweak: Toggle mobile nav-menu with `Enter` & `Space` keyboard keys
-* Tweak: Add `hello_elementor_enable_skip_link` filter to enable/disable skip link
+* Tweak: Add `hello_elementor_enable_skip_link` filter to enable/disable the skip link
 * Tweak: Add `hello_elementor_skip_link_url` filter to change skip link URL
 * Tweak: Use theme CSS not Elementor plugins CSS
 * Tweak: Match CSS to the new Elementor Editor Facelift
@@ -151,15 +151,15 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 * Tweak: Improved UI for table elements
 * Tweak: Added support for Gutenberg Wide and Full image formats (Props [@ramiy](https://github.com/ramiy))
 * Tweak: Added font smoothing
-* Tweak: Update `Tested Up to 5.6`
-* Tweak: Update `Requires PHP: 5.6`
+* Tweak: Update `Tested up to 5.6`
+* Tweak: Update `Requires PHP 5.6`
 * Fix: Adjusted font-family in `code`, `pre`, `kbd` and `samp` elements (Props [@75th](https://github.com/75th))
 
 = 2.3.0 - 2020-04-19 =
 * Tweak: Removed caption centering by default to allow alignment using Elementor (Props [@cirkut](https://github.com/cirkut))
 * Tweak: Removed `text-align` property from table elements to avoid alignment issue in RTL websites (Props [@ramiy](https://github.com/ramiy))
 * Tweak: Added `input[type="url"]` to CSS reset rules ([#109](https://github.com/elementor/hello-theme/issues/109))
-* Tweak: Update `Tested Up to 5.4`
+* Tweak: Update `Tested up to 5.4`
 
 = 2.2.2 - 2019-12-23 =
 * Fix: Conflicts with minifier `cssnano` and CSS animations (Props [@CeliaRozalenM](https://github.com/CeliaRozalenM))
@@ -224,7 +224,7 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 * Tweak: Add Copyright & Image and Icon License sections in readme (following comment by WP Theme Review team)
 * Tweak: Remove duplicated call to `add_theme_support( 'custom-logo')`
 * Tweak: Readme file grammar & spelling
-* Tweak: Update `Tested Up to 5.2`
+* Tweak: Update `Tested up to 5.2`
 * Tweak: Change functions.php methods names prefix from `hello_elementor_theme_` to `hello_elementor_`
 * Tweak: Change hook names to fit theme's name. Old hooks are deprecated, users are urged to update their code where needed
 * Tweak: Update style for `img`, `textarea`, 'label'
