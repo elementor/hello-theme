@@ -103,6 +103,8 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 * Tweak: Make header nav-menu keyboard accessible
 * Tweak: Add `role="button"` to the nav-menu toggle for better accessibility
 * Tweak: Toggle mobile nav-menu with `Enter` & `Space` keyboard keys
+* Tweak: Add `hello_elementor_enable_skip_link` filter to enable/disable skip link
+* Tweak: Add `hello_elementor_skip_link_url` filter to change skip link URL
 * Tweak: Use theme CSS not Elementor plugins CSS
 * Tweak: Match CSS to the new Elementor Editor Facelift
 * Tweak: Added support for the new Elementor version
