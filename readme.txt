@@ -111,6 +111,12 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 * Tweak: Match autoprefixer browsers list settings to Elementor plugin
 * Tweak: Move autoprefixer settings to `.browserslistrc` file
 * Tweak: Upgrade the autoprefixer package to minify CSS files
+* Tweak: Delete deprecated `elementor_hello_theme_load_textdomain` filter hook
+* Tweak: Delete deprecated `elementor_hello_theme_register_menus` filter hook
+* Tweak: Delete deprecated `elementor_hello_theme_add_theme_support` filter hook
+* Tweak: Delete deprecated `elementor_hello_theme_add_woocommerce_support` filter hook
+* Tweak: Delete deprecated `elementor_hello_theme_enqueue_style` filter hook
+* Tweak: Delete deprecated `elementor_hello_theme_register_elementor_locations` filter hook
 
 = 2.6.1 - 2022-07-11 =
 * Tweak: Tables looks weird on dark backgrounds ([#126](https://github.com/elementor/hello-theme/issues/126))
