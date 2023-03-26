@@ -111,18 +111,16 @@ class Settings_Header extends Tab_Base {
 			[
 				'type' => Controls_Manager::SLIDER,
 				'label' => esc_html__( 'Content Width', 'hello-elementor' ),
-				'size_units' => [
-					'%',
-					'px',
-				],
+				'size_units' => [ '%', 'px', 'em', 'rem', 'vw', 'custom' ],
 				'range' => [
 					'px' => [
 						'max' => 2000,
-						'step' => 1,
 					],
-					'%' => [
+					'em' => [
 						'max' => 100,
-						'step' => 1,
+					],
+					'rem' => [
+						'max' => 100,
 					],
 				],
 				'condition' => [
@@ -139,21 +137,19 @@ class Settings_Header extends Tab_Base {
 			[
 				'type' => Controls_Manager::SLIDER,
 				'label' => esc_html__( 'Gap', 'hello-elementor' ),
-				'size_units' => [
-					'%',
-					'px',
-				],
+				'size_units' => [ '%', 'px', 'em ', 'rem', 'vw', 'custom' ],
 				'default' => [
 					'size' => '0',
 				],
 				'range' => [
 					'px' => [
-						'max' => 2000,
-						'step' => 1,
-					],
-					'%' => [
 						'max' => 100,
-						'step' => 1,
+					],
+					'em' => [
+						'max' => 5,
+					],
+					'rem' => [
+						'max' => 5,
 					],
 				],
 				'selectors' => [
@@ -222,19 +218,16 @@ class Settings_Header extends Tab_Base {
 				'type' => Controls_Manager::SLIDER,
 				'label' => esc_html__( 'Logo Width', 'hello-elementor' ),
 				'description' => sprintf( __( 'Go to <a href="%s">Site Identity</a> to manage your site\'s logo', 'hello-elementor' ), wp_nonce_url( 'customize.php?autofocus[section]=title_tagline' ) ),
-				'size_units' => [
-					'%',
-					'px',
-					'vh',
-				],
+				'size_units' => [ '%', 'px', 'em', 'rem', 'vw', 'custom' ],
 				'range' => [
 					'px' => [
 						'max' => 1000,
-						'step' => 1,
 					],
-					'%' => [
+					'em' => [
 						'max' => 100,
-						'step' => 1,
+					],
+					'rem' => [
+						'max' => 100,
 					],
 				],
 				'condition' => [
