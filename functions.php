@@ -26,10 +26,6 @@ if ( ! function_exists( 'hello_elementor_setup' ) ) {
 			hello_maybe_update_theme_version_in_db();
 		}
 
-		if ( apply_filters( 'hello_elementor_load_textdomain', true ) ) {
-			load_theme_textdomain( 'hello-elementor', get_template_directory() . '/languages' );
-		}
-
 		if ( apply_filters( 'hello_elementor_register_menus', true ) ) {
 			register_nav_menus( [ 'menu-1' => esc_html__( 'Header', 'hello-elementor' ) ] );
 			register_nav_menus( [ 'menu-2' => esc_html__( 'Footer', 'hello-elementor' ) ] );
