@@ -214,7 +214,11 @@ class Settings_Footer extends Tab_Base {
 			[
 				'type' => Controls_Manager::SLIDER,
 				'label' => esc_html__( 'Logo Width', 'hello-elementor' ),
-				'description' => sprintf( __( 'Go to <a href="%s">Site Identity</a> to manage your site\'s logo', 'hello-elementor' ), wp_nonce_url( 'customize.php?autofocus[section]=title_tagline' ) ),
+				'description' => sprintf(
+					/* translators: %s: Link that opens Elementor's "Site Identity" panel. */
+					__( 'Go to <a href="%s">Site Identity</a> to manage your site\'s logo', 'hello-elementor' ),
+					"javascript:\$e.route('panel/global/settings-site-identity')"
+				),
 				'size_units' => [ '%', 'px', 'em', 'rem', 'vw', 'custom' ],
 				'range' => [
 					'px' => [
@@ -270,7 +274,11 @@ class Settings_Footer extends Tab_Base {
 			'hello_footer_title_link',
 			[
 				'type' => Controls_Manager::RAW_HTML,
-				'raw' => sprintf( __( 'Go to <a href="%s">Site Identity</a> to manage your site\'s title and tagline', 'hello-elementor' ), wp_nonce_url( 'customize.php?autofocus[section]=title_tagline' ) ),
+				'raw' => sprintf(
+					/* translators: %s: Link that opens Elementor's "Site Identity" panel. */
+					__( 'Go to <a href="%s">Site Identity</a> to manage your site\'s title', 'hello-elementor' ),
+					"javascript:\$e.route('panel/global/settings-site-identity')"
+				),
 				'content_classes' => 'elementor-control-field-description',
 				'condition' => [
 					'hello_footer_logo_display' => 'yes',
@@ -322,7 +330,11 @@ class Settings_Footer extends Tab_Base {
 			'hello_footer_tagline_link',
 			[
 				'type' => Controls_Manager::RAW_HTML,
-				'raw' => sprintf( __( 'Go to <a href="%s">Site Identity</a> to manage your site\'s title and tagline', 'hello-elementor' ), wp_nonce_url( 'customize.php?autofocus[section]=title_tagline' ) ),
+				'raw' => sprintf(
+					/* translators: %s: Link that opens Elementor's "Site Identity" panel. */
+					__( 'Go to <a href="%s">Site Identity</a> to manage your site\'s tagline', 'hello-elementor' ),
+					"javascript:\$e.route('panel/global/settings-site-identity')"
+				),
 				'content_classes' => 'elementor-control-field-description',
 			]
 		);
