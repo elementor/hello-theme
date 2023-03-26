@@ -106,11 +106,8 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 * Tweak: Add `hello_elementor_enable_skip_link` filter to enable/disable the skip link
 * Tweak: Add `hello_elementor_skip_link_url` filter to change skip link URL
 * Tweak: Use theme CSS not Elementor plugins CSS
-* Tweak: Match CSS to the new Elementor Editor Facelift
 * Tweak: Added support for the new Elementor version
-* Tweak: Match autoprefixer browsers list settings to Elementor plugin
-* Tweak: Move autoprefixer settings to `.browserslistrc` file
-* Tweak: Upgrade the autoprefixer package to minify CSS files
+* Tweak: Update autoprefixer to exclude dead browsers
 * Tweak: Delete deprecated `elementor_hello_theme_load_textdomain` filter hook
 * Tweak: Delete deprecated `elementor_hello_theme_register_menus` filter hook
 * Tweak: Delete deprecated `elementor_hello_theme_add_theme_support` filter hook
