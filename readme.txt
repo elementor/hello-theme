@@ -90,7 +90,7 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
 
-= 2.7.0 - 2023-03-21 =
+= 2.7.0 - 2023-03-26 =
 * Tweak: Update `Requires at least 5.9`
 * Tweak: Update `Tested up to 6.2`
 * Tweak: Remove backwards compatibility support for `wp_body_open()`
