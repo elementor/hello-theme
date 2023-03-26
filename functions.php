@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-define( 'HELLO_ELEMENTOR_VERSION', '2.6.1' );
+define( 'HELLO_ELEMENTOR_VERSION', '2.7.0' );
 
 if ( ! isset( $content_width ) ) {
 	$content_width = 800; // Pixels.
@@ -26,19 +26,12 @@ if ( ! function_exists( 'hello_elementor_setup' ) ) {
 			hello_maybe_update_theme_version_in_db();
 		}
 
-		$hook_result = apply_filters_deprecated( 'elementor_hello_theme_load_textdomain', [ true ], '2.0', 'hello_elementor_load_textdomain' );
-		if ( apply_filters( 'hello_elementor_load_textdomain', $hook_result ) ) {
-			load_theme_textdomain( 'hello-elementor', get_template_directory() . '/languages' );
+		if ( apply_filters( 'hello_elementor_register_menus', true ) ) {
+			register_nav_menus( [ 'menu-1' => esc_html__( 'Header', 'hello-elementor' ) ] );
+			register_nav_menus( [ 'menu-2' => esc_html__( 'Footer', 'hello-elementor' ) ] );
 		}
 
-		$hook_result = apply_filters_deprecated( 'elementor_hello_theme_register_menus', [ true ], '2.0', 'hello_elementor_register_menus' );
-		if ( apply_filters( 'hello_elementor_register_menus', $hook_result ) ) {
-			register_nav_menus( [ 'menu-1' => __( 'Header', 'hello-elementor' ) ] );
-			register_nav_menus( [ 'menu-2' => __( 'Footer', 'hello-elementor' ) ] );
-		}
-
-		$hook_result = apply_filters_deprecated( 'elementor_hello_theme_add_theme_support', [ true ], '2.0', 'hello_elementor_add_theme_support' );
-		if ( apply_filters( 'hello_elementor_add_theme_support', $hook_result ) ) {
+		if ( apply_filters( 'hello_elementor_add_theme_support', true ) ) {
 			add_theme_support( 'post-thumbnails' );
 			add_theme_support( 'automatic-feed-links' );
 			add_theme_support( 'title-tag' );
@@ -77,8 +70,7 @@ if ( ! function_exists( 'hello_elementor_setup' ) ) {
 			/*
 			 * WooCommerce.
 			 */
-			$hook_result = apply_filters_deprecated( 'elementor_hello_theme_add_woocommerce_support', [ true ], '2.0', 'hello_elementor_add_woocommerce_support' );
-			if ( apply_filters( 'hello_elementor_add_woocommerce_support', $hook_result ) ) {
+			if ( apply_filters( 'hello_elementor_add_woocommerce_support', true ) ) {
 				// WooCommerce in general.
 				add_theme_support( 'woocommerce' );
 				// Enabling WooCommerce product gallery features (are off by default since WC 3.0.0).
@@ -112,10 +104,9 @@ if ( ! function_exists( 'hello_elementor_scripts_styles' ) ) {
 	 * @return void
 	 */
 	function hello_elementor_scripts_styles() {
-		$enqueue_basic_style = apply_filters_deprecated( 'elementor_hello_theme_enqueue_style', [ true ], '2.0', 'hello_elementor_enqueue_style' );
-		$min_suffix          = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+		$min_suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
-		if ( apply_filters( 'hello_elementor_enqueue_style', $enqueue_basic_style ) ) {
+		if ( apply_filters( 'hello_elementor_enqueue_style', true ) ) {
 			wp_enqueue_style(
 				'hello-elementor',
 				get_template_directory_uri() . '/style' . $min_suffix . '.css',
@@ -145,8 +136,7 @@ if ( ! function_exists( 'hello_elementor_register_elementor_locations' ) ) {
 	 * @return void
 	 */
 	function hello_elementor_register_elementor_locations( $elementor_theme_manager ) {
-		$hook_result = apply_filters_deprecated( 'elementor_hello_theme_register_elementor_locations', [ true ], '2.0', 'hello_elementor_register_elementor_locations' );
-		if ( apply_filters( 'hello_elementor_register_elementor_locations', $hook_result ) ) {
+		if ( apply_filters( 'hello_elementor_register_elementor_locations', true ) ) {
 			$elementor_theme_manager->register_all_core_location();
 		}
 	}
@@ -205,16 +195,3 @@ if ( ! function_exists( 'hello_elementor_check_hide_title' ) ) {
 	}
 }
 add_filter( 'hello_elementor_page_title', 'hello_elementor_check_hide_title' );
-
-/**
- * Wrapper function to deal with backwards compatibility.
- */
-if ( ! function_exists( 'hello_elementor_body_open' ) ) {
-	function hello_elementor_body_open() {
-		if ( function_exists( 'wp_body_open' ) ) {
-			wp_body_open();
-		} else {
-			do_action( 'wp_body_open' );
-		}
-	}
-}

@@ -30,7 +30,16 @@ class elementorHelloThemeHandler {
     }
 
     bindEvents() {
-        this.elements.$menuToggle.on( 'click', () => this.handleMenuToggle() );
+        this.elements.$menuToggle
+            .on( 'click', () => this.handleMenuToggle() )
+            .on( 'keyup', ( event ) => {
+                const ENTER_KEY = 13,
+                    SPACE_KEY = 32;
+
+                if ( ENTER_KEY === event.keyCode || SPACE_KEY === event.keyCode ) {
+                    event.currentTarget.click();
+                }
+            } );
         this.elements.$dropdownMenu.on( 'click', '.menu-item-has-children > a', this.handleMenuChildren );
     }
 

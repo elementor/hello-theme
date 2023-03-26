@@ -16,7 +16,7 @@ function hello_customizer_register( $wp_customize ) {
 	$wp_customize->add_section(
 		'hello_theme_options',
 		[
-			'title' => __( 'Header &amp; Footer', 'hello-elementor' ),
+			'title' => esc_html__( 'Header &amp; Footer', 'hello-elementor' ),
 			'capability' => 'edit_theme_options',
 		]
 	);

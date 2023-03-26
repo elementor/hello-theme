@@ -9,11 +9,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 ?>
-<main id="content" class="site-main" role="main">
+<main id="content" class="site-main">
 	<?php if ( apply_filters( 'hello_elementor_page_title', true ) ) : ?>
 		<header class="page-header">
 			<h1 class="entry-title">
-				<?php esc_html_e( 'Search results for: ', 'hello-elementor' ); ?>
+				<?php echo esc_html__( 'Search results for: ', 'hello-elementor' ); ?>
 				<span><?php echo get_search_query(); ?></span>
 			</h1>
 		</header>
@@ -23,13 +23,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<?php
 			while ( have_posts() ) :
 				the_post();
-				printf( '<h2><a href="%s">%s</a></h2>', esc_url( get_permalink() ), esc_html( get_the_title() ) );
-				the_post_thumbnail();
-				the_excerpt();
+				$post_link = get_permalink();
+				?>
+				<article class="post">
+					<?php
+					printf( '<h2 class="%s"><a href="%s">%s</a></h2>', 'entry-title', esc_url( $post_link ), wp_kses_post( get_the_title() ) );
+					if ( has_post_thumbnail() ) {
+						printf( '<a href="%s">%s</a>', esc_url( $post_link ), get_the_post_thumbnail( $post, 'large' ) );
+					}
+					the_excerpt();
+					?>
+				</article>
+				<?php
 			endwhile;
 			?>
 		<?php else : ?>
-			<p><?php esc_html_e( 'It seems we can\'t find what you\'re looking for.', 'hello-elementor' ); ?></p>
+			<p><?php echo esc_html__( 'It seems we can\'t find what you\'re looking for.', 'hello-elementor' ); ?></p>
 		<?php endif; ?>
 	</div>
 
@@ -39,7 +48,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	global $wp_query;
 	if ( $wp_query->max_num_pages > 1 ) :
 		?>
-		<nav class="pagination" role="navigation">
+		<nav class="pagination">
 			<?php /* Translators: HTML arrow */ ?>
 			<div class="nav-previous"><?php next_posts_link( sprintf( __( '%s older', 'hello-elementor' ), '<span class="meta-nav">&larr;</span>' ) ); ?></div>
 			<?php /* Translators: HTML arrow */ ?>
