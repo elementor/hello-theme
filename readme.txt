@@ -117,6 +117,7 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 * Tweak: Delete deprecated `elementor_hello_theme_add_woocommerce_support` filter hook
 * Tweak: Delete deprecated `elementor_hello_theme_enqueue_style` filter hook
 * Tweak: Delete deprecated `elementor_hello_theme_register_elementor_locations` filter hook
+* Tweak: Added additional and `custom` units to header & footer panels
 
 = 2.6.1 - 2022-07-11 =
 * Tweak: Tables looks weird on dark backgrounds ([#126](https://github.com/elementor/hello-theme/issues/126))
