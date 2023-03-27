@@ -195,3 +195,15 @@ if ( ! function_exists( 'hello_elementor_check_hide_title' ) ) {
 	}
 }
 add_filter( 'hello_elementor_page_title', 'hello_elementor_check_hide_title' );
+
+
+/**
+ * BC:
+ * In v2.7.0 the theme removed the `hello_elementor_body_open()` from `header.php` replacing it with `wp_body_open()`.
+ * The following code prevents fatal errors in child themes that still use this function.
+ */
+if ( ! function_exists( 'hello_elementor_body_open' ) ) {
+	function hello_elementor_body_open() {
+		wp_body_open();
+	}
+}
