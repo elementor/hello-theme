@@ -90,6 +90,12 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
 
+= 2.7.1 - 2023-03-27 =
+* Tweak: Add excerpt support for pages [ED-10254]
+* Tweak: When comments is closed to post, display it to the user
+* Fix: Empty "Skip to content" href ([#276](https://github.com/elementor/hello-theme/issues/276))
+* Fix: Child themes using hello_elementor_body_open() no longer working ([#278](https://github.com/elementor/hello-theme/issues/278))
+
 = 2.7.0 - 2023-03-26 =
 * Tweak: Update `Requires at least 5.9`
 * Tweak: Update `Tested up to 6.2`
