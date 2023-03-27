@@ -5,8 +5,8 @@
 **Contributors:** [elemntor](https://profiles.wordpress.org/elemntor), [KingYes](https://profiles.wordpress.org/KingYes), [ariel.k](https://profiles.wordpress.org/ariel.k), [jzaltzberg](https://profiles.wordpress.org/jzaltzberg), [mati1000](https://profiles.wordpress.org/mati1000), [bainternet](https://profiles.wordpress.org/bainternet)  
 **Requires at least:** 5.9  
 **Tested up to:** 6.2  
-**Stable tag:** 2.7.0  
-**Version:** 2.7.0  
+**Stable tag:** 2.7.1  
+**Version:** 2.7.1  
 **Requires PHP:** 5.6  
 **License:** GNU General Public License v3 or later  
 **License URI:** https://www.gnu.org/licenses/gpl-3.0.html  
@@ -91,6 +91,12 @@ License: CC0 1.0 Universal (CC0 1.0)
 Source: https://stocksnap.io/photo/4B83RD7BV9
 
 ## Changelog ##
+
+### 2.7.1 - 2023-03-27 ###
+* Tweak: Add excerpt support for pages [ED-10254]
+* Tweak: When comments is closed to post, display it to the user
+* Fix: Empty "Skip to content" href ([#276](https://github.com/elementor/hello-theme/issues/276))
+* Fix: Child themes using hello_elementor_body_open() no longer working ([#278](https://github.com/elementor/hello-theme/issues/278))
 
 ### 2.7.0 - 2023-03-26 ###
 * Tweak: Update `Requires at least 5.9`
