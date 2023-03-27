@@ -31,6 +31,10 @@ if ( ! function_exists( 'hello_elementor_setup' ) ) {
 			register_nav_menus( [ 'menu-2' => esc_html__( 'Footer', 'hello-elementor' ) ] );
 		}
 
+		if ( apply_filters( 'hello_elementor_post_type_support', true ) ) {
+			add_post_type_support( 'page', 'excerpt' );
+		}
+
 		if ( apply_filters( 'hello_elementor_add_theme_support', true ) ) {
 			add_theme_support( 'post-thumbnails' );
 			add_theme_support( 'automatic-feed-links' );
