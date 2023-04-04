@@ -125,18 +125,16 @@ class Settings_Footer extends Tab_Base {
 			[
 				'type' => Controls_Manager::SLIDER,
 				'label' => esc_html__( 'Content Width', 'hello-elementor' ),
-				'size_units' => [
-					'%',
-					'px',
-				],
+				'size_units' => [ '%', 'px', 'em', 'rem', 'vw', 'custom' ],
 				'range' => [
 					'px' => [
 						'max' => 2000,
-						'step' => 1,
 					],
-					'%' => [
+					'em' => [
 						'max' => 100,
-						'step' => 1,
+					],
+					'rem' => [
+						'max' => 100,
 					],
 				],
 				'condition' => [
@@ -153,18 +151,16 @@ class Settings_Footer extends Tab_Base {
 			[
 				'type' => Controls_Manager::SLIDER,
 				'label' => esc_html__( 'Gap', 'hello-elementor' ),
-				'size_units' => [
-					'%',
-					'px',
-				],
+				'size_units' => [ '%', 'px', 'em ', 'rem', 'vw', 'custom' ],
 				'range' => [
 					'px' => [
-						'max' => 2000,
-						'step' => 1,
-					],
-					'%' => [
 						'max' => 100,
-						'step' => 1,
+					],
+					'em' => [
+						'max' => 5,
+					],
+					'rem' => [
+						'max' => 5,
 					],
 				],
 				'selectors' => [
@@ -218,20 +214,21 @@ class Settings_Footer extends Tab_Base {
 			[
 				'type' => Controls_Manager::SLIDER,
 				'label' => esc_html__( 'Logo Width', 'hello-elementor' ),
-				'description' => sprintf( __( 'Go to <a href="%s">Site Identity</a> to manage your site\'s logo', 'hello-elementor' ), wp_nonce_url( 'customize.php?autofocus[section]=title_tagline' ) ),
-				'size_units' => [
-					'%',
-					'px',
-					'vh',
-				],
+				'description' => sprintf(
+					/* translators: %s: Link that opens Elementor's "Site Identity" panel. */
+					__( 'Go to <a href="%s">Site Identity</a> to manage your site\'s logo', 'hello-elementor' ),
+					"javascript:\$e.route('panel/global/settings-site-identity')"
+				),
+				'size_units' => [ '%', 'px', 'em', 'rem', 'vw', 'custom' ],
 				'range' => [
 					'px' => [
 						'max' => 1000,
-						'step' => 1,
 					],
-					'%' => [
+					'em' => [
 						'max' => 100,
-						'step' => 1,
+					],
+					'rem' => [
+						'max' => 100,
 					],
 				],
 				'condition' => [
@@ -277,7 +274,11 @@ class Settings_Footer extends Tab_Base {
 			'hello_footer_title_link',
 			[
 				'type' => Controls_Manager::RAW_HTML,
-				'raw' => sprintf( __( 'Go to <a href="%s">Site Identity</a> to manage your site\'s title and tagline', 'hello-elementor' ), wp_nonce_url( 'customize.php?autofocus[section]=title_tagline' ) ),
+				'raw' => sprintf(
+					/* translators: %s: Link that opens Elementor's "Site Identity" panel. */
+					__( 'Go to <a href="%s">Site Identity</a> to manage your site\'s title', 'hello-elementor' ),
+					"javascript:\$e.route('panel/global/settings-site-identity')"
+				),
 				'content_classes' => 'elementor-control-field-description',
 				'condition' => [
 					'hello_footer_logo_display' => 'yes',
@@ -329,7 +330,11 @@ class Settings_Footer extends Tab_Base {
 			'hello_footer_tagline_link',
 			[
 				'type' => Controls_Manager::RAW_HTML,
-				'raw' => sprintf( __( 'Go to <a href="%s">Site Identity</a> to manage your site\'s title and tagline', 'hello-elementor' ), wp_nonce_url( 'customize.php?autofocus[section]=title_tagline' ) ),
+				'raw' => sprintf(
+					/* translators: %s: Link that opens Elementor's "Site Identity" panel. */
+					__( 'Go to <a href="%s">Site Identity</a> to manage your site\'s tagline', 'hello-elementor' ),
+					"javascript:\$e.route('panel/global/settings-site-identity')"
+				),
 				'content_classes' => 'elementor-control-field-description',
 			]
 		);
@@ -482,7 +487,7 @@ class Settings_Footer extends Tab_Base {
 						<p class="elementor-panel-heading-title elementor-nerd-box-title">%1$s</p>
 						<p>%2$s</p>
 					</div>
-					<a class="elementor-button elementor-button-default elementor-nerd-box-link" target="_blank" href="https://go.elementor.com/hello-theme-footer/">%3$s</a>
+					<a class="elementor-button go-pro" target="_blank" href="https://go.elementor.com/hello-theme-footer/">%3$s</a>
 				</div>
 				',
 				esc_html__( 'Create a custom footer with multiple options', 'hello-elementor' ),
@@ -498,7 +503,7 @@ class Settings_Footer extends Tab_Base {
 						<p class="elementor-panel-heading-title elementor-nerd-box-title">%1$s</p>
 						<p class="elementor-nerd-box-message">%2$s</p>
 					</div>
-					<a class="elementor-button elementor-button-success elementor-nerd-box-link" target="_blank" href="%5$s">%3$s</a>
+					<a class="elementor-button e-primary" target="_blank" href="%5$s">%3$s</a>
 				</div>
 				',
 				esc_html__( 'Create a custom footer with the new Theme Builder', 'hello-elementor' ),

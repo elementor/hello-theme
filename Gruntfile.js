@@ -4,7 +4,7 @@
 'use strict';
 
 module.exports = function( grunt ) {
-	require( 'matchdep' ).filterDev( 'grunt-*' ).forEach( grunt.loadNpmTasks );
+	require( 'load-grunt-tasks' )( grunt );
 
 	const sass = require( 'sass' );
 
@@ -39,9 +39,7 @@ module.exports = function( grunt ) {
 					//map: true,
 
 					processors: [
-						require( 'autoprefixer' )( {
-							browsers: [ 'last 3 versions', 'not dead' ],
-						} ),
+						require( 'autoprefixer' )(),
 					],
 				},
 				files: [ {
@@ -54,9 +52,7 @@ module.exports = function( grunt ) {
 			minify: {
 				options: {
 					processors: [
-						require( 'autoprefixer' )( {
-							browsers: [ 'last 3 versions', 'not dead' ],
-						} ),
+						require( 'autoprefixer' )(),
 						require( 'cssnano' )( {
 							reduceIdents: false,
 							zindex: false,

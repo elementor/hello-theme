@@ -11,7 +11,7 @@ jobs:
       prev_version: ${{ steps.bump_version_step.outputs.prev_version }}
     steps:
       - name: Checkout develop branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           token: ${{ secrets.MAINTAIN_TOKEN }}
           ref: develop
