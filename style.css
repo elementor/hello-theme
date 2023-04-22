@@ -6,10 +6,10 @@ Author: Jezweb
 Author URI: https://www.jezweb.com.au/
 Text Domain: elementor-hello-theme
 Details URI: https://zoro.com.au/theme_updater_versions/versionreadme.txt
-Version: 1.4.4
+Version: 1.4.6
 Stable tag: 1.0
-Requires at least: 5.0
-Tested up to: 5.7
+Requires at least: 6.0
+Tested up to: 6.2
 License: GNU General Public License v3 or later.
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -179,4 +179,11 @@ ul, ol{
 /* Elementor gallery line fix */
 .elementor-lightbox .elementor-swiper-button:focus {
 	outline-width: 0px;
+}
+
+/* Mobile usability fixes */
+:where(body, iframe, pre, img, svg, video, canvas, select) {
+	max-width: 100%;
+	overflow: auto;
+	word-break: break-word;
 }

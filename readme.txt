@@ -2,7 +2,7 @@
 Contributors: Jezweb
 Requires at least: WordPress 5.0
 Tested up to: WordPress 5.7.2
-Version: 1.4.5
+Version: 1.4.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,6 +27,12 @@ Elementor (Pro)
 Source: https://elementor.com
 
 == Changelog ==
+
+= 1.4.6 - 2023-4-23 =
+* New: Post/Page content duplicator feature
+* New: Login error message customized
+* Fix: Undefined object on page edit nodes
+* Fix: Added CSS snippet for mobile usability issues(SEO)
 
 = 1.4.5 - 2021-7-6 =
 * New: Hide Jetpack notice (Woocommerce Services plugin)

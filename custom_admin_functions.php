@@ -128,11 +128,18 @@ function custom_jw_remove_admin_menu_items( $wp_admin_bar ) {
 
     if( is_page() ) {
       $getpageedit = $wp_admin_bar->get_node( 'edit' );
-      $pageedit_title = str_replace( 'Edit Page', 'Page Settings', $getpageedit->title );
-      $wp_admin_bar->add_node( array( 'id' => 'edit', 'title' => $pageedit_title ) );
+
+      if( isset( $getpageedit->title ) ) {
+        $pageedit_title = str_replace( 'Edit Page', 'Page Settings', $getpageedit->title );
+        $wp_admin_bar->add_node( array( 'id' => 'edit', 'title' => $pageedit_title ) );
+      }
+
       $getelemeditpage = $wp_admin_bar->get_node( 'elementor_edit_page' );
-      $elemeditpage_title = str_replace( 'Edit', 'Edit Page', $getelemeditpage->title );
-      $wp_admin_bar->add_node( array( 'id' => 'elementor_edit_page', 'title' => $elemeditpage_title ) );
+
+      if( isset( $getelemeditpage->title ) ) {
+        $elemeditpage_title = str_replace( 'Edit', 'Edit Page', $getelemeditpage->title );
+        $wp_admin_bar->add_node( array( 'id' => 'elementor_edit_page', 'title' => $elemeditpage_title ) );
+      }
     }
   }
 
@@ -276,3 +283,11 @@ function custom_woo_catalog_order_option( $sortby ) {
   $sortby['alphabetical'] = __( 'Sort by alphabetical' );
   return $sortby;
 }
+
+// 23-04-2023 Code - Login error message
+add_filter( 'login_errors', function(){
+  return 'Something is wrong!';
+});
+
+// 23-04-2023 code - Duplicate post
+include_once( 'includes/post-duplicator.php' );
