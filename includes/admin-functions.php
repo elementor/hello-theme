@@ -59,9 +59,6 @@ function hello_elementor_fail_load_admin_notice() {
 			display: flex;
 			padding: 0px;
 		}
-		.rtl .notice.hello-elementor-notice {
-			border-inline-end-color: #9b0a46 !important;
-		}
 		.notice.hello-elementor-notice .hello-elementor-notice-aside {
 			width: 50px;
 			display: flex;
