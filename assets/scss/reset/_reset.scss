@@ -292,9 +292,10 @@ template {
 	pre {
 		white-space: pre-wrap !important;
 	}
+
 	pre,
 	blockquote {
-		page-break-inside: avoid;
+		break-inside: avoid;
 		border: 1px solid $gray-light;
 	}
 
@@ -304,7 +305,7 @@ template {
 
 	tr,
 	img {
-		page-break-inside: avoid;
+		break-inside: avoid;
 	}
 
 	p,
@@ -316,6 +317,6 @@ template {
 
 	h2,
 	h3 {
-		page-break-after: avoid;
+		break-after: avoid;
 	}
 }
