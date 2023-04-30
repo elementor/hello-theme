@@ -73,7 +73,7 @@ class Elementor_Upsell extends \WP_Customize_Control {
 		} elseif ( ! hello_header_footer_experiment_active() ) {
 			$customizer_content .= $this->get_customizer_upsell_html(
 				esc_html__( 'Set Your Header &amp; Footer', 'hello-elementor' ),
-				esc_html__( 'Create cross-site Header and Footer using Elementor & Hello theme.', 'hello-elementor' ),
+				esc_html__( 'Create a cross-site Header and Footer using Elementor & Hello theme.', 'hello-elementor' ),
 				wp_nonce_url( 'admin.php?page=elementor#tab-experiments' ),
 				esc_html__( 'Activate Now', 'hello-elementor' ),
 				get_template_directory_uri() . '/assets/images/go-pro.svg'
@@ -81,7 +81,7 @@ class Elementor_Upsell extends \WP_Customize_Control {
 		} else {
 			$customizer_content .= $this->get_customizer_upsell_html(
 				esc_html__( 'Set Your Header &amp; Footer', 'hello-elementor' ),
-				esc_html__( 'Create cross-site Header and Footer using Elementor & Hello theme.', 'hello-elementor' ),
+				esc_html__( 'Create a cross-site Header and Footer using Elementor & Hello theme.', 'hello-elementor' ),
 				wp_nonce_url( 'post.php?post=' . get_option( 'elementor_active_kit' ) . '&action=elementor' ),
 				esc_html__( 'Start Here', 'hello-elementor' ),
 				get_template_directory_uri() . '/assets/images/go-pro.svg'
