@@ -1,6 +1,6 @@
 /*
  * Inspired by Normalize.css, HTML5 Boilerplate & Bootstrap Reboot Projects under MIT License
-*/
+ */
 
 /**
  * Document basic styling
@@ -257,17 +257,6 @@ template {
 	display: none;
 }
 
-.sr-only {
-	position: absolute;
-	width: 1px;
-	height: 1px;
-	padding: 0;
-	overflow: hidden;
-	clip: rect(0, 0, 0, 0);
-	white-space: nowrap;
-	border: 0;
-}
-
 /* Print
  */
 
@@ -303,9 +292,10 @@ template {
 	pre {
 		white-space: pre-wrap !important;
 	}
+
 	pre,
 	blockquote {
-		page-break-inside: avoid;
+		break-inside: avoid;
 		border: 1px solid $gray-light;
 	}
 
@@ -315,7 +305,7 @@ template {
 
 	tr,
 	img {
-		page-break-inside: avoid;
+		break-inside: avoid;
 	}
 
 	p,
@@ -327,6 +317,6 @@ template {
 
 	h2,
 	h3 {
-		page-break-after: avoid;
+		break-after: avoid;
 	}
 }
