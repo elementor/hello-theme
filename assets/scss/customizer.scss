@@ -39,7 +39,7 @@
 }
 
 .create-logo-desc {
-	margin-top: 10px;
+	margin-block-start: 10px;
 	padding: 10px;
 	background: white;
 	font-style: italic;
@@ -47,10 +47,10 @@
 	+ .actions {
 		background: white;
 		padding: 0 10px 10px;
-		margin-bottom: 15px;
+		margin-block-end: 15px;
 
 		.button {
-			margin-top: 0;
+			margin-block-start: 0;
 			width: 100%;
 			text-align: center;
 		}
