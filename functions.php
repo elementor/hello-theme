@@ -209,7 +209,7 @@ if ( ! function_exists( 'hello_elementor_add_description_meta_tag' ) ) {
 	function hello_elementor_add_description_meta_tag() {
 		$post = get_queried_object();
 
-		if ( is_singular() && !empty( $post->post_excerpt ) ) {
+		if ( is_singular() && ! empty( $post->post_excerpt ) ) {
 			echo '<meta name="description" content="' . esc_attr( wp_strip_all_tags( $post->post_excerpt ) ) . '">' . "\n";
 		}
 	}
