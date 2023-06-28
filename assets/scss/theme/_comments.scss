@@ -18,8 +18,10 @@
 		.comment-body {
 			display: flex;
 			flex-direction: column;
-			padding-block: 30px;
-			padding-inline: 60px 0;
+			padding-block-start: 30px;
+			padding-block-end: 30px;
+			padding-inline-start: 0;
+			padding-inline-end: 60px;
 			border-block-end: 1px solid $gray-light;
 		}
 
