@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-define( 'HELLO_ELEMENTOR_VERSION', '2.7.1' );
+define( 'HELLO_ELEMENTOR_VERSION', '2.8.0' );
 
 if ( ! isset( $content_width ) ) {
 	$content_width = 800; // Pixels.
