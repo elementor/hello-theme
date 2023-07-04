@@ -36,7 +36,7 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
 
-= 2.8.0 - 2023-07-05 =
+= 2.8.0 - 2023-07-04 =
 * Tweak: Update `Requires PHP 7.0`
 * Tweak: Added description meta tag with excerpt text
 * Tweak: Use CSS logical properties rather than physical properties
