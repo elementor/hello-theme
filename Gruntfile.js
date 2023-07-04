@@ -119,23 +119,10 @@ module.exports = function( grunt ) {
 				expand: true,
 			},
 		},
-
-		wp_readme_to_markdown: {
-			readme: {
-				files: {
-					'README.md': 'readme.txt',
-				},
-			},
-		},
-
 	} );
 
 	grunt.registerTask( 'i18n', [
 		'checktextdomain',
-	] );
-
-	grunt.registerTask( 'wp_readme', [
-		'wp_readme_to_markdown',
 	] );
 
 	grunt.registerTask( 'styles', [
@@ -147,6 +134,5 @@ module.exports = function( grunt ) {
 	grunt.registerTask( 'default', [
 		'i18n',
 		'styles',
-		'wp_readme',
 	] );
 };
