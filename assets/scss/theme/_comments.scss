@@ -33,6 +33,7 @@
 
 			@at-root {
 
+				html[dir="rtl"] &,
 				body.rtl & {
 					left: auto;
 					right: 0;
@@ -79,6 +80,7 @@
 
 			@at-root {
 
+				html[dir="rtl"] &,
 				body.rtl & {
 					content: '\21A9';
 					left: auto;
@@ -112,6 +114,7 @@
 
 			@at-root {
 
+				html[dir="rtl"] &,
 				body.rtl & {
 					float: right;
 				}
