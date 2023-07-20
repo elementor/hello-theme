@@ -207,7 +207,7 @@ if ( ! function_exists( 'hello_elementor_add_description_meta_tag' ) ) {
 	 * @return void
 	 */
 	function hello_elementor_add_description_meta_tag() {
-		$enable_description_meta_tag = get_theme_mod( 'hello_elementor_description_meta_tag_settings' );
+		$enable_description_meta_tag = get_theme_mod( 'hello_elementor_description_meta_tag' );
 		if ( true !== $enable_description_meta_tag ) {
 			return;
 		}

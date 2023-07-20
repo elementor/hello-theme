@@ -11,17 +11,43 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 add_action( 'customize_register', 'hello_customizer_register' );
 function hello_customizer_register( $wp_customize ) {
-	// Header & Footer section
+
+	// Theme settings section
 
 	require get_template_directory() . '/includes/customizer/elementor-upsell.php';
 
 	$wp_customize->add_section(
 		'hello_theme_options',
 		[
-			'title' => esc_html__( 'Header &amp; Footer', 'hello-elementor' ),
+			'title' => esc_html__( 'Theme Settings', 'hello-elementor' ),
+			'description' => esc_html__( 'Customize your Hello Elementor theme settings.', 'hello-elementor' ),
+			'description_hidden' => false,
 			'capability' => 'edit_theme_options',
 		]
 	);
+
+	// Description meta tag
+
+	$wp_customize->add_setting(
+		'hello_elementor_description_meta_tag',
+		[
+			'sanitize_callback' => false,
+			'transport' => 'refresh',
+		]
+	);
+
+	$wp_customize->add_control(
+		'hello_elementor_description_meta_tag_control',
+		[
+			'label' => esc_html__( 'Enable description meta tag', 'hello-elementor' ),
+			'default' => true,
+			'type' => 'checkbox',
+			'section' => 'hello_theme_options',
+			'settings' => 'hello_elementor_description_meta_tag',
+		]
+	);
+
+	// Header & Footer promotion
 
 	$wp_customize->add_setting(
 		'hello-elementor-header-footer',
@@ -40,34 +66,6 @@ function hello_customizer_register( $wp_customize ) {
 				'priority' => 20,
 			]
 		)
-	);
-
-	// Settings section
-
-	$wp_customize->add_section(
-		'hello_elementor_theme_section',
-		[
-			'title' => esc_html__( 'Hello Elementor Theme', 'hello-elementor' ),
-			'capability' => 'edit_theme_options',
-		]
-	);
-
-	$wp_customize->add_setting(
-		'hello_elementor_description_meta_tag_settings',
-		[
-			'sanitize_callback' => false,
-			'transport' => 'refresh',
-		]
-	);
-
-	$wp_customize->add_control(
-		'hello_elementor_description_meta_tag_control',
-		[
-			'label' => esc_html__( 'Enable description meta tag', 'hello-elementor' ),
-			'type' => 'checkbox',
-			'section' => 'hello_elementor_theme_section',
-			'settings' => 'hello_elementor_description_meta_tag_settings',
-		]
 	);
 }
 
