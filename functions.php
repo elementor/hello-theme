@@ -208,7 +208,7 @@ if ( ! function_exists( 'hello_elementor_add_description_meta_tag' ) ) {
 	 */
 	function hello_elementor_add_description_meta_tag() {
 		$enable_description_meta_tag = get_theme_mod( 'hello_elementor_description_meta_tag_settings' );
-		if ( $enable_description_meta_tag !== true ) {
+		if ( true !== $enable_description_meta_tag ) {
 			return;
 		}
 
