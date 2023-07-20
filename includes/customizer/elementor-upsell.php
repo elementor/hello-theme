@@ -62,14 +62,6 @@ class Elementor_Upsell extends \WP_Customize_Control {
 				esc_html__( 'Activate Elementor', 'hello-elementor' ),
 				get_template_directory_uri() . '/assets/images/go-pro.svg'
 			);
-		} elseif ( defined( 'ELEMENTOR_VERSION' ) && version_compare( ELEMENTOR_VERSION, '3.0.12', '<' ) ) {
-			$customizer_content .= $this->get_customizer_upsell_html(
-				esc_html__( 'Update Elementor', 'hello-elementor' ),
-				esc_html__( 'You need Elementor version 3.1.0 or above to create a cross-site Header and Footer.', 'hello-elementor' ),
-				wp_nonce_url( 'update-core.php' ),
-				esc_html__( 'Update Elementor', 'hello-elementor' ),
-				get_template_directory_uri() . '/assets/images/go-pro.svg'
-			);
 		} elseif ( ! hello_header_footer_experiment_active() ) {
 			$customizer_content .= $this->get_customizer_upsell_html(
 				esc_html__( 'Set Your Header &amp; Footer', 'hello-elementor' ),
