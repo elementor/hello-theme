@@ -207,11 +207,21 @@ if ( ! function_exists( 'hello_elementor_add_description_meta_tag' ) ) {
 	 * @return void
 	 */
 	function hello_elementor_add_description_meta_tag() {
-		$post = get_queried_object();
-
-		if ( is_singular() && ! empty( $post->post_excerpt ) ) {
-			echo '<meta name="description" content="' . esc_attr( wp_strip_all_tags( $post->post_excerpt ) ) . '">' . "\n";
+		$enable_description_meta_tag = get_theme_mod( 'hello_elementor_description_meta_tag_settings' );
+		if( $enable_description_meta_tag !== true ) {
+			return;
 		}
+
+		if( ! is_singular() ) {
+			return;
+		}
+			
+		$post = get_queried_object();
+		if ( empty( $post->post_excerpt ) ) {
+			return;
+		}
+
+		echo '<meta name="description" content="' . esc_attr( wp_strip_all_tags( $post->post_excerpt ) ) . '">' . "\n";
 	}
 }
 add_action( 'wp_head', 'hello_elementor_add_description_meta_tag' );

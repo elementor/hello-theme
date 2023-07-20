@@ -5,12 +5,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Register Customizer controls which add Elementor deeplinks
+ * Register Customizer controls for Hello Elementor theme.
  *
  * @return void
  */
 add_action( 'customize_register', 'hello_customizer_register' );
 function hello_customizer_register( $wp_customize ) {
+	// Header & Footer section
+
 	require get_template_directory() . '/includes/customizer/elementor-upsell.php';
 
 	$wp_customize->add_section(
@@ -38,6 +40,34 @@ function hello_customizer_register( $wp_customize ) {
 				'priority' => 20,
 			]
 		)
+	);
+
+	// Settings section
+
+	$wp_customize->add_section(
+		'hello_elementor_theme_section',
+		[
+			'title' => esc_html__( 'Hello Elementor Theme', 'hello-elementor' ),
+			'capability' => 'edit_theme_options',
+		]
+	);
+
+	$wp_customize->add_setting(
+		'hello_elementor_description_meta_tag_settings',
+		[
+			'sanitize_callback' => false,
+			'transport' => 'refresh',
+		]
+	);
+
+	$wp_customize->add_control(
+		'hello_elementor_description_meta_tag_control',
+		[
+			'label' => esc_html__( 'Enable description meta tag', 'hello-elementor' ),
+			'type' => 'checkbox',
+			'section' => 'hello_elementor_theme_section',
+			'settings' => 'hello_elementor_description_meta_tag_settings',
+		]
 	);
 }
 
