@@ -98,7 +98,7 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 * Fix: Fatal error when kit doesn't exist or needs to be recreated ([#175](https://github.com/elementor/hello-theme/issues/175))
 
 = 2.5.0 - 2022-01-26 =
-* Tweak: Added keyboard navigation to Hello theme menus
+* Tweak: Added keyboard navigation to Hello Elementor theme menus
 * Tweak: Added Skip Links and `#content` for the main wrapper for better accessibility ([#133](https://github.com/elementor/hello-theme/issues/133))
 * Tweak: Added underline for text links in Post Content for better accessibility
 * Tweak: Removed `outline: none` from inputs for better accessibility
@@ -107,11 +107,11 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 = 2.4.2 - 2021-12-20 =
 * Tweak: Use HTTPS in XFN profile link to prevent mixed content error ([Topic](https://wordpress.org/support/topic/url-scheme-in-xfn-profile-link/))
 * Tweak: Remove comments in `style.min.css` output ([#179](https://github.com/elementor/hello-theme/issues/179))
-* Tweak: Promoted Hello Theme Header & Footer experiment status to Stable
+* Tweak: Promoted Hello Elementor theme Header & Footer experiment status to Stable
 * Tweak: Added compatibility for upcoming WordPress version 5.9
 
 = 2.4.1 - 2021-07-07 =
-* Fix: Hello Theme Header & Footer experiment should be inactive for existing sites
+* Fix: Hello Elementor theme Header & Footer experiment should be inactive for existing sites
 
 = 2.4.0 - 2021-06-29 =
 * New: Introducing Header and Footer site elements as an Elementor Experiment

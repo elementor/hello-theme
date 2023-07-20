@@ -199,7 +199,7 @@ function hello_get_footer_display() {
 }
 
 /**
- * Add Hello Theme Header & Footer to Experiments.
+ * Add Hello Elementor theme Header & Footer to Experiments.
  */
 add_action( 'elementor/experiments/default-features-registered', function( \Elementor\Core\Experiments\Manager $experiments_manager ) {
 	$experiments_manager->add_feature( [
