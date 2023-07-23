@@ -2,7 +2,7 @@
  * Customizer editor styling
  */
 
-#accordion-section-hello_theme_options .accordion-section-title {
+#accordion-section-hello_elementor .accordion-section-title {
 	color: #c36;
 
 	&:after {
@@ -10,17 +10,17 @@
 	}
 }
 
-#sub-accordion-section-hello_theme_options.accordion-section-content {
+#sub-accordion-section-hello_elementor.accordion-section-content {
 	background: #fff;
 }
 
-#customize-control-hello-elementor-header-footer {
-	margin-top: 10px;
-	border-top: 1px solid #ddd;
-	padding-top: 20px;
+#customize-control-hello_elementor_header_footer {
+	margin-block-start: 10px;
+	padding-block-start: 20px;
+	border-block-start: 1px solid #ddd;
 
 	.customize-control-header-footer-holder {
-	 	margin: 12px auto 12px;
+	 	margin: 12px auto;
 	 	max-width: 300px;
 		text-align: center;
 	}
@@ -31,25 +31,6 @@
 	}
 
 	.elementor-section-body {
-		margin: .1em 0 1.3em;
-	}
-}
-
-.create-logo-desc {
-	margin-block-start: 10px;
-	padding: 10px;
-	background: white;
-	font-style: italic;
-
-	+ .actions {
-		background: white;
-		padding: 0 10px 10px;
-		margin-block-end: 15px;
-
-		.button {
-			margin-block-start: 0;
-			width: 100%;
-			text-align: center;
-		}
+		margin: 0 0 16px;
 	}
 }

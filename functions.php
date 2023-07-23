@@ -182,19 +182,24 @@ add_action( 'init', 'hello_register_customizer_functions' );
 
 if ( ! function_exists( 'hello_elementor_check_hide_title' ) ) {
 	/**
-	 * Check hide title.
+	 * Check whether to display the page title.
 	 *
 	 * @param bool $val default value.
 	 *
 	 * @return bool
 	 */
 	function hello_elementor_check_hide_title( $val ) {
+		if ( '1' === get_option( 'hello_elementor_disable_page_title' ) ) {
+			$val = false;
+		}
+
 		if ( defined( 'ELEMENTOR_VERSION' ) ) {
 			$current_doc = Elementor\Plugin::instance()->documents->get( get_the_ID() );
 			if ( $current_doc && 'yes' === $current_doc->get_settings( 'hide_title' ) ) {
 				$val = false;
 			}
 		}
+
 		return $val;
 	}
 }
@@ -207,8 +212,7 @@ if ( ! function_exists( 'hello_elementor_add_description_meta_tag' ) ) {
 	 * @return void
 	 */
 	function hello_elementor_add_description_meta_tag() {
-		$enable_description_meta_tag = get_theme_mod( 'hello_elementor_description_meta_tag' );
-		if ( true !== $enable_description_meta_tag ) {
+		if ( '1' === get_option( 'hello_elementor_disable_description_meta_tag' ) ) {
 			return;
 		}
 
