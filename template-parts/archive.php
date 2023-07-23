@@ -22,10 +22,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	<div class="page-content">
 		<?php
-		var_dump( get_option( 'hello_elementor_description_meta_tag' ) );
-		var_dump( get_option( 'hello_elementor_page_title' ) );
-		echo 'descr' . get_option( 'hello_elementor_description_meta_tag' ) . '<br>';
-		echo 'title' . get_option( 'hello_elementor_page_title' ) . '<br>';
 		while ( have_posts() ) {
 			the_post();
 			$post_link = get_permalink();
