@@ -92,7 +92,7 @@ function hello_customizer_register( $wp_customize ) {
 }
 
 function hello_customizer_sanitize_checkbox( $checked ) {
-	return $checked == '1' ? '1' : '';
+	return '1' == $checked ? '1' : '';
 }
 
 /**
