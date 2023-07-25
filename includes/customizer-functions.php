@@ -32,7 +32,7 @@ function hello_customizer_register( $wp_customize ) {
 		[
 			'type' => 'theme_mod',
 			'default' => 'off',
-			'transport'=>'postMessage',
+			'transport' => 'postMessage',
 			'capability' => 'edit_theme_options',
 		]
 	);
@@ -59,7 +59,7 @@ function hello_customizer_register( $wp_customize ) {
 		[
 			'type' => 'theme_mod',
 			'default' => 'on',
-			'transport'=>'postMessage',
+			'transport' => 'postMessage',
 			'capability' => 'edit_theme_options',
 		]
 	);
