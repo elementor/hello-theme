@@ -36,6 +36,13 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
 
+= 2.8.2 - 2023-07-26 =
+Tweak: Disable description meta tag for backwards compatibility
+Tweak: Added customizer control to enable/disable description meta tag
+Tweak: Added customizer control to enable/disable skip links
+Tweak: Added customizer control to enable/disable page title
+Tweak: Remove upsell messages for Elementor v3.0.12 and bellow
+
 = 2.8.1 - 2023-07-05 =
 * Tweak: Added additional CSS selectors to apply RTL on comments
 * Fix: Comment area style regression
