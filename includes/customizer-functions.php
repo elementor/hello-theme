@@ -17,11 +17,10 @@ function hello_customizer_register( $wp_customize ) {
 	require get_template_directory() . '/includes/customizer/elementor-upsell.php';
 
 	$wp_customize->add_section(
-		'hello_theme_options',
+		'hello_elementor',
 		[
 			'title' => esc_html__( 'Theme Settings', 'hello-elementor' ),
-			'description' => esc_html__( 'Customize your Hello Elementor theme settings.', 'hello-elementor' ),
-			'description_hidden' => false,
+			'description' => esc_html__( 'Customize your Hello theme settings.', 'hello-elementor' ),
 			'capability' => 'edit_theme_options',
 		]
 	);
@@ -29,46 +28,101 @@ function hello_customizer_register( $wp_customize ) {
 	// Description meta tag
 
 	$wp_customize->add_setting(
-		'hello_elementor_description_meta_tag',
+		'description_meta_tag',
 		[
-			'sanitize_callback' => false,
-			'transport' => 'refresh',
+			'type' => 'theme_mod',
+			'default' => 'off',
+			'transport' => 'postMessage',
+			'capability' => 'edit_theme_options',
 		]
 	);
 
 	$wp_customize->add_control(
-		'hello_elementor_description_meta_tag_control',
+		'description_meta_tag',
 		[
-			'label' => esc_html__( 'Enable description meta tag', 'hello-elementor' ),
-			'default' => true,
-			'type' => 'checkbox',
-			'section' => 'hello_theme_options',
-			'settings' => 'hello_elementor_description_meta_tag',
+			'label' => esc_html__( 'Description meta tag', 'hello-elementor' ),
+			'description' => esc_html__( 'Meta tag in the `<head>` containing the post/page excerpt.', 'hello-elementor' ),
+			'type' => 'radio',
+			'choices' => [
+				'on' => esc_html__( 'Enable', 'hello-elementor' ),
+				'off' => esc_html__( 'Disable', 'hello-elementor' ),
+			],
+			'section' => 'hello_elementor',
+			'settings' => 'description_meta_tag',
+		]
+	);
+
+	// Skip Links
+
+	$wp_customize->add_setting(
+		'skip_link',
+		[
+			'type' => 'theme_mod',
+			'default' => 'on',
+			'transport' => 'postMessage',
+			'capability' => 'edit_theme_options',
+		]
+	);
+
+	$wp_customize->add_control(
+		'skip_link',
+		[
+			'label' => esc_html__( 'Skip link', 'hello-elementor' ),
+			'description' => esc_html__( 'A link to the main content used by screen-reader users.', 'hello-elementor' ),
+			'type' => 'radio',
+			'choices' => [
+				'on' => esc_html__( 'Enable', 'hello-elementor' ),
+				'off' => esc_html__( 'Disable', 'hello-elementor' ),
+			],
+			'section' => 'hello_elementor',
+			'settings' => 'skip_link',
+		]
+	);
+
+	// Page titles
+
+	$wp_customize->add_setting(
+		'page_title',
+		[
+			'type' => 'theme_mod',
+			'default' => 'on',
+			'capability' => 'edit_theme_options',
+		]
+	);
+
+	$wp_customize->add_control(
+		'page_title',
+		[
+			'label' => esc_html__( 'Page title', 'hello-elementor' ),
+			'description' => esc_html__( 'A section above the content contaning the `<h1>` heading of the page.', 'hello-elementor' ),
+			'type' => 'radio',
+			'choices' => [
+				'on' => esc_html__( 'Enable', 'hello-elementor' ),
+				'off' => esc_html__( 'Disable', 'hello-elementor' ),
+			],
+			'section' => 'hello_elementor',
+			'settings' => 'page_title',
 		]
 	);
 
 	// Header & Footer promotion
 
 	$wp_customize->add_setting(
-		'hello-elementor-header-footer',
-		[
-			'sanitize_callback' => false,
-			'transport' => 'refresh',
-		]
+		'hello_elementor_header_footer',
+		[]
 	);
 
 	$wp_customize->add_control(
 		new HelloElementor\Includes\Customizer\Elementor_Upsell(
 			$wp_customize,
-			'hello-elementor-header-footer',
+			'hello_elementor_header_footer',
 			[
-				'section' => 'hello_theme_options',
+				'section' => 'hello_elementor',
 				'priority' => 20,
 			]
 		)
 	);
 }
-
 
 /**
  * Enqueue Customiser CSS
