@@ -217,61 +217,16 @@ if ( ! function_exists( 'hello_elementor_check_hide_title' ) ) {
 	 * @return bool
 	 */
 	function hello_elementor_check_hide_title( $val ) {
-		if ( 'off' === get_theme_mod( 'page_title' ) ) {
-			$val = false;
-		}
-
 		if ( defined( 'ELEMENTOR_VERSION' ) ) {
 			$current_doc = Elementor\Plugin::instance()->documents->get( get_the_ID() );
 			if ( $current_doc && 'yes' === $current_doc->get_settings( 'hide_title' ) ) {
 				$val = false;
 			}
 		}
-
 		return $val;
 	}
 }
 add_filter( 'hello_elementor_page_title', 'hello_elementor_check_hide_title' );
-
-if ( ! function_exists( 'hello_elementor_check_skip_link' ) ) {
-	/**
-	 * Check whether to add a link to main content for screen-reader users.
-	 *
-	 * @param bool $val default value.
-	 *
-	 * @return bool
-	 */
-	function hello_elementor_check_skip_link( $val ) {
-		if ( 'off' === get_theme_mod( 'skip_link' ) ) {
-			$val = false;
-		}
-
-		return $val;
-	}
-}
-add_filter( 'hello_elementor_enable_skip_link', 'hello_elementor_check_skip_link' );
-
-if ( ! function_exists( 'hello_elementor_check_description_meta_tag' ) ) {
-	/**
-	 * Check whether to add the description meta tag.
-	 *
-	 * @param bool $val default value.
-	 *
-	 * @return bool
-	 */
-	function hello_elementor_check_description_meta_tag( $val ) {
-		if ( ! get_theme_mod( 'description_meta_tag' ) ) {
-			$val = false;
-		}
-
-		if ( 'off' === get_theme_mod( 'description_meta_tag' ) ) {
-			$val = false;
-		}
-
-		return $val;
-	}
-}
-add_filter( 'hello_elementor_description_meta_tag', 'hello_elementor_check_description_meta_tag' );
 
 /**
  * BC:
