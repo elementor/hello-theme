@@ -341,7 +341,7 @@ class Settings_Panel {
 		$option = get_option( $this->settings_group . '_jquery_migrate' );
 		if ( isset( $option ) && ( 'true' === $option ) ) {
 			add_action( 'wp_enqueue_scripts', function() {
-				wp_deregister_script('jquery-migrate');
+				wp_deregister_script( 'jquery-migrate' );
 			}, 99 );
 		}
 
@@ -349,7 +349,7 @@ class Settings_Panel {
 		if ( isset( $option ) && ( 'true' === $option ) ) {
 			remove_action( 'wp_head', 'wp_oembed_add_host_js' );
 			add_action( 'wp_enqueue_scripts', function() {
-				wp_deregister_script('wp-embed');
+				wp_deregister_script( 'wp-embed' );
 			}, 99 );
 		}
 

@@ -11,7 +11,6 @@ import {
 	Spinner,
 	ToggleControl,
 	SnackbarList,
-	Dashicon,
 } from '@wordpress/components';
 
 const Notices = () => {
