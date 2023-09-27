@@ -4,6 +4,7 @@
  * @package
  */
 const path = require( 'path' );
+const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
 
 const CopyPlugin = require( 'copy-webpack-plugin' );
 const TerserPlugin = require( 'terser-webpack-plugin' );
@@ -45,6 +46,7 @@ const copyPluginConfig = new CopyPlugin( {
 
 const moduleRules = {
 	rules: [
+		...defaultConfig.module.rules,
 		{
 			test: /\.js$/,
 			exclude: /node_modules/,
@@ -52,7 +54,7 @@ const moduleRules = {
 				{
 					loader: 'babel-loader',
 					options: {
-						presets: [ '@babel/preset-env' ],
+						presets: [ '@babel/preset-env', '@babel/preset-react' ],
 						plugins: [
 							[ '@babel/plugin-proposal-class-properties' ],
 							[ '@babel/plugin-transform-runtime' ],
@@ -69,9 +71,11 @@ const moduleRules = {
 const entry = {
 	'hello-editor': path.resolve( __dirname, './assets/dev/js/editor/hello-editor.js' ),
 	'hello-frontend': path.resolve( __dirname, './assets/dev/js/frontend/hello-frontend.js' ),
+	'hello-admin': path.resolve( __dirname, './assets/dev/js/admin/hello-admin.js' ),
 };
 
 const webpackConfig = {
+	...defaultConfig,
 	target: 'web',
 	context: __dirname,
 	module: moduleRules,
@@ -85,6 +89,7 @@ const webpackConfig = {
 };
 
 const webpackProductionConfig = {
+	...defaultConfig,
 	target: 'web',
 	context: __dirname,
 	module: moduleRules,
@@ -141,7 +146,7 @@ module.exports = ( env ) => {
 	}
 
 	if ( env.development ) {
-		return { ...webpackConfig, plugins: [ copyPluginConfig ] };
+		return { ...webpackConfig, plugins: [ copyPluginConfig, ...defaultConfig ] };
 	}
 
 	throw new Error( 'missing or invalid --env= development/production/developmentWithWatch/productionWithWatch' );

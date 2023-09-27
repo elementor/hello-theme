@@ -184,6 +184,19 @@ if ( ! function_exists( 'hello_elementor_add_description_meta_tag' ) ) {
 }
 add_action( 'wp_head', 'hello_elementor_add_description_meta_tag' );
 
+if ( ! function_exists( 'hello_elementor_settings_panel' ) ) {
+	/**
+	 * Add theme settings panel.
+	 *
+	 * @return void
+	 */
+	function hello_elementor_settings_panel() {
+		include_once get_template_directory() . '/includes/settings/settings-panel.php';
+		new HelloElementor\Includes\Settings\Settings_Panel();
+	}
+}
+add_action( 'init', 'hello_elementor_settings_panel', 0 );
+
 if ( is_admin() ) {
 	require get_template_directory() . '/includes/admin-functions.php';
 }
@@ -194,16 +207,6 @@ if ( is_admin() ) {
 
 // Allow active/inactive via the Experiments
 require get_template_directory() . '/includes/elementor-functions.php';
-
-/**
- * Include customizer registration functions
-*/
-function hello_register_customizer_functions() {
-	if ( is_customize_preview() ) {
-		require get_template_directory() . '/includes/customizer-functions.php';
-	}
-}
-add_action( 'init', 'hello_register_customizer_functions' );
 
 if ( ! function_exists( 'hello_elementor_check_hide_title' ) ) {
 	/**
