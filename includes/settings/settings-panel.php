@@ -14,8 +14,8 @@ class Settings_Panel {
 
 	public function __construct() {
 
-		add_action( 'admin_menu', [ $this, 'register_settings_page' ], 10 );
-		add_action( 'init', [ $this, 'register_settings' ], 10 );
+		add_action( 'admin_menu', [ $this, 'register_settings_page' ] );
+		add_action( 'init', [ $this, 'register_settings' ] );
 
 		$this->render_tweaks();
 
