@@ -49,6 +49,7 @@
         "load-grunt-tasks": "^4.0.0",
         "matchdep": "~2.0.0",
         "npm-build-zip": "^1.0.3",
+        "react": "^18.2.0",
         "rimraf": "^3.0.2",
         "sass": "^1.53.0",
         "terser-webpack-plugin": "^5.0.3",
