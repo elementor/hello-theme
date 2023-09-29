@@ -302,7 +302,7 @@ export const MainPage = () => {
 					</PanelBody>
 
 					<Button isPrimary onClick={ saveSettings }>
-						{ __( 'Save', 'hello-elementor' ) }
+						{ __( 'Save Settings', 'hello-elementor' ) }
 					</Button>
 
 				</Panel>
