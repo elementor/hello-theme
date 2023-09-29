@@ -184,26 +184,13 @@ if ( ! function_exists( 'hello_elementor_add_description_meta_tag' ) ) {
 }
 add_action( 'wp_head', 'hello_elementor_add_description_meta_tag' );
 
-if ( ! function_exists( 'hello_elementor_settings_panel' ) ) {
-	/**
-	 * Add theme settings panel.
-	 *
-	 * @return void
-	 */
-	function hello_elementor_settings_panel() {
-		include_once get_template_directory() . '/includes/settings/settings-panel.php';
-		new HelloElementor\Includes\Settings\Settings_Panel();
-	}
-}
-add_action( 'init', 'hello_elementor_settings_panel', 0 );
-
+// Admin notice
 if ( is_admin() ) {
 	require get_template_directory() . '/includes/admin-functions.php';
 }
 
-/**
- * If Elementor is installed and active, we can load the Elementor-specific Settings & Features
-*/
+// Settings page
+require get_template_directory() . '/includes/settings-functions.php';
 
 // Allow active/inactive via the Experiments
 require get_template_directory() . '/includes/elementor-functions.php';
