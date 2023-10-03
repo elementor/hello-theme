@@ -384,7 +384,6 @@ function hello_elementor_render_tweaks() {
 
 	$option = get_option( $settings_group . '_gutenberg' );
 	if ( isset( $option ) && ( 'true' === $option ) ) {
-		add_filter( 'use_block_editor_for_post', '__return_false', 10 );
 		add_action( 'wp_enqueue_scripts', function() {
 			// WordPress blocks styles
 			wp_dequeue_style( 'wp-block-library' );
