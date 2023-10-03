@@ -252,6 +252,16 @@ function hello_elementor_register_settings() {
 
 	register_setting(
 		$settings_group,
+		$settings_group . '_classic_theme_styles',
+		[
+			'default' => '',
+			'show_in_rest' => true,
+			'type' => 'string',
+		]
+	);
+
+	register_setting(
+		$settings_group,
 		$settings_group . '_gutenberg',
 		[
 			'default' => '',
@@ -323,7 +333,7 @@ function hello_elementor_render_tweaks() {
 		remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head' );
 	}
 
-	/* RSS Feeds */
+	/* RSS feeds */
 
 	$option = get_option( $settings_group . '_site_rss' );
 	if ( isset( $option ) && ( 'true' === $option ) ) {
@@ -365,14 +375,25 @@ function hello_elementor_render_tweaks() {
 		}, 99 );
 	}
 
+	$option = get_option( $settings_group . '_classic_theme_styles' );
+	if ( isset( $option ) && ( 'true' === $option ) ) {
+		add_action( 'wp_enqueue_scripts', function() {
+			wp_dequeue_style( 'classic-theme-styles' );
+		}, 99 );
+	}
+
 	$option = get_option( $settings_group . '_gutenberg' );
 	if ( isset( $option ) && ( 'true' === $option ) ) {
 		add_filter( 'use_block_editor_for_post', '__return_false', 10 );
 		add_action( 'wp_enqueue_scripts', function() {
+			// WordPress blocks styles
 			wp_dequeue_style( 'wp-block-library' );
 			wp_dequeue_style( 'wp-block-library-theme' );
+			// WooCommerce blocks styles
 			wp_dequeue_style( 'wc-block-style' );
 			wp_dequeue_style( 'wc-blocks-style' );
+			// Gutenberg inline styles
+			wp_dequeue_style( 'global-styles' );
 		}, 99 );
 	}
 

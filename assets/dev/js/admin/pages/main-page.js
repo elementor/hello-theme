@@ -72,6 +72,7 @@ export const MainPage = () => {
 			[ settingsPrefix + '_emoji' ]: settingsData._emoji ? 'true' : '',
 			[ settingsPrefix + '_jquery_migrate' ]: settingsData._jquery_migrate ? 'true' : '',
 			[ settingsPrefix + '_oembed_script' ]: settingsData._oembed_script ? 'true' : '',
+			[ settingsPrefix + '_classic_theme_styles' ]: settingsData._classic_theme_styles ? 'true' : '',
 			[ settingsPrefix + '_gutenberg' ]: settingsData._gutenberg ? 'true' : '',
 		} );
 
@@ -110,6 +111,7 @@ export const MainPage = () => {
 					_emoji: response[ settingsPrefix + '_emoji' ],
 					_jquery_migrate: response[ settingsPrefix + '_jquery_migrate' ],
 					_oembed_script: response[ settingsPrefix + '_oembed_script' ],
+					_classic_theme_styles: response[ settingsPrefix + '_classic_theme_styles' ],
 					_gutenberg: response[ settingsPrefix + '_gutenberg' ],
 				} );
 				setHasLoaded( true );
@@ -184,7 +186,7 @@ export const MainPage = () => {
 
 					</PanelBody>
 
-					<PanelBody title={ __( 'Clean page metadata', 'hello-elementor' ) } >
+					<PanelBody title={ __( 'Page metadata', 'hello-elementor' ) } >
 
 						<ToggleControl
 							label={ __( 'Remove generator tag', 'hello-elementor' ) }
@@ -273,7 +275,7 @@ export const MainPage = () => {
 
 					</PanelBody>
 
-					<PanelBody title={ __( 'Unregister scripts & styles', 'hello-elementor' ) } >
+					<PanelBody title={ __( 'Scripts & styles', 'hello-elementor' ) } >
 
 						<ToggleControl
 							label={ __( 'Unregister Emoji scripts & styles', 'hello-elementor' ) }
@@ -294,7 +296,13 @@ export const MainPage = () => {
 						/>
 
 						<ToggleControl
-							label={ __( 'Unregister Gutenberg scripts & styles', 'hello-elementor' ) }
+							label={ __( 'Unregister classic-theme styles', 'hello-elementor' ) }
+							checked={ settingsData._classic_theme_styles || false }
+							onChange={ ( value ) => updateSettings( '_classic_theme_styles', value ) }
+						/>
+
+						<ToggleControl
+							label={ __( 'Unregister Gutenberg styles', 'hello-elementor' ) }
 							checked={ settingsData._gutenberg || false }
 							onChange={ ( value ) => updateSettings( '_gutenberg', value ) }
 						/>
