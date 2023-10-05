@@ -3,15 +3,11 @@ import { store as noticesStore } from '@wordpress/notices';
 import { dispatch, useDispatch, useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 import api from '@wordpress/api';
-import {
-	Button,
-	Panel,
-	PanelBody,
-	Placeholder,
-	Spinner,
-	ToggleControl,
-	SnackbarList,
-} from '@wordpress/components';
+import { Button, Panel, Placeholder, Spinner, SnackbarList } from '@wordpress/components';
+import { PanelThemeFeatures } from './panels/theme-features.js';
+import { PanelPageMetaData } from './panels/page-metadata.js';
+import { PanelRssFeeds } from './panels/rss-feeds.js';
+import { PanelScriptsStyles } from './panels/scripts-styles.js';
 
 const Notices = () => {
 	const notices = useSelect(
@@ -32,6 +28,7 @@ const Notices = () => {
 		/>
 	);
 };
+
 export const MainPage = () => {
 	const [ hasLoaded, setHasLoaded ] = useState( false );
 	const [ settingsData, setSettingsData ] = useState( {} );
@@ -76,7 +73,6 @@ export const MainPage = () => {
 			[ settingsPrefix + '_gutenberg' ]: settingsData._gutenberg ? 'true' : '',
 			[ settingsPrefix + '_hello_style' ]: settingsData._hello_style ? 'true' : '',
 			[ settingsPrefix + '_hello_theme' ]: settingsData._hello_theme ? 'true' : '',
-			
 		} );
 
 		settings.save();
@@ -154,177 +150,13 @@ export const MainPage = () => {
 			<div className="hello_elementor__main">
 				<Panel>
 
-					<PanelBody title={ __( 'Hello Elementor features', 'hello-elementor' ) } >
+					<PanelThemeFeatures { ...{ settingsData, updateSettings } } />
 
-						<ToggleControl
-							label={ __( 'Disable description meta tag', 'hello-elementor' ) }
-							help={
-								sprintf(
-									/* translators: %s: The <head> tag. */
-									__( 'A meta tag that contains the post/page excerpt, in the %s.', 'hello-elementor' ),
-									'<head>',
-								)
-							}
-							checked={ settingsData._description_meta_tag || false }
-							onChange={ ( value ) => updateSettings( '_description_meta_tag', value ) }
-						/>
+					<PanelPageMetaData { ...{ settingsData, updateSettings } } />
 
-						<ToggleControl
-							label={ __( 'Disable skip link', 'hello-elementor' ) }
-							help={ __( 'A link to the main content used by screen-reader users.', 'hello-elementor' ) }
-							checked={ settingsData._skip_link || false }
-							onChange={ ( value ) => updateSettings( '_skip_link', value ) }
-						/>
+					<PanelRssFeeds { ...{ settingsData, updateSettings } } />
 
-						<ToggleControl
-							label={ __( 'Disable page title', 'hello-elementor' ) }
-							help={
-								sprintf(
-									/* translators: %s: The <h1> tag. */
-									__( 'A section above the content containing the %s heading of the page.', 'hello-elementor' ),
-									'<h1>',
-								)
-							}
-							checked={ settingsData._page_title || false }
-							onChange={ ( value ) => updateSettings( '_page_title', value ) }
-						/>
-
-					</PanelBody>
-
-					<PanelBody title={ __( 'Page metadata', 'hello-elementor' ) } >
-
-						<ToggleControl
-							label={ __( 'Remove generator tag', 'hello-elementor' ) }
-							help={ __( 'A meta tag that contains the WordPress version.', 'hello-elementor' ) }
-							checked={ settingsData._generator || false }
-							onChange={ ( value ) => updateSettings( '_generator', value ) }
-						/>
-						<code className="code-example"> &lt;meta name=&quot;generator&quot; content=&quot;WordPress x.x.x&quot; /&gt; </code>
-
-						<ToggleControl
-							label={ __( 'Remove WordPress shortlink', 'hello-elementor' ) }
-							help={ __( 'A link tag that contains the page URL in a short format.', 'hello-elementor' ) }
-							checked={ settingsData._shortlink || false }
-							onChange={ ( value ) => updateSettings( '_shortlink', value ) }
-						/>
-						<code className="code-example"> &lt;link rel=&quot;shortlink&quot; href=&quot;https://example.com/?p=1&quot; /&gt; </code>
-
-						<ToggleControl
-							label={ __( 'Remove WLW link', 'hello-elementor' ) }
-							help={ __( 'A link tag that contains the WLW endpoint which provides access to external systems to publish content on the website.', 'hello-elementor' ) }
-							checked={ settingsData._wlw || false }
-							onChange={ ( value ) => updateSettings( '_wlw', value ) }
-						/>
-						<code className="code-example"> &lt;link rel=&quot;wlwmanifest&quot; type=&quot;application/wlwmanifest+xml&quot; href=&quot;https://example.com//wp-includes/wlwmanifest.xml&quot; /&gt; </code>
-
-						<ToggleControl
-							label={ __( 'Remove RSD link', 'hello-elementor' ) }
-							help={ __( 'A link tag that contains the RSD endpoint which provides access to external systems to publish content on the website.', 'hello-elementor' ) }
-							checked={ settingsData._rsd || false }
-							onChange={ ( value ) => updateSettings( '_rsd', value ) }
-						/>
-						<code className="code-example"> &lt;link rel=&quot;EditURI&quot; type=&quot;application/rsd+xml&quot; title=&quot;RSD&quot; href=&quot;https://example.com/xmlrpc.php?rsd&quot; /&gt; </code>
-
-						<ToggleControl
-							label={ __( 'Remove oEmbed link', 'hello-elementor' ) }
-							help={ __( 'A link tag that contains the oEmbed endpoint which provides the discovery link for embedding your content on other websites.', 'hello-elementor' ) }
-							checked={ settingsData._oembed || false }
-							onChange={ ( value ) => updateSettings( '_oembed', value ) }
-						/>
-						<code className="code-example"> &lt;link rel=&quot;alternate&quot; type=&quot;application/json+oembed&quot; href=&quot;https://example.com/wp-json/oembed/1.0/embed?url=...&quot; /&gt; </code>
-
-						<ToggleControl
-							label={ __( 'Remove WordPress sitemap link', 'hello-elementor' ) }
-							help={ __( 'A link tag that contains the sitemap endpoint.', 'hello-elementor' ) }
-							checked={ settingsData._wp_sitemap || false }
-							onChange={ ( value ) => updateSettings( '_wp_sitemap', value ) }
-						/>
-						<code className="code-example"> &lt;link rel=&quot;sitemap&quot; href=&quot;https://example.com/wp-sitemap.xml&quot; /&gt; </code>
-
-						<ToggleControl
-							label={ __( 'Remove post relational links', 'hello-elementor' ) }
-							help={ __( 'Link tags in single posts that contain URLs for the next & previous posts.', 'hello-elementor' ) }
-							checked={ settingsData._post_prev_next || false }
-							onChange={ ( value ) => updateSettings( '_post_prev_next', value ) }
-						/>
-						<code className="code-example"> &lt;link rel=&quot;next&quot; title=&quot;Next Post&quot; href=&quot;https://example.com/...&quot; /&gt; </code>
-						<code className="code-example"> &lt;link rel=&quot;prev&quot; title=&quot;Previous Post&quot; href=&quot;https://example.com/...&quot; /&gt; </code>
-
-					</PanelBody>
-
-					<PanelBody title={ __( 'RSS feeds', 'hello-elementor' ) } >
-
-						<ToggleControl
-							label={ __( 'Remove site RSS feed', 'hello-elementor' ) }
-							help={ __( 'A link tag that contains the RSS feed endpoint for website\'s content.', 'hello-elementor' ) }
-							checked={ settingsData._site_rss || false }
-							onChange={ ( value ) => updateSettings( '_site_rss', value ) }
-						/>
-						<code className="code-example"> &lt;link rel=&quot;alternate&quot; type=&quot;application/rss+xml&quot; title=&quot;Feed&quot; href=&quot;https://example.com/feed/&quot; /&gt; </code>
-
-						<ToggleControl
-							label={ __( 'Remove site comments RSS feed', 'hello-elementor' ) }
-							help={ __( 'A link tag that contains the RSS feed endpoint for website\'s comments.', 'hello-elementor' ) }
-							checked={ settingsData._comments_rss || false }
-							onChange={ ( value ) => updateSettings( '_comments_rss', value ) }
-						/>
-						<code className="code-example"> &lt;link rel=&quot;alternate&quot; type=&quot;application/rss+xml&quot; title=&quot;Comments Feed&quot; href=&quot;https://example.com/comments/feed/&quot; /&gt; </code>
-
-						<ToggleControl
-							label={ __( 'Remove post comments RSS feed', 'hello-elementor' ) }
-							help={ __( 'A link tag that contains the RSS feed endpoint for post\'s comments.', 'hello-elementor' ) }
-							checked={ settingsData._post_comments_rss || false }
-							onChange={ ( value ) => updateSettings( '_post_comments_rss', value ) }
-						/>
-						<code className="code-example"> &lt;link rel=&quot;alternate&quot; type=&quot;application/rss+xml&quot; title=&quot;Post Comments Feed&quot; href=&quot;https://example.com//post-name/feed/&quot; /&gt; </code>
-
-					</PanelBody>
-
-					<PanelBody title={ __( 'Scripts & styles', 'hello-elementor' ) } >
-
-						<ToggleControl
-							label={ __( 'Unregister Emoji scripts & styles', 'hello-elementor' ) }
-							checked={ settingsData._emoji || false }
-							onChange={ ( value ) => updateSettings( '_emoji', value ) }
-						/>
-
-						<ToggleControl
-							label={ __( 'Unregister jQuery migrate script', 'hello-elementor' ) }
-							checked={ settingsData._jquery_migrate || false }
-							onChange={ ( value ) => updateSettings( '_jquery_migrate', value ) }
-						/>
-
-						<ToggleControl
-							label={ __( 'Unregister oEmbed script', 'hello-elementor' ) }
-							checked={ settingsData._oembed_script || false }
-							onChange={ ( value ) => updateSettings( '_oembed_script', value ) }
-						/>
-
-						<ToggleControl
-							label={ __( 'Unregister classic-theme styles', 'hello-elementor' ) }
-							checked={ settingsData._classic_theme_styles || false }
-							onChange={ ( value ) => updateSettings( '_classic_theme_styles', value ) }
-						/>
-
-						<ToggleControl
-							label={ __( 'Unregister Gutenberg styles', 'hello-elementor' ) }
-							checked={ settingsData._gutenberg || false }
-							onChange={ ( value ) => updateSettings( '_gutenberg', value ) }
-						/>
-
-						<ToggleControl
-							label={ __( 'Unregister Hello style.css', 'hello-elementor' ) }
-							checked={ settingsData._hello_style || false }
-							onChange={ ( value ) => updateSettings( '_hello_style', value ) }
-						/>
-
-						<ToggleControl
-							label={ __( 'Unregister Hello theme.css', 'hello-elementor' ) }
-							checked={ settingsData._hello_theme || false }
-							onChange={ ( value ) => updateSettings( '_hello_theme', value ) }
-						/>
-
-					</PanelBody>
+					<PanelScriptsStyles { ...{ settingsData, updateSettings } } />
 
 					<Button isPrimary onClick={ saveSettings }>
 						{ __( 'Save Settings', 'hello-elementor' ) }
