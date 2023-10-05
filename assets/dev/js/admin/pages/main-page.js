@@ -74,6 +74,9 @@ export const MainPage = () => {
 			[ settingsPrefix + '_oembed_script' ]: settingsData._oembed_script ? 'true' : '',
 			[ settingsPrefix + '_classic_theme_styles' ]: settingsData._classic_theme_styles ? 'true' : '',
 			[ settingsPrefix + '_gutenberg' ]: settingsData._gutenberg ? 'true' : '',
+			[ settingsPrefix + '_hello_style' ]: settingsData._hello_style ? 'true' : '',
+			[ settingsPrefix + '_hello_theme' ]: settingsData._hello_theme ? 'true' : '',
+			
 		} );
 
 		settings.save();
@@ -113,6 +116,8 @@ export const MainPage = () => {
 					_oembed_script: response[ settingsPrefix + '_oembed_script' ],
 					_classic_theme_styles: response[ settingsPrefix + '_classic_theme_styles' ],
 					_gutenberg: response[ settingsPrefix + '_gutenberg' ],
+					_hello_style: response[ settingsPrefix + '_hello_style' ],
+					_hello_theme: response[ settingsPrefix + '_hello_theme' ],
 				} );
 				setHasLoaded( true );
 			} catch ( error ) {
@@ -305,6 +310,18 @@ export const MainPage = () => {
 							label={ __( 'Unregister Gutenberg styles', 'hello-elementor' ) }
 							checked={ settingsData._gutenberg || false }
 							onChange={ ( value ) => updateSettings( '_gutenberg', value ) }
+						/>
+
+						<ToggleControl
+							label={ __( 'Unregister Hello style.css', 'hello-elementor' ) }
+							checked={ settingsData._hello_style || false }
+							onChange={ ( value ) => updateSettings( '_hello_style', value ) }
+						/>
+
+						<ToggleControl
+							label={ __( 'Unregister Hello theme.css', 'hello-elementor' ) }
+							checked={ settingsData._hello_theme || false }
+							onChange={ ( value ) => updateSettings( '_hello_theme', value ) }
 						/>
 
 					</PanelBody>
