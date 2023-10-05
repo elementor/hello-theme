@@ -113,7 +113,7 @@ function hello_elementor_tweak_settings() {
  */
 function hello_elementor_register_settings( $settings_group, $settings ) {
 
-	foreach ($settings as $setting) {
+	foreach ( $settings as $setting ) {
 		register_setting(
 			$settings_group,
 			$settings_group . $setting,
