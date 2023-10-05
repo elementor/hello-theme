@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 add_action( 'admin_menu', 'hello_elementor_settings_page' );
-add_action( 'init', 'hello_elementor_tweaks', 0 );
+add_action( 'init', 'hello_elementor_tweak_settings', 0 );
 
 /**
  * Register theme settings page.
@@ -61,6 +61,9 @@ function hello_elementor_settings_page_scripts() {
 
 }
 
+/**
+ * Render settings page wrapper element.
+ */
 function hello_elementor_settings_page_render() {
 	?>
 	<div id="hello-elementor-settings"></div>
@@ -70,340 +73,164 @@ function hello_elementor_settings_page_render() {
 /**
  * Theme tweaks & settings.
  */
-function hello_elementor_tweaks() {
-	hello_elementor_register_settings();
-	hello_elementor_render_tweaks();
+function hello_elementor_tweak_settings() {
+
+	$settings_group = 'hello_elementor_settings';
+
+	$settings = [
+		/* Theme features */
+		'_description_meta_tag',
+		'_skip_link',
+		'_page_title',
+		/* Page metadata */
+		'_generator',
+		'_shortlink',
+		'_wlw',
+		'_rsd',
+		'_oembed',
+		'_wp_sitemap',
+		'_post_prev_next',
+		/* RSS Feeds */
+		'_site_rss',
+		'_comments_rss',
+		'_post_comments_rss',
+		/* Scripts & styles */
+		'_emoji',
+		'_jquery_migrate',
+		'_oembed_script',
+		'_classic_theme_styles',
+		'_gutenberg',
+		'_hello_style',
+		'_hello_theme',
+	];
+
+	hello_elementor_register_settings( $settings_group, $settings );
+	hello_elementor_render_tweaks( $settings_group );
 }
 
 /**
  * Register theme settings.
  */
-function hello_elementor_register_settings() {
+function hello_elementor_register_settings( $settings_group, $settings ) {
 
-	$settings_group = 'hello_elementor_settings';
+	foreach ($settings as $setting) {
+		register_setting(
+			$settings_group,
+			$settings_group . $setting,
+			[
+				'default' => '',
+				'show_in_rest' => true,
+				'type' => 'string',
+			]
+		);
+	}
 
-	/* Theme features */
+}
 
-	register_setting(
-		$settings_group,
-		$settings_group . '_description_meta_tag',
-		[
-			'default' => '',
-			'show_in_rest' => true,
-			'type' => 'string',
-		]
-	);
+/**
+ * Run a tweek only if the user requested it.
+ */
+function hello_elementor_do_tweak( $setting, $tweak_callback ) {
 
-	register_setting(
-		$settings_group,
-		$settings_group . '_skip_link',
-		[
-			'default' => '',
-			'show_in_rest' => true,
-			'type' => 'string',
-		]
-	);
-
-	register_setting(
-		$settings_group,
-		$settings_group . '_page_title',
-		[
-			'default' => '',
-			'show_in_rest' => true,
-			'type' => 'string',
-		]
-	);
-
-	/* Page metadata */
-
-	register_setting(
-		$settings_group,
-		$settings_group . '_generator',
-		[
-			'default' => '',
-			'show_in_rest' => true,
-			'type' => 'string',
-		]
-	);
-
-	register_setting(
-		$settings_group,
-		$settings_group . '_shortlink',
-		[
-			'default' => '',
-			'show_in_rest' => true,
-			'type' => 'string',
-		]
-	);
-
-	register_setting(
-		$settings_group,
-		$settings_group . '_wlw',
-		[
-			'default' => '',
-			'show_in_rest' => true,
-			'type' => 'string',
-		]
-	);
-
-	register_setting(
-		$settings_group,
-		$settings_group . '_rsd',
-		[
-			'default' => '',
-			'show_in_rest' => true,
-			'type' => 'string',
-		]
-	);
-
-	register_setting(
-		$settings_group,
-		$settings_group . '_oembed',
-		[
-			'default' => '',
-			'show_in_rest' => true,
-			'type' => 'string',
-		]
-	);
-
-	register_setting(
-		$settings_group,
-		$settings_group . '_wp_sitemap',
-		[
-			'default' => '',
-			'show_in_rest' => true,
-			'type' => 'string',
-		]
-	);
-
-	register_setting(
-		$settings_group,
-		$settings_group . '_post_prev_next',
-		[
-			'default' => '',
-			'show_in_rest' => true,
-			'type' => 'string',
-		]
-	);
-
-	/* RSS Feeds */
-
-	register_setting(
-		$settings_group,
-		$settings_group . '_site_rss',
-		[
-			'default' => '',
-			'show_in_rest' => true,
-			'type' => 'string',
-		]
-	);
-
-	register_setting(
-		$settings_group,
-		$settings_group . '_comments_rss',
-		[
-			'default' => '',
-			'show_in_rest' => true,
-			'type' => 'string',
-		]
-	);
-
-	register_setting(
-		$settings_group,
-		$settings_group . '_post_comments_rss',
-		[
-			'default' => '',
-			'show_in_rest' => true,
-			'type' => 'string',
-		]
-	);
-
-	/* Scripts & styles */
-
-	register_setting(
-		$settings_group,
-		$settings_group . '_emoji',
-		[
-			'default' => '',
-			'show_in_rest' => true,
-			'type' => 'string',
-		]
-	);
-
-	register_setting(
-		$settings_group,
-		$settings_group . '_jquery_migrate',
-		[
-			'default' => '',
-			'show_in_rest' => true,
-			'type' => 'string',
-		]
-	);
-
-	register_setting(
-		$settings_group,
-		$settings_group . '_oembed_script',
-		[
-			'default' => '',
-			'show_in_rest' => true,
-			'type' => 'string',
-		]
-	);
-
-	register_setting(
-		$settings_group,
-		$settings_group . '_classic_theme_styles',
-		[
-			'default' => '',
-			'show_in_rest' => true,
-			'type' => 'string',
-		]
-	);
-
-	register_setting(
-		$settings_group,
-		$settings_group . '_gutenberg',
-		[
-			'default' => '',
-			'show_in_rest' => true,
-			'type' => 'string',
-		]
-	);
-
-	register_setting(
-		$settings_group,
-		$settings_group . '_hello_style',
-		[
-			'default' => '',
-			'show_in_rest' => true,
-			'type' => 'string',
-		]
-	);
-
-	register_setting(
-		$settings_group,
-		$settings_group . '_hello_theme',
-		[
-			'default' => '',
-			'show_in_rest' => true,
-			'type' => 'string',
-		]
-	);
+	$option = get_option( $setting );
+	if ( isset( $option ) && ( 'true' === $option ) ) {
+		$tweak_callback();
+	}
 
 }
 
 /**
  * Render theme tweaks.
  */
-function hello_elementor_render_tweaks() {
-
-	$settings_group = 'hello_elementor_settings';
+function hello_elementor_render_tweaks( $settings_group ) {
 
 	/* Theme features */
 
-	$option = get_option( $settings_group . '_description_meta_tag' );
-	if ( isset( $option ) && ( 'true' === $option ) ) {
+	hello_elementor_do_tweak( $settings_group . '_description_meta_tag', function() {
 		remove_action( 'wp_head', 'hello_elementor_add_description_meta_tag' );
-	}
+	} );
 
-	$option = get_option( $settings_group . '_skip_link' );
-	if ( isset( $option ) && ( 'true' === $option ) ) {
+	hello_elementor_do_tweak( $settings_group . '_skip_link', function() {
 		add_filter( 'hello_elementor_enable_skip_link', '__return_false' );
-	}
+	} );
 
-	$option = get_option( $settings_group . '_page_title' );
-	if ( isset( $option ) && ( 'true' === $option ) ) {
+	hello_elementor_do_tweak( $settings_group . '_page_title', function() {
 		add_filter( 'hello_elementor_page_title', '__return_false' );
-	}
+	} );
 
 	/* Page metadata */
 
-	$option = get_option( $settings_group . '_generator' );
-	if ( isset( $option ) && ( 'true' === $option ) ) {
+	hello_elementor_do_tweak( $settings_group . '_generator', function() {
 		remove_action( 'wp_head', 'wp_generator' );
-	}
+	} );
 
-	$option = get_option( $settings_group . '_shortlink' );
-	if ( isset( $option ) && ( 'true' === $option ) ) {
+	hello_elementor_do_tweak( $settings_group . '_shortlink', function() {
 		remove_action( 'wp_head', 'wp_shortlink_wp_head', 10, 0 );
-	}
+	} );
 
-	$option = get_option( $settings_group . '_wlw' );
-	if ( isset( $option ) && ( 'true' === $option ) ) {
+	hello_elementor_do_tweak( $settings_group . '_wlw', function() {
 		remove_action( 'wp_head', 'wlwmanifest_link' );
-	}
+	} );
 
-	$option = get_option( $settings_group . '_rsd' );
-	if ( isset( $option ) && ( 'true' === $option ) ) {
+	hello_elementor_do_tweak( $settings_group . '_rsd', function() {
 		remove_action( 'wp_head', 'rsd_link' );
-	}
+	} );
 
-	$option = get_option( $settings_group . '_oembed' );
-	if ( isset( $option ) && ( 'true' === $option ) ) {
+	hello_elementor_do_tweak( $settings_group . '_oembed', function() {
 		remove_action( 'wp_head', 'wp_oembed_add_discovery_links' );
-	}
+	} );
 
-	$option = get_option( $settings_group . '_wp_sitemap' );
-	if ( isset( $option ) && ( 'true' === $option ) ) {
-		add_filter( 'use_block_editor_for_post', '__return_false', 10 );
-	}
+	hello_elementor_do_tweak( $settings_group . '_wp_sitemap', function() {
+		add_filter( 'wp_sitemaps_enabled', '__return_false' );
+	} );
 
-	$option = get_option( $settings_group . '_post_prev_next' );
-	if ( isset( $option ) && ( 'true' === $option ) ) {
+	hello_elementor_do_tweak( $settings_group . '_post_prev_next', function() {
 		remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head' );
-	}
+	} );
 
 	/* RSS feeds */
 
-	$option = get_option( $settings_group . '_site_rss' );
-	if ( isset( $option ) && ( 'true' === $option ) ) {
+	hello_elementor_do_tweak( $settings_group . '_site_rss', function() {
 		remove_action( 'wp_head', 'feed_links', 2 );
 		remove_action( 'wp_head', 'feed_links_extra', 3 );
-	}
+	} );
 
-	$option = get_option( $settings_group . '_comments_rss' );
-	if ( isset( $option ) && ( 'true' === $option ) ) {
+	hello_elementor_do_tweak( $settings_group . '_comments_rss', function() {
 		add_filter( 'feed_links_show_comments_feed', '__return_false' );
-	}
+	} );
 
-	$option = get_option( $settings_group . '_post_comments_rss' );
-	if ( isset( $option ) && ( 'true' === $option ) ) {
+	hello_elementor_do_tweak( $settings_group . '_post_comments_rss', function() {
 		add_filter( 'feed_links_show_posts_feed', '__return_false' );
-	}
+	} );
 
 	/* Scripts & styles */
 
-	$option = get_option( $settings_group . '_emoji' );
-	if ( isset( $option ) && ( 'true' === $option ) ) {
+	hello_elementor_do_tweak( $settings_group . '_emoji', function() {
 		remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 		remove_action( 'wp_print_styles', 'print_emoji_styles' ); // Up to WP 6.4
 		remove_action( 'wp_print_styles', 'wp_enqueue_emoji_styles' ); // WP 6.4 and above
-	}
+	} );
 
-	$option = get_option( $settings_group . '_jquery_migrate' );
-	if ( isset( $option ) && ( 'true' === $option ) ) {
+	hello_elementor_do_tweak( $settings_group . '_jquery_migrate', function() {
 		add_action( 'wp_enqueue_scripts', function() {
 			wp_deregister_script( 'jquery-migrate' );
 		}, 99 );
-	}
+	} );
 
-	$option = get_option( $settings_group . '_oembed_script' );
-	if ( isset( $option ) && ( 'true' === $option ) ) {
+	hello_elementor_do_tweak( $settings_group . '_oembed_script', function() {
 		remove_action( 'wp_head', 'wp_oembed_add_host_js' );
 		add_action( 'wp_enqueue_scripts', function() {
 			wp_deregister_script( 'wp-embed' );
 		}, 99 );
-	}
+	} );
 
-	$option = get_option( $settings_group . '_classic_theme_styles' );
-	if ( isset( $option ) && ( 'true' === $option ) ) {
+	hello_elementor_do_tweak( $settings_group . '_classic_theme_styles', function() {
 		add_action( 'wp_enqueue_scripts', function() {
 			wp_dequeue_style( 'classic-theme-styles' );
 		}, 99 );
-	}
+	} );
 
-	$option = get_option( $settings_group . '_gutenberg' );
-	if ( isset( $option ) && ( 'true' === $option ) ) {
+	hello_elementor_do_tweak( $settings_group . '_gutenberg', function() {
 		add_action( 'wp_enqueue_scripts', function() {
 			// WordPress blocks styles
 			wp_dequeue_style( 'wp-block-library' );
@@ -414,17 +241,14 @@ function hello_elementor_render_tweaks() {
 			// Gutenberg inline styles
 			wp_dequeue_style( 'global-styles' );
 		}, 99 );
-	}
+	} );
 
-	$option = get_option( $settings_group . '_hello_style' );
-	if ( isset( $option ) && ( 'true' === $option ) ) {
+	hello_elementor_do_tweak( $settings_group . '_hello_style', function() {
 		add_filter( 'hello_elementor_enqueue_style', '__return_false' );
+	} );
 
-	}
-
-	$option = get_option( $settings_group . '_hello_theme' );
-	if ( isset( $option ) && ( 'true' === $option ) ) {
+	hello_elementor_do_tweak( $settings_group . '_hello_theme', function() {
 		add_filter( 'hello_elementor_enqueue_theme_style', '__return_false' );
-	}
+	} );
 
 }
