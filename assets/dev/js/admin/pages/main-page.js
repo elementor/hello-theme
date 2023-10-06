@@ -127,8 +127,7 @@ export const MainPage = () => {
 			return;
 		}
 
-		// eslint-disable-next-line no-console
-		fetchSettings().catch( console.error );
+		fetchSettings();
 	}, [ settingsData ] );
 
 	if ( ! hasLoaded ) {
