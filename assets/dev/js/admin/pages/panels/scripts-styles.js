@@ -1,4 +1,5 @@
 import { __ } from '@wordpress/i18n';
+import { SETTINGS } from '../settings.js';
 import { PanelBody, ToggleControl } from '@wordpress/components';
 
 export const PanelScriptsStyles = ( { settingsData, updateSettings } ) => {
@@ -7,44 +8,44 @@ export const PanelScriptsStyles = ( { settingsData, updateSettings } ) => {
 
 			<ToggleControl
 				label={ __( 'Unregister Emoji scripts & styles', 'hello-elementor' ) }
-				checked={ !! settingsData._emoji || false }
-				onChange={ ( value ) => updateSettings( '_emoji', value ) }
+				checked={ !! settingsData[ SETTINGS.EMOJI ] || false }
+				onChange={ ( value ) => updateSettings( SETTINGS.EMOJI, value ) }
 			/>
 
 			<ToggleControl
 				label={ __( 'Unregister jQuery migrate script', 'hello-elementor' ) }
-				checked={ !! settingsData._jquery_migrate || false }
-				onChange={ ( value ) => updateSettings( '_jquery_migrate', value ) }
+				checked={ !! settingsData[ SETTINGS.JQUERY_MIGRATE ] || false }
+				onChange={ ( value ) => updateSettings( SETTINGS.JQUERY_MIGRATE, value ) }
 			/>
 
 			<ToggleControl
 				label={ __( 'Unregister oEmbed script', 'hello-elementor' ) }
-				checked={ !! settingsData._oembed_script || false }
-				onChange={ ( value ) => updateSettings( '_oembed_script', value ) }
+				checked={ !! settingsData[ SETTINGS.OEMBED_SCRIPT ] || false }
+				onChange={ ( value ) => updateSettings( SETTINGS.OEMBED_SCRIPT, value ) }
 			/>
 
 			<ToggleControl
 				label={ __( 'Unregister classic-theme styles', 'hello-elementor' ) }
-				checked={ !! settingsData._classic_theme_styles || false }
-				onChange={ ( value ) => updateSettings( '_classic_theme_styles', value ) }
+				checked={ !! settingsData[ SETTINGS.CLASSIC_THEME_STYLES ] || false }
+				onChange={ ( value ) => updateSettings( SETTINGS.CLASSIC_THEME_STYLES, value ) }
 			/>
 
 			<ToggleControl
 				label={ __( 'Unregister Gutenberg styles', 'hello-elementor' ) }
-				checked={ !! settingsData._gutenberg || false }
-				onChange={ ( value ) => updateSettings( '_gutenberg', value ) }
+				checked={ !! settingsData[ SETTINGS.GUTENBERG ] || false }
+				onChange={ ( value ) => updateSettings( SETTINGS.GUTENBERG, value ) }
 			/>
 
 			<ToggleControl
 				label={ __( 'Unregister Hello style.css', 'hello-elementor' ) }
-				checked={ !! settingsData._hello_style || false }
-				onChange={ ( value ) => updateSettings( '_hello_style', value ) }
+				checked={ !! settingsData[ SETTINGS.HELLO_STYLE ] || false }
+				onChange={ ( value ) => updateSettings( SETTINGS.HELLO_STYLE, value ) }
 			/>
 
 			<ToggleControl
 				label={ __( 'Unregister Hello theme.css', 'hello-elementor' ) }
-				checked={ !! settingsData._hello_theme || false }
-				onChange={ ( value ) => updateSettings( '_hello_theme', value ) }
+				checked={ !! settingsData[ SETTINGS.HELLO_THEME ] || false }
+				onChange={ ( value ) => updateSettings( SETTINGS.HELLO_THEME, value ) }
 			/>
 
 		</PanelBody>

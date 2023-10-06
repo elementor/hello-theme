@@ -4,6 +4,7 @@ import { dispatch, useDispatch, useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 import api from '@wordpress/api';
 import { Button, Panel, Placeholder, Spinner, SnackbarList } from '@wordpress/components';
+import { SETTINGS } from './settings.js';
 import { PanelThemeFeatures } from './panels/theme-features.js';
 import { PanelPageMetaData } from './panels/page-metadata.js';
 import { PanelRssFeeds } from './panels/rss-feeds.js';
@@ -53,26 +54,26 @@ export const MainPage = () => {
 	 */
 	const saveSettings = () => {
 		const settings = new api.models.Settings( {
-			[ settingsPrefix + '_description_meta_tag' ]: settingsData._description_meta_tag ? 'true' : '',
-			[ settingsPrefix + '_skip_link' ]: settingsData._skip_link ? 'true' : '',
-			[ settingsPrefix + '_page_title' ]: settingsData._page_title ? 'true' : '',
-			[ settingsPrefix + '_generator' ]: settingsData._generator ? 'true' : '',
-			[ settingsPrefix + '_shortlink' ]: settingsData._shortlink ? 'true' : '',
-			[ settingsPrefix + '_wlw' ]: settingsData._wlw ? 'true' : '',
-			[ settingsPrefix + '_rsd' ]: settingsData._rsd ? 'true' : '',
-			[ settingsPrefix + '_oembed' ]: settingsData._oembed ? 'true' : '',
-			[ settingsPrefix + '_wp_sitemap' ]: settingsData._wp_sitemap ? 'true' : '',
-			[ settingsPrefix + '_post_prev_next' ]: settingsData._post_prev_next ? 'true' : '',
-			[ settingsPrefix + '_site_rss' ]: settingsData._site_rss ? 'true' : '',
-			[ settingsPrefix + '_comments_rss' ]: settingsData._comments_rss ? 'true' : '',
-			[ settingsPrefix + '_post_comments_rss' ]: settingsData._post_comments_rss ? 'true' : '',
-			[ settingsPrefix + '_emoji' ]: settingsData._emoji ? 'true' : '',
-			[ settingsPrefix + '_jquery_migrate' ]: settingsData._jquery_migrate ? 'true' : '',
-			[ settingsPrefix + '_oembed_script' ]: settingsData._oembed_script ? 'true' : '',
-			[ settingsPrefix + '_classic_theme_styles' ]: settingsData._classic_theme_styles ? 'true' : '',
-			[ settingsPrefix + '_gutenberg' ]: settingsData._gutenberg ? 'true' : '',
-			[ settingsPrefix + '_hello_style' ]: settingsData._hello_style ? 'true' : '',
-			[ settingsPrefix + '_hello_theme' ]: settingsData._hello_theme ? 'true' : '',
+			[ settingsPrefix + SETTINGS.DESCRIPTION_META_TAG ]: settingsData[ SETTINGS.DESCRIPTION_META_TAG ] ? 'true' : '',
+			[ settingsPrefix + SETTINGS.SKIP_LINK ]: settingsData[ SETTINGS.SKIP_LINK ] ? 'true' : '',
+			[ settingsPrefix + SETTINGS.PAGE_TITLE ]: settingsData[ SETTINGS.PAGE_TITLE ] ? 'true' : '',
+			[ settingsPrefix + SETTINGS.GENERATOR ]: settingsData[ SETTINGS.GENERATOR ] ? 'true' : '',
+			[ settingsPrefix + SETTINGS.SHORTLINK ]: settingsData[ SETTINGS.SHORTLINK ] ? 'true' : '',
+			[ settingsPrefix + SETTINGS.WLW ]: settingsData[ SETTINGS.WLW ] ? 'true' : '',
+			[ settingsPrefix + SETTINGS.RSD ]: settingsData[ SETTINGS.RSD ] ? 'true' : '',
+			[ settingsPrefix + SETTINGS.OEMBED ]: settingsData[ SETTINGS.OEMBED ] ? 'true' : '',
+			[ settingsPrefix + SETTINGS.WP_SITEMAP ]: settingsData[ SETTINGS.WP_SITEMAP ] ? 'true' : '',
+			[ settingsPrefix + SETTINGS.POST_PREV_NEXT ]: settingsData[ SETTINGS.POST_PREV_NEXT ] ? 'true' : '',
+			[ settingsPrefix + SETTINGS.SITE_RSS ]: settingsData[ SETTINGS.SITE_RSS ] ? 'true' : '',
+			[ settingsPrefix + SETTINGS.COMMENTS_RSS ]: settingsData[ SETTINGS.COMMENTS_RSS ] ? 'true' : '',
+			[ settingsPrefix + SETTINGS.POST_COMMENTS_RSS ]: settingsData[ SETTINGS.POST_COMMENTS_RSS ] ? 'true' : '',
+			[ settingsPrefix + SETTINGS.EMOJI ]: settingsData[ SETTINGS.EMOJI ] ? 'true' : '',
+			[ settingsPrefix + SETTINGS.JQUERY_MIGRATE ]: settingsData[ SETTINGS.JQUERY_MIGRATE ] ? 'true' : '',
+			[ settingsPrefix + SETTINGS.OEMBED_SCRIPT ]: settingsData[ SETTINGS.OEMBED_SCRIPT ] ? 'true' : '',
+			[ settingsPrefix + SETTINGS.CLASSIC_THEME_STYLES ]: settingsData[ SETTINGS.CLASSIC_THEME_STYLES ] ? 'true' : '',
+			[ settingsPrefix + SETTINGS.GUTENBERG ]: settingsData[ SETTINGS.GUTENBERG ] ? 'true' : '',
+			[ settingsPrefix + SETTINGS.HELLO_STYLE ]: settingsData[ SETTINGS.HELLO_STYLE ] ? 'true' : '',
+			[ settingsPrefix + SETTINGS.HELLO_THEME ]: settingsData[ SETTINGS.HELLO_THEME ] ? 'true' : '',
 		} );
 
 		settings.save();
@@ -94,26 +95,26 @@ export const MainPage = () => {
 				const settings = new api.models.Settings();
 				const response = await settings.fetch();
 				setSettingsData( {
-					_description_meta_tag: response[ settingsPrefix + '_description_meta_tag' ],
-					_skip_link: response[ settingsPrefix + '_skip_link' ],
-					_page_title: response[ settingsPrefix + '_page_title' ],
-					_generator: response[ settingsPrefix + '_generator' ],
-					_shortlink: response[ settingsPrefix + '_shortlink' ],
-					_wlw: response[ settingsPrefix + '_wlw' ],
-					_rsd: response[ settingsPrefix + '_rsd' ],
-					_oembed: response[ settingsPrefix + '_oembed' ],
-					_wp_sitemap: response[ settingsPrefix + '_wp_sitemap' ],
-					_post_prev_next: response[ settingsPrefix + '_post_prev_next' ],
-					_site_rss: response[ settingsPrefix + '_site_rss' ],
-					_comments_rss: response[ settingsPrefix + '_comments_rss' ],
-					_post_comments_rss: response[ settingsPrefix + '_post_comments_rss' ],
-					_emoji: response[ settingsPrefix + '_emoji' ],
-					_jquery_migrate: response[ settingsPrefix + '_jquery_migrate' ],
-					_oembed_script: response[ settingsPrefix + '_oembed_script' ],
-					_classic_theme_styles: response[ settingsPrefix + '_classic_theme_styles' ],
-					_gutenberg: response[ settingsPrefix + '_gutenberg' ],
-					_hello_style: response[ settingsPrefix + '_hello_style' ],
-					_hello_theme: response[ settingsPrefix + '_hello_theme' ],
+					[ SETTINGS.DESCRIPTION_META_TAG ]: response[ settingsPrefix + SETTINGS.DESCRIPTION_META_TAG ],
+					[ SETTINGS.SKIP_LINK ]: response[ settingsPrefix + SETTINGS.SKIP_LINK ],
+					[ SETTINGS.PAGE_TITLE ]: response[ settingsPrefix + SETTINGS.PAGE_TITLE ],
+					[ SETTINGS.GENERATOR ]: response[ settingsPrefix + SETTINGS.GENERATOR ],
+					[ SETTINGS.SHORTLINK ]: response[ settingsPrefix + SETTINGS.SHORTLINK ],
+					[ SETTINGS.WLW ]: response[ settingsPrefix + SETTINGS.WLW ],
+					[ SETTINGS.RSD ]: response[ settingsPrefix + SETTINGS.RSD ],
+					[ SETTINGS.OEMBED ]: response[ settingsPrefix + SETTINGS.OEMBED ],
+					[ SETTINGS.WP_SITEMAP ]: response[ settingsPrefix + SETTINGS.WP_SITEMAP ],
+					[ SETTINGS.POST_PREV_NEXT ]: response[ settingsPrefix + SETTINGS.POST_PREV_NEXT ],
+					[ SETTINGS.SITE_RSS ]: response[ settingsPrefix + SETTINGS.SITE_RSS ],
+					[ SETTINGS.COMMENTS_RSS ]: response[ settingsPrefix + SETTINGS.COMMENTS_RSS ],
+					[ SETTINGS.POST_COMMENTS_RSS ]: response[ settingsPrefix + SETTINGS.POST_COMMENTS_RSS ],
+					[ SETTINGS.EMOJI ]: response[ settingsPrefix + SETTINGS.EMOJI ],
+					[ SETTINGS.JQUERY_MIGRATE ]: response[ settingsPrefix + SETTINGS.JQUERY_MIGRATE ],
+					[ SETTINGS.OEMBED_SCRIPT ]: response[ settingsPrefix + SETTINGS.OEMBED_SCRIPT ],
+					[ SETTINGS.CLASSIC_THEME_STYLES ]: response[ settingsPrefix + SETTINGS.CLASSIC_THEME_STYLES ],
+					[ SETTINGS.GUTENBERG ]: response[ settingsPrefix + SETTINGS.GUTENBERG ],
+					[ SETTINGS.HELLO_STYLE ]: response[ settingsPrefix + SETTINGS.HELLO_STYLE ],
+					[ SETTINGS.HELLO_THEME ]: response[ settingsPrefix + SETTINGS.HELLO_THEME ],
 				} );
 				setHasLoaded( true );
 			} catch ( error ) {

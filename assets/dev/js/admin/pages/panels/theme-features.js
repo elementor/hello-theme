@@ -1,4 +1,5 @@
 import { __ } from '@wordpress/i18n';
+import { SETTINGS } from '../settings.js';
 import { PanelBody, ToggleControl } from '@wordpress/components';
 
 export const PanelThemeFeatures = ( { settingsData, updateSettings } ) => {
@@ -14,15 +15,15 @@ export const PanelThemeFeatures = ( { settingsData, updateSettings } ) => {
 						'<head>',
 					)
 				}
-				checked={ !! settingsData._description_meta_tag || false }
-				onChange={ ( value ) => updateSettings( '_description_meta_tag', value ) }
+				checked={ !! settingsData[ SETTINGS.DESCRIPTION_META_TAG ] || false }
+				onChange={ ( value ) => updateSettings( SETTINGS.DESCRIPTION_META_TAG, value ) }
 			/>
 
 			<ToggleControl
 				label={ __( 'Disable skip link', 'hello-elementor' ) }
 				help={ __( 'A link to the main content used by screen-reader users.', 'hello-elementor' ) }
-				checked={ !! settingsData._skip_link || false }
-				onChange={ ( value ) => updateSettings( '_skip_link', value ) }
+				checked={ !! settingsData[ SETTINGS.SKIP_LINK ] || false }
+				onChange={ ( value ) => updateSettings( SETTINGS.SKIP_LINK, value ) }
 			/>
 
 			<ToggleControl
@@ -34,8 +35,8 @@ export const PanelThemeFeatures = ( { settingsData, updateSettings } ) => {
 						'<h1>',
 					)
 				}
-				checked={ !! settingsData._page_title || false }
-				onChange={ ( value ) => updateSettings( '_page_title', value ) }
+				checked={ !! settingsData[ SETTINGS.PAGE_TITLE ] || false }
+				onChange={ ( value ) => updateSettings( SETTINGS.PAGE_TITLE, value ) }
 			/>
 
 		</PanelBody>
