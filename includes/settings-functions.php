@@ -133,7 +133,7 @@ function hello_elementor_register_settings( $settings_group, $settings ) {
 function hello_elementor_do_tweak( $setting, $tweak_callback ) {
 
 	$option = get_option( $setting );
-	if ( isset( $option ) && ( 'true' === $option ) ) {
+	if ( isset( $option ) && ( 'true' === $option ) && is_callable( $tweak_callback ) ) {
 		$tweak_callback();
 	}
 
