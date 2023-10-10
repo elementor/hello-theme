@@ -28,7 +28,7 @@ export const PanelRssFeeds = ( { settingsData, updateSettings } ) => {
 				checked={ !! settingsData[ SETTINGS.POST_COMMENTS_RSS ] || false }
 				onChange={ ( value ) => updateSettings( SETTINGS.POST_COMMENTS_RSS, value ) }
 			/>
-			<code className="code-example"> &lt;link rel=&quot;alternate&quot; type=&quot;application/rss+xml&quot; title=&quot;Post Comments Feed&quot; href=&quot;https://example.com//post-name/feed/&quot; /&gt; </code>
+			<code className="code-example"> &lt;link rel=&quot;alternate&quot; type=&quot;application/rss+xml&quot; title=&quot;Post Comments Feed&quot; href=&quot;https://example.com/post-name/feed/&quot; /&gt; </code>
 
 		</PanelBody>
 	);
