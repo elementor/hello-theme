@@ -184,26 +184,16 @@ if ( ! function_exists( 'hello_elementor_add_description_meta_tag' ) ) {
 }
 add_action( 'wp_head', 'hello_elementor_add_description_meta_tag' );
 
+// Admin notice
 if ( is_admin() ) {
 	require get_template_directory() . '/includes/admin-functions.php';
 }
 
-/**
- * If Elementor is installed and active, we can load the Elementor-specific Settings & Features
-*/
+// Settings page
+require get_template_directory() . '/includes/settings-functions.php';
 
 // Allow active/inactive via the Experiments
 require get_template_directory() . '/includes/elementor-functions.php';
-
-/**
- * Include customizer registration functions
-*/
-function hello_register_customizer_functions() {
-	if ( is_customize_preview() ) {
-		require get_template_directory() . '/includes/customizer-functions.php';
-	}
-}
-add_action( 'init', 'hello_register_customizer_functions' );
 
 if ( ! function_exists( 'hello_elementor_check_hide_title' ) ) {
 	/**
@@ -214,61 +204,16 @@ if ( ! function_exists( 'hello_elementor_check_hide_title' ) ) {
 	 * @return bool
 	 */
 	function hello_elementor_check_hide_title( $val ) {
-		if ( 'off' === get_theme_mod( 'page_title' ) ) {
-			$val = false;
-		}
-
 		if ( defined( 'ELEMENTOR_VERSION' ) ) {
 			$current_doc = Elementor\Plugin::instance()->documents->get( get_the_ID() );
 			if ( $current_doc && 'yes' === $current_doc->get_settings( 'hide_title' ) ) {
 				$val = false;
 			}
 		}
-
 		return $val;
 	}
 }
 add_filter( 'hello_elementor_page_title', 'hello_elementor_check_hide_title' );
-
-if ( ! function_exists( 'hello_elementor_check_skip_link' ) ) {
-	/**
-	 * Check whether to add a link to main content for screen-reader users.
-	 *
-	 * @param bool $val default value.
-	 *
-	 * @return bool
-	 */
-	function hello_elementor_check_skip_link( $val ) {
-		if ( 'off' === get_theme_mod( 'skip_link' ) ) {
-			$val = false;
-		}
-
-		return $val;
-	}
-}
-add_filter( 'hello_elementor_enable_skip_link', 'hello_elementor_check_skip_link' );
-
-if ( ! function_exists( 'hello_elementor_check_description_meta_tag' ) ) {
-	/**
-	 * Check whether to add the description meta tag.
-	 *
-	 * @param bool $val default value.
-	 *
-	 * @return bool
-	 */
-	function hello_elementor_check_description_meta_tag( $val ) {
-		if ( ! get_theme_mod( 'description_meta_tag' ) ) {
-			$val = false;
-		}
-
-		if ( 'off' === get_theme_mod( 'description_meta_tag' ) ) {
-			$val = false;
-		}
-
-		return $val;
-	}
-}
-add_filter( 'hello_elementor_description_meta_tag', 'hello_elementor_check_description_meta_tag' );
 
 /**
  * BC:
