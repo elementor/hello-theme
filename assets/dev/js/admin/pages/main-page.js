@@ -53,7 +53,7 @@ export const MainPage = () => {
 	 * Save settings to server.
 	 */
 	const saveSettings = () => {
-		let data = {};
+		const data = {};
 
 		Object.values( SETTINGS ).forEach( ( value ) => data[ `${ settingsPrefix }${ value }` ] = settingsData[ value ] ? 'true' : '' );
 
@@ -78,7 +78,7 @@ export const MainPage = () => {
 				const settings = new api.models.Settings();
 				const response = await settings.fetch();
 
-				let data = {};
+				const data = {};
 				Object.values( SETTINGS ).forEach( ( value ) => data[ value ] = response[ `${ settingsPrefix }${ value }` ] );
 
 				setSettingsData( data );
