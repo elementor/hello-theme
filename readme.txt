@@ -2,7 +2,7 @@
 
 Contributors: elemntor, KingYes, ariel.k, jzaltzberg, mati1000, bainternet
 Requires at least: 5.9
-Tested up to: 6.2
+Tested up to: 6.3
 Stable tag: 2.8.1
 Version: 2.8.1
 Requires PHP: 7.0
@@ -37,8 +37,8 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 == Changelog ==
 
 = 2.9.0 - 2023-10-?? =
-Tweak: Add new settings for the theme.
-Tweak: Remove customizer settings.
+* Tweak: Update `Tested up to 6.3`
+* Tweak: Add new settings page for the theme.
 
 = 2.8.1 - 2023-07-05 =
 * Tweak: Added additional CSS selectors to apply RTL on comments
