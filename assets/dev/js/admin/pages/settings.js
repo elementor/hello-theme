@@ -17,7 +17,6 @@ export const SETTINGS = {
 	POST_COMMENTS_RSS: '_post_comments_rss',
 	/* Scripts & styles */
 	EMOJI: '_emoji',
-	JQUERY_MIGRATE: '_jquery_migrate',
 	OEMBED_SCRIPT: '_oembed_script',
 	CLASSIC_THEME_STYLES: '_classic_theme_styles',
 	GUTENBERG: '_gutenberg',
