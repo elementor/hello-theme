@@ -8,7 +8,7 @@
     "scripts": {
         "update-version": "node .github/scripts/update-version-in-files.js",
         "build": "wp-scripts build --env=developmentLocal",
-        "build:prod": "grunt default --environment=production && webpack --env=developmentLocal && webpack --env=developmentLocal",
+        "build:prod": "grunt default --environment=production && webpack --env=development && webpack --env=production",
         "build:dev": "concurrently \"grunt default\" \"webpack --env=developmentLocal\" \"webpack --env=productionLocal\"",
         "build:dev:watch": "concurrently \"grunt default watch\" \"webpack --env=developmentLocalWithWatch\" \"webpack --env=productionLocalWithWatch\"",
         "clean:build": "rimraf build && rimraf hello-elementor",
