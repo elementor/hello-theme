@@ -38,6 +38,25 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 = 2.9.0 - 2023-10-?? =
 * New: Introducing the new settings page for the theme.
+* New: Option to disable description meta tag.
+* New: Option to disable skip link.
+* New: Option to disable page title.
+* New: Option to remove generator tag.
+* New: Option to remove WordPress shortlink.
+* New: Option to remove WLW link.
+* New: Option to remove RSD link.
+* New: Option to remove oEmbed link.
+* New: Option to remove WordPress sitemap link.
+* New: Option to remove post relational links.
+* New: Option to remove site RSS feed.
+* New: Option to remove site comments RSS feed.
+* New: Option to remove post comments RSS feed.
+* New: Option to unregister Hello style.css.
+* New: Option to unregister Hello theme.css.
+* New: Option to unregister classic-theme styles.
+* New: Option to unregister oEmbed script.
+* New: Option to unregister Emoji scripts & styles.
+* New: Option to unregister Gutenberg styles.
 * Tweak: Update `Requires at least 6.0`
 * Tweak: Update `Tested up to 6.3`
 
