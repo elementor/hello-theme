@@ -146,7 +146,7 @@ module.exports = ( env ) => {
 	}
 
 	if ( env.development ) {
-		return { ...webpackConfig, plugins: [ copyPluginConfig, ...defaultConfig ] };
+		return { ...webpackConfig, plugins: [ copyPluginConfig, ...defaultConfig.plugins ], output: localOutputPath };
 	}
 
 	throw new Error( 'missing or invalid --env= development/production/developmentWithWatch/productionWithWatch' );
