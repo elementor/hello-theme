@@ -13,12 +13,6 @@ export const PanelScriptsStyles = ( { settingsData, updateSettings } ) => {
 			/>
 
 			<ToggleControl
-				label={ __( 'Unregister jQuery migrate script', 'hello-elementor' ) }
-				checked={ !! settingsData[ SETTINGS.JQUERY_MIGRATE ] || false }
-				onChange={ ( value ) => updateSettings( SETTINGS.JQUERY_MIGRATE, value ) }
-			/>
-
-			<ToggleControl
 				label={ __( 'Unregister oEmbed script', 'hello-elementor' ) }
 				checked={ !! settingsData[ SETTINGS.OEMBED_SCRIPT ] || false }
 				onChange={ ( value ) => updateSettings( SETTINGS.OEMBED_SCRIPT, value ) }
