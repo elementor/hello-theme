@@ -1,6 +1,6 @@
 === Hello Elementor ===
 
-Contributors: elemntor, KingYes, ariel.k, jzaltzberg, mati1000, bainternet
+Contributors: elemntor, KingYes, ariel.k, bainternet
 Requires at least: 6.0
 Tested up to: 6.3
 Stable tag: 2.8.1
