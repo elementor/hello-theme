@@ -78,23 +78,22 @@ function hello_elementor_tweak_settings() {
 	$settings_group = 'hello_elementor_settings';
 
 	$settings = [
-		/* Theme features */
+		/* Hello Theme */
 		'DESCRIPTION_META_TAG' => '_description_meta_tag',
 		'SKIP_LINK' => '_skip_link',
 		'PAGE_TITLE' => '_page_title',
-		/* Page metadata */
+		'WP_SITEMAP' => '_wp_sitemap',
+		/* Head Cleanup */
 		'GENERATOR' => '_generator',
 		'SHORTLINK' => '_shortlink',
 		'WLW' => '_wlw',
 		'RSD' => '_rsd',
 		'OEMBED' => '_oembed',
-		'WP_SITEMAP' => '_wp_sitemap',
 		'POST_PREV_NEXT' => '_post_prev_next',
-		/* RSS Feeds */
 		'SITE_RSS' => '_site_rss',
 		'COMMENTS_RSS' => '_comments_rss',
 		'POST_COMMENTS_RSS' => '_post_comments_rss',
-		/* Scripts & styles */
+		/* Scripts & Styles */
 		'EMOJI' => '_emoji',
 		'OEMBED_SCRIPT' => '_oembed_script',
 		'CLASSIC_THEME_STYLES' => '_classic_theme_styles',
@@ -143,7 +142,7 @@ function hello_elementor_do_tweak( $setting, $tweak_callback ) {
  */
 function hello_elementor_render_tweaks( $settings_group, $settings ) {
 
-	/* Theme features */
+	/* Hello Theme */
 
 	hello_elementor_do_tweak( $settings_group . $settings['DESCRIPTION_META_TAG'], function() {
 		remove_action( 'wp_head', 'hello_elementor_add_description_meta_tag' );
@@ -157,7 +156,11 @@ function hello_elementor_render_tweaks( $settings_group, $settings ) {
 		add_filter( 'hello_elementor_page_title', '__return_false' );
 	} );
 
-	/* Page metadata */
+	hello_elementor_do_tweak( $settings_group . $settings['WP_SITEMAP'], function() {
+		add_filter( 'wp_sitemaps_enabled', '__return_false' );
+	} );
+
+	/* Head Cleanup */
 
 	hello_elementor_do_tweak( $settings_group . $settings['GENERATOR'], function() {
 		remove_action( 'wp_head', 'wp_generator' );
@@ -179,15 +182,9 @@ function hello_elementor_render_tweaks( $settings_group, $settings ) {
 		remove_action( 'wp_head', 'wp_oembed_add_discovery_links' );
 	} );
 
-	hello_elementor_do_tweak( $settings_group . $settings['WP_SITEMAP'], function() {
-		add_filter( 'wp_sitemaps_enabled', '__return_false' );
-	} );
-
 	hello_elementor_do_tweak( $settings_group . $settings['POST_PREV_NEXT'], function() {
 		remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head' );
 	} );
-
-	/* RSS feeds */
 
 	hello_elementor_do_tweak( $settings_group . $settings['SITE_RSS'], function() {
 		remove_action( 'wp_head', 'feed_links', 2 );
