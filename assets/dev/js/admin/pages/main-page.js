@@ -6,8 +6,7 @@ import api from '@wordpress/api';
 import { Button, Panel, Placeholder, Spinner, SnackbarList } from '@wordpress/components';
 import { SETTINGS } from './settings.js';
 import { PanelThemeFeatures } from './panels/theme-features.js';
-import { PanelPageMetaData } from './panels/page-metadata.js';
-import { PanelRssFeeds } from './panels/rss-feeds.js';
+import { PanelHeadCleanup } from './panels/head-cleanup.js';
 import { PanelScriptsStyles } from './panels/scripts-styles.js';
 
 const Notices = () => {
@@ -109,7 +108,7 @@ export const MainPage = () => {
 			<div className="hello_elementor__header">
 				<div className="hello_elementor__container">
 					<div className="hello_elementor__title">
-						<h1>{ __( 'Hello Elementor Settings', 'hello-elementor' ) }</h1>
+						<h1>{ __( 'Hello Theme Settings', 'hello-elementor' ) }</h1>
 					</div>
 				</div>
 			</div>
@@ -118,9 +117,7 @@ export const MainPage = () => {
 
 					<PanelThemeFeatures { ...{ settingsData, updateSettings } } />
 
-					<PanelPageMetaData { ...{ settingsData, updateSettings } } />
-
-					<PanelRssFeeds { ...{ settingsData, updateSettings } } />
+					<PanelHeadCleanup { ...{ settingsData, updateSettings } } />
 
 					<PanelScriptsStyles { ...{ settingsData, updateSettings } } />
 
