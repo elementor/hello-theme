@@ -18,7 +18,7 @@ function hello_elementor_settings_page() {
 		esc_html__( 'Hello Theme Settings', 'hello-elementor' ),
 		esc_html__( 'Theme Settings', 'hello-elementor' ),
 		'manage_options',
-		'hello_elementor_settings',
+		'hello-theme-settings',
 		'hello_elementor_settings_page_render'
 	);
 
