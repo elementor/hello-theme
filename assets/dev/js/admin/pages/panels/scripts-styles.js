@@ -20,7 +20,7 @@ export const PanelScriptsStyles = ( { settingsData, updateSettings } ) => {
 
 			<ToggleControl
 				label={ __( 'Unregister wp-embed script', 'hello-elementor' ) }
-				help={ __( 'Disable the script responsible for inline HTML embed of external resources.', 'hello-elementor' ) }
+				help={ __( 'Disable the script which is responsible for embedding external resources.', 'hello-elementor' ) }
 				checked={ !! settingsData[ SETTINGS.OEMBED_SCRIPT ] || false }
 				onChange={ ( value ) => updateSettings( SETTINGS.OEMBED_SCRIPT, value ) }
 			/>
