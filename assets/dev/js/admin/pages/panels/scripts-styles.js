@@ -44,7 +44,7 @@ export const PanelScriptsStyles = ( { settingsData, updateSettings } ) => {
 
 			<ToggleControl
 				label={ __( 'Unregister Hello style.css', 'hello-elementor' ) }
-				help={ __( "Disable the Hello theme's style.css file which contains CSS reset rules for unified cross-browser view.", 'hello-elementor' ) }
+				help={ __( "Disable Hello theme's style.css file which contains CSS reset rules for unified cross-browser view.", 'hello-elementor' ) }
 				checked={ !! settingsData[ SETTINGS.HELLO_STYLE ] || false }
 				onChange={ ( value ) => updateSettings( SETTINGS.HELLO_STYLE, value ) }
 			/>
@@ -52,7 +52,7 @@ export const PanelScriptsStyles = ( { settingsData, updateSettings } ) => {
 
 			<ToggleControl
 				label={ __( 'Unregister Hello theme.css', 'hello-elementor' ) }
-				help={ __( "Disable the Hello theme's theme.css file which contains CSS rules that style WordPress elements.", 'hello-elementor' ) }
+				help={ __( "Disable Hello theme's theme.css file which contains CSS rules that style WordPress elements.", 'hello-elementor' ) }
 				checked={ !! settingsData[ SETTINGS.HELLO_THEME ] || false }
 				onChange={ ( value ) => updateSettings( SETTINGS.HELLO_THEME, value ) }
 			/>
