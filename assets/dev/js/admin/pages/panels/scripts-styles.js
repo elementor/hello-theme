@@ -8,7 +8,7 @@ export const PanelScriptsStyles = ( { settingsData, updateSettings } ) => {
 
 			<Notice status="warning" isDismissible="false">
 				<Dashicon icon="flag" />
-				{ __( 'Be cautious, disabling some of the following options may break your website.', 'hello-elementor' ) } 
+				{ __( 'Be cautious, disabling some of the following options may break your website.', 'hello-elementor' ) }
 			</Notice>
 
 			<ToggleControl
