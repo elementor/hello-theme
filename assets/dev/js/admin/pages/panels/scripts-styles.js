@@ -21,8 +21,8 @@ export const PanelScriptsStyles = ( { settingsData, updateSettings } ) => {
 			<ToggleControl
 				label={ __( 'Unregister wp-embed script', 'hello-elementor' ) }
 				help={ __( 'Disable the script which is responsible for embedding external resources.', 'hello-elementor' ) }
-				checked={ !! settingsData[ SETTINGS.OEMBED_SCRIPT ] || false }
-				onChange={ ( value ) => updateSettings( SETTINGS.OEMBED_SCRIPT, value ) }
+				checked={ !! settingsData[ SETTINGS.WP_EMBED_SCRIPT ] || false }
+				onChange={ ( value ) => updateSettings( SETTINGS.WP_EMBED_SCRIPT, value ) }
 			/>
 			<code className="code-example"> &lt;script type=&quot;text/javascript&quot; src=&quot;https://{ window.location.hostname }/wp-includes/js/wp-embed.min.js&quot; /&gt; </code>
 
