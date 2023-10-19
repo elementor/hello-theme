@@ -95,7 +95,7 @@ function hello_elementor_tweak_settings() {
 		'POST_COMMENTS_RSS' => '_post_comments_rss',
 		/* Scripts & Styles */
 		'EMOJI' => '_emoji',
-		'OEMBED_SCRIPT' => '_oembed_script',
+		'WP_EMBED_SCRIPT' => '_wp_embed_script',
 		'CLASSIC_THEME_STYLES' => '_classic_theme_styles',
 		'GUTENBERG' => '_gutenberg',
 		'HELLO_STYLE' => '_hello_style',
@@ -207,7 +207,7 @@ function hello_elementor_render_tweaks( $settings_group, $settings ) {
 		remove_action( 'wp_print_styles', 'wp_enqueue_emoji_styles' ); // WP 6.4 and above
 	} );
 
-	hello_elementor_do_tweak( $settings_group . $settings['OEMBED_SCRIPT'], function() {
+	hello_elementor_do_tweak( $settings_group . $settings['WP_EMBED_SCRIPT'], function() {
 		remove_action( 'wp_head', 'wp_oembed_add_host_js' );
 		add_action( 'wp_enqueue_scripts', function() {
 			wp_deregister_script( 'wp-embed' );

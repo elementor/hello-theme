@@ -42,6 +42,20 @@
 			background: #ffffff;
 		}
 
+		.components-notice {
+			margin: 0;
+			margin-block-end: 20px;
+
+			.dashicon {
+				padding-inline-end: 10px;
+				color: #f0b849;
+			}
+
+			button {
+				display: none;
+			}
+		}
+
 		.code-example {
 			display: inline-block;
 			margin-block-end: 1.5rem;

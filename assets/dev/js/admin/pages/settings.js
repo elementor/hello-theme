@@ -16,7 +16,7 @@ export const SETTINGS = {
 	POST_COMMENTS_RSS: '_post_comments_rss',
 	/* Scripts & Styles */
 	EMOJI: '_emoji',
-	OEMBED_SCRIPT: '_oembed_script',
+	WP_EMBED_SCRIPT: '_wp_embed_script',
 	CLASSIC_THEME_STYLES: '_classic_theme_styles',
 	GUTENBERG: '_gutenberg',
 	HELLO_STYLE: '_hello_style',

@@ -52,7 +52,7 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 * New: Option to remove site comments RSS feed.
 * New: Option to remove post comments RSS feed.
 * New: Option to unregister Emoji scripts & styles.
-* New: Option to unregister oEmbed script.
+* New: Option to unregister wp-embed script.
 * New: Option to unregister classic-theme styles.
 * New: Option to unregister Gutenberg styles.
 * New: Option to unregister Hello style.css.
