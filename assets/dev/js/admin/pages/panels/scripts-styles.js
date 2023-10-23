@@ -48,7 +48,7 @@ export const PanelScriptsStyles = ( { settingsData, updateSettings } ) => {
 				checked={ !! settingsData[ SETTINGS.HELLO_STYLE ] || false }
 				onChange={ ( value ) => updateSettings( SETTINGS.HELLO_STYLE, value ) }
 			/>
-			<code className="code-example"> &lt;link rel=&quot;stylesheet&quot; href=&quot;http://{ window.location.hostname }/wp-content/themes/hello-theme/style.min.css&quot; /&gt; </code>
+			<code className="code-example"> &lt;link rel=&quot;stylesheet&quot; href=&quot;http://{ window.location.hostname }/wp-content/themes/hello-elementor/style.min.css&quot; /&gt; </code>
 
 			<ToggleControl
 				label={ __( 'Unregister Hello theme.css', 'hello-elementor' ) }
@@ -56,7 +56,7 @@ export const PanelScriptsStyles = ( { settingsData, updateSettings } ) => {
 				checked={ !! settingsData[ SETTINGS.HELLO_THEME ] || false }
 				onChange={ ( value ) => updateSettings( SETTINGS.HELLO_THEME, value ) }
 			/>
-			<code className="code-example"> &lt;link rel=&quot;stylesheet&quot; href=&quot;http://{ window.location.hostname }/wp-content/themes/hello-theme/theme.min.css&quot; /&gt; </code>
+			<code className="code-example"> &lt;link rel=&quot;stylesheet&quot; href=&quot;http://{ window.location.hostname }/wp-content/themes/hello-elementor/theme.min.css&quot; /&gt; </code>
 
 		</PanelBody>
 	);
