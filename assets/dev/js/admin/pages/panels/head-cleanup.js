@@ -3,6 +3,10 @@ import { SETTINGS } from '../settings.js';
 import { PanelBody, ToggleControl } from '@wordpress/components';
 
 export const PanelHeadCleanup = ( { settingsData, updateSettings } ) => {
+	const protocol = window.location.protocol || 'https:';
+	const hostname = window.location.hostname || 'example.com';
+	const prefix = protocol + '//' + hostname;
+
 	return (
 		<PanelBody title={ __( 'Head Cleanup', 'hello-elementor' ) } >
 
@@ -20,7 +24,7 @@ export const PanelHeadCleanup = ( { settingsData, updateSettings } ) => {
 				checked={ !! settingsData[ SETTINGS.SHORTLINK ] || false }
 				onChange={ ( value ) => updateSettings( SETTINGS.SHORTLINK, value ) }
 			/>
-			<code className="code-example"> &lt;link rel=&quot;shortlink&quot; href=&quot;https://{ window.location.hostname }/?p=1&quot; /&gt; </code>
+			<code className="code-example"> &lt;link rel=&quot;shortlink&quot; href=&quot;{ prefix }/?p=1&quot; /&gt; </code>
 
 			<ToggleControl
 				label={ __( 'Remove WLW link', 'hello-elementor' ) }
@@ -28,7 +32,7 @@ export const PanelHeadCleanup = ( { settingsData, updateSettings } ) => {
 				checked={ !! settingsData[ SETTINGS.WLW ] || false }
 				onChange={ ( value ) => updateSettings( SETTINGS.WLW, value ) }
 			/>
-			<code className="code-example"> &lt;link rel=&quot;wlwmanifest&quot; type=&quot;application/wlwmanifest+xml&quot; href=&quot;https://{ window.location.hostname }/wp-includes/wlwmanifest.xml&quot; /&gt; </code>
+			<code className="code-example"> &lt;link rel=&quot;wlwmanifest&quot; type=&quot;application/wlwmanifest+xml&quot; href=&quot;{ prefix }/wp-includes/wlwmanifest.xml&quot; /&gt; </code>
 
 			<ToggleControl
 				label={ __( 'Remove RSD link', 'hello-elementor' ) }
@@ -36,7 +40,7 @@ export const PanelHeadCleanup = ( { settingsData, updateSettings } ) => {
 				checked={ !! settingsData[ SETTINGS.RSD ] || false }
 				onChange={ ( value ) => updateSettings( SETTINGS.RSD, value ) }
 			/>
-			<code className="code-example"> &lt;link rel=&quot;EditURI&quot; type=&quot;application/rsd+xml&quot; title=&quot;RSD&quot; href=&quot;https://{ window.location.hostname }/xmlrpc.php?rsd&quot; /&gt; </code>
+			<code className="code-example"> &lt;link rel=&quot;EditURI&quot; type=&quot;application/rsd+xml&quot; title=&quot;RSD&quot; href=&quot;{ prefix }/xmlrpc.php?rsd&quot; /&gt; </code>
 
 			<ToggleControl
 				label={ __( 'Remove oEmbed link', 'hello-elementor' ) }
@@ -44,7 +48,7 @@ export const PanelHeadCleanup = ( { settingsData, updateSettings } ) => {
 				checked={ !! settingsData[ SETTINGS.OEMBED ] || false }
 				onChange={ ( value ) => updateSettings( SETTINGS.OEMBED, value ) }
 			/>
-			<code className="code-example"> &lt;link rel=&quot;alternate&quot; type=&quot;application/json+oembed&quot; href=&quot;https://{ window.location.hostname }/wp-json/oembed/1.0/embed?url=...&quot; /&gt; </code>
+			<code className="code-example"> &lt;link rel=&quot;alternate&quot; type=&quot;application/json+oembed&quot; href=&quot;{ prefix }/wp-json/oembed/1.0/embed?url=...&quot; /&gt; </code>
 
 			<ToggleControl
 				label={ __( 'Remove post relational links', 'hello-elementor' ) }
@@ -52,8 +56,8 @@ export const PanelHeadCleanup = ( { settingsData, updateSettings } ) => {
 				checked={ !! settingsData[ SETTINGS.POST_PREV_NEXT ] || false }
 				onChange={ ( value ) => updateSettings( SETTINGS.POST_PREV_NEXT, value ) }
 			/>
-			<code className="code-example"> &lt;link rel=&quot;next&quot; title=&quot;Next Post&quot; href=&quot;https://{ window.location.hostname }/...&quot; /&gt; </code>
-			<code className="code-example"> &lt;link rel=&quot;prev&quot; title=&quot;Previous Post&quot; href=&quot;https://{ window.location.hostname }/...&quot; /&gt; </code>
+			<code className="code-example"> &lt;link rel=&quot;next&quot; title=&quot;Next Post&quot; href=&quot;{ prefix }/...&quot; /&gt; </code>
+			<code className="code-example"> &lt;link rel=&quot;prev&quot; title=&quot;Previous Post&quot; href=&quot;{ prefix }/...&quot; /&gt; </code>
 
 			<ToggleControl
 				label={ __( 'Remove site RSS feed', 'hello-elementor' ) }
@@ -61,7 +65,7 @@ export const PanelHeadCleanup = ( { settingsData, updateSettings } ) => {
 				checked={ !! settingsData[ SETTINGS.SITE_RSS ] || false }
 				onChange={ ( value ) => updateSettings( SETTINGS.SITE_RSS, value ) }
 			/>
-			<code className="code-example"> &lt;link rel=&quot;alternate&quot; type=&quot;application/rss+xml&quot; href=&quot;https://{ window.location.hostname }/feed/&quot; /&gt; </code>
+			<code className="code-example"> &lt;link rel=&quot;alternate&quot; type=&quot;application/rss+xml&quot; href=&quot;{ prefix }/feed/&quot; /&gt; </code>
 
 			<ToggleControl
 				label={ __( 'Remove site comments RSS feed', 'hello-elementor' ) }
@@ -69,7 +73,7 @@ export const PanelHeadCleanup = ( { settingsData, updateSettings } ) => {
 				checked={ !! settingsData[ SETTINGS.COMMENTS_RSS ] || false }
 				onChange={ ( value ) => updateSettings( SETTINGS.COMMENTS_RSS, value ) }
 			/>
-			<code className="code-example"> &lt;link rel=&quot;alternate&quot; type=&quot;application/rss+xml&quot; href=&quot;https://{ window.location.hostname }/comments/feed/&quot; /&gt; </code>
+			<code className="code-example"> &lt;link rel=&quot;alternate&quot; type=&quot;application/rss+xml&quot; href=&quot;{ prefix }/comments/feed/&quot; /&gt; </code>
 
 			<ToggleControl
 				label={ __( 'Remove post comments RSS feed', 'hello-elementor' ) }
@@ -77,7 +81,7 @@ export const PanelHeadCleanup = ( { settingsData, updateSettings } ) => {
 				checked={ !! settingsData[ SETTINGS.POST_COMMENTS_RSS ] || false }
 				onChange={ ( value ) => updateSettings( SETTINGS.POST_COMMENTS_RSS, value ) }
 			/>
-			<code className="code-example"> &lt;link rel=&quot;alternate&quot; type=&quot;application/rss+xml&quot; href=&quot;https://{ window.location.hostname }/post-name/feed/&quot; /&gt; </code>
+			<code className="code-example"> &lt;link rel=&quot;alternate&quot; type=&quot;application/rss+xml&quot; href=&quot;{ prefix }/post-name/feed/&quot; /&gt; </code>
 
 		</PanelBody>
 	);
