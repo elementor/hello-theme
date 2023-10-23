@@ -3,6 +3,9 @@ import { SETTINGS } from '../settings.js';
 import { PanelBody, ToggleControl } from '@wordpress/components';
 
 export const PanelThemeFeatures = ( { settingsData, updateSettings } ) => {
+	const protocol = window.location.protocol || 'https:';
+	const domain = window.location.hostname || 'example.com';
+
 	return (
 		<PanelBody title={ __( 'Hello Theme Features', 'hello-elementor' ) } >
 
@@ -36,7 +39,7 @@ export const PanelThemeFeatures = ( { settingsData, updateSettings } ) => {
 				checked={ !! settingsData[ SETTINGS.WP_SITEMAP ] || false }
 				onChange={ ( value ) => updateSettings( SETTINGS.WP_SITEMAP, value ) }
 			/>
-			<code className="code-example"> &lt;link rel=&quot;sitemap&quot; href=&quot;https://{ window.location.hostname }/wp-sitemap.xml&quot; /&gt; </code>
+			<code className="code-example"> &lt;link rel=&quot;sitemap&quot; href=&quot;{ protocol }//{ domain }/wp-sitemap.xml&quot; /&gt; </code>
 
 		</PanelBody>
 	);
