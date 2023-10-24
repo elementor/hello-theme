@@ -3,8 +3,8 @@
 Contributors: elemntor, KingYes, ariel.k, bainternet
 Requires at least: 6.0
 Tested up to: 6.3
-Stable tag: 2.8.1
-Version: 2.8.1
+Stable tag: 2.9.0
+Version: 2.9.0
 Requires PHP: 7.0
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -36,7 +36,7 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
 
-= 2.9.0 - 2023-10-?? =
+= 2.9.0 - 2023-10-24 =
 * New: Introducing the new settings page for the theme.
 * New: Option to disable description meta tag.
 * New: Option to disable skip link.
