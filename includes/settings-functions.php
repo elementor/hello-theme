@@ -36,7 +36,7 @@ function hello_elementor_settings_page_scripts() {
 	$dir = get_template_directory() . '/assets/js';
 	$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 	$handle = 'hello-admin';
-	$asset_path = "$dir/hello-admin$suffix.asset.php";
+	$asset_path = "$dir/hello-admin.asset.php";
 	$asset_url = get_template_directory_uri() . '/assets/js';
 	if ( ! file_exists( $asset_path ) ) {
 		throw new \Error( 'You need to run `npm run build` for the "hello-theme" first.' );
