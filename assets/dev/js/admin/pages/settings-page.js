@@ -4,10 +4,7 @@ import { dispatch, useDispatch, useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 import api from '@wordpress/api';
 import { Button, Panel, Placeholder, Spinner, SnackbarList } from '@wordpress/components';
-import { SETTINGS } from './settings.js';
-import { PanelThemeFeatures } from './panels/theme-features.js';
-import { PanelHeadCleanup } from './panels/head-cleanup.js';
-import { PanelScriptsStyles } from './panels/scripts-styles.js';
+import { SettingsPanel } from './../panels/settings-panel.js';
 
 const Notices = () => {
 	const notices = useSelect(
@@ -29,7 +26,15 @@ const Notices = () => {
 	);
 };
 
-export const MainPage = () => {
+const SETTINGS = {
+	DESCRIPTION_META_TAG: '_description_meta_tag',
+	SKIP_LINK: '_skip_link',
+	PAGE_TITLE: '_page_title',
+	HELLO_STYLE: '_hello_style',
+	HELLO_THEME: '_hello_theme',
+};
+
+export const SettingsPage = () => {
 	const [ hasLoaded, setHasLoaded ] = useState( false );
 	const [ settingsData, setSettingsData ] = useState( {} );
 
@@ -115,11 +120,7 @@ export const MainPage = () => {
 			<div className="hello_elementor__main">
 				<Panel>
 
-					<PanelThemeFeatures { ...{ settingsData, updateSettings } } />
-
-					<PanelHeadCleanup { ...{ settingsData, updateSettings } } />
-
-					<PanelScriptsStyles { ...{ settingsData, updateSettings } } />
+					<SettingsPanel { ...{ SETTINGS, settingsData, updateSettings } } />
 
 					<Button isPrimary onClick={ saveSettings }>
 						{ __( 'Save Settings', 'hello-elementor' ) }

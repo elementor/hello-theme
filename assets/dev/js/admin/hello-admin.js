@@ -1,9 +1,9 @@
 import './hello-admin.scss';
 import { render } from '@wordpress/element';
-import { MainPage } from './pages/main-page.js';
+import { SettingsPage } from './pages/settings-page.js';
 
 const App = () => {
-	return <MainPage />;
+	return <SettingsPage />;
 };
 
 document.addEventListener( 'DOMContentLoaded', () => {

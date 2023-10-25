@@ -1,14 +1,18 @@
 import { __ } from '@wordpress/i18n';
-import { SETTINGS } from '../settings.js';
-import { PanelBody, ToggleControl } from '@wordpress/components';
+import { PanelBody, ToggleControl, Notice, Dashicon } from '@wordpress/components';
 
-export const PanelThemeFeatures = ( { settingsData, updateSettings } ) => {
+export const SettingsPanel = ( { SETTINGS, settingsData, updateSettings } ) => {
 	const protocol = window.location.protocol || 'https:';
 	const hostname = window.location.hostname || 'example.com';
 	const prefix = protocol + '//' + hostname;
 
 	return (
-		<PanelBody title={ __( 'Hello Theme Features', 'hello-elementor' ) } >
+		<PanelBody title={ __( 'Hello Theme Settings', 'hello-elementor' ) } >
+
+			<Notice status="warning" isDismissible="false">
+				<Dashicon icon="flag" />
+				{ __( 'Be cautious, disabling some of the following options may break your website.', 'hello-elementor' ) }
+			</Notice>
 
 			<ToggleControl
 				label={ __( 'Disable description meta tag', 'hello-elementor' ) }
@@ -35,12 +39,20 @@ export const PanelThemeFeatures = ( { settingsData, updateSettings } ) => {
 			<code className="code-example"> &lt;header class=&quot;page-header&quot;&gt; &lt;h1 class=&quot;entry-title&quot;&gt; Post title &lt;/h1&gt; &lt;/header&gt; </code>
 
 			<ToggleControl
-				label={ __( 'Disable WordPress sitemap', 'hello-elementor' ) }
-				help={ __( 'Remove the WordPress sitemap that contains the site pages.', 'hello-elementor' ) }
-				checked={ !! settingsData[ SETTINGS.WP_SITEMAP ] || false }
-				onChange={ ( value ) => updateSettings( SETTINGS.WP_SITEMAP, value ) }
+				label={ __( 'Unregister Hello style.css', 'hello-elementor' ) }
+				help={ __( "Disable Hello theme's style.css file which contains CSS reset rules for unified cross-browser view.", 'hello-elementor' ) }
+				checked={ !! settingsData[ SETTINGS.HELLO_STYLE ] || false }
+				onChange={ ( value ) => updateSettings( SETTINGS.HELLO_STYLE, value ) }
 			/>
-			<code className="code-example"> &lt;link rel=&quot;sitemap&quot; href=&quot;{ prefix }/wp-sitemap.xml&quot; /&gt; </code>
+			<code className="code-example"> &lt;link rel=&quot;stylesheet&quot; href=&quot;{ prefix }/wp-content/themes/hello-elementor/style.min.css&quot; /&gt; </code>
+
+			<ToggleControl
+				label={ __( 'Unregister Hello theme.css', 'hello-elementor' ) }
+				help={ __( "Disable Hello theme's theme.css file which contains CSS rules that style WordPress elements.", 'hello-elementor' ) }
+				checked={ !! settingsData[ SETTINGS.HELLO_THEME ] || false }
+				onChange={ ( value ) => updateSettings( SETTINGS.HELLO_THEME, value ) }
+			/>
+			<code className="code-example"> &lt;link rel=&quot;stylesheet&quot; href=&quot;{ prefix }/wp-content/themes/hello-elementor/theme.min.css&quot; /&gt; </code>
 
 		</PanelBody>
 	);
