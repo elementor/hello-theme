@@ -5,7 +5,7 @@ Requires at least: 6.0
 Tested up to: 6.3
 Stable tag: 2.9.0
 Version: 2.9.0
-Requires PHP: 7.0
+Requires PHP: 7.3
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -35,6 +35,9 @@ License: CC0 1.0 Universal (CC0 1.0)
 Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
+
+= 3.0.0 =
+* Tweak: Update `Requires PHP 7.3`
 
 = 2.9.0 - 2023-10-25 =
 * New: Introducing the new settings page for the theme.
