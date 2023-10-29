@@ -17,7 +17,7 @@ $header_nav_menu = wp_nav_menu( [
 ] );
 ?>
 
-<header id="site-header" class="site-header" role="banner">
+<header id="site-header" class="site-header">
 
 	<div class="site-branding">
 		<?php
