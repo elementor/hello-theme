@@ -38,6 +38,7 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 = 3.0.0 =
 * Tweak: Update `Requires PHP 7.3`
+* Tweak: Remove unnecessary `role` attributes from HTML landmark elements.
 
 = 2.9.0 - 2023-10-25 =
 * New: Introducing the new settings page for the theme.
