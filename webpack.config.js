@@ -9,6 +9,12 @@ const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
 const CopyPlugin = require( 'copy-webpack-plugin' );
 const TerserPlugin = require( 'terser-webpack-plugin' );
 
+const entry = {
+	'hello-editor': path.resolve( __dirname, './assets/dev/js/editor/hello-editor.js' ),
+	'hello-frontend': path.resolve( __dirname, './assets/dev/js/frontend/hello-frontend.js' ),
+	'hello-admin': path.resolve( __dirname, './assets/dev/js/admin/hello-admin.js' ),
+};
+
 const copyPluginConfig = new CopyPlugin( {
 	patterns: [
 		{
@@ -19,6 +25,8 @@ const copyPluginConfig = new CopyPlugin( {
 			info: { minimized: true },
 			globOptions: {
 				ignore: [
+					// ignore minified php files
+					...Object.keys( entry ).map( ( key ) => `**/assets/js/${ key }.min.asset.php` ),
 					'**.zip',
 					'**.css',
 					'**/karma.conf.js',
@@ -68,36 +76,38 @@ const moduleRules = {
 	],
 };
 
-const entry = {
-	'hello-editor': path.resolve( __dirname, './assets/dev/js/editor/hello-editor.js' ),
-	'hello-frontend': path.resolve( __dirname, './assets/dev/js/frontend/hello-frontend.js' ),
-	'hello-admin': path.resolve( __dirname, './assets/dev/js/admin/hello-admin.js' ),
-};
-
-const webpackConfig = {
+const commonConfig = {
 	...defaultConfig,
 	target: 'web',
 	context: __dirname,
 	module: moduleRules,
 	entry,
-	mode: 'development',
 	output: {
-		path: path.resolve( __dirname, './build/assets/js' ),
+		...defaultConfig.output,
+		path: path.resolve( __dirname, './assets/js' ),
 		filename: '[name].js',
-		devtoolModuleFilenameTemplate: './[resource]',
 	},
 };
 
-const webpackProductionConfig = {
-	...defaultConfig,
-	target: 'web',
-	context: __dirname,
-	module: moduleRules,
+const webpackConfig = {
+	...commonConfig,
+	mode: 'development',
+	output: {
+		...commonConfig.output,
+		devtoolModuleFilenameTemplate: './[resource]',
+	},
 	entry: {
 		...entry,
 	},
+	devtool: 'source-map',
+};
+
+const webpackProductionConfig = {
+	...commonConfig,
+	mode: 'production',
 	optimization: {
-		minimize: true,
+		...defaultConfig.optimization || {},
+		minimize: false,
 		minimizer: [
 			new TerserPlugin( {
 				terserOptions: {
@@ -107,38 +117,26 @@ const webpackProductionConfig = {
 			} ),
 		],
 	},
-	mode: 'production',
-	output: {
-		path: path.resolve( __dirname, './build/assets/js' ),
-		filename: '[name].js',
-	},
 	performance: { hints: false },
 };
 
 // Add minified entry points
 Object.entries( webpackProductionConfig.entry ).forEach( ( [ wpEntry, value ] ) => {
 	webpackProductionConfig.entry[ wpEntry + '.min' ] = value;
-
-	delete webpackProductionConfig.entry[ wpEntry ];
 } );
 
-const localOutputPath = { ...webpackProductionConfig.output, path: path.resolve( __dirname, './assets/js' ) };
+// Override copyPluginConfig
+// we first remove the one supplied by @wordpress/scripts
+webpackProductionConfig.plugins = webpackProductionConfig.plugins.filter( ( plugin ) => {
+	return plugin.constructor.name !== 'CopyPlugin';
+} );
+// then we add our own
+webpackProductionConfig.plugins = [ copyPluginConfig, ...defaultConfig.plugins ];
 
 module.exports = ( env ) => {
-	if ( env.developmentLocalWithWatch ) {
-		return { ...webpackConfig, watch: true, devtool: 'source-map', output: localOutputPath };
-	}
-
-	if ( env.productionLocalWithWatch ) {
-		return { ...webpackProductionConfig, watch: true, devtool: 'source-map', output: localOutputPath };
-	}
-
-	if ( env.productionLocal ) {
-		return { ...webpackProductionConfig, devtool: 'source-map', output: localOutputPath };
-	}
 
 	if ( env.developmentLocal ) {
-		return { ...webpackConfig, devtool: 'source-map', output: localOutputPath };
+		return { ...webpackConfig, watch: true };
 	}
 
 	if ( env.production ) {
@@ -146,7 +144,7 @@ module.exports = ( env ) => {
 	}
 
 	if ( env.development ) {
-		return { ...webpackConfig, plugins: [ copyPluginConfig, ...defaultConfig.plugins ], output: localOutputPath };
+		return webpackConfig;
 	}
 
 	throw new Error( 'missing or invalid --env= development/production/developmentWithWatch/productionWithWatch' );
