@@ -30,12 +30,14 @@ function hello_elementor_fail_load_admin_notice() {
 
 	$is_elementor_installed = isset( $installed_plugins[ $plugin ] );
 
+	$message = esc_html__( 'The Hello Theme is a lightweight starter theme that works perfectly with the Elementor award-winning site builder plugin.', 'hello-elementor' );
+
 	if ( $is_elementor_installed ) {
 		if ( ! current_user_can( 'activate_plugins' ) ) {
 			return;
 		}
 
-		$message = esc_html__( 'The Hello Theme is a lightweight starter theme that works perfectly with the Elementor award-winning page builder plugin. Once you activate the plugin, you are only 1 click away from building an amazing website.', 'hello-elementor' );
+		$message .= ' ' . esc_html__( 'Once you activate the plugin, you are only one click away from building an amazing website.', 'hello-elementor' );
 
 		$button_text = esc_html__( 'Activate Elementor', 'hello-elementor' );
 		$button_link = wp_nonce_url( 'plugins.php?action=activate&amp;plugin=' . $plugin . '&amp;plugin_status=all&amp;paged=1&amp;s', 'activate-plugin_' . $plugin );
@@ -44,7 +46,7 @@ function hello_elementor_fail_load_admin_notice() {
 			return;
 		}
 
-		$message = esc_html__( 'The Hello Theme is a lightweight starter theme that works perfectly with the Elementor award-winning page builder plugin. Once you download and activate the plugin, you are only 1 click away from building an amazing website.', 'hello-elementor' );
+		$message .= ' ' . esc_html__( 'Once you download and activate the plugin, you are only one click away from building an amazing website.', 'hello-elementor' );
 
 		$button_text = esc_html__( 'Install Elementor', 'hello-elementor' );
 		$button_link = wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=elementor' ), 'install-plugin_elementor' );
@@ -136,7 +138,7 @@ function hello_elementor_fail_load_admin_notice() {
 			<div class="hello-elementor-notice-content">
 				<h3><?php echo esc_html__( 'Thanks for installing the Hello Theme!', 'hello-elementor' ); ?></h3>
 				<p><?php echo esc_html( $message ); ?></p>
-				<a href="https://go.elementor.com/hello-theme-learn/" target="_blank"><?php echo esc_html__( 'Explore Elementor Page Builder Plugin', 'hello-elementor' ); ?></a>
+				<a href="https://go.elementor.com/hello-theme-learn/" target="_blank"><?php echo esc_html__( 'Explore Elementor Site Builder Plugin', 'hello-elementor' ); ?></a>
 				<div class="hello-elementor-install-now">
 					<a class="hello-elementor-install-button" href="<?php echo esc_attr( $button_link ); ?>"><?php echo esc_html( $button_text ); ?></a>
 				</div>
