@@ -134,7 +134,6 @@ webpackProductionConfig.plugins = webpackProductionConfig.plugins.filter( ( plug
 webpackProductionConfig.plugins = [ copyPluginConfig, ...defaultConfig.plugins ];
 
 module.exports = ( env ) => {
-
 	if ( env.developmentLocal ) {
 		return { ...webpackConfig, watch: true };
 	}
