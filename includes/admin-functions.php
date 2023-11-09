@@ -59,69 +59,62 @@ function hello_elementor_fail_load_admin_notice() {
 			border-inline-start: 4px solid #9b0a46 !important;
 			box-shadow: 0 1px 4px rgba(0,0,0,0.15);
 			display: flex;
-			padding: 0px;
+			padding: 0;
+		}
+		.notice.hello-elementor-notice.hello-elementor-install-elementor {
+			padding: 0;
 		}
 		.notice.hello-elementor-notice .hello-elementor-notice-aside {
-			width: 50px;
 			display: flex;
 			align-items: start;
 			justify-content: center;
-			padding-block-start: 15px;
+			padding: 20px 10px;
 			background: rgba(215,43,63,0.04);
 		}
-		.notice.hello-elementor-notice .hello-elementor-notice-aside img{
+		.notice.hello-elementor-notice .hello-elementor-notice-aside img {
 			width: 1.5rem;
 		}
-		.notice.hello-elementor-notice .hello-elementor-notice-inner {
-			display: table;
-			padding: 20px 0px;
+		.notice.hello-elementor-notice .hello-elementor-notice-content {
+			display: flex;
+			flex-direction: column;
+			gap: 5px;
+			padding: 20px;
 			width: 100%;
 		}
-		.notice.hello-elementor-notice .hello-elementor-notice-content {
-			padding: 0 20px;
-		}
-		.notice.hello-elementor-notice p {
+		.notice.hello-elementor-notice .hello-elementor-notice-content h3,
+		.notice.hello-elementor-notice .hello-elementor-notice-content p {
 			padding: 0;
 			margin: 0;
 		}
-		.notice.hello-elementor-notice h3 {
-			margin: 0 0 5px;
+		.notice.hello-elementor-notice .hello-elementor-information-link {
+			align-self: start;
 		}
-		.notice.hello-elementor-notice .hello-elementor-install-now {
-			display: block;
-			margin-block-start: 15px;
-		}
-		.notice.hello-elementor-notice .hello-elementor-install-now .hello-elementor-install-button {
-			background: #127DB8;
+		.notice.hello-elementor-notice .hello-elementor-install-button {
+			align-self: start;
+			background-color: #127DB8;
 			border-radius: 3px;
 			color: #fff;
 			text-decoration: none;
 			height: auto;
 			line-height: 20px;
 			padding: 0.4375rem 0.75rem;
-			text-transform: capitalize;
+			margin-block-start: 15px;
 		}
-		.notice.hello-elementor-notice .hello-elementor-install-now .hello-elementor-install-button:active {
+		.notice.hello-elementor-notice .hello-elementor-install-button:active {
 			transform: translateY(1px);
 		}
 		@media (max-width: 767px) {
-			.notice.hello-elementor-notice.hello-elementor-install-elementor {
-				padding: 0px;
-			}
-			.notice.hello-elementor-notice .hello-elementor-notice-inner {
-				display: block;
+			.notice.hello-elementor-notice .hello-elementor-notice-aside {
 				padding: 10px;
 			}
-			.notice.hello-elementor-notice .hello-elementor-notice-inner .hello-elementor-notice-content {
-				display: block;
-				padding: 0;
-			}
-			.notice.hello-elementor-notice .hello-elementor-notice-inner .hello-elementor-install-now {
-				display: none;
+			.notice.hello-elementor-notice .hello-elementor-notice-content {
+				gap: 10px;
+				padding: 10px;
 			}
 		}
 	</style>
-	<script>jQuery( function( $ ) {
+	<script>
+		jQuery( function( $ ) {
 			$( 'div.notice.hello-elementor-install-elementor' ).on( 'click', 'button.notice-dismiss', function( event ) {
 				event.preventDefault();
 
@@ -129,20 +122,17 @@ function hello_elementor_fail_load_admin_notice() {
 					action: 'hello_elementor_set_admin_notice_viewed'
 				} );
 			} );
-		} );</script>
+		} );
+	</script>
 	<div class="notice updated is-dismissible hello-elementor-notice hello-elementor-install-elementor">
 		<div class="hello-elementor-notice-aside">
-			<img src="<?php echo esc_url( get_template_directory_uri() ) . '/assets/images/elementor-notice-icon.svg'; ?>" alt="<?php echo esc_attr__( 'Get Elementor', 'hello-elementor' ); ?>" />
+			<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/elementor-notice-icon.svg' ); ?>" alt="<?php echo esc_attr__( 'Get Elementor', 'hello-elementor' ); ?>" />
 		</div>
-		<div class="hello-elementor-notice-inner">
-			<div class="hello-elementor-notice-content">
-				<h3><?php echo esc_html__( 'Thanks for installing the Hello Theme!', 'hello-elementor' ); ?></h3>
-				<p><?php echo esc_html( $message ); ?></p>
-				<a href="https://go.elementor.com/hello-theme-learn/" target="_blank"><?php echo esc_html__( 'Explore Elementor Site Builder Plugin', 'hello-elementor' ); ?></a>
-				<div class="hello-elementor-install-now">
-					<a class="hello-elementor-install-button" href="<?php echo esc_attr( $button_link ); ?>"><?php echo esc_html( $button_text ); ?></a>
-				</div>
-			</div>
+		<div class="hello-elementor-notice-content">
+			<h3><?php echo esc_html__( 'Thanks for installing the Hello Theme!', 'hello-elementor' ); ?></h3>
+			<p><?php echo esc_html( $message ); ?></p>
+			<a class="hello-elementor-information-link" href="https://go.elementor.com/hello-theme-learn/" target="_blank"><?php echo esc_html__( 'Explore Elementor Site Builder Plugin', 'hello-elementor' ); ?></a>
+			<a class="hello-elementor-install-button" href="<?php echo esc_attr( $button_link ); ?>"><?php echo esc_html( $button_text ); ?></a>
 		</div>
 	</div>
 	<?php
