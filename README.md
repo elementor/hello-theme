@@ -1,12 +1,12 @@
 # Hello Elementor
 
-A lightweight and minimalist WordPress theme for Elementor page builder.
+A lightweight and minimalist WordPress theme for Elementor site builder.
 
 <p><a href="https://elementor.com/?utm_source=github-repo&utm_medium=link&utm_campaign=readme"><img src="https://i0.wp.com/themes.svn.wordpress.org/hello-elementor/2.7.1/screenshot.png?w=600&strip=all" alt="Hello Elementor"></a></p>
 
 ## Description
 
-[Hello Elementor](https://elementor.com/products/hello-theme/?utm_source=github-repo&utm_medium=link&utm_campaign=readme) is a lightweight and minimalist WordPress theme that was built specifically to work seamlessly with the [Elementor page builder](https://elementor.com/?utm_source=github-repo&utm_medium=link&utm_campaign=readme) plugin. The theme is free, open-source, and designed for users who want a flexible, easy-to-use, and customizable website.
+[Hello Elementor](https://elementor.com/products/hello-theme/?utm_source=github-repo&utm_medium=link&utm_campaign=readme) is a lightweight and minimalist WordPress theme that was built specifically to work seamlessly with the [Elementor site builder](https://elementor.com/?utm_source=github-repo&utm_medium=link&utm_campaign=readme) plugin. The theme is free, open-source, and designed for users who want a flexible, easy-to-use, and customizable website.
 
 The theme's main focus is on providing a solid foundation for users to build their own unique designs using the Elementor drag-and-drop site builder. It is optimized for speed and performance, and its simplicity and flexibility make it a great choice for both beginners and experienced website designers.
 
