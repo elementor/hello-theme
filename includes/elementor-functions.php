@@ -157,7 +157,7 @@ add_action( 'wp_enqueue_scripts', function() {
 		'hello-theme-frontend',
 		get_template_directory_uri() . '/assets/js/hello-frontend' . $suffix . '.js',
 		[ 'jquery' ],
-		'1.0.0',
+		HELLO_ELEMENTOR_VERSION,
 		true
 	);
 
