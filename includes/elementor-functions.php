@@ -161,6 +161,13 @@ add_action( 'wp_enqueue_scripts', function() {
 		true
 	);
 
+	wp_enqueue_style(
+		'hello-elementor-header-footer',
+		get_template_directory_uri() . '/header-footer' . $suffix . '.css',
+		[],
+		HELLO_ELEMENTOR_VERSION
+	);
+
 	\Elementor\Plugin::$instance->kits_manager->frontend_before_enqueue_styles();
 } );
 
