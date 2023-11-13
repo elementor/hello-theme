@@ -114,12 +114,18 @@ function hello_elementor_fail_load_admin_notice() {
 		}
 	</style>
 	<script>
-		jQuery( function( $ ) {
-			$( 'div.notice.hello-elementor-install-elementor' ).on( 'click', 'button.notice-dismiss', function( event ) {
+		window.addEventListener( 'load', ( event ) => {
+			const dismissNotice = document.querySelector( '.notice.hello-elementor-install-elementor button.notice-dismiss' );
+			dismissNotice.addEventListener( 'click', async () => {
 				event.preventDefault();
 
-				$.post( ajaxurl, {
-					action: 'hello_elementor_set_admin_notice_viewed'
+				var formData = new FormData();
+
+				formData.append( 'action', 'hello_elementor_set_admin_notice_viewed' );
+
+				await fetch( ajaxurl, {
+					method: 'POST',
+					body: formData,
 				} );
 			} );
 		} );
