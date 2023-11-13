@@ -114,19 +114,15 @@ function hello_elementor_fail_load_admin_notice() {
 		}
 	</style>
 	<script>
-		window.addEventListener( 'load', ( event ) => {
+		window.addEventListener( 'load', () => {
 			const dismissNotice = document.querySelector( '.notice.hello-elementor-install-elementor button.notice-dismiss' );
-			dismissNotice.addEventListener( 'click', async () => {
+			dismissNotice.addEventListener( 'click', async ( event ) => {
 				event.preventDefault();
 
 				var formData = new FormData();
-
 				formData.append( 'action', 'hello_elementor_set_admin_notice_viewed' );
 
-				await fetch( ajaxurl, {
-					method: 'POST',
-					body: formData,
-				} );
+				await fetch( ajaxurl, { method: 'POST', body: formData } );
 			} );
 		} );
 	</script>
