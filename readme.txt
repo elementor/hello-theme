@@ -2,7 +2,7 @@
 
 Contributors: elemntor, KingYes, ariel.k, bainternet
 Requires at least: 6.0
-Tested up to: 6.3
+Tested up to: 6.4
 Stable tag: 2.9.0
 Version: 2.9.0
 Requires PHP: 7.3
@@ -38,6 +38,7 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 = 3.0.0 =
 * Tweak: Update `Requires PHP 7.3`
+* Tweak: Update `Tested up to 6.3`
 * Tweak: Move header-footer styles to a separate CSS file.
 * Tweak: Remove unnecessary `role` attributes from HTML landmark elements.
 * Fix: Dynamic script version for better caching.
