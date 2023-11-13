@@ -40,6 +40,7 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 * Tweak: Update `Requires PHP 7.3`
 * Tweak: Move header-footer styles to a separate CSS file.
 * Tweak: Remove unnecessary `role` attributes from HTML landmark elements.
+* Tweak: Replace jQuery with Vanilla JS in WordPress admin.
 
 = 2.9.0 - 2023-10-25 =
 * New: Introducing the new settings page for the theme.
