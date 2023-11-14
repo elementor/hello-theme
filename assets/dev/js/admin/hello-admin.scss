@@ -58,9 +58,13 @@
 
 		.code-example {
 			display: inline-block;
-			margin-block-end: 1.5rem;
+			margin-block-end: 0.25rem;
 			border-radius: 4px;
 			font-size: 10px;
+
+			+ *:not(.code-example) {
+				margin-block-start: 1.25rem;
+			}
 		}
 	}
 
