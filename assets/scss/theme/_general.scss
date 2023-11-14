@@ -1,10 +1,16 @@
-/*
-DO NOT CHANGE THIS FILE
-to override any of the settings in this section, add your styling code in the custom directory.
+/**
+ * General - https://wordpress.org/documentation/article/css/
+ * DO NOT CHANGE THIS FILE
+ * to override any of the settings in this section, add your styling code in the custom directory.
  */
 
-/* General - https://codex.wordpress.org/CSS#WordPress_Generated_Classes
-   ========================================================================== */
+.page-content,
+.comments-area {
+
+	a {
+		text-decoration: underline;
+	}
+}
 
 .alignright {
 	float: right;
@@ -42,7 +48,7 @@ to override any of the settings in this section, add your styling code in the cu
 }
 
 .wp-caption {
-	margin-bottom: 1.25rem;
+	margin-block-end: 1.25rem;
 	max-width: 100%;
 
 	&.alignleft {
@@ -83,4 +89,18 @@ to override any of the settings in this section, add your styling code in the cu
 
 .bypostauthor {
 	font-size: inherit;
+}
+
+.hide {
+    display: none !important;
+}
+
+.post-password-form p {
+	width: 100%;
+	display: flex;
+	align-items: flex-end;
+}
+
+.post-password-form [type=submit] {
+	margin-inline-start: 3px;
 }

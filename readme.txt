@@ -1,84 +1,27 @@
 === Hello Elementor ===
 
-Contributors: elemntor, KingYes, ariel.k, jzaltzberg, mati1000, bainternet
-Requires at least: 4.7
-Tested up to: 5.6
-Stable tag: 2.3.1
-Version: 2.3.1
-Requires PHP: 5.6
+Contributors: elemntor, KingYes, ariel.k, bainternet
+Requires at least: 6.0
+Tested up to: 6.3
+Stable tag: 2.9.0
+Version: 2.9.0
+Requires PHP: 7.0
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Tags: custom-menu, custom-logo, featured-images, rtl-language-support, threaded-comments, translation-ready
 
-A lightweight, plain-vanilla theme for Elementor page builder.
-
-***Hello Elementor*** is distributed under the terms of the GNU GPL v3 or later.
+A lightweight and minimalist WordPress theme for Elementor page builder.
 
 == Description ==
 
-A basic, plain-vanilla, lightweight theme, best suited for building your site using Elementor page builder.
+Hello Elementor is a lightweight and minimalist WordPress theme that was built specifically to work seamlessly with the Elementor page builder plugin. The theme is free, open-source, and designed for users who want a flexible, easy-to-use, and customizable website.
 
-This theme resets the WordPress environment and prepares it for smooth operation of Elementor.
+The theme's main focus is on providing a solid foundation for users to build their own unique designs using the Elementor drag-and-drop site builder. It is optimized for speed and performance, and its simplicity and flexibility make it a great choice for both beginners and experienced website designers.
 
-Screenshot's images & icons are licensed under: Creative Commons (CC0), https://creativecommons.org/publicdomain/zero/1.0/legalcode
-
-== Installation ==
-
-1. In your site's admin panel, go to Appearance > Themes and click `Add New`.
-2. Type "Hello Elementor" in the search field.
-3. Click `Install` and then `Activate` to start using the theme.
-4. Navigate to Appearance > Customize in your admin panel and customize to your needs.
-5. A notice box may appear, recommending you to install Elementor Page Builder Plugin. You can either use it or any other editor.
-6. Create a new page, click `Edit with Elementor`.
-7. Once the Elementor Editor is launched, click on the library icon, pick one of the many ready-made templates and click `Insert`.
-8. Edit the page content as you wish, you can add, remove and manipulate any of the elements.
-9. Enjoy :)
-
-== Customizations ==
-
-Most users will not need to edit the files for customizing this theme.
-To customize your site's appearance, simply use ***Elementor***.
-
-However, if you have a particular need to adapt this theme, please read on.
-
-= Style & Stylesheets =
-
-All of your site's styles should be handled directly inside ***Elementor***.
-You should not need to edit the SCSS files in this theme in ordinary circumstances.
-
-However, if for some reason there is still a need to add or change the site's CSS, please use a child theme.
-
-= Hooks =
-
-To prevent the loading of any of the these settings, use the following as boilerplate and add the code to your child-theme `functions.php`:
-```php
-add_filter( 'choose-from-the-list-below', '__return_false' );
-```
-
-* `hello_elementor_enqueue_style`                 enqueue style
-* `hello_elementor_enqueue_theme_style`           load theme-specific style (default: load)
-* `hello_elementor_load_textdomain`               load theme's textdomain
-* `hello_elementor_register_menus`                register the theme's default menu location
-* `hello_elementor_add_theme_support`             register the various supported features
-* `hello_elementor_add_woocommerce_support`       register woocommerce features, including product-gallery zoom, swipe & lightbox features
-* `hello_elementor_register_elementor_locations`  register elementor settings
-* `hello_elementor_content_width`                 set default content width to 800px
-* `hello_elementor_page_title`                    show\hide page title (default: show)
-* `hello_elementor_viewport_content`              modify `content` of `viewport` meta in header
-
-== Frequently Asked Questions ==
-
-**Does this theme support any plugins?**
-
-Hello Elementor includes support for WooCommerce.
-
-**Can Font Styles be added thru the theme's css file?**
-
-Yes, ***but*** best practice is to use the styling capabilities in the Elementor plugin.
+The theme supports common WordPress features which can be extended using a child-theme. In addition, there are several ways to add custom styles. It can be done from **Elementor**, from the WordPress customizer, using a child-theme, or with an external plugin. To customize the theme further, visit [Elementor developers docs](https://developers.elementor.com/docs/hello-elementor-theme/).
 
 == Copyright ==
 
-This theme, like WordPress, is licensed under the GPL.
+This theme, like WordPress, is distributed under the terms of GPL.
 Use it as your springboard to building a site with ***Elementor***.
 
 Hello Elementor bundles the following third-party resources:
@@ -93,19 +36,110 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
 
+= 2.9.0 - 2023-10-25 =
+* New: Introducing the new settings page for the theme.
+* New: Option to disable description meta tag.
+* New: Option to disable skip link.
+* New: Option to disable page title.
+* New: Option to unregister Hello style.css.
+* New: Option to unregister Hello theme.css.
+* Tweak: Update `Requires at least 6.0`
+* Tweak: Update `Tested up to 6.3`
+
+= 2.8.1 - 2023-07-05 =
+* Tweak: Added additional CSS selectors to apply RTL on comments
+* Fix: Comment area style regression
+
+= 2.8.0 - 2023-07-04 =
+* Tweak: Update `Requires PHP 7.0`
+* Tweak: Added description meta tag with excerpt text
+* Tweak: Use CSS logical properties rather than physical properties
+* Tweak: Replace legacy `page-break-*` CSS properties with `break-*` properties
+* Tweak: Remove duplicate CSS classes for screen readers
+* Tweak: Merge similar translation strings (i18n)
+
+= 2.7.1 - 2023-03-27 =
+* Tweak: Add excerpt support for pages
+* Tweak: When post comments are closed, display it to the user
+* Fix: Empty "Skip to content" href ([#276](https://github.com/elementor/hello-theme/issues/276))
+* Fix: Child themes using `hello_elementor_body_open()` no longer working ([#278](https://github.com/elementor/hello-theme/issues/278))
+
+= 2.7.0 - 2023-03-26 =
+* Tweak: Update `Requires at least 5.9`
+* Tweak: Update `Tested up to 6.2`
+* Tweak: Remove backwards compatibility support for `wp_body_open()`
+* Tweak: Match `search.php` markup to `archive.php` markup
+* Tweak: Check if posts have featured images set
+* Tweak: Remove unnecessary `role` attributes from HTML landmark elements
+* Tweak: Escape translation strings for secure HTML output
+* Tweak: Use i18n function to make the "Menu" string translatable
+* Tweak: Minify SVG assets
+* Tweak: Make header nav-menu keyboard accessible
+* Tweak: Add `role="button"` to the nav-menu toggle for better accessibility
+* Tweak: Toggle mobile nav-menu with `Enter` & `Space` keyboard keys
+* Tweak: Add `hello_elementor_enable_skip_link` filter to enable/disable the skip link
+* Tweak: Add `hello_elementor_skip_link_url` filter to change skip link URL
+* Tweak: Use theme CSS not Elementor plugins CSS
+* Tweak: Added support for the new Elementor version
+* Tweak: Update autoprefixer to exclude dead browsers
+* Tweak: Delete deprecated `elementor_hello_theme_load_textdomain` filter hook
+* Tweak: Delete deprecated `elementor_hello_theme_register_menus` filter hook
+* Tweak: Delete deprecated `elementor_hello_theme_add_theme_support` filter hook
+* Tweak: Delete deprecated `elementor_hello_theme_add_woocommerce_support` filter hook
+* Tweak: Delete deprecated `elementor_hello_theme_enqueue_style` filter hook
+* Tweak: Delete deprecated `elementor_hello_theme_register_elementor_locations` filter hook
+* Tweak: Added additional and `custom` units to header & footer panels
+* Tweak: Link to Elementor "Site Identity" panel from the header & footer panels
+* Tweak: Delete the `hello_elementor_load_textdomain` filter hook
+
+= 2.6.1 - 2022-07-11 =
+* Tweak: Tables looks weird on dark backgrounds ([#126](https://github.com/elementor/hello-theme/issues/126))
+* Fix: Remove unnecessary PHP tags ([#213](https://github.com/elementor/hello-theme/issues/213))
+
+= 2.6.0 - 2022-07-10 =
+* Tweak: Added `theme_support` for `script` and `style` to avoid validation warnings ([#184](https://github.com/elementor/hello-theme/issues/184))
+* Tweak: Sanitized content for allowed HTML tags in post title ([#118](https://github.com/elementor/hello-theme/issues/118))
+* Tweak: Changed the containers to `max-width: 1140px` instead of `960px` to align with the header-footer width
+* Tweak: Centering the page title for better consistency in all cases
+* Tweak: Added link between the customizer to Elementor global settings
+* Tweak: Added Skip Links to custom or dynamic header for better accessibility
+* Fix: Added output escaping in several places ([#194](https://github.com/elementor/hello-theme/issues/194))
+* Fix: Post Password Form Submit button alignment (Props [@romanbondar](https://github.com/romanbondar))
+* Fix: Fatal error when kit doesn't exist or needs to be recreated ([#175](https://github.com/elementor/hello-theme/issues/175))
+
+= 2.5.0 - 2022-01-26 =
+* Tweak: Added keyboard navigation to Hello Elementor theme menus
+* Tweak: Added Skip Links and `#content` for the main wrapper for better accessibility ([#133](https://github.com/elementor/hello-theme/issues/133))
+* Tweak: Added underline for text links in Post Content for better accessibility
+* Tweak: Removed `outline: none` from inputs for better accessibility
+* Fix: Footer menu location is not being presented on sites that are not running Elementor
+
+= 2.4.2 - 2021-12-20 =
+* Tweak: Use HTTPS in XFN profile link to prevent mixed content error ([Topic](https://wordpress.org/support/topic/url-scheme-in-xfn-profile-link/))
+* Tweak: Remove comments in `style.min.css` output ([#179](https://github.com/elementor/hello-theme/issues/179))
+* Tweak: Promoted Hello Elementor theme Header & Footer experiment status to Stable
+* Tweak: Added compatibility for upcoming WordPress version 5.9
+
+= 2.4.1 - 2021-07-07 =
+* Fix: Hello Elementor theme Header & Footer experiment should be inactive for existing sites
+
+= 2.4.0 - 2021-06-29 =
+* New: Introducing Header and Footer site elements as an Elementor Experiment
+* Tweak: Updated Elementor admin notices UI
+
 = 2.3.1 - 2020-12-28 =
 * Tweak: Improved UI for table elements
 * Tweak: Added support for Gutenberg Wide and Full image formats (Props [@ramiy](https://github.com/ramiy))
 * Tweak: Added font smoothing
-* Tweak: Update `Tested Up to 5.6`
-* Tweak: Update `Requires PHP: 5.6`
+* Tweak: Update `Tested up to 5.6`
+* Tweak: Update `Requires PHP 5.6`
 * Fix: Adjusted font-family in `code`, `pre`, `kbd` and `samp` elements (Props [@75th](https://github.com/75th))
 
 = 2.3.0 - 2020-04-19 =
 * Tweak: Removed caption centering by default to allow alignment using Elementor (Props [@cirkut](https://github.com/cirkut))
 * Tweak: Removed `text-align` property from table elements to avoid alignment issue in RTL websites (Props [@ramiy](https://github.com/ramiy))
 * Tweak: Added `input[type="url"]` to CSS reset rules ([#109](https://github.com/elementor/hello-theme/issues/109))
-* Tweak: Update `Tested Up to 5.4`
+* Tweak: Update `Tested up to 5.4`
 
 = 2.2.2 - 2019-12-23 =
 * Fix: Conflicts with minifier `cssnano` and CSS animations (Props [@CeliaRozalenM](https://github.com/CeliaRozalenM))
@@ -170,13 +204,13 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 * Tweak: Add Copyright & Image and Icon License sections in readme (following comment by WP Theme Review team)
 * Tweak: Remove duplicated call to `add_theme_support( 'custom-logo')`
 * Tweak: Readme file grammar & spelling
-* Tweak: Update `Tested Up to 5.2`
+* Tweak: Update `Tested up to 5.2`
 * Tweak: Change functions.php methods names prefix from `hello_elementor_theme_` to `hello_elementor_`
 * Tweak: Change hook names to fit theme's name. Old hooks are deprecated, users are urged to update their code where needed
 * Tweak: Update style for `img`, `textarea`, 'label'
 
 = 1.2.0 - 2019-02-12 =
-* New: Added editor-style.css for Classic editor
+* New: Added classic-editor.css for Classic editor
 * Tweak: A lot of changes to match theme review guidelines
 * Tweak: Updated theme screenshot
 

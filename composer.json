@@ -1,0 +1,16 @@
+{
+    "name": "elementor/hello-theme",
+    "require": {
+        "squizlabs/php_codesniffer": "^3.6",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
+	  	"wp-coding-standards/wpcs": "^2.3"
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		}
+	},
+    "scripts": {
+        "lint": "phpcs --extensions=php -p"
+    }
+}

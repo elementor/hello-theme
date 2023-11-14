@@ -1,0 +1,159 @@
+/**
+ * Footer styling and layout
+ */
+
+.site-footer {
+	padding-block-start: 1rem;
+	padding-block-end: 1rem;
+	position: relative;
+
+	.footer-inner {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+
+		.custom-logo-link {
+			display: block;
+		}
+
+		.site-navigation {
+			justify-content: flex-end;
+		}
+
+		.site-branding {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+
+			.site-title,
+			.site-description {
+				margin: 0;
+			}
+
+			&.show-title {
+
+				.site-logo {
+					display: none !important;
+				}
+			}
+
+			&.show-logo {
+
+				.site-title {
+					display: none !important;
+				}
+			}
+		}
+
+		.copyright {
+			align-items: center;
+			display: flex;
+			justify-content: flex-end;
+
+			p {
+				margin: 0;
+			}
+		}
+
+	}
+
+	&.footer-inverted {
+
+		.footer-inner {
+			flex-direction: row-reverse;
+
+			.site-branding {
+				text-align: right;
+			}
+
+			.site-navigation {
+				justify-content: flex-start;
+			}
+		}
+	}
+
+	&.footer-has-copyright {
+
+		.footer-inner {
+
+			.site-navigation {
+				justify-content: center;
+			}
+		}
+	}
+
+	&.footer-stacked {
+
+		.footer-inner {
+			align-items: center;
+			flex-direction: column;
+			text-align: center;
+
+			.site-branding h4.site-title {
+				text-align: center;
+			}
+
+			.site-navigation {
+				.menu {
+					padding: 0;
+				}
+			}
+		}
+	}
+
+	&:not(.footer-stacked) {
+
+		.footer-inner {
+
+			.site-branding {
+				max-width: 20%;
+			}
+
+			.site-navigation {
+				max-width: 60%;
+			}
+
+			.copyright {
+				max-width: 20%;
+			}
+		}
+	}
+}
+
+@media (max-width: $screen-xs) {
+
+	.site-footer {
+
+		&:not(.footer-stacked) {
+
+			.footer-inner {
+
+				.site-branding,
+				.site-navigation,
+				.copyright {
+					display: block;
+					text-align: center;
+					width: 100%;
+					max-width: none;
+				}
+			}
+		}
+	}
+
+	.site-footer {
+
+		.footer-inner {
+
+			.site-navigation {
+
+				ul.menu {
+					justify-content: center;
+
+					li {
+						display: inline-block;
+					}
+				}
+			}
+		}
+	}
+}

@@ -12,6 +12,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+if ( ! post_type_supports( get_post_type(), 'comments' ) ) {
+	return;
+}
+
+if ( ! have_comments() && ! comments_open() ) {
+	return;
+}
+
 // Comment Reply Script.
 if ( comments_open() && get_option( 'thread_comments' ) ) {
 	wp_enqueue_script( 'comment-reply' );
@@ -47,11 +55,11 @@ if ( comments_open() && get_option( 'thread_comments' ) ) {
 	<ol class="comment-list">
 		<?php
 		wp_list_comments(
-			array(
+			[
 				'style'       => 'ol',
 				'short_ping'  => true,
 				'avatar_size' => 42,
-			)
+			]
 		);
 		?>
 	</ol><!-- .comment-list -->
@@ -61,18 +69,11 @@ if ( comments_open() && get_option( 'thread_comments' ) ) {
 <?php endif; // Check for have_comments(). ?>
 
 <?php
-// If comments are closed and there are comments, let's leave a little note, shall we?
-if ( ! comments_open() && get_comments_number() && post_type_supports( get_post_type(), 'comments' ) ) :
-	?>
-	<p class="no-comments"><?php esc_html_e( 'Comments are closed.', 'hello-elementor' ); ?></p>
-<?php endif; ?>
-
-<?php
 comment_form(
-	array(
+	[
 		'title_reply_before' => '<h2 id="reply-title" class="comment-reply-title">',
 		'title_reply_after'  => '</h2>',
-	)
+	]
 );
 ?>
 

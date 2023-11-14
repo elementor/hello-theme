@@ -1,0 +1,37 @@
+/**
+ * Elementor editor styling
+ */
+
+.elementor-panel-menu-item-hello-settings-header {
+	border-radius: 6px 6px 0 0;
+}
+
+.hello-elementor {
+
+	&.elementor-nerd-box {
+
+		.elementor-nerd-box-icon {
+			margin: 0;
+		}
+
+		.elementor-nerd-box-message {
+
+			.elementor-nerd-box-title {
+				margin: 0;
+				margin-block-start: 24px;
+				font-size: 16px;
+			}
+
+			.elementor-nerd-box-message {
+				margin: 0;
+				margin-block-start: 12px;
+				font-size: 11px;
+			}
+		}
+
+		.elementor-nerd-box-link {
+			margin: 0;
+			margin-block-start: 24px;
+		}
+	}
+}

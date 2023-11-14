@@ -10,8 +10,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 $site_name = get_bloginfo( 'name' );
 $tagline   = get_bloginfo( 'description', 'display' );
+$header_nav_menu = wp_nav_menu( [
+	'theme_location' => 'menu-1',
+	'fallback_cb' => false,
+	'echo' => false,
+] );
 ?>
-<header class="site-header" role="banner">
+
+<header id="site-header" class="site-header" role="banner">
 
 	<div class="site-branding">
 		<?php
@@ -20,7 +26,7 @@ $tagline   = get_bloginfo( 'description', 'display' );
 		} elseif ( $site_name ) {
 			?>
 			<h1 class="site-title">
-				<a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php esc_attr_e( 'Home', 'hello-elementor' ); ?>" rel="home">
+				<a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr__( 'Home', 'hello-elementor' ); ?>" rel="home">
 					<?php echo esc_html( $site_name ); ?>
 				</a>
 			</h1>
@@ -34,9 +40,12 @@ $tagline   = get_bloginfo( 'description', 'display' );
 		<?php } ?>
 	</div>
 
-	<?php if ( has_nav_menu( 'menu-1' ) ) : ?>
-	<nav class="site-navigation" role="navigation">
-		<?php wp_nav_menu( array( 'theme_location' => 'menu-1' ) ); ?>
-	</nav>
+	<?php if ( $header_nav_menu ) : ?>
+		<nav class="site-navigation">
+			<?php
+			// PHPCS - escaped by WordPress with "wp_nav_menu"
+			echo $header_nav_menu; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			?>
+		</nav>
 	<?php endif; ?>
 </header>

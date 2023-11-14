@@ -1,7 +1,12 @@
-/* Post Item in Archive
-   ========================================================================== */
+/**
+ * Post item in archive pages
+ */
 
 .post {
+
+	.entry-title a {
+		text-decoration: none;
+	}
 
 	.wp-post-image {
 		width: 100%;
