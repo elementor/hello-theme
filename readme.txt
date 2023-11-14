@@ -37,7 +37,6 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 == Changelog ==
 
 = 3.0.0 =
-* New: Option to disable header & footer.
 * Tweak: Update `Requires PHP 7.3`
 * Tweak: Update `Tested up to 6.4`
 * Tweak: Move header-footer styles to a separate CSS file.

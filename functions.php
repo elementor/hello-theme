@@ -126,9 +126,7 @@ if ( ! function_exists( 'hello_elementor_scripts_styles' ) ) {
 				[],
 				HELLO_ELEMENTOR_VERSION
 			);
-		}
 
-		if ( apply_filters( 'hello_elementor_header_footer', true ) ) {
 			wp_enqueue_style(
 				'hello-elementor-header-footer',
 				get_template_directory_uri() . '/header-footer' . $min_suffix . '.css',

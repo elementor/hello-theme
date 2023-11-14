@@ -33,11 +33,9 @@ $skip_link_url = apply_filters( 'hello_elementor_skip_link_url', '#content' );
 
 <?php
 if ( ! function_exists( 'elementor_theme_do_location' ) || ! elementor_theme_do_location( 'header' ) ) {
-	if ( apply_filters( 'hello_elementor_header_footer', true ) ) {
-		if ( did_action( 'elementor/loaded' ) && hello_header_footer_experiment_active() ) {
-			get_template_part( 'template-parts/dynamic-header' );
-		} else {
-			get_template_part( 'template-parts/header' );
-		}
+	if ( did_action( 'elementor/loaded' ) && hello_header_footer_experiment_active() ) {
+		get_template_part( 'template-parts/dynamic-header' );
+	} else {
+		get_template_part( 'template-parts/header' );
 	}
 }

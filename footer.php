@@ -12,12 +12,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! function_exists( 'elementor_theme_do_location' ) || ! elementor_theme_do_location( 'footer' ) ) {
-	if ( apply_filters( 'hello_elementor_header_footer', true ) ) {
-		if ( did_action( 'elementor/loaded' ) && hello_header_footer_experiment_active() ) {
-			get_template_part( 'template-parts/dynamic-footer' );
-		} else {
-			get_template_part( 'template-parts/footer' );
-		}
+	if ( did_action( 'elementor/loaded' ) && hello_header_footer_experiment_active() ) {
+		get_template_part( 'template-parts/dynamic-footer' );
+	} else {
+		get_template_part( 'template-parts/footer' );
 	}
 }
 ?>

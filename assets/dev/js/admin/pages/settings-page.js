@@ -29,7 +29,6 @@ const Notices = () => {
 const SETTINGS = {
 	DESCRIPTION_META_TAG: '_description_meta_tag',
 	SKIP_LINK: '_skip_link',
-	HEADER_FOOTER: '_header_footer',
 	PAGE_TITLE: '_page_title',
 	HELLO_STYLE: '_hello_style',
 	HELLO_THEME: '_hello_theme',
