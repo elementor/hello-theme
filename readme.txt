@@ -41,6 +41,7 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 * Tweak: Update `Tested up to 6.4`
 * Tweak: Move header-footer styles to a separate CSS file.
 * Tweak: Remove unnecessary `role` attributes from HTML landmark elements.
+* Tweak: Replace jQuery with Vanilla JS in WordPress admin.
 * Fix: Dynamic script version for better caching.
 
 = 2.9.0 - 2023-10-25 =
