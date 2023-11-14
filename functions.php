@@ -126,6 +126,13 @@ if ( ! function_exists( 'hello_elementor_scripts_styles' ) ) {
 				[],
 				HELLO_ELEMENTOR_VERSION
 			);
+
+			wp_enqueue_style(
+				'hello-elementor-header-footer',
+				get_template_directory_uri() . '/header-footer' . $min_suffix . '.css',
+				[],
+				HELLO_ELEMENTOR_VERSION
+			);
 		}
 	}
 }
@@ -192,7 +199,7 @@ if ( is_admin() ) {
 // Settings page
 require get_template_directory() . '/includes/settings-functions.php';
 
-// Allow active/inactive via the Experiments
+// Header & footer styling option, inside Elementor
 require get_template_directory() . '/includes/elementor-functions.php';
 
 if ( ! function_exists( 'hello_elementor_check_hide_title' ) ) {
