@@ -31,6 +31,15 @@ export const SettingsPanel = ( { SETTINGS, settingsData, updateSettings } ) => {
 			<code className="code-example"> &lt;a class=&quot;skip-link screen-reader-text&quot; href=&quot;#content&quot;&gt; Skip to content &lt;/a&gt; </code>
 
 			<ToggleControl
+				label={ __( 'Disable header & footer', 'hello-elementor' ) }
+				help={ __( 'Remove the site header and site footer sections from the page.', 'hello-elementor' ) }
+				checked={ !! settingsData[ SETTINGS.HEADER_FOOTER ] || false }
+				onChange={ ( value ) => updateSettings( SETTINGS.HEADER_FOOTER, value ) }
+			/>
+			<code className="code-example"> &lt;header id=&quot;site-header&quot; class=&quot;site-header&quot;&gt; ... &lt;/header&gt; </code>
+			<code className="code-example"> &lt;footer id=&quot;site-footer&quot; class=&quot;site-footer&quot;&gt; ... &lt;/footer&gt; </code>
+
+			<ToggleControl
 				label={ __( 'Disable page title', 'hello-elementor' ) }
 				help={ __( 'Remove the section above the content that contains the main heading of the page.', 'hello-elementor' ) }
 				checked={ !! settingsData[ SETTINGS.PAGE_TITLE ] || false }

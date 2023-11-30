@@ -11,15 +11,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 add_action( 'elementor/init', 'hello_elementor_settings_init' );
 
 function hello_elementor_settings_init() {
-	if ( hello_header_footer_experiment_active() ) {
-		require 'settings/settings-header.php';
-		require 'settings/settings-footer.php';
-
-		add_action( 'elementor/kit/register_tabs', function( \Elementor\Core\Kits\Documents\Kit $kit ) {
-			$kit->register_tab( 'hello-settings-header', HelloElementor\Includes\Settings\Settings_Header::class );
-			$kit->register_tab( 'hello-settings-footer', HelloElementor\Includes\Settings\Settings_Footer::class );
-		}, 1, 40 );
+	if ( ! hello_header_footer_experiment_active() ) {
+		return;
 	}
+
+	require 'settings/settings-header.php';
+	require 'settings/settings-footer.php';
+
+	add_action( 'elementor/kit/register_tabs', function( \Elementor\Core\Kits\Documents\Kit $kit ) {
+		$kit->register_tab( 'hello-settings-header', HelloElementor\Includes\Settings\Settings_Header::class );
+		$kit->register_tab( 'hello-settings-footer', HelloElementor\Includes\Settings\Settings_Footer::class );
+	}, 1, 40 );
 }
 
 /**
@@ -126,24 +128,26 @@ function hello_get_footer_layout_class() {
 }
 
 add_action( 'elementor/editor/after_enqueue_scripts', function() {
-	if ( hello_header_footer_experiment_active() ) {
-		$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-
-		wp_enqueue_script(
-			'hello-theme-editor',
-			get_template_directory_uri() . '/assets/js/hello-editor' . $suffix . '.js',
-			[ 'jquery', 'elementor-editor' ],
-			HELLO_ELEMENTOR_VERSION,
-			true
-		);
-
-		wp_enqueue_style(
-			'hello-editor',
-			get_template_directory_uri() . '/editor' . $suffix . '.css',
-			[],
-			HELLO_ELEMENTOR_VERSION
-		);
+	if ( ! hello_header_footer_experiment_active() ) {
+		return;
 	}
+
+	$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+
+	wp_enqueue_script(
+		'hello-theme-editor',
+		get_template_directory_uri() . '/assets/js/hello-editor' . $suffix . '.js',
+		[ 'jquery', 'elementor-editor' ],
+		HELLO_ELEMENTOR_VERSION,
+		true
+	);
+
+	wp_enqueue_style(
+		'hello-editor',
+		get_template_directory_uri() . '/editor' . $suffix . '.css',
+		[],
+		HELLO_ELEMENTOR_VERSION
+	);
 } );
 
 add_action( 'wp_enqueue_scripts', function() {
@@ -159,13 +163,6 @@ add_action( 'wp_enqueue_scripts', function() {
 		[ 'jquery' ],
 		HELLO_ELEMENTOR_VERSION,
 		true
-	);
-
-	wp_enqueue_style(
-		'hello-elementor-header-footer',
-		get_template_directory_uri() . '/header-footer' . $suffix . '.css',
-		[],
-		HELLO_ELEMENTOR_VERSION
 	);
 
 	\Elementor\Plugin::$instance->kits_manager->frontend_before_enqueue_styles();
