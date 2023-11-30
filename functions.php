@@ -101,6 +101,19 @@ function hello_maybe_update_theme_version_in_db() {
 	}
 }
 
+if ( ! function_exists( 'hello_elementor_display_header_footer' ) ) {
+	/**
+	 * Check whether to display header footer.
+	 *
+	 * @return bool
+	 */
+	function hello_elementor_display_header_footer() {
+		$hello_elementor_header_footer = true;
+
+		return apply_filters( 'hello_elementor_header_footer', $hello_elementor_header_footer );
+	}
+}
+
 if ( ! function_exists( 'hello_elementor_scripts_styles' ) ) {
 	/**
 	 * Theme Scripts & Styles.
@@ -126,7 +139,9 @@ if ( ! function_exists( 'hello_elementor_scripts_styles' ) ) {
 				[],
 				HELLO_ELEMENTOR_VERSION
 			);
+		}
 
+		if ( hello_elementor_display_header_footer() ) {
 			wp_enqueue_style(
 				'hello-elementor-header-footer',
 				get_template_directory_uri() . '/header-footer' . $min_suffix . '.css',
