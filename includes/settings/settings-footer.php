@@ -18,7 +18,7 @@ class Settings_Footer extends Tab_Base {
 	}
 
 	public function get_title() {
-		return esc_html__( 'Footer', 'hello-elementor' );
+		return esc_html__( 'Hello Theme Footer', 'hello-elementor' );
 	}
 
 	public function get_icon() {
