@@ -76,8 +76,8 @@ function hello_theme_child_customize_register( $wp_customize ) {
 	    'panel' => 'htc_general_panel'
 	) );
 
-	$wp_customize->add_section( 'htc_updates_email_section', array(
-	    'title' => __( 'Updates Email', $text_domain ),
+	$wp_customize->add_section( 'htc_emails_section', array(
+	    'title' => __( 'Emails', $text_domain ),
 	    'panel' => 'htc_general_panel'
 	) );
 
@@ -430,6 +430,21 @@ function hello_theme_child_customize_register( $wp_customize ) {
 	$wp_customize->add_setting( 'htc_gbg_post_setting', array(
 		'capability' => 'edit_theme_options',
 		'sanitize_callback' => 'htc_sanitize_checkbox',
+		'transport' => 'postMessage'
+	) );
+
+	$wp_customize->add_setting( 'htc_core_email_setting', array(
+		'default' => 'yes',
+		'transport' => 'postMessage'
+	) );
+
+	$wp_customize->add_setting( 'htc_plugin_email_setting', array(
+		'default' => 'yes',
+		'transport' => 'postMessage'
+	) );
+
+	$wp_customize->add_setting( 'htc_theme_email_setting', array(
+		'default' => 'yes',
 		'transport' => 'postMessage'
 	) );
 
@@ -1270,6 +1285,45 @@ function hello_theme_child_customize_register( $wp_customize ) {
 			'label' => __( 'Disable Gutenberg editor', $text_domain ),
 			'section' => 'htc_gbg_section',
 			'settings' => 'htc_gbg_post_setting',
+		)
+	);
+
+	$wp_customize->add_control( 'htc_core_email_control',
+		array(
+			'type' => 'radio',
+			'description' => __( 'Disable WP core update email sending?', $text_domain ),
+			'section' => 'htc_emails_section',
+			'settings' => 'htc_core_email_setting',
+			'choices' => array(
+				'yes' => 'Yes',
+				'no' => 'No'
+			)
+		)
+	);
+
+	$wp_customize->add_control( 'htc_plugin_email_control',
+		array(
+			'type' => 'radio',
+			'description' => __( 'Disable plugin update email sending?', $text_domain ),
+			'section' => 'htc_emails_section',
+			'settings' => 'htc_plugin_email_setting',
+			'choices' => array(
+				'yes' => 'Yes',
+				'no' => 'No'
+			)
+		)
+	);
+
+	$wp_customize->add_control( 'htc_theme_email_control',
+		array(
+			'type' => 'radio',
+			'description' => __( 'Disable theme update email sending?', $text_domain ),
+			'section' => 'htc_emails_section',
+			'settings' => 'htc_theme_email_setting',
+			'choices' => array(
+				'yes' => 'Yes',
+				'no' => 'No'
+			)
 		)
 	);
 
