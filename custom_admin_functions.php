@@ -291,3 +291,6 @@ add_filter( 'login_errors', function(){
 
 // 23-04-2023 code - Duplicate post
 include_once( 'includes/post-duplicator.php' );
+
+// 04-12-2023 code - Media library file size column
+include_once( 'includes/media-library-filesize.php' );

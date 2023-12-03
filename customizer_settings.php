@@ -76,6 +76,11 @@ function hello_theme_child_customize_register( $wp_customize ) {
 	    'panel' => 'htc_general_panel'
 	) );
 
+	$wp_customize->add_section( 'htc_updates_email_section', array(
+	    'title' => __( 'Updates Email', $text_domain ),
+	    'panel' => 'htc_general_panel'
+	) );
+
 	// Theme Styles Section
 	$wp_customize->add_section( 'htc_themestyles_gl_section', array(
 	    'title' => __( 'Global Styles', $text_domain ),
