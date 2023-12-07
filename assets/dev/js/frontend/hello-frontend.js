@@ -8,8 +8,6 @@ class elementorHelloThemeHandler {
     initSettings() {
         this.settings = {
             selectors: {
-                header: 'header.site-header',
-                footer: 'footer.site-footer',
                 menuToggle: '.site-header .site-navigation-toggle',
                 menuToggleHolder: '.site-header .site-navigation-toggle-holder',
                 dropdownMenu: '.site-header .site-navigation-dropdown',
@@ -20,9 +18,6 @@ class elementorHelloThemeHandler {
     initElements() {
         this.elements = {
             $window: jQuery( window ),
-            $document: jQuery( document ),
-            $header: jQuery( this.settings.selectors.header ),
-            $footer: jQuery( this.settings.selectors.footer ),
             $menuToggle: jQuery( this.settings.selectors.menuToggle ),
             $menuToggleHolder: jQuery( this.settings.selectors.menuToggleHolder ),
             $dropdownMenu: jQuery( this.settings.selectors.dropdownMenu ),
