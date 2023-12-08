@@ -160,7 +160,7 @@ add_action( 'wp_enqueue_scripts', function() {
 	wp_enqueue_script(
 		'hello-theme-frontend',
 		get_template_directory_uri() . '/assets/js/hello-frontend' . $suffix . '.js',
-		[ 'jquery' ],
+		[],
 		HELLO_ELEMENTOR_VERSION,
 		true
 	);
