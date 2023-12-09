@@ -92,6 +92,25 @@ class Settings_Footer extends Tab_Base {
 		);
 
 		$this->add_control(
+			'hello_footer_disable_note',
+			[
+				'type' => Controls_Manager::RAW_HTML,
+				'raw' => sprintf(
+					/* translators: %s: Link that opens the theme settings page. */
+					__( 'Note: Hiding all the elements, only hides them visually. To disable them completely go to <a href="%s">Theme Settings</a> .', 'elementor' ),
+					admin_url( 'themes.php?page=hello-theme-settings' )
+				),
+				'content_classes' => 'elementor-panel-alert elementor-panel-alert-warning',
+				'condition' => [
+					'hello_footer_logo_display' => '',
+					'hello_footer_tagline_display' => '',
+					'hello_footer_menu_display' => '',
+					'hello_footer_copyright_display' => '',
+				],
+			]
+		);
+
+		$this->add_control(
 			'hello_footer_layout',
 			[
 				'type' => Controls_Manager::SELECT,
@@ -103,6 +122,7 @@ class Settings_Footer extends Tab_Base {
 				],
 				'selector' => '.site-footer',
 				'default' => 'default',
+				'separator' => 'before',
 			]
 		);
 
