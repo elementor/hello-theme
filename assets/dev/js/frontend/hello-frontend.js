@@ -25,7 +25,7 @@ class elementorHelloThemeHandler {
     }
 
     bindEvents() {
-        this.elements.menuToggle.addEventListener( 'click', this.handleMenuToggle.bind( this ), false );
+        this.elements.menuToggle.addEventListener( 'click', this.handleMenuToggle.bind( this ) );
         this.elements.menuToggle.addEventListener( 'keyup', ( event ) => {
             const ENTER_KEY = 13;
             const SPACE_KEY = 32;
