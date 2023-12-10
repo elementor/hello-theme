@@ -27,13 +27,13 @@ class elementorHelloThemeHandler {
     bindEvents() {
         this.elements.menuToggle.addEventListener( 'click', this.handleMenuToggle.bind( this ), false );
         this.elements.menuToggle.addEventListener( 'keyup', ( event ) => {
-                const ENTER_KEY = 13;
-                const SPACE_KEY = 32;
+            const ENTER_KEY = 13;
+            const SPACE_KEY = 32;
 
-                if ( ENTER_KEY === event.keyCode || SPACE_KEY === event.keyCode ) {
-                    event.currentTarget.click();
-                }
-            } );
+            if ( ENTER_KEY === event.keyCode || SPACE_KEY === event.keyCode ) {
+                event.currentTarget.click();
+            }
+        } );
         this.elements.dropdownMenu.addEventListener( 'click', ( event ) => {
             if ( event.target.closest( '.menu-item-has-children > a' ) ) {
                 this.handleMenuChildren.bind( this );
