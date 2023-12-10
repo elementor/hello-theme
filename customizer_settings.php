@@ -1291,7 +1291,7 @@ function hello_theme_child_customize_register( $wp_customize ) {
 	$wp_customize->add_control( 'htc_core_email_control',
 		array(
 			'type' => 'radio',
-			'description' => __( 'Disable WP core update email sending?', $text_domain ),
+			'description' => __( 'Disable WP Core update email notification?', $text_domain ),
 			'section' => 'htc_emails_section',
 			'settings' => 'htc_core_email_setting',
 			'choices' => array(
@@ -1304,7 +1304,7 @@ function hello_theme_child_customize_register( $wp_customize ) {
 	$wp_customize->add_control( 'htc_plugin_email_control',
 		array(
 			'type' => 'radio',
-			'description' => __( 'Disable plugin update email sending?', $text_domain ),
+			'description' => __( 'Disable Plugin update email notification?', $text_domain ),
 			'section' => 'htc_emails_section',
 			'settings' => 'htc_plugin_email_setting',
 			'choices' => array(
@@ -1317,7 +1317,7 @@ function hello_theme_child_customize_register( $wp_customize ) {
 	$wp_customize->add_control( 'htc_theme_email_control',
 		array(
 			'type' => 'radio',
-			'description' => __( 'Disable theme update email sending?', $text_domain ),
+			'description' => __( 'Disable Theme update email notification?', $text_domain ),
 			'section' => 'htc_emails_section',
 			'settings' => 'htc_theme_email_setting',
 			'choices' => array(

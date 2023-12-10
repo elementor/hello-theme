@@ -2,6 +2,15 @@
 // Custom WP Admin functions
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
+// 23-04-2023 code - Duplicate post
+include_once( 'includes/post-duplicator.php' );
+
+// 04-12-2023 code - Media library file size column
+include_once( 'includes/media-library-filesize.php' );
+
+// 10-12-2023 code - Email updates notification
+include_once( 'includes/email-updates-notification.php' );
+
 // Custom WP Login logo
 add_action( 'login_enqueue_scripts', 'custom_jw_login_logo' );
 function custom_jw_login_logo() {
@@ -256,9 +265,6 @@ function custom_disable_gutenberg_fullscreen_all() {
   wp_add_inline_script( 'wp-blocks', $script );
 }
 
-// Disable auto-update email notifications for plugins
-add_filter( 'auto_plugin_update_send_email', '__return_false' );
-
 // Disable Elementor usage tracker notice
 add_action( 'admin_init', function(){
   update_option( 'elementor_pro_tracker_notice', 1 );
@@ -288,9 +294,3 @@ function custom_woo_catalog_order_option( $sortby ) {
 add_filter( 'login_errors', function(){
   return 'Something is wrong!';
 });
-
-// 23-04-2023 code - Duplicate post
-include_once( 'includes/post-duplicator.php' );
-
-// 04-12-2023 code - Media library file size column
-include_once( 'includes/media-library-filesize.php' );
