@@ -43,7 +43,7 @@ class elementorHelloThemeHandler {
 
     closeMenuItems() {
         this.elements.menuToggleHolder.classList.remove( 'elementor-active' );
-        this.elements.window.removeEventListener( 'resize', () => this.closeMenuItems.bind( this ) );
+        this.elements.window.removeEventListener( 'resize', this.closeMenuItems.bind( this ) );
     }
 
     handleMenuToggle() {
@@ -57,9 +57,9 @@ class elementorHelloThemeHandler {
         this.elements.dropdownMenu.querySelectorAll( ':scope .elementor-active' ).forEach( ( item ) => item.classList.remove( 'elementor-active' ) );
 
         if ( isDropdownVisible ) {
-            this.elements.window.addEventListener( 'resize', () => this.closeMenuItems.bind( this ) );
+            this.elements.window.addEventListener( 'resize', this.closeMenuItems.bind( this ) );
         } else {
-            this.elements.window.removeEventListener( 'resize', () => this.closeMenuItems.bind( this ) );
+            this.elements.window.removeEventListener( 'resize', this.closeMenuItems.bind( this ) );
         }
     }
 
