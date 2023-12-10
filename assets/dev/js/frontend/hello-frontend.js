@@ -64,7 +64,7 @@ class elementorHelloThemeHandler {
     }
 
     handleMenuChildren( event ) {
-        const anchor = document.querySelector( event.currentTarget );
+        const anchor = event.currentTarget;
         const parentLi = anchor.parent( 'li' );
         const isSubmenuVisible = parentLi.classList.contains( 'elementor-active' );
 
