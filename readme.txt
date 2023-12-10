@@ -1,8 +1,8 @@
 === Jtheme Jello ===
 Contributors: Jezweb
-Requires at least: WordPress 5.0
-Tested up to: WordPress 5.7.2
-Version: 1.4.6
+Requires at least: WordPress 6.0.0
+Tested up to: WordPress 6.4.2
+Version: 1.4.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,6 +27,10 @@ Elementor (Pro)
 Source: https://elementor.com
 
 == Changelog ==
+
+= 1.4.7 - 2023-12-4 =
+* New: Media library file size column
+* New: Settings for disabling auto-update email notifications of WP Core, Themes and Plugins (General Settings -> Emails)
 
 = 1.4.6 - 2023-4-23 =
 * New: Post/Page content duplicator feature
