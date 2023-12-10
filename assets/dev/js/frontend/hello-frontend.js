@@ -25,7 +25,7 @@ class elementorHelloThemeHandler {
     }
 
     bindEvents() {
-        this.elements.menuToggle.addEventListener( 'click', this.handleMenuToggle.bind( this ) );
+        this.elements.menuToggle.addEventListener( 'click', () => this.handleMenuToggle() );
         this.elements.menuToggle.addEventListener( 'keyup', ( event ) => {
             const ENTER_KEY = 13;
             const SPACE_KEY = 32;
@@ -34,16 +34,14 @@ class elementorHelloThemeHandler {
                 event.currentTarget.click();
             }
         } );
-        this.elements.dropdownMenu.addEventListener( 'click', ( event ) => {
-            if ( event.target.closest( '.menu-item-has-children > a' ) ) {
-                this.handleMenuChildren.bind( this );
-            }
-        } );
+
+        this.elements.dropdownMenu.querySelectorAll( '.menu-item-has-children > a' )
+            .forEach( ( anchorElement ) => anchorElement.addEventListener( 'click', ( event ) => this.handleMenuChildren( event ) ) );
     }
 
     closeMenuItems() {
         this.elements.menuToggleHolder.classList.remove( 'elementor-active' );
-        this.elements.window.removeEventListener( 'resize', this.closeMenuItems.bind( this ) );
+        this.elements.window.removeEventListener( 'resize', () => this.closeMenuItems() );
     }
 
     handleMenuToggle() {
@@ -54,18 +52,18 @@ class elementorHelloThemeHandler {
         this.elements.menuToggleHolder.classList.toggle( 'elementor-active', isDropdownVisible );
 
         // Always close all sub active items.
-        this.elements.dropdownMenu.querySelectorAll( ':scope .elementor-active' ).forEach( ( item ) => item.classList.remove( 'elementor-active' ) );
+        this.elements.dropdownMenu.querySelectorAll( '.elementor-active' ).forEach( ( item ) => item.classList.remove( 'elementor-active' ) );
 
         if ( isDropdownVisible ) {
-            this.elements.window.addEventListener( 'resize', this.closeMenuItems.bind( this ) );
+            this.elements.window.addEventListener( 'resize', () => this.closeMenuItems() );
         } else {
-            this.elements.window.removeEventListener( 'resize', this.closeMenuItems.bind( this ) );
+            this.elements.window.removeEventListener( 'resize', () => this.closeMenuItems() );
         }
     }
 
     handleMenuChildren( event ) {
         const anchor = event.currentTarget;
-        const parentLi = anchor.parent( 'li' );
+        const parentLi = anchor.parentElement;
         const isSubmenuVisible = parentLi.classList.contains( 'elementor-active' );
 
         if ( ! isSubmenuVisible ) {
