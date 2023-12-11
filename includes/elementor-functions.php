@@ -151,6 +151,10 @@ add_action( 'elementor/editor/after_enqueue_scripts', function() {
 } );
 
 add_action( 'wp_enqueue_scripts', function() {
+	if ( ! hello_elementor_display_header_footer() ) {
+		return;
+	}
+
 	if ( ! hello_header_footer_experiment_active() ) {
 		return;
 	}
