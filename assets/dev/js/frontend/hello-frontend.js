@@ -25,7 +25,7 @@ class elementorHelloThemeHandler {
     }
 
     bindEvents() {
-        if ( this.elements.menuToggleHolder?.classList.contains( 'hide' ) ) {
+        if ( ! this.elements.menuToggleHolder || this.elements.menuToggleHolder?.classList.contains( 'hide' ) ) {
             return;
         }
 
