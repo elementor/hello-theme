@@ -68,13 +68,12 @@ class elementorHelloThemeHandler {
     handleMenuChildren( event ) {
         const anchor = event.currentTarget;
         const parentLi = anchor.parentElement;
-        const isSubmenuVisible = parentLi?.classList.contains( 'elementor-active' );
 
-        if ( ! isSubmenuVisible ) {
-            parentLi?.classList.add( 'elementor-active' );
-        } else {
-            parentLi?.classList.remove( 'elementor-active' );
+        if ( ! parentLi?.classList ) {
+            return;
         }
+
+        parentLi.classList.toggle( 'elementor-active' );
     }
 }
 
