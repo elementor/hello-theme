@@ -37,21 +37,27 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 == Changelog ==
 
 = 3.0.0 =
-* New: Option to disable header & footer.
+* New: Option to disable site-wide header & footer
 * Tweak: Update `Requires PHP 7.3`
 * Tweak: Update `Tested up to 6.4`
-* Tweak: Move header-footer styles to a separate CSS file.
-* Tweak: Remove unnecessary `role` attributes from HTML landmark elements.
-* Tweak: Replace jQuery with Vanilla JS in WordPress admin.
-* Fix: Dynamic script version for better caching.
+* Tweak: Move site-wide header & footer styles to a separate CSS file
+* Tweak: Don't load `header-footer.min.css` when disabling header & footer
+* Tweak: Don't load `hello-frontend.min.js` when disabling header & footer
+* Tweak: Replace jQuery code with vanilla JS in the frontend
+* Tweak: Replace jQuery code with vanilla JS in WordPress admin
+* Tweak: Remove unused JS code from the frontend
+* Tweak: Remove unused CSS code from the editor
+* Tweak: Remove unnecessary `role` attributes from HTML landmark elements
+* Tweak: Link from Elementor Site Settings to Hello Theme Settings
+* Fix: Dynamic script version for better caching
 
 = 2.9.0 - 2023-10-25 =
-* New: Introducing the new settings page for the theme.
-* New: Option to disable description meta tag.
-* New: Option to disable skip link.
-* New: Option to disable page title.
-* New: Option to unregister Hello style.css.
-* New: Option to unregister Hello theme.css.
+* New: Introducing the new settings page for the theme
+* New: Option to disable description meta tag
+* New: Option to disable skip link
+* New: Option to disable page title
+* New: Option to unregister Hello style.css
+* New: Option to unregister Hello theme.css
 * Tweak: Update `Requires at least 6.0`
 * Tweak: Update `Tested up to 6.3`
 
@@ -152,7 +158,7 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 = 2.2.2 - 2019-12-23 =
 * Fix: Conflicts with minifier `cssnano` and CSS animations (Props [@CeliaRozalenM](https://github.com/CeliaRozalenM))
-* Fix: Max-width propety is missing in `_archive.scss` (Props [@redpik](https://github.com/redpik))
+* Fix: Max-width property is missing in `_archive.scss` (Props [@redpik](https://github.com/redpik))
 
 = 2.2.1 - 2019-09-10 =
 * Tweak: Added max width to `wp-caption` ([#91](https://github.com/elementor/hello-theme/issues/91))
@@ -192,7 +198,7 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 * Fix: Minified `style.css` for better optimization
 
 = 2.0.5 - 2019-05-21 =
-* New: Inroducing [Hello Theme Child](https://github.com/elementor/hello-theme-child)
+* New: Introducing [Hello Theme Child](https://github.com/elementor/hello-theme-child)
 * Tweak: Enqueue only parent theme stylesheet
 * Tweak: Added admin notice box for recommending Elementor plugin
 
@@ -203,7 +209,7 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 * Tweak: Removed `accessibility-ready` tag
 
 = 2.0.2 - 2019-05-13 =
-* Tweak: Added `hello_elementor_content_width` filter, as per WordePress best practice
+* Tweak: Added `hello_elementor_content_width` filter, as per WordPress best practice
 
 = 2.0.1 - 2019-05-12 =
 * Tweak: Updated theme screenshot (following comment by WP Theme Review team)
