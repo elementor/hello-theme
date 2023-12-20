@@ -542,8 +542,8 @@ class Settings_Header extends Tab_Base {
 			return sprintf(
 				$content_template,
 				get_template_directory_uri() . '/assets/images/go-pro.svg',
-				esc_html__( 'Create a custom header with the new Theme Builder', 'hello-elementor' ),
-				esc_html__( 'With the new Theme Builder you can jump directly into each part of your site', 'hello-elementor' ),
+				esc_html__( 'Create a custom header with the Theme Builder', 'hello-elementor' ),
+				esc_html__( 'With the Theme Builder you can jump directly into each part of your site', 'hello-elementor' ),
 				get_admin_url( null, 'admin.php?page=elementor-app#/site-editor/templates/header' ),
 				esc_html__( 'Create Header', 'hello-elementor' )
 			);
