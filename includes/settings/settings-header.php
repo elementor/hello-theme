@@ -521,8 +521,8 @@ class Settings_Header extends Tab_Base {
 	}
 
 	public function get_additional_tab_content() {
-		$content_template = 
-			'<div class="hello-elementor elementor-nerd-box">
+		$content_template = '
+			<div class="hello-elementor elementor-nerd-box">
 				<img src="%1$s" class="elementor-nerd-box-icon">
 				<p class="elementor-nerd-box-title">%2$s</p>
 				<p class="elementor-nerd-box-message">%3$s</p>
