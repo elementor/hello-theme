@@ -6,27 +6,15 @@
 
 	&.elementor-nerd-box {
 
-		.elementor-nerd-box-icon {
-			margin: 0;
+		.elementor-nerd-box-title {
+			margin-block-start: 24px;
 		}
 
 		.elementor-nerd-box-message {
-
-			.elementor-nerd-box-title {
-				margin: 0;
-				margin-block-start: 24px;
-				font-size: 16px;
-			}
-
-			.elementor-nerd-box-message {
-				margin: 0;
-				margin-block-start: 12px;
-				font-size: 11px;
-			}
+			margin-block-start: 12px;
 		}
 
 		.elementor-nerd-box-link {
-			margin: 0;
 			margin-block-start: 24px;
 		}
 	}
