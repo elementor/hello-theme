@@ -217,17 +217,19 @@ require get_template_directory() . '/includes/settings-functions.php';
 // Header & footer styling option, inside Elementor
 require get_template_directory() . '/includes/elementor-functions.php';
 
-// Customizer controls
-function hello_elementor_customizer() {
-	if ( ! is_customize_preview() ) {
-		return;
-	}
+if ( ! function_exists( 'hello_elementor_customizer' ) ) {
+	// Customizer controls
+	function hello_elementor_customizer() {
+		if ( ! is_customize_preview() ) {
+			return;
+		}
 
-	if ( ! hello_elementor_display_header_footer() ) {
-		return;
-	}
+		if ( ! hello_elementor_display_header_footer() ) {
+			return;
+		}
 
-	require get_template_directory() . '/includes/customizer-functions.php';
+		require get_template_directory() . '/includes/customizer-functions.php';
+	}
 }
 add_action( 'init', 'hello_elementor_customizer' );
 
