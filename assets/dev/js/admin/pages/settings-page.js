@@ -5,6 +5,7 @@ import { __ } from '@wordpress/i18n';
 import api from '@wordpress/api';
 import { Button, Panel, Placeholder, Spinner, SnackbarList } from '@wordpress/components';
 import { SettingsPanel } from './../panels/settings-panel.js';
+import { ActionLinksPanel } from '../panels/action-links-panel.js';
 
 const Notices = () => {
 	const notices = useSelect(
@@ -128,6 +129,7 @@ export const SettingsPage = () => {
 					</Button>
 
 				</Panel>
+				<ActionLinksPanel />
 			</div>
 			<div className="hello_elementor__notices">
 				<Notices />

@@ -78,4 +78,18 @@
 			bottom: .5rem;
 		}
 	}
+
+	.hello_elementor__action_links {
+		text-align: center;
+		margin-block-start: 50px;
+		margin-block-end: 20px;
+
+		&__title {
+			font-weight: bold;
+		}
+
+		&__message {
+			font-weight: normal;
+		}
+	}
 }
