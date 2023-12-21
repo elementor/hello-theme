@@ -78,4 +78,18 @@
 			bottom: .5rem;
 		}
 	}
+
+	.hello_elementor__action_link {
+		text-align: center;
+		margin-block-start: 50px;
+		margin-block-end: 20px;
+
+		.action_link_title {
+			font-weight: bold;
+		}
+
+		.action_link_description {
+			font-weight: normal;
+		}
+	}
 }

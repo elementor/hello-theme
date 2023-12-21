@@ -31,7 +31,7 @@ export const SettingsPanel = ( { SETTINGS, settingsData, updateSettings } ) => {
 			<code className="code-example"> &lt;a class=&quot;skip-link screen-reader-text&quot; href=&quot;#content&quot;&gt; Skip to content &lt;/a&gt; </code>
 
 			<ToggleControl
-				label={ __( 'Disable site-wide header & footer', 'hello-elementor' ) }
+				label={ __( 'Disable cross-site header & footer', 'hello-elementor' ) }
 				help={ __( 'Remove the header & footer sections from all pages, and their CSS/JS files.', 'hello-elementor' ) }
 				checked={ !! settingsData[ SETTINGS.HEADER_FOOTER ] || false }
 				onChange={ ( value ) => updateSettings( SETTINGS.HEADER_FOOTER, value ) }
