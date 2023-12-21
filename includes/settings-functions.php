@@ -62,8 +62,8 @@ function hello_elementor_settings_page_scripts() {
 	$plugins = get_plugins();
 
 	if ( ! isset( $plugins['elementor/elementor.php'] ) ) {
-		$actionLinkType = 'install-elementor';
-		$actionLinkURL = wp_nonce_url(
+		$action_link_type = 'install-elementor';
+		$action_link_url = wp_nonce_url(
 			add_query_arg(
 				[
 					'action' => 'install-plugin',
@@ -74,25 +74,25 @@ function hello_elementor_settings_page_scripts() {
 			'install-plugin_elementor'
 		);
 	} elseif ( ! defined( 'ELEMENTOR_VERSION' ) ) {
-		$actionLinkType = 'activate-elementor';
-		$actionLinkURL = wp_nonce_url( 'plugins.php?action=activate&plugin=elementor/elementor.php', 'activate-plugin_elementor/elementor.php' );
+		$action_link_type = 'activate-elementor';
+		$action_link_url = wp_nonce_url( 'plugins.php?action=activate&plugin=elementor/elementor.php', 'activate-plugin_elementor/elementor.php' );
 	} elseif ( hello_header_footer_experiment_active() && ! hello_header_footer_experiment_active() ) {
-		$actionLinkType = 'activate-header-footer-experiment';
-		$actionLinkURL = wp_nonce_url( 'admin.php?page=elementor#tab-experiments' );
+		$action_link_type = 'activate-header-footer-experiment';
+		$action_link_url = wp_nonce_url( 'admin.php?page=elementor#tab-experiments' );
 	} elseif ( hello_header_footer_experiment_active()) {
-		$actionLinkType = 'style-header-footer';
-		$actionLinkURL = wp_nonce_url( 'post.php?post=' . get_option( 'elementor_active_kit' ) . '&action=elementor' );
+		$action_link_type = 'style-header-footer';
+		$action_link_url = wp_nonce_url( 'post.php?post=' . get_option( 'elementor_active_kit' ) . '&action=elementor' );
 	} else {
-		$actionLinkType = '';
-		$actionLinkURL = '';
+		$action_link_type = '';
+		$action_link_url = '';
 	}
 
 	wp_localize_script(
 		$handle,
 		'helloAdminData',
 		[
-			'actionLinkType' => $actionLinkType,
-			'actionLinkURL' => $actionLinkURL,
+			'actionLinkType' => $action_link_type,
+			'actionLinkURL' => $action_link_url,
 			'templateDirectoryURI' => get_template_directory_uri(),
 		]
 	);
