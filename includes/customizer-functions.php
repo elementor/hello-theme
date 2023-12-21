@@ -42,9 +42,9 @@ function hello_customizer_register( $wp_customize ) {
 add_action( 'customize_register', 'hello_customizer_register' );
 
 /**
- * Enqueue Customizer CSS
+ * Enqueue Customizer CSS.
  *
- * @return string HTML to use in the customizer panel.
+ * @return void
  */
 function hello_customizer_styles() {
 
