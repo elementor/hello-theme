@@ -45,7 +45,16 @@ class Hello_Customizer_Action_Links extends \WP_Customize_Control {
 				get_template_directory_uri() . '/assets/images/elementor.svg',
 				esc_html__( 'Install Elementor', 'hello-elementor' ),
 				esc_html__( 'Create cross-site header & footer using Elementor.', 'hello-elementor' ),
-				wp_nonce_url( add_query_arg( [ 'action' => 'install-plugin', 'plugin' => 'elementor', ], admin_url( 'update.php' ) ), 'install-plugin_elementor' ),
+				wp_nonce_url(
+						add_query_arg(
+							[
+								'action' => 'install-plugin',
+								'plugin' => 'elementor',
+							],
+						admin_url( 'update.php' )
+					),
+					'install-plugin_elementor'
+				),
 				esc_html__( 'Install Elementor', 'hello-elementor' )
 			);
 		} elseif ( ! defined( 'ELEMENTOR_VERSION' ) ) {
@@ -84,10 +93,10 @@ class Hello_Customizer_Action_Links extends \WP_Customize_Control {
 	 */
 	private function get_customizer_action_links_html( $image, $title, $text, $url, $button_text ) {
 		return sprintf(
-            '<div class="hello-action-links">
+			'<div class="hello-action-links">
 				<img src="%1$s">
-                <p class="hello-action-links-title">%2$s</p>
-                <p class="hello-action-links-message">%3$s</p>
+				<p class="hello-action-links-title">%2$s</p>
+				<p class="hello-action-links-message">%3$s</p>
 				<a class="button button-primary" target="_blank" href="%4$s">%5$s</a>
 			</div>',
 			$image,
