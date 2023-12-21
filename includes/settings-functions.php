@@ -70,7 +70,16 @@ function hello_elementor_settings_page_scripts() {
 			'isHelloHeaderFooterActive' => hello_elementor_display_header_footer(),
 			'isHelloExperimentActive' => hello_header_footer_experiment_active(),
 			'templateDirectoryUri' => get_template_directory_uri(),
-			'linkInstalledElementor' => wp_nonce_url( add_query_arg( [ 'action' => 'install-plugin', 'plugin' => 'elementor' ], admin_url( 'update.php' ) ), 'install-plugin_elementor' ),
+			'linkInstalledElementor' => wp_nonce_url(
+				add_query_arg(
+					[
+						'action' => 'install-plugin',
+						'plugin' => 'elementor',
+					],
+					admin_url( 'update.php' )
+				),
+				'install-plugin_elementor'
+			),
 			'linkActivateElementor' => wp_nonce_url( 'plugins.php?action=activate&plugin=elementor/elementor.php', 'activate-plugin_elementor/elementor.php' ),
 			'linkHelloExperiment' => wp_nonce_url( 'admin.php?page=elementor#tab-experiments' ),
 			'linkStyleHeaderFooter' => wp_nonce_url( 'post.php?post=' . get_option( 'elementor_active_kit' ) . '&action=elementor' ),
