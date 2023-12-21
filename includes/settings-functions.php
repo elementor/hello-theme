@@ -79,7 +79,7 @@ function hello_elementor_settings_page_scripts() {
 	} elseif ( hello_header_footer_experiment_active() && ! hello_header_footer_experiment_active() ) {
 		$action_link_type = 'activate-header-footer-experiment';
 		$action_link_url = wp_nonce_url( 'admin.php?page=elementor#tab-experiments' );
-	} elseif ( hello_header_footer_experiment_active()) {
+	} elseif ( hello_header_footer_experiment_active() ) {
 		$action_link_type = 'style-header-footer';
 		$action_link_url = wp_nonce_url( 'post.php?post=' . get_option( 'elementor_active_kit' ) . '&action=elementor' );
 	} else {
