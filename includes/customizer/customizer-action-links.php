@@ -110,11 +110,11 @@ class Hello_Customizer_Action_Links extends \WP_Customize_Control {
 				<p class="hello-action-links-message">%3$s</p>
 				<a class="button button-primary" target="_blank" href="%4$s">%5$s</a>
 			</div>',
-			$data[ 'image' ],
-			$data[ 'title' ],
-			$data[ 'message' ],
-			$data[ 'link' ],
-			$data[ 'button' ],
+			$data['image'],
+			$data['title'],
+			$data['message'],
+			$data['link'],
+			$data['button'],
 		);
 	}
 }
