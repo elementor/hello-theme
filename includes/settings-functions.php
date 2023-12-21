@@ -61,28 +61,39 @@ function hello_elementor_settings_page_scripts() {
 
 	$plugins = get_plugins();
 
+	if ( ! isset( $plugins['elementor/elementor.php'] ) ) {
+		$actionLinkType = 'install-elementor';
+		$actionLinkURL = wp_nonce_url(
+			add_query_arg(
+				[
+					'action' => 'install-plugin',
+					'plugin' => 'elementor',
+				],
+				admin_url( 'update.php' )
+			),
+			'install-plugin_elementor'
+		);
+	} elseif ( ! defined( 'ELEMENTOR_VERSION' ) ) {
+		$actionLinkType = 'activate-elementor';
+		$actionLinkURL = wp_nonce_url( 'plugins.php?action=activate&plugin=elementor/elementor.php', 'activate-plugin_elementor/elementor.php' );
+	} elseif ( hello_header_footer_experiment_active() && ! hello_header_footer_experiment_active() ) {
+		$actionLinkType = 'activate-header-footer-experiment';
+		$actionLinkURL = wp_nonce_url( 'admin.php?page=elementor#tab-experiments' );
+	} elseif ( hello_header_footer_experiment_active()) {
+		$actionLinkType = 'style-header-footer';
+		$actionLinkURL = wp_nonce_url( 'post.php?post=' . get_option( 'elementor_active_kit' ) . '&action=elementor' );
+	} else {
+		$actionLinkType = '';
+		$actionLinkURL = '';
+	}
+
 	wp_localize_script(
 		$handle,
 		'helloAdminData',
 		[
-			'isElementorInstalled' => isset( $plugins['elementor/elementor.php'] ),
-			'isElementorActive' => defined( 'ELEMENTOR_VERSION' ),
-			'isHelloHeaderFooterActive' => hello_elementor_display_header_footer(),
-			'isHelloExperimentActive' => hello_header_footer_experiment_active(),
-			'templateDirectoryUri' => get_template_directory_uri(),
-			'linkInstalledElementor' => wp_nonce_url(
-				add_query_arg(
-					[
-						'action' => 'install-plugin',
-						'plugin' => 'elementor',
-					],
-					admin_url( 'update.php' )
-				),
-				'install-plugin_elementor'
-			),
-			'linkActivateElementor' => wp_nonce_url( 'plugins.php?action=activate&plugin=elementor/elementor.php', 'activate-plugin_elementor/elementor.php' ),
-			'linkHelloExperiment' => wp_nonce_url( 'admin.php?page=elementor#tab-experiments' ),
-			'linkStyleHeaderFooter' => wp_nonce_url( 'post.php?post=' . get_option( 'elementor_active_kit' ) . '&action=elementor' ),
+			'actionLinkType' => $actionLinkType,
+			'actionLinkURL' => $actionLinkURL,
+			'templateDirectoryURI' => get_template_directory_uri(),
 		]
 	);
 }
