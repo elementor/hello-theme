@@ -69,9 +69,9 @@ const moduleRules = {
 };
 
 const entry = {
+	'hello-admin': path.resolve( __dirname, './assets/dev/js/admin/hello-admin.js' ),
 	'hello-editor': path.resolve( __dirname, './assets/dev/js/editor/hello-editor.js' ),
 	'hello-frontend': path.resolve( __dirname, './assets/dev/js/frontend/hello-frontend.js' ),
-	'hello-admin': path.resolve( __dirname, './assets/dev/js/admin/hello-admin.js' ),
 };
 
 const webpackConfig = {
