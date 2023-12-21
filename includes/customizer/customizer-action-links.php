@@ -46,11 +46,11 @@ class Hello_Customizer_Action_Links extends \WP_Customize_Control {
 				esc_html__( 'Install Elementor', 'hello-elementor' ),
 				esc_html__( 'Create cross-site header & footer using Elementor.', 'hello-elementor' ),
 				wp_nonce_url(
-						add_query_arg(
-							[
-								'action' => 'install-plugin',
-								'plugin' => 'elementor',
-							],
+					add_query_arg(
+						[
+							'action' => 'install-plugin',
+							'plugin' => 'elementor',
+						],
 						admin_url( 'update.php' )
 					),
 					'install-plugin_elementor'
