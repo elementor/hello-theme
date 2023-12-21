@@ -79,16 +79,16 @@
 		}
 	}
 
-	.hello_elementor__action_link {
+	.hello_elementor__action_links {
 		text-align: center;
 		margin-block-start: 50px;
 		margin-block-end: 20px;
 
-		.action_link_title {
+		&__title {
 			font-weight: bold;
 		}
 
-		.action_link_description {
+		&__description {
 			font-weight: normal;
 		}
 	}
