@@ -6,32 +6,32 @@ const actionLinks = {
 		{
 			image: helloAdminData.templateDirectoryURI + '/assets/images/elementor.svg',
 			title: __( 'Install Elementor', 'hello-elementor' ),
-			description: __( 'Gain full control over your website’s design with the Elementor Page Builder.', 'hello-elementor' ),
-			buttonText: __( 'Install Elementor', 'hello-elementor' ),
+			message: __( 'Create cross-site header & footer using Elementor.', 'hello-elementor' ),
+			button: __( 'Install Elementor', 'hello-elementor' ),
 			link: helloAdminData.actionLinkURL,
 		},
 	'activate-elementor':
 		{
 			image: helloAdminData.templateDirectoryURI + '/assets/images/elementor.svg',
 			title: __( 'Activate Elementor', 'hello-elementor' ),
-			description: __( 'Gain full control over your website’s design with the Elementor Page Builder.', 'hello-elementor' ),
-			buttonText: __( 'Activate Elementor', 'hello-elementor' ),
+			message: __( 'Create cross-site header & footer using Elementor.', 'hello-elementor' ),
+			button: __( 'Activate Elementor', 'hello-elementor' ),
 			link: helloAdminData.actionLinkURL,
 		},
 	'activate-header-footer-experiment':
 		{
 			image: helloAdminData.templateDirectoryURI + '/assets/images/elementor.svg',
 			title: __( 'Style using Elementor', 'hello-elementor' ),
-			description: __( 'Design your cross-site header & footer using Elementor, from the "Site Settings" panel.', 'hello-elementor' ),
-			buttonText: __( 'Activate Hello theme header & footer experiment', 'hello-elementor' ),
+			message: __( 'Design your cross-site header & footer from Elementor’s "Site Settings" panel.', 'hello-elementor' ),
+			button: __( 'Activate Hello theme header & footer experiment', 'hello-elementor' ),
 			link: helloAdminData.actionLinkURL,
 		},
 	'style-header-footer':
 		{
 			image: helloAdminData.templateDirectoryURI + '/assets/images/elementor.svg',
 			title: __( 'Style cross-site header & footer', 'hello-elementor' ),
-			description: __( 'Customize your cross-site header & footer from Elementor’s "Site Settings" panel.', 'hello-elementor' ),
-			buttonText: __( 'Start Designing', 'hello-elementor' ),
+			message: __( 'Customize your cross-site header & footer from Elementor’s "Site Settings" panel.', 'hello-elementor' ),
+			button: __( 'Start Designing', 'hello-elementor' ),
 			link: helloAdminData.actionLinkURL,
 		},
 };
