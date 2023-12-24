@@ -111,6 +111,17 @@ class Hello_Customizer_Action_Links extends \WP_Customize_Control {
 	 * @return string
 	 */
 	private function get_customizer_action_links_html( $data ) {
+		if (
+			empty( $data )
+			|| ! isset( $data['image'] )
+			|| ! isset( $data['title'] )
+			|| ! isset( $data['message'] )
+			|| ! isset( $data['link'] )
+			|| ! isset( $data['button'] )
+		) {
+			return;
+		}
+
 		return sprintf(
 			'<div class="hello-action-links">
 				<img src="%1$s">
