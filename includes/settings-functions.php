@@ -59,6 +59,43 @@ function hello_elementor_settings_page_scripts() {
 		$script_asset['version']
 	);
 
+	$plugins = get_plugins();
+
+	if ( ! isset( $plugins['elementor/elementor.php'] ) ) {
+		$action_link_type = 'install-elementor';
+		$action_link_url = wp_nonce_url(
+			add_query_arg(
+				[
+					'action' => 'install-plugin',
+					'plugin' => 'elementor',
+				],
+				admin_url( 'update.php' )
+			),
+			'install-plugin_elementor'
+		);
+	} elseif ( ! defined( 'ELEMENTOR_VERSION' ) ) {
+		$action_link_type = 'activate-elementor';
+		$action_link_url = wp_nonce_url( 'plugins.php?action=activate&plugin=elementor/elementor.php', 'activate-plugin_elementor/elementor.php' );
+	} elseif ( hello_header_footer_experiment_active() && ! hello_header_footer_experiment_active() ) {
+		$action_link_type = 'activate-header-footer-experiment';
+		$action_link_url = wp_nonce_url( 'admin.php?page=elementor#tab-experiments' );
+	} elseif ( hello_header_footer_experiment_active() ) {
+		$action_link_type = 'style-header-footer';
+		$action_link_url = wp_nonce_url( 'post.php?post=' . get_option( 'elementor_active_kit' ) . '&action=elementor' );
+	} else {
+		$action_link_type = '';
+		$action_link_url = '';
+	}
+
+	wp_localize_script(
+		$handle,
+		'helloAdminData',
+		[
+			'actionLinkType' => $action_link_type,
+			'actionLinkURL' => $action_link_url,
+			'templateDirectoryURI' => get_template_directory_uri(),
+		]
+	);
 }
 
 /**
