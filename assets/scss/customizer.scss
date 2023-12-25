@@ -1,0 +1,31 @@
+/**
+ * Style for your Customizer editor.
+ */
+
+#accordion-section-hello-options {
+
+	.accordion-section-title {
+		color: #c36;
+
+		&:after {
+			color: #c36;
+		}
+	}
+}
+
+#customize-control-hello-header-footer {
+
+	.hello-action-links {
+	 	margin: 15px auto;
+		text-align: center;
+
+		&-title {
+			font-weight: 600;
+			margin: 10px 0;
+		}
+
+		&-message {
+			margin: 0 0 20px;
+		}
+	}
+}
