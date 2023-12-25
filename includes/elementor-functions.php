@@ -217,7 +217,12 @@ add_action( 'elementor/experiments/default-features-registered', function( \Elem
 	$experiments_manager->add_feature( [
 		'name' => 'hello-theme-header-footer',
 		'title' => esc_html__( 'Hello Theme Header & Footer', 'hello-elementor' ),
-		'description' => sprintf( __( 'Use this experiment to design header and footer using Elementor Site Settings. <a href="%s" target="_blank">Learn More</a>', 'hello-elementor' ), 'https://go.elementor.com/wp-dash-header-footer' ),
+		'description' => sprintf(
+			'%1$s <a href="%2$s" target="_blank">%3$s</a>',
+			esc_html__( 'Customize and style the builtin Hello Theme’s cross-site header & footer from the Elementor "Site Settings" panel.', 'hello-elementor' ),
+			'https://go.elementor.com/wp-dash-header-footer',
+			esc_html__( 'Learn More', 'hello-elementor' )
+		),
 		'release_status' => $experiments_manager::RELEASE_STATUS_STABLE,
 		'new_site' => [
 			'minimum_installation_version' => '3.3.0',
