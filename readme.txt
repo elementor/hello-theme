@@ -36,7 +36,7 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
 
-= 3.0.0 =
+= 3.0.0 - 2023-12-26 =
 * New: Option to disable cross-site header & footer
 * Tweak: Update `Requires PHP 7.3`
 * Tweak: Update `Tested up to 6.4`
