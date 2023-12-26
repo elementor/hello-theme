@@ -23,7 +23,7 @@ const actionLinks = {
 			image: helloAdminData.templateDirectoryURI + '/assets/images/elementor.svg',
 			title: __( 'Style using Elementor', 'hello-elementor' ),
 			message: __( 'Design your cross-site header & footer from Elementor’s "Site Settings" panel.', 'hello-elementor' ),
-			button: __( 'Activate Hello theme header & footer experiment', 'hello-elementor' ),
+			button: __( 'Activate header & footer experiment', 'hello-elementor' ),
 			link: helloAdminData.actionLinkURL,
 		},
 	'style-header-footer':

@@ -83,7 +83,7 @@ class Hello_Customizer_Action_Links extends \WP_Customize_Control {
 					'image' => get_template_directory_uri() . '/assets/images/elementor.svg',
 					'title' => esc_html__( 'Style using Elementor', 'hello-elementor' ),
 					'message' => esc_html__( 'Design your cross-site header & footer from Elementor’s "Site Settings" panel.', 'hello-elementor' ),
-					'button' => esc_html__( 'Activate Hello theme header & footer experiment', 'hello-elementor' ),
+					'button' => esc_html__( 'Activate header & footer experiment', 'hello-elementor' ),
 					'link' => wp_nonce_url( 'admin.php?page=elementor#tab-experiments' ),
 				];
 				break;
