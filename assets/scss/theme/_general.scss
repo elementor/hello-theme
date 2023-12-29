@@ -1,7 +1,5 @@
 /**
- * General - https://codex.wordpress.org/CSS#WordPress_Generated_Classes
- * DO NOT CHANGE THIS FILE
- * to override any of the settings in this section, add your styling code in the custom directory.
+ * General - https://wordpress.org/documentation/article/css/
  */
 
 .page-content,
@@ -48,7 +46,7 @@
 }
 
 .wp-caption {
-	margin-bottom: 1.25rem;
+	margin-block-end: 1.25rem;
 	max-width: 100%;
 
 	&.alignleft {
@@ -102,5 +100,5 @@
 }
 
 .post-password-form [type=submit] {
-	margin-left: 3px;
+	margin-inline-start: 3px;
 }

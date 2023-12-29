@@ -12,6 +12,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+if ( ! post_type_supports( get_post_type(), 'comments' ) ) {
+	return;
+}
+
+if ( ! have_comments() && ! comments_open() ) {
+	return;
+}
+
 // Comment Reply Script.
 if ( comments_open() && get_option( 'thread_comments' ) ) {
 	wp_enqueue_script( 'comment-reply' );
@@ -59,13 +67,6 @@ if ( comments_open() && get_option( 'thread_comments' ) ) {
 		<?php the_comments_navigation(); ?>
 
 <?php endif; // Check for have_comments(). ?>
-
-<?php
-// If comments are closed and there are comments, let's leave a little note, shall we?
-if ( ! comments_open() && get_comments_number() && post_type_supports( get_post_type(), 'comments' ) ) :
-	?>
-	<p class="no-comments"><?php esc_html_e( 'Comments are closed.', 'hello-elementor' ); ?></p>
-<?php endif; ?>
 
 <?php
 comment_form(

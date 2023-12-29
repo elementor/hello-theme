@@ -1,7 +1,5 @@
 /**
  * List styling
- * DO NOT CHANGE THIS FILE!
- * To override any of the settings in this section, add your styling code in the custom directory.
  */
 
 dl,
@@ -10,8 +8,8 @@ dd,
 ol,
 ul,
 li {
-	margin-top: 0;
-	margin-bottom: 0;
+	margin-block-start: 0;
+	margin-block-end: 0;
 	border: 0;
 	outline: 0;
 	font-size: 100%;

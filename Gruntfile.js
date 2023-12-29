@@ -1,12 +1,12 @@
 /**
- * Elementor Hello Theme Makefile
+ * Hello Elementor theme Makefile
  */
 'use strict';
 
 module.exports = function( grunt ) {
-	require( 'matchdep' ).filterDev( 'grunt-*' ).forEach( grunt.loadNpmTasks );
+	require( 'load-grunt-tasks' )( grunt );
 
-	const sass = require( 'node-sass' );
+	const sass = require( 'sass' );
 
 	// Project configuration.
 	grunt.initConfig( {
@@ -39,9 +39,7 @@ module.exports = function( grunt ) {
 					//map: true,
 
 					processors: [
-						require( 'autoprefixer' )( {
-							browsers: 'last 3 versions',
-						} ),
+						require( 'autoprefixer' )(),
 					],
 				},
 				files: [ {
@@ -54,9 +52,7 @@ module.exports = function( grunt ) {
 			minify: {
 				options: {
 					processors: [
-						require( 'autoprefixer' )( {
-							browsers: 'last 3 versions',
-						} ),
+						require( 'autoprefixer' )(),
 						require( 'cssnano' )( {
 							reduceIdents: false,
 							zindex: false,
@@ -123,23 +119,10 @@ module.exports = function( grunt ) {
 				expand: true,
 			},
 		},
-
-		wp_readme_to_markdown: {
-			readme: {
-				files: {
-					'README.md': 'readme.txt',
-				},
-			},
-		},
-
 	} );
 
 	grunt.registerTask( 'i18n', [
 		'checktextdomain',
-	] );
-
-	grunt.registerTask( 'wp_readme', [
-		'wp_readme_to_markdown',
 	] );
 
 	grunt.registerTask( 'styles', [
@@ -151,6 +134,5 @@ module.exports = function( grunt ) {
 	grunt.registerTask( 'default', [
 		'i18n',
 		'styles',
-		'wp_readme',
 	] );
 };

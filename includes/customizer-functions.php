@@ -5,24 +5,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Register Customizer controls which add Elementor deeplinks
+ * Register Customizer controls.
  *
  * @return void
  */
-add_action( 'customize_register', 'hello_customizer_register' );
 function hello_customizer_register( $wp_customize ) {
-	require get_template_directory() . '/includes/customizer/elementor-upsell.php';
+	require get_template_directory() . '/includes/customizer/customizer-action-links.php';
 
 	$wp_customize->add_section(
-		'hello_theme_options',
+		'hello-options',
 		[
-			'title' => __( 'Header &amp; Footer', 'hello-elementor' ),
+			'title' => esc_html__( 'Header & Footer', 'hello-elementor' ),
 			'capability' => 'edit_theme_options',
 		]
 	);
 
 	$wp_customize->add_setting(
-		'hello-elementor-header-footer',
+		'hello-header-footer',
 		[
 			'sanitize_callback' => false,
 			'transport' => 'refresh',
@@ -30,25 +29,24 @@ function hello_customizer_register( $wp_customize ) {
 	);
 
 	$wp_customize->add_control(
-		new HelloElementor\Includes\Customizer\Elementor_Upsell(
+		new HelloElementor\Includes\Customizer\Hello_Customizer_Action_Links(
 			$wp_customize,
-			'hello-elementor-header-footer',
+			'hello-header-footer',
 			[
-				'section' => 'hello_theme_options',
+				'section' => 'hello-options',
 				'priority' => 20,
 			]
 		)
 	);
 }
-
+add_action( 'customize_register', 'hello_customizer_register' );
 
 /**
- * Enqueue Customiser CSS
+ * Enqueue Customizer CSS.
  *
- * @return string HTML to use in the customizer panel
+ * @return void
  */
-add_action( 'admin_enqueue_scripts', 'hello_customizer_print_styles' );
-function hello_customizer_print_styles() {
+function hello_customizer_styles() {
 
 	$min_suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
@@ -59,3 +57,4 @@ function hello_customizer_print_styles() {
 		HELLO_ELEMENTOR_VERSION
 	);
 }
+add_action( 'admin_enqueue_scripts', 'hello_customizer_styles' );

@@ -11,15 +11,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 add_action( 'elementor/init', 'hello_elementor_settings_init' );
 
 function hello_elementor_settings_init() {
-	if ( hello_header_footer_experiment_active() ) {
-		require 'settings/settings-header.php';
-		require 'settings/settings-footer.php';
-
-		add_action( 'elementor/kit/register_tabs', function( \Elementor\Core\Kits\Documents\Kit $kit ) {
-			$kit->register_tab( 'hello-settings-header', HelloElementor\Includes\Settings\Settings_Header::class );
-			$kit->register_tab( 'hello-settings-footer', HelloElementor\Includes\Settings\Settings_Footer::class );
-		}, 1, 40 );
+	if ( ! hello_header_footer_experiment_active() ) {
+		return;
 	}
+
+	require 'settings/settings-header.php';
+	require 'settings/settings-footer.php';
+
+	add_action( 'elementor/kit/register_tabs', function( \Elementor\Core\Kits\Documents\Kit $kit ) {
+		if ( ! hello_elementor_display_header_footer() ) {
+			return;
+		}
+
+		$kit->register_tab( 'hello-settings-header', HelloElementor\Includes\Settings\Settings_Header::class );
+		$kit->register_tab( 'hello-settings-footer', HelloElementor\Includes\Settings\Settings_Footer::class );
+	}, 1, 40 );
 }
 
 /**
@@ -126,27 +132,33 @@ function hello_get_footer_layout_class() {
 }
 
 add_action( 'elementor/editor/after_enqueue_scripts', function() {
-	if ( hello_header_footer_experiment_active() ) {
-		$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-
-		wp_enqueue_script(
-			'hello-theme-editor',
-			get_template_directory_uri() . '/assets/js/hello-editor' . $suffix . '.js',
-			[ 'jquery', 'elementor-editor' ],
-			HELLO_ELEMENTOR_VERSION,
-			true
-		);
-
-		wp_enqueue_style(
-			'hello-editor',
-			get_template_directory_uri() . '/editor' . $suffix . '.css',
-			[],
-			HELLO_ELEMENTOR_VERSION
-		);
+	if ( ! hello_header_footer_experiment_active() ) {
+		return;
 	}
+
+	$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+
+	wp_enqueue_script(
+		'hello-theme-editor',
+		get_template_directory_uri() . '/assets/js/hello-editor' . $suffix . '.js',
+		[ 'jquery', 'elementor-editor' ],
+		HELLO_ELEMENTOR_VERSION,
+		true
+	);
+
+	wp_enqueue_style(
+		'hello-editor',
+		get_template_directory_uri() . '/editor' . $suffix . '.css',
+		[],
+		HELLO_ELEMENTOR_VERSION
+	);
 } );
 
 add_action( 'wp_enqueue_scripts', function() {
+	if ( ! hello_elementor_display_header_footer() ) {
+		return;
+	}
+
 	if ( ! hello_header_footer_experiment_active() ) {
 		return;
 	}
@@ -156,8 +168,8 @@ add_action( 'wp_enqueue_scripts', function() {
 	wp_enqueue_script(
 		'hello-theme-frontend',
 		get_template_directory_uri() . '/assets/js/hello-frontend' . $suffix . '.js',
-		[ 'jquery' ],
-		'1.0.0',
+		[],
+		HELLO_ELEMENTOR_VERSION,
 		true
 	);
 
@@ -199,13 +211,18 @@ function hello_get_footer_display() {
 }
 
 /**
- * Add Hello Theme Header & Footer to Experiments.
+ * Add Hello Elementor theme Header & Footer to Experiments.
  */
 add_action( 'elementor/experiments/default-features-registered', function( \Elementor\Core\Experiments\Manager $experiments_manager ) {
 	$experiments_manager->add_feature( [
 		'name' => 'hello-theme-header-footer',
-		'title' => __( 'Hello Theme Header & Footer', 'hello-elementor' ),
-		'description' => sprintf( __( 'Use this experiment to design header and footer using Elementor Site Settings. <a href="%s" target="_blank">Learn More</a>', 'hello-elementor' ), 'https://go.elementor.com/wp-dash-header-footer' ),
+		'title' => esc_html__( 'Hello Theme Header & Footer', 'hello-elementor' ),
+		'description' => sprintf(
+			'%1$s <a href="%2$s" target="_blank">%3$s</a>',
+			esc_html__( 'Customize and style the builtin Hello Theme’s cross-site header & footer from the Elementor "Site Settings" panel.', 'hello-elementor' ),
+			'https://go.elementor.com/wp-dash-header-footer',
+			esc_html__( 'Learn More', 'hello-elementor' )
+		),
 		'release_status' => $experiments_manager::RELEASE_STATUS_STABLE,
 		'new_site' => [
 			'minimum_installation_version' => '3.3.0',

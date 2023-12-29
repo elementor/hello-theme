@@ -1,20 +1,20 @@
 /**
- * Basic responsive layout
+ * Responsive layouts
  */
 
 $containers: '.site-header .header-inner,.site-header:not(.dynamic-header), .site-footer .footer-inner, .site-footer:not(.dynamic-footer),body:not([class*="elementor-page-"]) .site-main, .page-header .entry-title';
 
 #{$containers} {
-	margin-right: auto;
-	margin-left: auto;
+	margin-inline-start: auto;
+	margin-inline-end: auto;
 	width: 100%;
 }
 
 @media (max-width: $screen-xs - $screen-diff){
 
 	#{$containers} {
-		padding-right: 10px;
-		padding-left: 10px;
+		padding-inline-start: 10px;
+		padding-inline-end: 10px;
 	}
 }
 

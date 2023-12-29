@@ -1,12 +1,11 @@
 /**
- * Style for your classic editor.
+ * Classic editor styling
  */
 
-// Root
 @import "reset/variables";
 
 p {
-	margin-bottom: $sm-margin;
+	margin-block-end: $sm-margin;
 }
 
 img {
