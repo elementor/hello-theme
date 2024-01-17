@@ -121,7 +121,7 @@ function hello_elementor_fail_load_admin_notice() {
 
 				var formData = new FormData();
 				formData.append( 'action', 'hello_elementor_set_admin_notice_viewed' );
-				formData.append( 'dismiss_nonce', '<?php echo wp_create_nonce( 'hello_elementor_dismiss_install_notice' ); ?>' );
+				formData.append( 'dismiss_nonce', '<?php echo wp_create_nonce( 'hello_elementor_dismiss_install_notice' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>' );
 
 				await fetch( ajaxurl, { method: 'POST', body: formData } );
 			} );
