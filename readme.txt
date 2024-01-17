@@ -36,6 +36,10 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
 
+= 3.0.1 =
+Fix: Harden security for admin notice dismiss button
+Fix: Add `alt` attribute to all the images in the dashboard
+
 = 3.0.0 - 2023-12-26 =
 * New: Option to disable cross-site header & footer
 * Tweak: Update `Requires PHP 7.3`
