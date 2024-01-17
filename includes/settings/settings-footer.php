@@ -501,16 +501,17 @@ class Settings_Footer extends Tab_Base {
 	public function get_additional_tab_content() {
 		$content_template = '
 			<div class="hello-elementor elementor-nerd-box">
-				<img src="%1$s" class="elementor-nerd-box-icon">
-				<p class="elementor-nerd-box-title">%2$s</p>
-				<p class="elementor-nerd-box-message">%3$s</p>
-				<a class="elementor-nerd-box-link elementor-button" target="_blank" href="%4$s">%5$s</a>
+				<img src="%1$s" class="elementor-nerd-box-icon" alt="%2$s">
+				<p class="elementor-nerd-box-title">%3$s</p>
+				<p class="elementor-nerd-box-message">%4$s</p>
+				<a class="elementor-nerd-box-link elementor-button" target="_blank" href="%5$s">%6$s</a>
 			</div>';
 
 		if ( ! defined( 'ELEMENTOR_PRO_VERSION' ) ) {
 			return sprintf(
 				$content_template,
 				get_template_directory_uri() . '/assets/images/go-pro.svg',
+				esc_attr__( 'Get Elementor Pro', 'hello-elementor' ),
 				esc_html__( 'Create a custom footer with multiple options', 'hello-elementor' ),
 				esc_html__( 'Upgrade to Elementor Pro and enjoy free design and many more features', 'hello-elementor' ),
 				'https://go.elementor.com/hello-theme-footer/',
@@ -520,6 +521,7 @@ class Settings_Footer extends Tab_Base {
 			return sprintf(
 				$content_template,
 				get_template_directory_uri() . '/assets/images/go-pro.svg',
+				esc_attr__( 'Elementor Pro', 'hello-elementor' ),
 				esc_html__( 'Create a custom footer with the Theme Builder', 'hello-elementor' ),
 				esc_html__( 'With the Theme Builder you can jump directly into each part of your site', 'hello-elementor' ),
 				get_admin_url( null, 'admin.php?page=elementor-app#/site-editor/templates/footer' ),

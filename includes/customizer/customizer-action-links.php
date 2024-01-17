@@ -54,6 +54,7 @@ class Hello_Customizer_Action_Links extends \WP_Customize_Control {
 			case 'install-elementor':
 				$action_link_data = [
 					'image' => get_template_directory_uri() . '/assets/images/elementor.svg',
+					'alt' => esc_attr__( 'Elementor', 'hello-elementor' ),
 					'title' => esc_html__( 'Install Elementor', 'hello-elementor' ),
 					'message' => esc_html__( 'Create cross-site header & footer using Elementor.', 'hello-elementor' ),
 					'button' => esc_html__( 'Install Elementor', 'hello-elementor' ),
@@ -72,6 +73,7 @@ class Hello_Customizer_Action_Links extends \WP_Customize_Control {
 			case 'activate-elementor':
 				$action_link_data = [
 					'image' => get_template_directory_uri() . '/assets/images/elementor.svg',
+					'alt' => esc_attr__( 'Elementor', 'hello-elementor' ),
 					'title' => esc_html__( 'Activate Elementor', 'hello-elementor' ),
 					'message' => esc_html__( 'Create cross-site header & footer using Elementor.', 'hello-elementor' ),
 					'button' => esc_html__( 'Activate Elementor', 'hello-elementor' ),
@@ -81,6 +83,7 @@ class Hello_Customizer_Action_Links extends \WP_Customize_Control {
 			case 'activate-header-footer-experiment':
 				$action_link_data = [
 					'image' => get_template_directory_uri() . '/assets/images/elementor.svg',
+					'alt' => esc_attr__( 'Elementor', 'hello-elementor' ),
 					'title' => esc_html__( 'Style using Elementor', 'hello-elementor' ),
 					'message' => esc_html__( 'Design your cross-site header & footer from Elementor’s "Site Settings" panel.', 'hello-elementor' ),
 					'button' => esc_html__( 'Activate header & footer experiment', 'hello-elementor' ),
@@ -90,6 +93,7 @@ class Hello_Customizer_Action_Links extends \WP_Customize_Control {
 			case 'style-header-footer':
 				$action_link_data = [
 					'image' => get_template_directory_uri() . '/assets/images/elementor.svg',
+					'alt' => esc_attr__( 'Elementor', 'hello-elementor' ),
 					'title' => esc_html__( 'Style cross-site header & footer', 'hello-elementor' ),
 					'message' => esc_html__( 'Customize your cross-site header & footer from Elementor’s "Site Settings" panel.', 'hello-elementor' ),
 					'button' => esc_html__( 'Start Designing', 'hello-elementor' ),
@@ -114,6 +118,7 @@ class Hello_Customizer_Action_Links extends \WP_Customize_Control {
 		if (
 			empty( $data )
 			|| ! isset( $data['image'] )
+			|| ! isset( $data['alt'] )
 			|| ! isset( $data['title'] )
 			|| ! isset( $data['message'] )
 			|| ! isset( $data['link'] )
@@ -124,12 +129,13 @@ class Hello_Customizer_Action_Links extends \WP_Customize_Control {
 
 		return sprintf(
 			'<div class="hello-action-links">
-				<img src="%1$s">
-				<p class="hello-action-links-title">%2$s</p>
-				<p class="hello-action-links-message">%3$s</p>
-				<a class="button button-primary" target="_blank" href="%4$s">%5$s</a>
+				<img src="%1$s" alt="%2$s">
+				<p class="hello-action-links-title">%3$s</p>
+				<p class="hello-action-links-message">%4$s</p>
+				<a class="button button-primary" target="_blank" href="%5$s">%6$s</a>
 			</div>',
 			$data['image'],
+			$data['alt'],
 			$data['title'],
 			$data['message'],
 			$data['link'],
