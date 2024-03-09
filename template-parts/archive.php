@@ -12,12 +12,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 <main id="content" class="site-main">
 
 	<?php if ( apply_filters( 'hello_elementor_page_title', true ) ) : ?>
-		<header class="page-header">
+		<div class="page-header">
 			<?php
 			the_archive_title( '<h1 class="entry-title">', '</h1>' );
 			the_archive_description( '<p class="archive-description">', '</p>' );
 			?>
-		</header>
+		</div>
 	<?php endif; ?>
 
 	<div class="page-content">

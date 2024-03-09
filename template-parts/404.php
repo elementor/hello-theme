@@ -12,9 +12,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 <main id="content" class="site-main">
 
 	<?php if ( apply_filters( 'hello_elementor_page_title', true ) ) : ?>
-		<header class="page-header">
+		<div class="page-header">
 			<h1 class="entry-title"><?php echo esc_html__( 'The page can&rsquo;t be found.', 'hello-elementor' ); ?></h1>
-		</header>
+		</div>
 	<?php endif; ?>
 
 	<div class="page-content">

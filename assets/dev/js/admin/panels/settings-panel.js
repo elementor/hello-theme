@@ -45,7 +45,7 @@ export const SettingsPanel = ( { SETTINGS, settingsData, updateSettings } ) => {
 				checked={ !! settingsData[ SETTINGS.PAGE_TITLE ] || false }
 				onChange={ ( value ) => updateSettings( SETTINGS.PAGE_TITLE, value ) }
 			/>
-			<code className="code-example"> &lt;header class=&quot;page-header&quot;&gt; &lt;h1 class=&quot;entry-title&quot;&gt; Post title &lt;/h1&gt; &lt;/header&gt; </code>
+			<code className="code-example"> &lt;div class=&quot;page-header&quot;&gt; &lt;h1 class=&quot;entry-title&quot;&gt; Post title &lt;/h1&gt; &lt;/div&gt; </code>
 
 			<ToggleControl
 				label={ __( 'Unregister Hello style.css', 'hello-elementor' ) }
