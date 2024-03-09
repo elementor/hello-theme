@@ -38,8 +38,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<?php } ?>
 	</div>
 
-	<?php wp_link_pages(); ?>
-
 	<?php
 	global $wp_query;
 	if ( $wp_query->max_num_pages > 1 ) :
