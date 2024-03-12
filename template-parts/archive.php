@@ -48,16 +48,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 		?>
 		<nav class="pagination">
 			<div class="nav-previous"><?php
-				next_posts_link(
-					/* translators: %s: HTML entity for arrow character. */
-					sprintf( esc_html__( '%s older', 'hello-elementor' ), sprintf( '<span class="meta-nav">%s</span>', $next_arrow ) )
-				);
+				/* translators: %s: HTML entity for arrow character. */
+				next_posts_link( sprintf( esc_html__( '%s older', 'hello-elementor' ), sprintf( '<span class="meta-nav">%s</span>', $next_arrow ) ) );
 			?></div>
 			<div class="nav-next"><?php
-				previous_posts_link(
-					/* translators: %s: HTML entity for arrow character. */
-					sprintf( esc_html__( 'newer %s', 'hello-elementor' ), sprintf( '<span class="meta-nav">%s</span>', $prev_arrow ) )
-				);
+				/* translators: %s: HTML entity for arrow character. */
+				previous_posts_link( sprintf( esc_html__( 'newer %s', 'hello-elementor' ), sprintf( '<span class="meta-nav">%s</span>', $prev_arrow ) ) );
 			?></div>
 		</nav>
 	<?php endif; ?>
