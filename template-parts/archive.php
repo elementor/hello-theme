@@ -52,7 +52,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					sprintf(
 						/* translators: %s: HTML arrow */
 						esc_html__( '%s older', 'hello-elementor' ),
-						"<span class='meta-nav'>{$next_arrow}</span>"
+						sprintf( '<span class="meta-nav">%s</span>', $next_arrow )
 					)
 				);
 			?></div>
@@ -61,7 +61,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					sprintf(
 						/* translators: %s: HTML arrow */
 						esc_html__( 'newer %s', 'hello-elementor' ),
-						"<span class='meta-nav'>{$prev_arrow}</span>"
+						sprintf( '<span class="meta-nav">%s</span>', $prev_arrow )
 					)
 				);
 			?></div>
