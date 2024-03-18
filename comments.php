@@ -71,8 +71,8 @@ if ( comments_open() && get_option( 'thread_comments' ) ) {
 <?php
 comment_form(
 	[
-		'title_reply_before' => '<h2 id="reply-title" class="comment-reply-title">',
-		'title_reply_after'  => '</h2>',
+		'title_reply_before' => '<h3 id="reply-title" class="comment-reply-title">',
+		'title_reply_after'  => '</h3>',
 	]
 );
 ?>
