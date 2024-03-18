@@ -26,7 +26,7 @@ while ( have_posts() ) :
 
 		<?php if ( has_tag() ) : ?>
 		<div class="post-tags">
-			<?php the_tags( '<span class="tag-links">' . esc_html__( 'Tagged ', 'hello-elementor' ), null, '</span>' ); ?>
+			<?php the_tags( '<span class="tag-links">' . esc_html__( 'Tagged ', 'hello-elementor' ), ', ', '</span>' ); ?>
 		</div>
 		<?php endif; ?>
 
