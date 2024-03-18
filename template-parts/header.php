@@ -30,13 +30,11 @@ $header_nav_menu = wp_nav_menu( [
 					<?php echo esc_html( $site_name ); ?>
 				</a>
 			</h1>
+			<?php if ( $tagline ) : ?>
 			<p class="site-description">
-				<?php
-				if ( $tagline ) {
-					echo esc_html( $tagline );
-				}
-				?>
+				<?php echo esc_html( $tagline ); ?>
 			</p>
+			<?php endif; ?>
 		<?php } ?>
 	</div>
 
