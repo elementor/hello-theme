@@ -43,12 +43,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<?php
 	global $wp_query;
 	if ( $wp_query->max_num_pages > 1 ) :
+		$next_arrow = is_rtl() ? '&rarr;' : '&larr;';
+		$prev_arrow = is_rtl() ? '&larr;' : '&rarr;';
 		?>
 		<nav class="pagination">
-			<?php /* Translators: HTML arrow */ ?>
-			<div class="nav-previous"><?php next_posts_link( sprintf( __( '%s older', 'hello-elementor' ), '<span class="meta-nav">&larr;</span>' ) ); ?></div>
-			<?php /* Translators: HTML arrow */ ?>
-			<div class="nav-next"><?php previous_posts_link( sprintf( __( 'newer %s', 'hello-elementor' ), '<span class="meta-nav">&rarr;</span>' ) ); ?></div>
+			<div class="nav-previous"><?php
+				/* translators: %s: HTML entity for arrow character. */
+				next_posts_link( sprintf( esc_html__( '%s older', 'hello-elementor' ), sprintf( '<span class="meta-nav">%s</span>', $next_arrow ) ) );
+			?></div>
+			<div class="nav-next"><?php
+				/* translators: %s: HTML entity for arrow character. */
+				previous_posts_link( sprintf( esc_html__( 'newer %s', 'hello-elementor' ), sprintf( '<span class="meta-nav">%s</span>', $prev_arrow ) ) );
+			?></div>
 		</nav>
 	<?php endif; ?>
 
