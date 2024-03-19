@@ -16,13 +16,14 @@ if ( ! hello_get_header_display() ) {
 $is_editor = isset( $_GET['elementor-preview'] );
 $site_name = get_bloginfo( 'name' );
 $tagline   = get_bloginfo( 'description', 'display' );
+$header_class = did_action( 'elementor/loaded' ) ? hello_get_header_layout_class() : '';
 $header_nav_menu = wp_nav_menu( [
 	'theme_location' => 'menu-1',
 	'fallback_cb' => false,
 	'echo' => false,
 ] );
 ?>
-<header id="site-header" class="site-header dynamic-header <?php echo esc_attr( hello_get_header_layout_class() ); ?>">
+<header id="site-header" class="site-header dynamic-header <?php echo esc_attr( $header_class ); ?>">
 	<div class="header-inner">
 		<div class="site-branding show-<?php echo esc_attr( hello_elementor_get_setting( 'hello_header_logo_type' ) ); ?>">
 			<?php if ( has_custom_logo() && ( 'title' !== hello_elementor_get_setting( 'hello_header_logo_type' ) || $is_editor ) ) : ?>
