@@ -52,29 +52,29 @@ if ( comments_open() && get_option( 'thread_comments' ) ) {
 
 		<?php the_comments_navigation(); ?>
 
-	<ol class="comment-list">
-		<?php
-		wp_list_comments(
-			[
-				'style'       => 'ol',
-				'short_ping'  => true,
-				'avatar_size' => 42,
-			]
-		);
-		?>
-	</ol><!-- .comment-list -->
+		<ol class="comment-list">
+			<?php
+			wp_list_comments(
+				[
+					'style'       => 'ol',
+					'short_ping'  => true,
+					'avatar_size' => 42,
+				]
+			);
+			?>
+		</ol>
 
 		<?php the_comments_navigation(); ?>
 
-<?php endif; // Check for have_comments(). ?>
+	<?php endif; ?>
 
-<?php
-comment_form(
-	[
-		'title_reply_before' => '<h3 id="reply-title" class="comment-reply-title">',
-		'title_reply_after'  => '</h3>',
-	]
-);
-?>
+	<?php
+	comment_form(
+		[
+			'title_reply_before' => '<h3 id="reply-title" class="comment-reply-title">',
+			'title_reply_after'  => '</h3>',
+		]
+	);
+	?>
 
-</section><!-- .comments-area -->
+</section>
