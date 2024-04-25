@@ -115,13 +115,23 @@ class Settings_Footer extends Tab_Base {
 		$this->add_control(
 			'hello_footer_layout',
 			[
-				'type' => Controls_Manager::SELECT,
+				'type' => Controls_Manager::CHOOSE,
 				'label' => esc_html__( 'Layout', 'hello-elementor' ),
 				'options' => [
-					'default' => esc_html__( 'Default', 'hello-elementor' ),
-					'inverted' => esc_html__( 'Inverted', 'hello-elementor' ),
-					'stacked' => esc_html__( 'Centered', 'hello-elementor' ),
+					'inverted' => [
+						'title' => esc_html__( 'Inverted', 'hello-elementor' ),
+						'icon' => "eicon-arrow-$start",
+					],
+					'stacked' => [
+						'title' => esc_html__( 'Centered', 'hello-elementor' ),
+						'icon' => 'eicon-h-align-center',
+					],
+					'default' => [
+						'title' => esc_html__( 'Default', 'hello-elementor' ),
+						'icon' => "eicon-arrow-$end",
+					],
 				],
+				'toggle' => false,
 				'selector' => '.site-footer',
 				'default' => 'default',
 				'separator' => 'before',
@@ -131,8 +141,8 @@ class Settings_Footer extends Tab_Base {
 		$this->add_responsive_control(
 			'hello_footer_branding_direction',
 			[
-				'label' => esc_html__( 'Brand', 'hello-elementor' ),
 				'type' => Controls_Manager::CHOOSE,
+				'label' => esc_html__( 'Brand', 'hello-elementor' ),
 				'options' => [
 					'row-reverse' => [
 						'title' => esc_html__( 'Row Reverse', 'hello-elementor' ),
@@ -147,6 +157,7 @@ class Settings_Footer extends Tab_Base {
 						'icon' => "eicon-arrow-$end",
 					],
 				],
+				'toggle' => false,
 				'default' => 'column',
 				'selectors_dictionary' => [
 					'row' => 'flex-direction: row; align-items: center;',
@@ -166,8 +177,8 @@ class Settings_Footer extends Tab_Base {
 		$this->add_responsive_control(
 			'hello_footer_branding_gap',
 			[
-				'label' => esc_html__( 'Gap', 'hello-elementor' ),
 				'type' => Controls_Manager::SLIDER,
+				'label' => esc_html__( 'Gap', 'hello-elementor' ),
 				'size_units' => [ 'px', 'em ', 'rem', 'custom' ],
 				'range' => [
 					'px' => [
