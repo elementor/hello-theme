@@ -203,27 +203,33 @@ class Settings_Footer extends Tab_Base {
 			]
 		);
 
-		$logical_direction = is_rtl() ? 'left' : 'right';
+		$start = is_rtl() ? 'right' : 'left';
+		$end = ! is_rtl() ? 'right' : 'left';
 
 		$this->add_responsive_control(
 			'hello_footer_branding_direction',
 			[
-				'label' => esc_html__( 'Direction', 'hello-elementor' ),
+				'label' => esc_html__( 'Brand', 'hello-elementor' ),
 				'type' => Controls_Manager::CHOOSE,
 				'options' => [
+					'row-reverse' => [
+						'title' => esc_html__( 'Row Reverse', 'hello-elementor' ),
+						'icon' => "eicon-arrow-$start",
+					],
 					'column' => [
 						'title' => esc_html__( 'Column', 'hello-elementor' ),
 						'icon' => 'eicon-arrow-down',
 					],
 					'row' => [
 						'title' => esc_html__( 'Row', 'hello-elementor' ),
-						'icon' => "eicon-arrow-$logical_direction",
+						'icon' => "eicon-arrow-$end",
 					],
 				],
 				'default' => 'column',
 				'selectors_dictionary' => [
-					'column' => 'flex-direction: column; align-items: stretch;',
 					'row' => 'flex-direction: row; align-items: center;',
+					'column' => 'flex-direction: column; align-items: stretch;',
+					'row-reverse' => 'flex-direction: row-reverse; align-items: center;',
 				],
 				'separator' => 'before',
 				'condition' => [
