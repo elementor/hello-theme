@@ -198,7 +198,7 @@ class Settings_Header extends Tab_Base {
 			]
 		);
 
-		$this->add_control(
+		$this->add_responsive_control(
 			'hello_header_branding_direction',
 			[
 				'label' => esc_html__( 'Direction', 'hello-elementor' ),
@@ -229,7 +229,7 @@ class Settings_Header extends Tab_Base {
 			]
 		);
 
-		$this->add_control(
+		$this->add_responsive_control(
 			'hello_header_branding_gap',
 			[
 				'label' => esc_html__( 'Gap', 'hello-elementor' ),

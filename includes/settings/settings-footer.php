@@ -203,7 +203,7 @@ class Settings_Footer extends Tab_Base {
 			]
 		);
 
-		$this->add_control(
+		$this->add_responsive_control(
 			'hello_footer_branding_direction',
 			[
 				'label' => esc_html__( 'Direction', 'hello-elementor' ),
@@ -234,7 +234,7 @@ class Settings_Footer extends Tab_Base {
 			]
 		);
 
-		$this->add_control(
+		$this->add_responsive_control(
 			'hello_footer_branding_gap',
 			[
 				'label' => esc_html__( 'Gap', 'hello-elementor' ),
