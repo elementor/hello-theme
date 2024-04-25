@@ -40,7 +40,7 @@ class Settings_Header extends Tab_Base {
 			'hello_header_section',
 			[
 				'tab' => 'hello-settings-header',
-				'label' => esc_html__( 'Header', 'hello-elementor' ),
+				'label' => esc_html__( 'Hello Theme Header', 'hello-elementor' ),
 			]
 		);
 
@@ -193,7 +193,66 @@ class Settings_Header extends Tab_Base {
 				'name' => 'hello_header_background',
 				'label' => esc_html__( 'Background', 'hello-elementor' ),
 				'types' => [ 'classic', 'gradient' ],
+				'separator' => 'before',
 				'selector' => '.site-header',
+			]
+		);
+
+		$this->add_control(
+			'hello_header_branding_direction',
+			[
+				'label' => esc_html__( 'Direction', 'hello-elementor' ),
+				'type' => Controls_Manager::CHOOSE,
+				'options' => [
+					'column' => [
+						'title' => esc_html__( 'Column', 'hello-elementor' ),
+						'icon' => 'eicon-arrow-down',
+					],
+					'row' => [
+						'title' => esc_html__( 'Row', 'hello-elementor' ),
+						'icon' => 'eicon-arrow-right',
+					],
+				],
+				'default' => 'column',
+				'selectors_dictionary' => [
+					'column' => 'flex-direction: column;',
+					'row' => 'flex-direction: row; align-items: center;',
+				],
+				'separator' => 'before',
+				'condition' => [
+					'hello_header_tagline_display' => 'yes',
+					'hello_header_logo_display' => 'yes',
+				],
+				'selectors' => [
+					'.site-header .site-branding' => '{{VALUE}}',
+				],
+			]
+		);
+
+		$this->add_control(
+			'hello_header_branding_gap',
+			[
+				'label' => esc_html__( 'Gap', 'hello-elementor' ),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => [ 'px', 'em ', 'rem', 'custom' ],
+				'range' => [
+					'px' => [
+						'max' => 100,
+					],
+					'em' => [
+						'max' => 10,
+					],
+					'rem' => [
+						'max' => 10,
+					],
+				],
+				'condition' => [
+					'hello_header_tagline_display' => 'yes',
+					'hello_header_logo_display' => 'yes',
+				],
+				'selectors' => [
+					'.site-header .site-branding' => 'gap: {{SIZE}}{{UNIT}};',
+				],
 			]
 		);
 

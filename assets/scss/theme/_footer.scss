@@ -7,6 +7,12 @@
 	padding-block-end: 1rem;
 	position: relative;
 
+	.site-branding {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
+
 	.footer-inner {
 		display: flex;
 		flex-wrap: wrap;
@@ -21,9 +27,6 @@
 		}
 
 		.site-branding {
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
 
 			.site-title,
 			.site-description {

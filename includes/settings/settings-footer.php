@@ -39,7 +39,7 @@ class Settings_Footer extends Tab_Base {
 			'hello_footer_section',
 			[
 				'tab' => 'hello-settings-footer',
-				'label' => esc_html__( 'Footer', 'hello-elementor' ),
+				'label' => esc_html__( 'Hello Theme Footer', 'hello-elementor' ),
 			]
 		);
 
@@ -198,7 +198,66 @@ class Settings_Footer extends Tab_Base {
 				'name' => 'hello_footer_background',
 				'label' => esc_html__( 'Background', 'hello-elementor' ),
 				'types' => [ 'classic', 'gradient' ],
+				'separator' => 'before',
 				'selector' => '.site-footer',
+			]
+		);
+
+		$this->add_control(
+			'hello_footer_branding_direction',
+			[
+				'label' => esc_html__( 'Direction', 'hello-elementor' ),
+				'type' => Controls_Manager::CHOOSE,
+				'options' => [
+					'column' => [
+						'title' => esc_html__( 'Column', 'hello-elementor' ),
+						'icon' => 'eicon-arrow-down',
+					],
+					'row' => [
+						'title' => esc_html__( 'Row', 'hello-elementor' ),
+						'icon' => 'eicon-arrow-right',
+					],
+				],
+				'default' => 'column',
+				'selectors_dictionary' => [
+					'column' => 'flex-direction: column;',
+					'row' => 'flex-direction: row; align-items: center;',
+				],
+				'separator' => 'before',
+				'condition' => [
+					'hello_footer_tagline_display' => 'yes',
+					'hello_footer_logo_display' => 'yes',
+				],
+				'selectors' => [
+					'.site-footer .site-branding' => '{{VALUE}}',
+				],
+			]
+		);
+
+		$this->add_control(
+			'hello_footer_branding_gap',
+			[
+				'label' => esc_html__( 'Gap', 'hello-elementor' ),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => [ 'px', 'em ', 'rem', 'custom' ],
+				'range' => [
+					'px' => [
+						'max' => 100,
+					],
+					'em' => [
+						'max' => 10,
+					],
+					'rem' => [
+						'max' => 10,
+					],
+				],
+				'condition' => [
+					'hello_footer_tagline_display' => 'yes',
+					'hello_footer_logo_display' => 'yes',
+				],
+				'selectors' => [
+					'.site-footer .site-branding' => 'gap: {{SIZE}}{{UNIT}};',
+				],
 			]
 		);
 
