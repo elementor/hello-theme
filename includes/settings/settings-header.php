@@ -217,7 +217,7 @@ class Settings_Header extends Tab_Base {
 				],
 				'default' => 'column',
 				'selectors_dictionary' => [
-					'column' => 'flex-direction: column;',
+					'column' => 'flex-direction: column; align-items: stretch;',
 					'row' => 'flex-direction: row; align-items: center;',
 				],
 				'separator' => 'before',
