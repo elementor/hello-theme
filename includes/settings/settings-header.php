@@ -36,6 +36,9 @@ class Settings_Header extends Tab_Base {
 	}
 
 	protected function register_tab_controls() {
+		$start = is_rtl() ? 'right' : 'left';
+		$end = ! is_rtl() ? 'right' : 'left';
+
 		$this->start_controls_section(
 			'hello_header_section',
 			[
@@ -111,6 +114,68 @@ class Settings_Header extends Tab_Base {
 			]
 		);
 
+		$this->add_responsive_control(
+			'hello_header_branding_direction',
+			[
+				'label' => esc_html__( 'Brand', 'hello-elementor' ),
+				'type' => Controls_Manager::CHOOSE,
+				'options' => [
+					'row-reverse' => [
+						'title' => esc_html__( 'Row Reverse', 'hello-elementor' ),
+						'icon' => "eicon-arrow-$start",
+					],
+					'column' => [
+						'title' => esc_html__( 'Column', 'hello-elementor' ),
+						'icon' => 'eicon-arrow-down',
+					],
+					'row' => [
+						'title' => esc_html__( 'Row', 'hello-elementor' ),
+						'icon' => "eicon-arrow-$end",
+					],
+				],
+				'default' => 'column',
+				'selectors_dictionary' => [
+					'row' => 'flex-direction: row; align-items: center;',
+					'column' => 'flex-direction: column; align-items: stretch;',
+					'row-reverse' => 'flex-direction: row-reverse; align-items: center;',
+				],
+				'condition' => [
+					'hello_header_tagline_display' => 'yes',
+					'hello_header_logo_display' => 'yes',
+				],
+				'selectors' => [
+					'.site-header .site-branding' => '{{VALUE}}',
+				],
+			]
+		);
+
+		$this->add_responsive_control(
+			'hello_header_branding_gap',
+			[
+				'label' => esc_html__( 'Gap', 'hello-elementor' ),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => [ 'px', 'em ', 'rem', 'custom' ],
+				'range' => [
+					'px' => [
+						'max' => 100,
+					],
+					'em' => [
+						'max' => 10,
+					],
+					'rem' => [
+						'max' => 10,
+					],
+				],
+				'condition' => [
+					'hello_header_tagline_display' => 'yes',
+					'hello_header_logo_display' => 'yes',
+				],
+				'selectors' => [
+					'.site-header .site-branding' => 'gap: {{SIZE}}{{UNIT}};',
+				],
+			]
+		);
+
 		$this->add_control(
 			'hello_header_width',
 			[
@@ -122,6 +187,7 @@ class Settings_Header extends Tab_Base {
 				],
 				'selector' => '.site-header',
 				'default' => 'boxed',
+				'separator' => 'before',
 			]
 		);
 
@@ -195,72 +261,6 @@ class Settings_Header extends Tab_Base {
 				'types' => [ 'classic', 'gradient' ],
 				'separator' => 'before',
 				'selector' => '.site-header',
-			]
-		);
-
-		$start = is_rtl() ? 'right' : 'left';
-		$end = ! is_rtl() ? 'right' : 'left';
-
-		$this->add_responsive_control(
-			'hello_header_branding_direction',
-			[
-				'label' => esc_html__( 'Brand', 'hello-elementor' ),
-				'type' => Controls_Manager::CHOOSE,
-				'options' => [
-					'row-reverse' => [
-						'title' => esc_html__( 'Row Reverse', 'hello-elementor' ),
-						'icon' => "eicon-arrow-$start",
-					],
-					'column' => [
-						'title' => esc_html__( 'Column', 'hello-elementor' ),
-						'icon' => 'eicon-arrow-down',
-					],
-					'row' => [
-						'title' => esc_html__( 'Row', 'hello-elementor' ),
-						'icon' => "eicon-arrow-$end",
-					],
-				],
-				'default' => 'column',
-				'selectors_dictionary' => [
-					'row' => 'flex-direction: row; align-items: center;',
-					'column' => 'flex-direction: column; align-items: stretch;',
-					'row-reverse' => 'flex-direction: row-reverse; align-items: center;',
-				],
-				'separator' => 'before',
-				'condition' => [
-					'hello_header_tagline_display' => 'yes',
-					'hello_header_logo_display' => 'yes',
-				],
-				'selectors' => [
-					'.site-header .site-branding' => '{{VALUE}}',
-				],
-			]
-		);
-
-		$this->add_responsive_control(
-			'hello_header_branding_gap',
-			[
-				'label' => esc_html__( 'Gap', 'hello-elementor' ),
-				'type' => Controls_Manager::SLIDER,
-				'size_units' => [ 'px', 'em ', 'rem', 'custom' ],
-				'range' => [
-					'px' => [
-						'max' => 100,
-					],
-					'em' => [
-						'max' => 10,
-					],
-					'rem' => [
-						'max' => 10,
-					],
-				],
-				'condition' => [
-					'hello_header_tagline_display' => 'yes',
-					'hello_header_logo_display' => 'yes',
-				],
-				'selectors' => [
-					'.site-header .site-branding' => 'gap: {{SIZE}}{{UNIT}};',
-				],
 			]
 		);
 
