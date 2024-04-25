@@ -198,6 +198,8 @@ class Settings_Header extends Tab_Base {
 			]
 		);
 
+		$logical_direction = is_rtl() ? 'left' : 'right';
+
 		$this->add_responsive_control(
 			'hello_header_branding_direction',
 			[
@@ -210,7 +212,7 @@ class Settings_Header extends Tab_Base {
 					],
 					'row' => [
 						'title' => esc_html__( 'Row', 'hello-elementor' ),
-						'icon' => 'eicon-arrow-right',
+						'icon' => "eicon-arrow-$logical_direction",
 					],
 				],
 				'default' => 'column',
