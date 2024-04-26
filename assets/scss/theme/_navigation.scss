@@ -43,10 +43,10 @@
 		border-radius: 3px;
 		background-color: rgba(0, 0, 0, 0.05);
 		color: #494c4f;
-	}
 
-	&.elementor-active .site-navigation-toggle i:before {
-		content: '\e87f';
+		&-icon {
+			width: 1.25rem;
+		}
 	}
 }
 
