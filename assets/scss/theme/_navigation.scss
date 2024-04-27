@@ -58,8 +58,8 @@
 			}
 
 			&:before {
-				box-shadow: 0 0.45rem 0 currentColor;
-				margin-block-end: 0.7rem;
+				box-shadow: 0 0.35rem 0 currentColor;
+				margin-block-end: 0.5rem;
 			}
 		}
 
@@ -67,10 +67,10 @@
 			.site-navigation-toggle-icon {
 				&:before {
 					box-shadow: none;
-					transform: translateY(0.4rem) rotate(45deg);
+					transform: translateY(0.35rem) rotate(45deg);
 				}
 				&:after{
-					transform: translateY(-0.5rem) rotate(-45deg);
+					transform: translateY(-0.35rem) rotate(-45deg);
 				}
 			}
 		}
