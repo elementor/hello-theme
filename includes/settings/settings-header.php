@@ -489,7 +489,7 @@ class Settings_Header extends Tab_Base {
 						'hello_header_menu_display' => 'yes',
 					],
 					'selectors' => [
-						'.site-header .site-navigation-toggle .site-navigation-toggle-icon' => 'fill: {{VALUE}};',
+						'.site-header .site-navigation-toggle .site-navigation-toggle-icon' => 'color: {{VALUE}};',
 					],
 				]
 			);
