@@ -53,6 +53,7 @@ class elementorHelloThemeHandler {
 
         this.elements.menuToggle.setAttribute( 'aria-expanded', isDropdownVisible );
         this.elements.dropdownMenu.setAttribute( 'aria-hidden', ! isDropdownVisible );
+        this.elements.dropdownMenu.inert = ! isDropdownVisible;
         this.elements.menuToggleHolder.classList.toggle( 'elementor-active', isDropdownVisible );
 
         // Always close all sub active items.
