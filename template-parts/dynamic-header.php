@@ -60,7 +60,7 @@ $header_nav_menu = wp_nav_menu( [
 					<span class="screen-reader-text"><?php echo esc_html__( 'Menu', 'hello-elementor' ); ?></span>
 				</div>
 			</div>
-			<nav class="site-navigation-dropdown <?php echo esc_attr( hello_show_or_hide( 'hello_header_menu_display' ) ); ?>">
+			<nav class="site-navigation-dropdown <?php echo esc_attr( hello_show_or_hide( 'hello_header_menu_display' ) ); ?>" aria-hidden="true" inert>
 				<?php
 				// PHPCS - escaped by WordPress with "wp_nav_menu"
 				echo $header_nav_menu; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
