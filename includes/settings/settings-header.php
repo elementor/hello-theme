@@ -128,7 +128,7 @@ class Settings_Header extends Tab_Base {
 			'hello_header_branding_direction',
 			[
 				'type' => Controls_Manager::CHOOSE,
-				'label' => esc_html__( 'Brand', 'hello-elementor' ),
+				'label' => esc_html__( 'Brand Direction', 'hello-elementor' ),
 				'options' => [
 					'row-reverse' => [
 						'title' => esc_html__( 'Row Reverse', 'hello-elementor' ),
