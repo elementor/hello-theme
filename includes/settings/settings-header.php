@@ -164,7 +164,7 @@ class Settings_Header extends Tab_Base {
 			'hello_header_branding_gap',
 			[
 				'type' => Controls_Manager::SLIDER,
-				'label' => esc_html__( 'Gap', 'hello-elementor' ),
+				'label' => esc_html__( 'Brand Gap', 'hello-elementor' ),
 				'size_units' => [ 'px', 'em ', 'rem', 'custom' ],
 				'range' => [
 					'px' => [
