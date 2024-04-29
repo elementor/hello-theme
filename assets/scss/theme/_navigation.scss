@@ -78,15 +78,12 @@
 				padding-inline-end: 15px;
 
 				&:after {
-					display: block;
+					display: flex;
 					content: '\25BE';
 					font-size: 1.5em;
+					justify-content: center;
 					align-items: center;
 					color: $gray;
-					position: absolute;
-					right: 0;
-					top: 50%;
-					transform: translateY(-50%);
 					text-decoration: none;
 				}
 
