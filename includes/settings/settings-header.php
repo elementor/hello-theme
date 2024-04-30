@@ -125,30 +125,30 @@ class Settings_Header extends Tab_Base {
 		);
 
 		$this->add_responsive_control(
-			'hello_header_branding_direction',
+			'hello_header_tagline_position',
 			[
 				'type' => Controls_Manager::CHOOSE,
-				'label' => esc_html__( 'Brand Direction', 'hello-elementor' ),
+				'label' => esc_html__( 'Tagline Position', 'hello-elementor' ),
 				'options' => [
-					'row-reverse' => [
-						'title' => esc_html__( 'Row Reverse', 'hello-elementor' ),
+					'before' => [
+						'title' => esc_html__( 'Before', 'hello-elementor' ),
 						'icon' => "eicon-arrow-$start",
 					],
-					'column' => [
-						'title' => esc_html__( 'Column', 'hello-elementor' ),
+					'below' => [
+						'title' => esc_html__( 'Below', 'hello-elementor' ),
 						'icon' => 'eicon-arrow-down',
 					],
-					'row' => [
-						'title' => esc_html__( 'Row', 'hello-elementor' ),
+					'after' => [
+						'title' => esc_html__( 'After', 'hello-elementor' ),
 						'icon' => "eicon-arrow-$end",
 					],
 				],
 				'toggle' => false,
-				'default' => 'column',
+				'default' => 'below',
 				'selectors_dictionary' => [
-					'row' => 'flex-direction: row; align-items: center;',
-					'column' => 'flex-direction: column; align-items: stretch;',
-					'row-reverse' => 'flex-direction: row-reverse; align-items: center;',
+					'before' => 'flex-direction: row-reverse; align-items: center;',
+					'below' => 'flex-direction: column; align-items: stretch;',
+					'after' => 'flex-direction: row; align-items: center;',
 				],
 				'condition' => [
 					'hello_header_tagline_display' => 'yes',
@@ -161,10 +161,10 @@ class Settings_Header extends Tab_Base {
 		);
 
 		$this->add_responsive_control(
-			'hello_header_branding_gap',
+			'hello_header_tagline_gap',
 			[
 				'type' => Controls_Manager::SLIDER,
-				'label' => esc_html__( 'Brand Gap', 'hello-elementor' ),
+				'label' => esc_html__( 'Tagline Gap', 'hello-elementor' ),
 				'size_units' => [ 'px', 'em ', 'rem', 'custom' ],
 				'range' => [
 					'px' => [
