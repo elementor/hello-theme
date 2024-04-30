@@ -246,7 +246,7 @@ class Settings_Footer extends Tab_Base {
 			'hello_footer_gap',
 			[
 				'type' => Controls_Manager::SLIDER,
-				'label' => esc_html__( 'Gap', 'hello-elementor' ),
+				'label' => esc_html__( 'Side Margins', 'hello-elementor' ),
 				'size_units' => [ '%', 'px', 'em ', 'rem', 'vw', 'custom' ],
 				'range' => [
 					'px' => [

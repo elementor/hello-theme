@@ -232,7 +232,7 @@ class Settings_Header extends Tab_Base {
 			'hello_header_gap',
 			[
 				'type' => Controls_Manager::SLIDER,
-				'label' => esc_html__( 'Gap', 'hello-elementor' ),
+				'label' => esc_html__( 'Side Margins', 'hello-elementor' ),
 				'size_units' => [ '%', 'px', 'em ', 'rem', 'vw', 'custom' ],
 				'default' => [
 					'size' => '0',
