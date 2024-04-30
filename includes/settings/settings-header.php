@@ -43,7 +43,7 @@ class Settings_Header extends Tab_Base {
 			'hello_header_section',
 			[
 				'tab' => 'hello-settings-header',
-				'label' => esc_html__( 'Hello Theme Header', 'hello-elementor' ),
+				'label' => esc_html__( 'Header', 'hello-elementor' ),
 			]
 		);
 

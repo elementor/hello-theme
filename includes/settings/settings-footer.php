@@ -41,7 +41,7 @@ class Settings_Footer extends Tab_Base {
 			'hello_footer_section',
 			[
 				'tab' => 'hello-settings-footer',
-				'label' => esc_html__( 'Hello Theme Footer', 'hello-elementor' ),
+				'label' => esc_html__( 'Footer', 'hello-elementor' ),
 			]
 		);
 
