@@ -56,7 +56,7 @@ $header_nav_menu = wp_nav_menu( [
 			</nav>
 			<div class="site-navigation-toggle-holder <?php echo esc_attr( hello_show_or_hide( 'hello_header_menu_display' ) ); ?>">
 				<button type="button" class="site-navigation-toggle">
-					<i class="eicon-menu-bar" aria-hidden="true"></i>
+					<span class="site-navigation-toggle-icon"></span>
 					<span class="screen-reader-text"><?php echo esc_html__( 'Menu', 'hello-elementor' ); ?></span>
 				</button>
 			</div>
