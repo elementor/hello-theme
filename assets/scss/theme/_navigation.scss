@@ -4,13 +4,6 @@
 
 .site-header {
 
-	&.header-inverted {
-
-		.site-navigation-toggle-holder {
-			justify-content: flex-start;
-		}
-	}
-
 	&.header-stacked {
 
 		.site-navigation-toggle-holder {
@@ -162,7 +155,7 @@
 	}
 }
 
-footer {
+.site-footer {
 
 	.site-navigation {
 
