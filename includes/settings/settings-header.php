@@ -351,7 +351,7 @@ class Settings_Header extends Tab_Base {
 					'hello_header_logo_type' => 'title',
 				],
 				'selectors' => [
-					'.site-header h1.site-title a' => 'color: {{VALUE}};',
+					'.site-header .site-title a' => 'color: {{VALUE}};',
 				],
 			]
 		);
@@ -370,7 +370,7 @@ class Settings_Header extends Tab_Base {
 					'hello_header_logo_display' => 'yes',
 					'hello_header_logo_type' => 'title',
 				],
-				'selector' => '.site-header h1.site-title',
+				'selector' => '.site-header .site-title',
 			]
 		);
 

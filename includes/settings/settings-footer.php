@@ -348,7 +348,7 @@ class Settings_Footer extends Tab_Base {
 					'hello_footer_logo_type' => 'title',
 				],
 				'selectors' => [
-					'.site-footer h4.site-title a' => 'color: {{VALUE}};',
+					'.site-footer .site-title a' => 'color: {{VALUE}};',
 				],
 			]
 		);
@@ -362,8 +362,7 @@ class Settings_Footer extends Tab_Base {
 					'hello_footer_logo_display' => 'yes',
 					'hello_footer_logo_type' => 'title',
 				],
-				'selector' => '.site-footer h4.site-title',
-
+				'selector' => '.site-footer .site-title',
 			]
 		);
 
