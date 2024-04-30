@@ -11,6 +11,12 @@
 	padding-block-end: 1rem;
 	position: relative;
 
+	.site-title {
+		font-size: 2.5rem;
+		font-weight: 500;
+		line-height: 1.2;
+	}
+
 	.site-navigation {
 		justify-content: flex-end;
 	}
