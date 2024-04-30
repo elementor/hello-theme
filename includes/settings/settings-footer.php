@@ -34,6 +34,8 @@ class Settings_Footer extends Tab_Base {
 	}
 
 	protected function register_tab_controls() {
+		$start = is_rtl() ? 'right' : 'left';
+		$end = ! is_rtl() ? 'right' : 'left';
 
 		$this->start_controls_section(
 			'hello_footer_section',
@@ -113,16 +115,89 @@ class Settings_Footer extends Tab_Base {
 		$this->add_control(
 			'hello_footer_layout',
 			[
-				'type' => Controls_Manager::SELECT,
+				'type' => Controls_Manager::CHOOSE,
 				'label' => esc_html__( 'Layout', 'hello-elementor' ),
 				'options' => [
-					'default' => esc_html__( 'Default', 'hello-elementor' ),
-					'inverted' => esc_html__( 'Inverted', 'hello-elementor' ),
-					'stacked' => esc_html__( 'Centered', 'hello-elementor' ),
+					'inverted' => [
+						'title' => esc_html__( 'Inverted', 'hello-elementor' ),
+						'icon' => "eicon-arrow-$start",
+					],
+					'stacked' => [
+						'title' => esc_html__( 'Centered', 'hello-elementor' ),
+						'icon' => 'eicon-h-align-center',
+					],
+					'default' => [
+						'title' => esc_html__( 'Default', 'hello-elementor' ),
+						'icon' => "eicon-arrow-$end",
+					],
 				],
+				'toggle' => false,
 				'selector' => '.site-footer',
 				'default' => 'default',
 				'separator' => 'before',
+			]
+		);
+
+		$this->add_responsive_control(
+			'hello_footer_tagline_position',
+			[
+				'type' => Controls_Manager::CHOOSE,
+				'label' => esc_html__( 'Tagline Position', 'hello-elementor' ),
+				'options' => [
+					'before' => [
+						'title' => esc_html__( 'Before', 'hello-elementor' ),
+						'icon' => "eicon-arrow-$start",
+					],
+					'below' => [
+						'title' => esc_html__( 'Below', 'hello-elementor' ),
+						'icon' => 'eicon-arrow-down',
+					],
+					'after' => [
+						'title' => esc_html__( 'After', 'hello-elementor' ),
+						'icon' => "eicon-arrow-$end",
+					],
+				],
+				'toggle' => false,
+				'default' => 'below',
+				'selectors_dictionary' => [
+					'before' => 'flex-direction: row-reverse; align-items: center;',
+					'below' => 'flex-direction: column; align-items: stretch;',
+					'after' => 'flex-direction: row; align-items: center;',
+				],
+				'condition' => [
+					'hello_footer_tagline_display' => 'yes',
+					'hello_footer_logo_display' => 'yes',
+				],
+				'selectors' => [
+					'.site-footer .site-branding' => '{{VALUE}}',
+				],
+			]
+		);
+
+		$this->add_responsive_control(
+			'hello_footer_tagline_gap',
+			[
+				'type' => Controls_Manager::SLIDER,
+				'label' => esc_html__( 'Tagline Gap', 'hello-elementor' ),
+				'size_units' => [ 'px', 'em ', 'rem', 'custom' ],
+				'range' => [
+					'px' => [
+						'max' => 100,
+					],
+					'em' => [
+						'max' => 10,
+					],
+					'rem' => [
+						'max' => 10,
+					],
+				],
+				'condition' => [
+					'hello_footer_tagline_display' => 'yes',
+					'hello_footer_logo_display' => 'yes',
+				],
+				'selectors' => [
+					'.site-footer .site-branding' => 'gap: {{SIZE}}{{UNIT}};',
+				],
 			]
 		);
 
@@ -137,6 +212,7 @@ class Settings_Footer extends Tab_Base {
 				],
 				'selector' => '.site-footer',
 				'default' => 'boxed',
+				'separator' => 'before',
 			]
 		);
 
@@ -170,7 +246,7 @@ class Settings_Footer extends Tab_Base {
 			'hello_footer_gap',
 			[
 				'type' => Controls_Manager::SLIDER,
-				'label' => esc_html__( 'Gap', 'hello-elementor' ),
+				'label' => esc_html__( 'Side Margins', 'hello-elementor' ),
 				'size_units' => [ '%', 'px', 'em ', 'rem', 'vw', 'custom' ],
 				'range' => [
 					'px' => [
@@ -198,6 +274,7 @@ class Settings_Footer extends Tab_Base {
 				'name' => 'hello_footer_background',
 				'label' => esc_html__( 'Background', 'hello-elementor' ),
 				'types' => [ 'classic', 'gradient' ],
+				'separator' => 'before',
 				'selector' => '.site-footer',
 			]
 		);
@@ -271,7 +348,7 @@ class Settings_Footer extends Tab_Base {
 					'hello_footer_logo_type' => 'title',
 				],
 				'selectors' => [
-					'.site-footer h4.site-title a' => 'color: {{VALUE}};',
+					'.site-footer .site-title a' => 'color: {{VALUE}};',
 				],
 			]
 		);
@@ -285,8 +362,7 @@ class Settings_Footer extends Tab_Base {
 					'hello_footer_logo_display' => 'yes',
 					'hello_footer_logo_type' => 'title',
 				],
-				'selector' => '.site-footer h4.site-title',
-
+				'selector' => '.site-footer .site-title',
 			]
 		);
 
