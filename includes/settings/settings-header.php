@@ -6,7 +6,6 @@ use Elementor\Plugin;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Background;
 use Elementor\Group_Control_Typography;
-use Elementor\Core\Responsive\Responsive;
 use Elementor\Core\Kits\Documents\Tabs\Tab_Base;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -522,7 +521,24 @@ class Settings_Header extends Tab_Base {
 				]
 			);
 
-			$breakpoints = Responsive::get_breakpoints();
+			$dropdown_options = [];
+			$active_breakpoints = Plugin::$instance->breakpoints->get_active_breakpoints();
+			$selected_breakpoints = [ 'mobile', 'tablet' ];
+
+			foreach ( $active_breakpoints as $breakpoint_key => $breakpoint_instance ) {
+				if ( ! in_array( $breakpoint_key, $selected_breakpoints, true ) ) {
+					continue;
+				}
+
+				$dropdown_options[ $breakpoint_key ] = sprintf(
+					/* translators: 1: Breakpoint label, 2: Breakpoint value. */
+					esc_html__( '%1$s (> %2$dpx)', 'hello-elementor' ),
+					$breakpoint_instance->get_label(),
+					$breakpoint_instance->get_value()
+				);
+			}
+
+			$dropdown_options['none'] = esc_html__( 'None', 'hello-elementor' );
 
 			$this->add_control(
 				'hello_header_menu_dropdown',
@@ -530,13 +546,7 @@ class Settings_Header extends Tab_Base {
 					'label' => esc_html__( 'Breakpoint', 'hello-elementor' ),
 					'type' => Controls_Manager::SELECT,
 					'default' => 'tablet',
-					'options' => [
-						/* translators: %d: Breakpoint number. */
-						'mobile' => sprintf( esc_html__( 'Mobile (< %dpx)', 'hello-elementor' ), $breakpoints['md'] ),
-						/* translators: %d: Breakpoint number. */
-						'tablet' => sprintf( esc_html__( 'Tablet (< %dpx)', 'hello-elementor' ), $breakpoints['lg'] ),
-						'none' => esc_html__( 'None', 'hello-elementor' ),
-					],
+					'options' => $dropdown_options,
 					'selector' => '.site-header',
 					'condition' => [
 						'hello_header_menu_layout!' => 'dropdown',
