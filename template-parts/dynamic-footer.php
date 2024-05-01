@@ -16,6 +16,7 @@ $footer_class = did_action( 'elementor/loaded' ) ? hello_get_footer_layout_class
 $footer_nav_menu = wp_nav_menu( [
 	'theme_location' => 'menu-2',
 	'fallback_cb' => false,
+	'container' => false,
 	'echo' => false,
 ] );
 ?>
