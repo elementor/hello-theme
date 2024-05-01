@@ -4,13 +4,6 @@
 
 .site-header {
 
-	&.header-inverted {
-
-		.site-navigation-toggle-holder {
-			justify-content: flex-start;
-		}
-	}
-
 	&.header-stacked {
 
 		.site-navigation-toggle-holder {
@@ -27,9 +20,6 @@
 .site-navigation-toggle-holder {
 	display: flex;
 	align-items: center;
-	justify-content: flex-end;
-	flex-grow: 1;
-	max-width: 20%;
 	padding: 8px 15px;
 
 	.site-navigation-toggle {
@@ -79,10 +69,8 @@
 }
 
 .site-navigation {
-	grid-area: nav-menu;
 	display: flex;
 	align-items: center;
-	flex-grow: 1;
 
 	ul.menu, ul.menu ul {
 		list-style-type: none;

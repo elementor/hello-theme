@@ -12,6 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 $footer_nav_menu = wp_nav_menu( [
 	'theme_location' => 'menu-2',
 	'fallback_cb' => false,
+	'container' => false,
 	'echo' => false,
 ] );
 ?>
