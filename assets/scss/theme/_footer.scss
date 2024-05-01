@@ -17,6 +17,7 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
+		gap: 0.5rem;
 	}
 
 	.footer-inner {
@@ -28,15 +29,18 @@
 			display: block;
 		}
 
-		.site-navigation {
-			justify-content: flex-end;
-		}
-
 		.site-branding {
 
 			.site-title,
 			.site-description {
 				margin: 0;
+			}
+
+			.site-logo {
+
+				img {
+					display: block;
+				}
 			}
 
 			&.show-title {
@@ -72,21 +76,7 @@
 			flex-direction: row-reverse;
 
 			.site-branding {
-				text-align: right;
-			}
-
-			.site-navigation {
-				justify-content: flex-start;
-			}
-		}
-	}
-
-	&.footer-has-copyright {
-
-		.footer-inner {
-
-			.site-navigation {
-				justify-content: center;
+				text-align: end;
 			}
 		}
 	}
@@ -106,24 +96,6 @@
 				.menu {
 					padding: 0;
 				}
-			}
-		}
-	}
-
-	&:not(.footer-stacked) {
-
-		.footer-inner {
-
-			.site-branding {
-				max-width: 20%;
-			}
-
-			.site-navigation {
-				max-width: 60%;
-			}
-
-			.copyright {
-				max-width: 20%;
 			}
 		}
 	}
