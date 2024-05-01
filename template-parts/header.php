@@ -13,8 +13,8 @@ $tagline   = get_bloginfo( 'description', 'display' );
 $header_nav_menu = wp_nav_menu( [
 	'theme_location' => 'menu-1',
 	'fallback_cb' => false,
-	'echo' => false,
 	'container' => false,
+	'echo' => false,
 ] );
 ?>
 

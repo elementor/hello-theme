@@ -20,8 +20,8 @@ $header_class = did_action( 'elementor/loaded' ) ? hello_get_header_layout_class
 $header_nav_menu = wp_nav_menu( [
 	'theme_location' => 'menu-1',
 	'fallback_cb' => false,
-	'echo' => false,
 	'container' => false,
+	'echo' => false,
 ] );
 ?>
 <header id="site-header" class="site-header dynamic-header <?php echo esc_attr( $header_class ); ?>">

@@ -16,8 +16,8 @@ $footer_class = did_action( 'elementor/loaded' ) ? hello_get_footer_layout_class
 $footer_nav_menu = wp_nav_menu( [
 	'theme_location' => 'menu-2',
 	'fallback_cb' => false,
-	'echo' => false,
 	'container' => false,
+	'echo' => false,
 ] );
 ?>
 <footer id="site-footer" class="site-footer dynamic-footer <?php echo esc_attr( $footer_class ); ?>">
