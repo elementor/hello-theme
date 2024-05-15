@@ -94,10 +94,6 @@ button,
 	border-radius: $border-radius;
 	transition: all .3s;
 
-	&:focus:not(:focus-visible) {
-		outline: none;
-	}
-
 	&:hover,
 	&:focus {
 		color: #ffffff;
