@@ -94,15 +94,15 @@ button,
 	border-radius: $border-radius;
 	transition: all .3s;
 
+	&:focus:not(:focus-visible) {
+		outline: none;
+	}
+
 	&:hover,
 	&:focus {
 		color: #ffffff;
 		background-color: $primary-color;
 		text-decoration: none;
-	}
-
-	&:focus:not(:focus-visible) {
-		outline: none;
 	}
 
 	&:not(:disabled) {
