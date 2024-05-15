@@ -128,7 +128,7 @@ a {
 		text-decoration: none;
 	}
 
-	&:not([href]):not([tabindex]):focus:not(:focus-visible) {
+	&:not([href]):not([tabindex]):focus {
 		outline: 0;
 	}
 }
