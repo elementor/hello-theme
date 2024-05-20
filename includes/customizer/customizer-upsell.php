@@ -7,7 +7,6 @@ if (!defined('ABSPATH')) {
 }
 
 class Hello_Customizer_Upsell extends \WP_Customize_Section {
-
 	public $heading;
 
 	public $description;
