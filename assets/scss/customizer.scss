@@ -16,7 +16,7 @@
 #customize-control-hello-header-footer {
 
 	.hello-action-links {
-	 	margin: 15px auto;
+		margin: 15px auto;
 		text-align: center;
 
 		&-title {
@@ -47,11 +47,11 @@
 		margin: 0;
 		text-decoration: none;
 	}
-	
+
 	h3 {
 		font-weight: bold;
 	}
-	
+
 	.accordion-section-buttons {
 		display: flex;
 		justify-content: flex-end;
@@ -64,6 +64,6 @@
 			border-radius: 4px;
 			padding: 8px 16px;
 			text-decoration: none;
-		}		
+		}
 	}
 }
