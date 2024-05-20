@@ -2,11 +2,12 @@
 
 namespace HelloElementor\Includes\Customizer;
 
-if (!defined('ABSPATH')) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
 class Hello_Customizer_Upsell extends \WP_Customize_Section {
+
 	public $heading;
 
 	public $description;
