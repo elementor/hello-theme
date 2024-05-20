@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @return void
  */
-function hello_customizer_register_theme_header_footer( $wp_customize ) {
+function hello_customizer_register( $wp_customize ) {
 	require_once get_template_directory() . '/includes/customizer/customizer-action-links.php';
 
 	$wp_customize->add_section(
@@ -39,7 +39,7 @@ function hello_customizer_register_theme_header_footer( $wp_customize ) {
 		)
 	);
 }
-add_action( 'customize_register', 'hello_customizer_register_theme_header_footer' );
+add_action( 'customize_register', 'hello_customizer_register' );
 
 /**
  * Register Customizer controls for Elementor Pro upsell.
