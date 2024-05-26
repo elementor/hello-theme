@@ -61,6 +61,7 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 * Fix: Remove page break navigation from archives when using `<!--nextpage-->`
 * Fix: Style posts pagination component layout
 * Fix: Add RTL support to pagination arrows in archive pages
+* Fix: Update pagination prev/next labels and positions ([#404](https://github.com/elementor/hello-theme/issues/404))
 * Fix: Check if Elementor is loaded when using dynamic header & footer
 
 = 3.0.1 - 2024-01-24 =
