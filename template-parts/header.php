@@ -40,7 +40,7 @@ $header_nav_menu = wp_nav_menu( [
 	</div>
 
 	<?php if ( $header_nav_menu ) : ?>
-		<nav class="site-navigation">
+		<nav class="site-navigation" aria-label="<?php echo esc_attr__( 'Main menu', 'hello-elementor' ); ?>">
 			<?php
 			// PHPCS - escaped by WordPress with "wp_nav_menu"
 			echo $header_nav_menu; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
