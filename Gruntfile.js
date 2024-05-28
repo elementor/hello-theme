@@ -21,7 +21,7 @@ module.exports = function( grunt ) {
 					expand: true,
 					cwd: 'assets/scss',
 					src: '*.scss',
-					dest: './build',
+					dest: './',
 					ext: '.css',
 				} ] : [ {
 					expand: true,
@@ -62,8 +62,8 @@ module.exports = function( grunt ) {
 				files: [ {
 					expand: true,
 					src: 'production' === grunt.option( 'environment' ) ? [
-						'build/*.css',
-						'!build/*.min.css',
+						'*.css',
+						'!*.min.css',
 					] : [
 						'*.css',
 						'!*.min.css',

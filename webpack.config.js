@@ -6,7 +6,6 @@
 const path = require( 'path' );
 const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
 
-const CopyPlugin = require( 'copy-webpack-plugin' );
 const TerserPlugin = require( 'terser-webpack-plugin' );
 
 const entry = {
@@ -14,43 +13,6 @@ const entry = {
 	'hello-frontend': path.resolve( __dirname, './assets/dev/js/frontend/hello-frontend.js' ),
 	'hello-admin': path.resolve( __dirname, './assets/dev/js/admin/hello-admin.js' ),
 };
-
-const copyPluginConfig = new CopyPlugin( {
-	patterns: [
-		{
-			from: '**/*',
-			context: __dirname,
-			to: path.resolve( __dirname, 'build' ),
-			// Terser skip this file for minimization
-			info: { minimized: true },
-			globOptions: {
-				ignore: [
-					// ignore minified php files
-					...Object.keys( entry ).map( ( key ) => `**/assets/js/${ key }.min.asset.php` ),
-					'**.zip',
-					'**.css',
-					'**/karma.conf.js',
-					'**/assets/dev/**',
-					'**/assets/scss/**',
-					'**/assets/js/qunit-tests*',
-					'**/bin/**',
-					'**/build/**',
-					'**/composer.json',
-					'**/composer.lock',
-					'**/Gruntfile.js',
-					'**/node_modules/**',
-					'**/npm-debug.log',
-					'**/package-lock.json',
-					'**/package.json',
-					'**/phpcs.xml',
-					'**/README.md',
-					'**/webpack.config.js',
-					'**/vendor/**',
-				],
-			},
-		},
-	],
-} );
 
 const moduleRules = {
 	rules: [
@@ -125,13 +87,7 @@ Object.entries( webpackProductionConfig.entry ).forEach( ( [ wpEntry, value ] ) 
 	webpackProductionConfig.entry[ wpEntry + '.min' ] = value;
 } );
 
-// Override copyPluginConfig
-// we first remove the one supplied by @wordpress/scripts
-webpackProductionConfig.plugins = webpackProductionConfig.plugins.filter( ( plugin ) => {
-	return plugin.constructor.name !== 'CopyPlugin';
-} );
-// then we add our own
-webpackProductionConfig.plugins = [ copyPluginConfig, ...defaultConfig.plugins ];
+webpackProductionConfig.plugins = defaultConfig.plugins;
 
 module.exports = ( env ) => {
 	if ( env.developmentLocal ) {
