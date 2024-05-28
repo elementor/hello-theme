@@ -36,6 +36,9 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
 
+= 3.0.2 - 2024-05-28 =
+* Internal: Version bump release to refresh WordPress repository
+
 = 3.0.1 - 2024-01-24 =
 * Fix: Harden security for admin notice dismiss button
 * Fix: Add `alt` attribute to all the images in the dashboard
