@@ -11,7 +11,7 @@
         "build:dev": "concurrently \"grunt default\" \"webpack --env=development\"",
         "build:dev:watch": "concurrently \"grunt default watch\" \"webpack --env=developmentLocal\"",
         "clean:build": "rimraf build && rimraf hello-elementor",
-        "zip": "npm run clean:build && npm run build:prod && mv build hello-elementor && zip -r hello-elementor.$npm_package_version.zip hello-elementor/*",
+        "zip": "npm run clean:build && npm run build:prod && rsync -av --exclude-from=.buildignore . hello-elementor && zip -r hello-elementor.$npm_package_version.zip hello-elementor/*",
         "lint:js": "eslint ."
     },
     "devDependencies": {
@@ -28,7 +28,6 @@
         "babel-eslint": "^8.2.6",
         "babel-loader": "8.0.0",
         "concurrently": "^6.2.0",
-        "copy-webpack-plugin": "^9.0.0",
         "cssnano": "4.1.11",
         "eslint": "8.36.0",
         "eslint-config-wordpress": "^2.0.0",
