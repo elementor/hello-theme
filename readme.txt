@@ -36,7 +36,7 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
 
-= 3.1.0 =
+= 3.1.0 - 2024-06-19 =
 * Tweak: Update `Requires PHP 7.4`
 * Tweak: Update `Tested up to 6.5`
 * Tweak: Add the ability to style the brand layout
@@ -45,15 +45,15 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 * Tweak: Add `aria-label` attribute to various `<nav>` elements
 * Tweak: Improve mobile menu keyboard accessibility
 * Tweak: Semantic mobile menu toggle button
-* Fix: Mobile Menu hamburger is not visible for logged-out users ([#369](https://github.com/elementor/hello-theme/issues/369))
-* Fix: Wrap page `<h1>` with `<div>`, not `<header>`
-* Fix: Remove heading tags from dynamic header/footer
-* Fix: Comments title uses H3 comment form uses H2
 * Fix: The header renders redundant `<p>` when tagline is empty
 * Fix: Single post renders redundant wrapping `<div>` when it has no tags
 * Fix: Remove redundant wrapping `<div>` from `wp_nav_menu()` output
+* Fix: Wrap page `<h1>` with `<div>`, not `<header>`
+* Fix: Uses consistent `<h3>` for comments title and comment form
+* Fix: Remove heading tags from dynamic header/footer
+* Fix: Mobile Menu hamburger is not visible for logged-out users in some cases ([#369](https://github.com/elementor/hello-theme/issues/369))
 * Fix: Remove duplicate ID attributes in the header mobile menu
-* Fix: Remove duplicate table styles ([#311](https://github.com/elementor/hello-theme/issues/311))
+* Fix: Remove redundant table styles ([#311](https://github.com/elementor/hello-theme/issues/311))
 * Fix: Remove redundant space bellow Site Logo in the header/footer
 * Fix: Remove redundant CSS from dynamic header/footer layout
 * Fix: Separate post tags in single post ([#304](https://github.com/elementor/hello-theme/issues/304))
