@@ -1,5 +1,6 @@
 {
     "name": "elementor/hello-theme",
+    "type": "wordpress-theme",
     "require": {
         "squizlabs/php_codesniffer": "^3.6",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
