@@ -16,17 +16,21 @@ while ( have_posts() ) :
 <main id="content" <?php post_class( 'site-main' ); ?>>
 
 	<?php if ( apply_filters( 'hello_elementor_page_title', true ) ) : ?>
-		<header class="page-header">
+		<div class="page-header">
 			<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
-		</header>
+		</div>
 	<?php endif; ?>
 
 	<div class="page-content">
 		<?php the_content(); ?>
-		<div class="post-tags">
-			<?php the_tags( '<span class="tag-links">' . esc_html__( 'Tagged ', 'hello-elementor' ), null, '</span>' ); ?>
-		</div>
+
 		<?php wp_link_pages(); ?>
+
+		<?php if ( has_tag() ) : ?>
+		<div class="post-tags">
+			<?php the_tags( '<span class="tag-links">' . esc_html__( 'Tagged ', 'hello-elementor' ), ', ', '</span>' ); ?>
+		</div>
+		<?php endif; ?>
 	</div>
 
 	<?php comments_template(); ?>

@@ -1,9 +1,6 @@
 <?php
 /**
- * The template for displaying comments.
- *
- * This is the template that displays the area of the page that contains both the current comments
- * and the comment form.
+ * The template for displaying the list of comments and the comment form.
  *
  * @package HelloElementor
  */
@@ -35,10 +32,11 @@ if ( comments_open() && get_option( 'thread_comments' ) ) {
 				printf( esc_html_x( 'One Response', 'comments title', 'hello-elementor' ) );
 			} else {
 				printf(
-					esc_html( /* translators: 1: number of comments */
+					/* translators: %s: Number of comments. */
+					esc_html(
 						_nx(
-							'%1$s Response',
-							'%1$s Responses',
+							'%s Response',
+							'%s Responses',
 							$comments_number,
 							'comments title',
 							'hello-elementor'
@@ -52,29 +50,29 @@ if ( comments_open() && get_option( 'thread_comments' ) ) {
 
 		<?php the_comments_navigation(); ?>
 
-	<ol class="comment-list">
-		<?php
-		wp_list_comments(
-			[
-				'style'       => 'ol',
-				'short_ping'  => true,
-				'avatar_size' => 42,
-			]
-		);
-		?>
-	</ol><!-- .comment-list -->
+		<ol class="comment-list">
+			<?php
+			wp_list_comments(
+				[
+					'style'       => 'ol',
+					'short_ping'  => true,
+					'avatar_size' => 42,
+				]
+			);
+			?>
+		</ol>
 
 		<?php the_comments_navigation(); ?>
 
-<?php endif; // Check for have_comments(). ?>
+	<?php endif; ?>
 
-<?php
-comment_form(
-	[
-		'title_reply_before' => '<h2 id="reply-title" class="comment-reply-title">',
-		'title_reply_after'  => '</h2>',
-	]
-);
-?>
+	<?php
+	comment_form(
+		[
+			'title_reply_before' => '<h3 id="reply-title" class="comment-reply-title">',
+			'title_reply_after'  => '</h3>',
+		]
+	);
+	?>
 
-</section><!-- .comments-area -->
+</section>

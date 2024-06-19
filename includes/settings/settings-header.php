@@ -6,7 +6,6 @@ use Elementor\Plugin;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Background;
 use Elementor\Group_Control_Typography;
-use Elementor\Core\Responsive\Responsive;
 use Elementor\Core\Kits\Documents\Tabs\Tab_Base;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -36,6 +35,9 @@ class Settings_Header extends Tab_Base {
 	}
 
 	protected function register_tab_controls() {
+		$start = is_rtl() ? 'right' : 'left';
+		$end = ! is_rtl() ? 'right' : 'left';
+
 		$this->start_controls_section(
 			'hello_header_section',
 			[
@@ -98,16 +100,89 @@ class Settings_Header extends Tab_Base {
 		$this->add_control(
 			'hello_header_layout',
 			[
-				'type' => Controls_Manager::SELECT,
+				'type' => Controls_Manager::CHOOSE,
 				'label' => esc_html__( 'Layout', 'hello-elementor' ),
 				'options' => [
-					'default' => esc_html__( 'Default', 'hello-elementor' ),
-					'inverted' => esc_html__( 'Inverted', 'hello-elementor' ),
-					'stacked' => esc_html__( 'Centered', 'hello-elementor' ),
+					'inverted' => [
+						'title' => esc_html__( 'Inverted', 'hello-elementor' ),
+						'icon' => "eicon-arrow-$start",
+					],
+					'stacked' => [
+						'title' => esc_html__( 'Centered', 'hello-elementor' ),
+						'icon' => 'eicon-h-align-center',
+					],
+					'default' => [
+						'title' => esc_html__( 'Default', 'hello-elementor' ),
+						'icon' => "eicon-arrow-$end",
+					],
 				],
+				'toggle' => false,
 				'selector' => '.site-header',
 				'default' => 'default',
 				'separator' => 'before',
+			]
+		);
+
+		$this->add_responsive_control(
+			'hello_header_tagline_position',
+			[
+				'type' => Controls_Manager::CHOOSE,
+				'label' => esc_html__( 'Tagline Position', 'hello-elementor' ),
+				'options' => [
+					'before' => [
+						'title' => esc_html__( 'Before', 'hello-elementor' ),
+						'icon' => "eicon-arrow-$start",
+					],
+					'below' => [
+						'title' => esc_html__( 'Below', 'hello-elementor' ),
+						'icon' => 'eicon-arrow-down',
+					],
+					'after' => [
+						'title' => esc_html__( 'After', 'hello-elementor' ),
+						'icon' => "eicon-arrow-$end",
+					],
+				],
+				'toggle' => false,
+				'default' => 'below',
+				'selectors_dictionary' => [
+					'before' => 'flex-direction: row-reverse; align-items: center;',
+					'below' => 'flex-direction: column; align-items: stretch;',
+					'after' => 'flex-direction: row; align-items: center;',
+				],
+				'condition' => [
+					'hello_header_tagline_display' => 'yes',
+					'hello_header_logo_display' => 'yes',
+				],
+				'selectors' => [
+					'.site-header .site-branding' => '{{VALUE}}',
+				],
+			]
+		);
+
+		$this->add_responsive_control(
+			'hello_header_tagline_gap',
+			[
+				'type' => Controls_Manager::SLIDER,
+				'label' => esc_html__( 'Tagline Gap', 'hello-elementor' ),
+				'size_units' => [ 'px', 'em ', 'rem', 'custom' ],
+				'range' => [
+					'px' => [
+						'max' => 100,
+					],
+					'em' => [
+						'max' => 10,
+					],
+					'rem' => [
+						'max' => 10,
+					],
+				],
+				'condition' => [
+					'hello_header_tagline_display' => 'yes',
+					'hello_header_logo_display' => 'yes',
+				],
+				'selectors' => [
+					'.site-header .site-branding' => 'gap: {{SIZE}}{{UNIT}};',
+				],
 			]
 		);
 
@@ -122,6 +197,7 @@ class Settings_Header extends Tab_Base {
 				],
 				'selector' => '.site-header',
 				'default' => 'boxed',
+				'separator' => 'before',
 			]
 		);
 
@@ -155,7 +231,7 @@ class Settings_Header extends Tab_Base {
 			'hello_header_gap',
 			[
 				'type' => Controls_Manager::SLIDER,
-				'label' => esc_html__( 'Gap', 'hello-elementor' ),
+				'label' => esc_html__( 'Side Margins', 'hello-elementor' ),
 				'size_units' => [ '%', 'px', 'em ', 'rem', 'vw', 'custom' ],
 				'default' => [
 					'size' => '0',
@@ -193,6 +269,7 @@ class Settings_Header extends Tab_Base {
 				'name' => 'hello_header_background',
 				'label' => esc_html__( 'Background', 'hello-elementor' ),
 				'types' => [ 'classic', 'gradient' ],
+				'separator' => 'before',
 				'selector' => '.site-header',
 			]
 		);
@@ -273,7 +350,7 @@ class Settings_Header extends Tab_Base {
 					'hello_header_logo_type' => 'title',
 				],
 				'selectors' => [
-					'.site-header h1.site-title a' => 'color: {{VALUE}};',
+					'.site-header .site-title a' => 'color: {{VALUE}};',
 				],
 			]
 		);
@@ -292,7 +369,7 @@ class Settings_Header extends Tab_Base {
 					'hello_header_logo_display' => 'yes',
 					'hello_header_logo_type' => 'title',
 				],
-				'selector' => '.site-header h1.site-title',
+				'selector' => '.site-header .site-title',
 			]
 		);
 
@@ -444,7 +521,24 @@ class Settings_Header extends Tab_Base {
 				]
 			);
 
-			$breakpoints = Responsive::get_breakpoints();
+			$dropdown_options = [];
+			$active_breakpoints = Plugin::$instance->breakpoints->get_active_breakpoints();
+			$selected_breakpoints = [ 'mobile', 'tablet' ];
+
+			foreach ( $active_breakpoints as $breakpoint_key => $breakpoint_instance ) {
+				if ( ! in_array( $breakpoint_key, $selected_breakpoints, true ) ) {
+					continue;
+				}
+
+				$dropdown_options[ $breakpoint_key ] = sprintf(
+					/* translators: 1: Breakpoint label, 2: Breakpoint value. */
+					esc_html__( '%1$s (> %2$dpx)', 'hello-elementor' ),
+					$breakpoint_instance->get_label(),
+					$breakpoint_instance->get_value()
+				);
+			}
+
+			$dropdown_options['none'] = esc_html__( 'None', 'hello-elementor' );
 
 			$this->add_control(
 				'hello_header_menu_dropdown',
@@ -452,13 +546,7 @@ class Settings_Header extends Tab_Base {
 					'label' => esc_html__( 'Breakpoint', 'hello-elementor' ),
 					'type' => Controls_Manager::SELECT,
 					'default' => 'tablet',
-					'options' => [
-						/* translators: %d: Breakpoint number. */
-						'mobile' => sprintf( esc_html__( 'Mobile (< %dpx)', 'hello-elementor' ), $breakpoints['md'] ),
-						/* translators: %d: Breakpoint number. */
-						'tablet' => sprintf( esc_html__( 'Tablet (< %dpx)', 'hello-elementor' ), $breakpoints['lg'] ),
-						'none' => esc_html__( 'None', 'hello-elementor' ),
-					],
+					'options' => $dropdown_options,
 					'selector' => '.site-header',
 					'condition' => [
 						'hello_header_menu_layout!' => 'dropdown',
@@ -489,7 +577,7 @@ class Settings_Header extends Tab_Base {
 						'hello_header_menu_display' => 'yes',
 					],
 					'selectors' => [
-						'.site-header .site-navigation-toggle i' => 'color: {{VALUE}};',
+						'.site-header .site-navigation-toggle .site-navigation-toggle-icon' => 'color: {{VALUE}};',
 					],
 				]
 			);

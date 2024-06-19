@@ -7,6 +7,19 @@
 	padding-block-end: 1rem;
 	position: relative;
 
+	.site-title {
+		font-size: 1.5rem;
+		font-weight: 500;
+		line-height: 1.2;
+	}
+
+	.site-branding {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		gap: 0.5rem;
+	}
+
 	.footer-inner {
 		display: flex;
 		flex-wrap: wrap;
@@ -16,18 +29,18 @@
 			display: block;
 		}
 
-		.site-navigation {
-			justify-content: flex-end;
-		}
-
 		.site-branding {
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
 
 			.site-title,
 			.site-description {
 				margin: 0;
+			}
+
+			.site-logo {
+
+				img {
+					display: block;
+				}
 			}
 
 			&.show-title {
@@ -63,21 +76,7 @@
 			flex-direction: row-reverse;
 
 			.site-branding {
-				text-align: right;
-			}
-
-			.site-navigation {
-				justify-content: flex-start;
-			}
-		}
-	}
-
-	&.footer-has-copyright {
-
-		.footer-inner {
-
-			.site-navigation {
-				justify-content: center;
+				text-align: end;
 			}
 		}
 	}
@@ -89,7 +88,7 @@
 			flex-direction: column;
 			text-align: center;
 
-			.site-branding h4.site-title {
+			.site-branding .site-title {
 				text-align: center;
 			}
 
@@ -97,24 +96,6 @@
 				.menu {
 					padding: 0;
 				}
-			}
-		}
-	}
-
-	&:not(.footer-stacked) {
-
-		.footer-inner {
-
-			.site-branding {
-				max-width: 20%;
-			}
-
-			.site-navigation {
-				max-width: 60%;
-			}
-
-			.copyright {
-				max-width: 20%;
 			}
 		}
 	}

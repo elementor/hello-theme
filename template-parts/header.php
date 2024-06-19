@@ -13,6 +13,7 @@ $tagline   = get_bloginfo( 'description', 'display' );
 $header_nav_menu = wp_nav_menu( [
 	'theme_location' => 'menu-1',
 	'fallback_cb' => false,
+	'container' => false,
 	'echo' => false,
 ] );
 ?>
@@ -25,23 +26,21 @@ $header_nav_menu = wp_nav_menu( [
 			the_custom_logo();
 		} elseif ( $site_name ) {
 			?>
-			<h1 class="site-title">
+			<div class="site-title">
 				<a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr__( 'Home', 'hello-elementor' ); ?>" rel="home">
 					<?php echo esc_html( $site_name ); ?>
 				</a>
-			</h1>
+			</div>
+			<?php if ( $tagline ) : ?>
 			<p class="site-description">
-				<?php
-				if ( $tagline ) {
-					echo esc_html( $tagline );
-				}
-				?>
+				<?php echo esc_html( $tagline ); ?>
 			</p>
+			<?php endif; ?>
 		<?php } ?>
 	</div>
 
 	<?php if ( $header_nav_menu ) : ?>
-		<nav class="site-navigation">
+		<nav class="site-navigation" aria-label="<?php echo esc_attr__( 'Main menu', 'hello-elementor' ); ?>">
 			<?php
 			// PHPCS - escaped by WordPress with "wp_nav_menu"
 			echo $header_nav_menu; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
