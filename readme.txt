@@ -36,7 +36,7 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
 
-= 3.1.1 - 2024-07-xx =
+= 3.1.1 - 2024-07-30 =
 * Fix: Use consistent `<h2>` for comments title and comment form
 
 = 3.1.0 - 2024-06-19 =
