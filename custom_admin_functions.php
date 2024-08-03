@@ -161,7 +161,8 @@ function custom_jw_remove_admin_menu_items( $wp_admin_bar ) {
   $wp_admin_bar->remove_node( 'search' );
 
   $getgreetings = $wp_admin_bar->get_node( 'my-account' );
-  $rpctitle = str_replace( 'Howdy,', '', $getgreetings->title );
+  $getgreetings_title = isset( $getgreetings->title ) ? $getgreetings->title : '';
+  $rpctitle = str_replace( 'Howdy,', '', $getgreetings_title );
   $wp_admin_bar->add_node( array( 'id' => 'my-account', 'title' => $rpctitle ) );
 }
 

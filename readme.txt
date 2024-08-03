@@ -2,7 +2,7 @@
 Contributors: Jezweb
 Requires at least: WordPress 6.0.0
 Tested up to: WordPress 6.4.2
-Version: 1.4.7
+Version: 1.4.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,6 +27,10 @@ Elementor (Pro)
 Source: https://elementor.com
 
 == Changelog ==
+
+= 1.4.8 - 2024-8-3 =
+* Fix: Undefined property "title" of WP Admin bar user account node
+* Fix: Media library file size column width
 
 = 1.4.7 - 2023-12-4 =
 * New: Media library file size column

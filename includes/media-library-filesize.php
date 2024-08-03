@@ -21,5 +21,5 @@ add_action( 'manage_media_custom_column', function($column_name, $media_item) {
 
 // Format the column width with CSS
 add_action( 'admin_head', function() {
-  echo '<style>.column-bpFilesize {width: 10px;}</style>';
+  echo '<style>.column-bpFilesize {width: auto;}</style>';
 });
