@@ -27,6 +27,10 @@
 	margin-right: auto;
 }
 
+main#content {
+    min-height: 100vh;
+}
+
 //Gutenberg support
 .alignwide {
 	margin-left: -80px;
