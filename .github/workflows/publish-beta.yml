@@ -80,7 +80,7 @@ jobs:
 
           npm run zip
       - name: Upload zip file to GitHub actions artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: hello-elementor.${{ env.PACKAGE_VERSION }}
           path: hello-elementor.*.zip
