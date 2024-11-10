@@ -266,12 +266,13 @@ function custom_disable_gutenberg_fullscreen_all() {
   wp_add_inline_script( 'wp-blocks', $script );
 }
 
+$disable_elementor_ai = get_theme_mod( 'htc_theme_elementor_ai_setting' );
+
 // Disable Elementor usage tracker notice
 add_action( 'admin_init', function(){
   update_option( 'elementor_pro_tracker_notice', 1 );
   update_option( 'elementor_tracker_notice', 1 );
 
-  $disable_elementor_ai = get_theme_mod( 'htc_theme_elementor_ai_setting' );
   $hide_elementor_notices = get_theme_mod( 'htc_theme_elementor_notices_setting' );
 
   if( $disable_elementor_ai != "no" ) {
@@ -298,8 +299,17 @@ add_action( 'admin_init', function(){
     // 11-11-04 - Hide Elementor notices: Form submissions and Experiment promotion
     echo '<style>.e-notice[data-notice_id="elementor-pro-forms-submissions"], .e-notice[data-notice_id="experiment_promotion"] {
       display: none;}</style>';
-    }
+  }
 }, 10 );
+
+// 11-11-2024 - Disable wp_elementor_enable_ai for new users upon registration
+if( $disable_elementor_ai != "no" ) {
+  add_action( 'user_register', 'disable_elementor_ai_user_reg' );
+}
+
+function disable_elementor_ai_user_reg($user_id) {
+  update_user_meta( $user_id, 'wp_elementor_enable_ai', '0' );
+}
 
 // Woocommerce overrides
 // Woocommerce sorting options by alphabetical
@@ -323,11 +333,4 @@ function custom_woo_catalog_order_option( $sortby ) {
 // 23-04-2023 Code - Login error message
 add_filter( 'login_errors', function(){
   return 'Something is wrong!';
-});
-
-
-
-// 11-11-2024 - Disable wp_elementor_enable_ai for new users upon registration
-add_action( 'user_register', function($user_id) {
-    update_user_meta($user_id, 'wp_elementor_enable_ai', '0');
 });
