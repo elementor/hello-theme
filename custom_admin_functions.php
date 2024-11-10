@@ -270,6 +270,35 @@ function custom_disable_gutenberg_fullscreen_all() {
 add_action( 'admin_init', function(){
   update_option( 'elementor_pro_tracker_notice', 1 );
   update_option( 'elementor_tracker_notice', 1 );
+
+  $disable_elementor_ai = get_theme_mod( 'htc_theme_elementor_ai_setting' );
+  $hide_elementor_notices = get_theme_mod( 'htc_theme_elementor_notices_setting' );
+
+  if( $disable_elementor_ai != "no" ) {
+    // 11-11-2024 - Function to disable wp_elementor_enable_ai for all Administrator and Editor users
+    // Only run in the admin area for users with Administrator or Editor roles
+    if (!is_admin() || !(current_user_can('administrator') || current_user_can('editor'))) {
+      return;
+    }
+
+    // Get the current user's data
+    $current_user = wp_get_current_user();
+
+    $current_user_elementor_ai = get_user_meta($current_user->ID, 'wp_elementor_enable_ai', true);
+
+    // If current user's wp_elementor_enable_ai is explicitly 0, exit the function
+    if ($current_user_elementor_ai === '0') {
+      return;
+    }
+
+    update_user_meta( $current_user->ID, 'wp_elementor_enable_ai', '0' );
+  }
+
+  if( $hide_elementor_notices != "no" ) {
+    // 11-11-04 - Hide Elementor notices: Form submissions and Experiment promotion
+    echo '<style>.e-notice[data-notice_id="elementor-pro-forms-submissions"], .e-notice[data-notice_id="experiment_promotion"] {
+      display: none;}</style>';
+    }
 }, 10 );
 
 // Woocommerce overrides
@@ -294,4 +323,11 @@ function custom_woo_catalog_order_option( $sortby ) {
 // 23-04-2023 Code - Login error message
 add_filter( 'login_errors', function(){
   return 'Something is wrong!';
+});
+
+
+
+// 11-11-2024 - Disable wp_elementor_enable_ai for new users upon registration
+add_action( 'user_register', function($user_id) {
+    update_user_meta($user_id, 'wp_elementor_enable_ai', '0');
 });

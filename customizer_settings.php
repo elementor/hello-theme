@@ -81,6 +81,12 @@ function hello_theme_child_customize_register( $wp_customize ) {
 	    'panel' => 'htc_general_panel'
 	) );
 
+	$wp_customize->add_section( 'htc_elementor_section', array(
+	    'title' => __( 'Elementor', $text_domain ),
+	    'panel' => 'htc_general_panel'
+	) );
+
+
 	// Theme Styles Section
 	$wp_customize->add_section( 'htc_themestyles_gl_section', array(
 	    'title' => __( 'Global Styles', $text_domain ),
@@ -444,6 +450,16 @@ function hello_theme_child_customize_register( $wp_customize ) {
 	) );
 
 	$wp_customize->add_setting( 'htc_theme_email_setting', array(
+		'default' => 'yes',
+		'transport' => 'postMessage'
+	) );
+
+	$wp_customize->add_setting( 'htc_theme_elementor_ai_setting', array(
+		'default' => 'yes',
+		'transport' => 'postMessage'
+	) );
+
+	$wp_customize->add_setting( 'htc_theme_elementor_notices_setting', array(
 		'default' => 'yes',
 		'transport' => 'postMessage'
 	) );
@@ -1320,6 +1336,32 @@ function hello_theme_child_customize_register( $wp_customize ) {
 			'description' => __( 'Disable Theme update email notification?', $text_domain ),
 			'section' => 'htc_emails_section',
 			'settings' => 'htc_theme_email_setting',
+			'choices' => array(
+				'yes' => 'Yes',
+				'no' => 'No'
+			)
+		)
+	);
+
+	$wp_customize->add_control( 'htc_theme_elementor_ai_control',
+		array(
+			'type' => 'radio',
+			'description' => __( 'Disable Elementor AI functionality', $text_domain ),
+			'section' => 'htc_elementor_section',
+			'settings' => 'htc_theme_elementor_ai_setting',
+			'choices' => array(
+				'yes' => 'Yes',
+				'no' => 'No'
+			)
+		)
+	);
+
+	$wp_customize->add_control( 'htc_theme_elementor_notices_control',
+		array(
+			'type' => 'radio',
+			'description' => __( 'Hide Elementor notices', $text_domain ),
+			'section' => 'htc_elementor_section',
+			'settings' => 'htc_theme_elementor_notices_setting',
 			'choices' => array(
 				'yes' => 'Yes',
 				'no' => 'No'
