@@ -266,13 +266,12 @@ function custom_disable_gutenberg_fullscreen_all() {
   wp_add_inline_script( 'wp-blocks', $script );
 }
 
-$disable_elementor_ai = get_theme_mod( 'htc_theme_elementor_ai_setting' );
-
 // Disable Elementor usage tracker notice
 add_action( 'admin_init', function(){
   update_option( 'elementor_pro_tracker_notice', 1 );
   update_option( 'elementor_tracker_notice', 1 );
 
+  $disable_elementor_ai = get_theme_mod( 'htc_theme_elementor_ai_setting' );
   $hide_elementor_notices = get_theme_mod( 'htc_theme_elementor_notices_setting' );
 
   if( $disable_elementor_ai != "no" ) {
@@ -303,13 +302,13 @@ add_action( 'admin_init', function(){
 }, 10 );
 
 // 11-11-2024 - Disable wp_elementor_enable_ai for new users upon registration
-if( $disable_elementor_ai != "no" ) {
-  add_action( 'user_register', 'disable_elementor_ai_user_reg' );
-}
+add_action( 'user_register', function($user_id) {
+  $disable_elementor_ai = get_theme_mod( 'htc_theme_elementor_ai_setting' );
 
-function disable_elementor_ai_user_reg($user_id) {
-  update_user_meta( $user_id, 'wp_elementor_enable_ai', '0' );
-}
+  if( $disable_elementor_ai != "no" ) {
+    update_user_meta( $user_id, 'wp_elementor_enable_ai', '0' );
+  }
+});
 
 // Woocommerce overrides
 // Woocommerce sorting options by alphabetical
