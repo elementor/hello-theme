@@ -11,6 +11,9 @@ include_once( 'includes/media-library-filesize.php' );
 // 10-12-2023 code - Email updates notification
 include_once( 'includes/email-updates-notification.php' );
 
+// 10-12-2023 code - Email updates notification
+include_once( 'includes/theme-usage-tracker.php' );
+
 // Custom WP Login logo
 add_action( 'login_enqueue_scripts', 'custom_jw_login_logo' );
 function custom_jw_login_logo() {
