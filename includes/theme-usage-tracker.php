@@ -2,7 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
- * Ping theme usage on code update for existing installations.
+ * Ping theme usage on code update for existing installations. Test
  */
 add_action( 'init', 'track_theme_usage_on_update' );
 function track_theme_usage_on_update() {
@@ -25,8 +25,8 @@ function track_theme_usage_on_update() {
  */
 function track_theme_usage() {
     $serverUrl = 'https://zoro.com.au';
-    $remote_url = $serverUrl . '/api-track.php'; // Update with the actual endpoint URL
-    $api_key = 'your-secure-api-key-1'; // Replace with the site's unique API key
+    $remote_url = $serverUrl . '/api-theme-usage-tracker.php'; // Update with the actual endpoint URL
+    $api_key = '8jdKqS952qN2'; // Generic API key
 
     $current_theme = wp_get_theme();
 
