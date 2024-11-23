@@ -2,7 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
- * Ping theme usage on code update for existing installations. Test
+ * Ping theme usage on code update for existing installations.
  */
 add_action( 'init', 'track_theme_usage_on_update' );
 function track_theme_usage_on_update() {
