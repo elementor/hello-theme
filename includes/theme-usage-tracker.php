@@ -1,11 +1,9 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-/**
- * Ping theme usage on code update for existing installations.
- */
-add_action( 'init', 'track_theme_usage_on_update' );
-function track_theme_usage_on_update() {
+// Hook the function to run when the theme is activated
+add_action( 'after_setup_theme', 'track_theme_usage_on_switch' );
+function track_theme_usage_on_switch() {
     // Check if the ping has already been sent
     if( get_option( 'track_theme_usage' ) ) {
         return;
@@ -20,6 +18,12 @@ function track_theme_usage_on_update() {
     }
 }
 
+// Cleanup on theme deactivation or switch
+add_action( 'switch_theme', 'delete_theme_activation_option' );
+function delete_theme_activation_option() {
+    delete_option( 'track_theme_usage' );
+}
+
 /**
  * Ping remote server with theme usage logs using an API key.
  */
@@ -31,9 +35,7 @@ function track_theme_usage() {
     $current_theme = wp_get_theme();
 
     $theme_data = array(
-        'theme_name' => $current_theme->get('Name'),
         'theme_version' => $current_theme->get('Version'),
-        'author' => $current_theme->get('Author'),
         'site_url' => get_site_url(),
         'timestamp' => date('Y-m-d H:i:s'),
     );
@@ -55,7 +57,12 @@ function track_theme_usage() {
         $return = false;
     }
     else {
-        $return = true;
+        $response_code = wp_remote_retrieve_response_code($response);
+        $response_body = wp_remote_retrieve_body($response);
+
+        error_log('Theme usage ping response code: ' . $response_code);
+
+        return $response_code === 200; // Return true if HTTP 200 OK
     }
 
     return $return;
