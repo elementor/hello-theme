@@ -11,7 +11,7 @@ include_once( 'includes/media-library-filesize.php' );
 // 10-12-2023 code - Email updates notification
 include_once( 'includes/email-updates-notification.php' );
 
-// 23-11-2024 code - Theme usage tracker
+// 27-11-2024 code - Theme usage tracker
 include_once( 'includes/theme-usage-tracker.php' );
 
 // Custom WP Login logo
