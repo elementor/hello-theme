@@ -28,9 +28,11 @@ Source: https://elementor.com
 
 == Changelog ==
 
-= 1.4.9 - 2024-11-27 =
-* New: Disable Elementor notices(AI functionality, Form submissions and Experiment promotion)
+= 1.4.9 - 2024-12-2 =
+* New: Settings for disabling Elementor AI functionality (General Settings -> Elementor)
+* New: Settings for disabling Elementor notices (General Settings -> Elementor)
 * New: Theme usage tracker
+* Fix: Disable Gutenberg fullscreen view for all users(JS code issue)
 
 = 1.4.8 - 2024-8-3 =
 * Fix: Undefined property "title" of WP Admin bar user account node
