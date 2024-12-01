@@ -69,7 +69,7 @@ const webpackProductionConfig = {
 	mode: 'production',
 	optimization: {
 		...defaultConfig.optimization || {},
-		minimize: false,
+		minimize: true,
 		minimizer: [
 			new TerserPlugin( {
 				terserOptions: {
