@@ -36,20 +36,9 @@ add_action( 'user_register', function($user_id) {
 
 // Disable Elementor notices
 add_action( 'admin_footer', function() {
-    $hide_elementor_notices = get_theme_mod( 'htc_theme_elementor_notices_setting' );
+  $hide_elementor_notices = get_theme_mod( 'htc_theme_elementor_notices_setting' );
 
-    $notices = [
-        'elementor-pro-forms-submissions',
-        'experiment_promotion',
-        'plugin_image_optimization',
-        'site_mailer_forms_submissions_notice'
-    ];
-
-    if( $hide_elementor_notices != "no" ) {
-        echo '<style>';
-        foreach( $notices as $notice ) {
-            echo '.e-notice[data-notice_id="' . $notice . '"]{display: none;}';
-        }
-        echo '</style>';
-    }
+  if( $hide_elementor_notices != "no" ) {
+    echo '<style>.notice.e-notice{display: none !important;}</style>';
+  }
 });
