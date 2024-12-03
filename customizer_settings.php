@@ -172,6 +172,12 @@ function hello_theme_child_customize_register( $wp_customize ) {
 	    'panel' => 'htc_header_box_panel'
 	) );
 
+	$wp_customize->add_section( 'htc_header_box_msc_section', array(
+	    'title' => __( 'Microsoft Clarity', $text_domain ),
+	    'priority' => 10,
+	    'panel' => 'htc_header_box_panel'
+	) );
+
 	$wp_customize->add_section( 'htc_header_box_extra_section', array(
 	    'title' => __( 'Extra Code', $text_domain ),
 	    'priority' => 10,
@@ -649,6 +655,11 @@ function hello_theme_child_customize_register( $wp_customize ) {
 	) );
 
 	$wp_customize->add_setting( 'htc_header_box_setting_wmt', array(
+	    'default' => '',
+	    'transport' => 'postMessage'
+	) );
+
+	$wp_customize->add_setting( 'htc_header_box_setting_msc', array(
 	    'default' => '',
 	    'transport' => 'postMessage'
 	) );
@@ -1843,6 +1854,14 @@ function hello_theme_child_customize_register( $wp_customize ) {
 			'description' => __( 'Webmaster Tools', $text_domain ),
 			'section' => 'htc_header_box_wmt_section',
 			'settings' => 'htc_header_box_setting_wmt',
+		)
+	) );
+
+	$wp_customize->add_control( new WP_Customize_Code_Editor_Control( $wp_customize, 'htc_header_box_control_msc',
+		array(
+			'description' => __( 'Microsoft Clarity', $text_domain ),
+			'section' => 'htc_header_box_msc_section',
+			'settings' => 'htc_header_box_setting_msc',
 		)
 	) );
 

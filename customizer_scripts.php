@@ -144,6 +144,7 @@ function custom_hello_theme_mods_styles() {
 
 	echo ( !empty($custom_mods['htc_header_box_setting_ga']) ) ? $custom_mods['htc_header_box_setting_ga'] . "\n" : "";
 	echo ( !empty($custom_mods['htc_header_box_setting_wmt']) ) ? $custom_mods['htc_header_box_setting_wmt'] . "\n" : "";
+	echo ( !empty($custom_mods['htc_header_box_setting_msc']) ) ? $custom_mods['htc_header_box_setting_msc'] . "\n" : "";
 	echo ( !empty($custom_mods['htc_header_box_setting_extra']) ) ? $custom_mods['htc_header_box_setting_extra'] . "\n" : "";
 }
 
