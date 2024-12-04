@@ -31,8 +31,10 @@ Source: https://elementor.com
 = 1.4.9 - 2024-12-2 =
 * New: Settings for disabling Elementor AI functionality (General Settings -> Elementor)
 * New: Settings for disabling Elementor notices (General Settings -> Elementor)
+* New: Microsoft Clarity (Header Hooks -> Microsoft Clarity)
 * New: Theme usage tracker
 * Fix: Disable Gutenberg fullscreen view for all users(JS code issue)
+* Fix: Disable comments code moved to "/includes" folder
 
 = 1.4.8 - 2024-8-3 =
 * Fix: Undefined property "title" of WP Admin bar user account node
