@@ -418,7 +418,7 @@ class Settings_Header extends Tab_Base {
 		$this->start_controls_tab(
 			'hello_header_title_colors_normal',
 			[
-				'label' => esc_html__( 'Normal', 'elementor' ),
+				'label' => esc_html__( 'Normal', 'hello-elementor' ),
 				'condition' => [
 					'hello_header_logo_display' => 'yes',
 					'hello_header_logo_type' => 'title',
@@ -446,7 +446,7 @@ class Settings_Header extends Tab_Base {
 		$this->start_controls_tab(
 			'hello_header_title_colors_hover',
 			[
-				'label' => esc_html__( 'Hover', 'elementor' ),
+				'label' => esc_html__( 'Hover', 'hello-elementor' ),
 				'condition' => [
 					'hello_header_logo_display' => 'yes',
 					'hello_header_logo_type' => 'title',
@@ -472,7 +472,7 @@ class Settings_Header extends Tab_Base {
 		$this->add_control(
 			'hello_header_title_hover_color_transition_duration',
 			[
-				'label' => esc_html__( 'Transition Duration', 'elementor' ),
+				'label' => esc_html__( 'Transition Duration', 'hello-elementor' ),
 				'type' => Controls_Manager::SLIDER,
 				'size_units' => [ 's', 'ms', 'custom' ],
 				'default' => [
