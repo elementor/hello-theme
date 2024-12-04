@@ -499,7 +499,6 @@ class Settings_Footer extends Tab_Base {
 			]
 		);
 
-
 		$this->add_control(
 			'hello_footer_tagline_link',
 			[
