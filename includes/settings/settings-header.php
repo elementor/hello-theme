@@ -703,6 +703,20 @@ class Settings_Header extends Tab_Base {
 				]
 			);
 
+			$this->add_control(
+				'hello_header_menu_toggle_background_color',
+				[
+					'label' => esc_html__( 'Toggle Background Color', 'hello-elementor' ),
+					'type' => Controls_Manager::COLOR,
+					'condition' => [
+						'hello_header_menu_display' => 'yes',
+					],
+					'selectors' => [
+						'.site-header .site-navigation-toggle' => 'background-color: {{VALUE}};',
+					],
+				]
+			);
+
 			$this->add_group_control(
 				Group_Control_Typography::get_type(),
 				[
@@ -720,6 +734,9 @@ class Settings_Header extends Tab_Base {
 				[
 					'name' => 'hello_header_menu_text_shadow',
 					'label' => esc_html__( 'Text Shadow', 'hello-elementor' ),
+					'condition' => [
+						'hello_header_menu_display' => 'yes',
+					],
 					'selector' => '.site-header .site-navigation .menu li',
 				]
 			);
