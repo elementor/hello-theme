@@ -3,6 +3,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
+// Define the constant for the theme version
+define( 'THEME_VERSION', '1.4.9.1' );
+
 // Set up theme support
 function elementor_hello_theme_setup() {
 	add_theme_support( 'menus' );

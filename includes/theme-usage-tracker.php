@@ -35,7 +35,7 @@ function track_theme_usage() {
     $current_theme = wp_get_theme();
 
     $theme_data = array(
-        'theme_version' => $current_theme->get('Version'),
+        'theme_version' => THEME_VERSION,
         'site_url' => get_site_url(),
         'timestamp' => date('Y-m-d H:i:s'),
     );
