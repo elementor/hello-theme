@@ -2,7 +2,7 @@
 Contributors: Jezweb
 Requires at least: WordPress 6.0.0
 Tested up to: WordPress 6.6.0
-Version: 1.4.9
+Version: 1.4.9.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,6 +27,9 @@ Elementor (Pro)
 Source: https://elementor.com
 
 == Changelog ==
+
+= 1.4.9.1 - 2024-12-9 =
+* Tweak: Theme version constant added and used for the usage tracker
 
 = 1.4.9 - 2024-12-2 =
 * New: Settings for disabling Elementor AI functionality (General Settings -> Elementor)
