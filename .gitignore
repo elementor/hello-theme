@@ -15,3 +15,5 @@ yarn.lock
 assets/js/
 *.css
 *.zip
+.npmrc
+.env
