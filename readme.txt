@@ -2,7 +2,7 @@
 
 Contributors: elemntor, KingYes, ariel.k, bainternet
 Requires at least: 6.0
-Tested up to: 6.5
+Tested up to: 6.7
 Stable tag: 3.1.1
 Version: 3.1.1
 Requires PHP: 7.4
@@ -35,6 +35,12 @@ License: CC0 1.0 Universal (CC0 1.0)
 Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
+
+= 3.2.0 - 2024-12-15 =
+* Tweak: Convert classic to hybrid theme with block-editor support
+* Tweak: Added new design options to header/footer
+* Tweak: Update `Tested up to 6.7`
+* Fix: Minify JS files ([#419](https://github.com/elementor/hello-theme/issues/419))
 
 = 3.1.1 - 2024-07-30 =
 * Fix: Use consistent `<h2>` for comments title and comment form

@@ -4,6 +4,8 @@ namespace HelloElementor\Includes\Settings;
 
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Background;
+use Elementor\Group_Control_Text_Shadow;
+use Elementor\Group_Control_Text_Stroke;
 use Elementor\Group_Control_Typography;
 use Elementor\Core\Kits\Documents\Tabs\Tab_Base;
 
@@ -96,13 +98,14 @@ class Settings_Footer extends Tab_Base {
 		$this->add_control(
 			'hello_footer_disable_note',
 			[
-				'type' => Controls_Manager::RAW_HTML,
-				'raw' => sprintf(
+				'type' => Controls_Manager::ALERT,
+				'alert_type' => 'warning',
+				'content' => sprintf(
 					/* translators: %s: Link that opens the theme settings page. */
 					__( 'Note: Hiding all the elements, only hides them visually. To disable them completely go to <a href="%s">Theme Settings</a> .', 'hello-elementor' ),
 					admin_url( 'themes.php?page=hello-theme-settings' )
 				),
-				'content_classes' => 'elementor-panel-alert elementor-panel-alert-warning',
+				'render_type' => 'ui',
 				'condition' => [
 					'hello_footer_logo_display' => '',
 					'hello_footer_tagline_display' => '',
@@ -293,6 +296,42 @@ class Settings_Footer extends Tab_Base {
 		);
 
 		$this->add_control(
+			'hello_footer_logo_link',
+			[
+				'type' => Controls_Manager::ALERT,
+				'alert_type' => 'info',
+				'content' => sprintf(
+					/* translators: %s: Link that opens Elementor's "Site Identity" panel. */
+					__( 'Go to <a href="%s">Site Identity</a> to manage your site\'s logo', 'hello-elementor' ),
+					"javascript:\$e.route('panel/global/settings-site-identity')"
+				),
+				'render_type' => 'ui',
+				'condition' => [
+					'hello_footer_logo_display' => 'yes',
+					'hello_footer_logo_type' => 'logo',
+				],
+			]
+		);
+
+		$this->add_control(
+			'hello_footer_title_link',
+			[
+				'type' => Controls_Manager::ALERT,
+				'alert_type' => 'info',
+				'content' => sprintf(
+					/* translators: %s: Link that opens Elementor's "Site Identity" panel. */
+					__( 'Go to <a href="%s">Site Identity</a> to manage your site\'s title', 'hello-elementor' ),
+					"javascript:\$e.route('panel/global/settings-site-identity')"
+				),
+				'render_type' => 'ui',
+				'condition' => [
+					'hello_footer_logo_display' => 'yes',
+					'hello_footer_logo_type' => 'title',
+				],
+			]
+		);
+
+		$this->add_control(
 			'hello_footer_logo_type',
 			[
 				'label' => esc_html__( 'Type', 'hello-elementor' ),
@@ -311,11 +350,6 @@ class Settings_Footer extends Tab_Base {
 			[
 				'type' => Controls_Manager::SLIDER,
 				'label' => esc_html__( 'Logo Width', 'hello-elementor' ),
-				'description' => sprintf(
-					/* translators: %s: Link that opens Elementor's "Site Identity" panel. */
-					__( 'Go to <a href="%s">Site Identity</a> to manage your site\'s logo', 'hello-elementor' ),
-					"javascript:\$e.route('panel/global/settings-site-identity')"
-				),
 				'size_units' => [ '%', 'px', 'em', 'rem', 'vw', 'custom' ],
 				'range' => [
 					'px' => [
@@ -338,6 +372,58 @@ class Settings_Footer extends Tab_Base {
 			]
 		);
 
+		$this->add_group_control(
+			Group_Control_Typography::get_type(),
+			[
+				'name' => 'hello_footer_title_typography',
+				'label' => esc_html__( 'Typography', 'hello-elementor' ),
+				'condition' => [
+					'hello_footer_logo_display' => 'yes',
+					'hello_footer_logo_type' => 'title',
+				],
+				'selector' => '.site-footer .site-title',
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Text_Shadow::get_type(),
+			[
+				'name' => 'hello_footer_title_text_shadow',
+				'label' => esc_html__( 'Text Shadow', 'hello-elementor' ),
+				'condition' => [
+					'hello_footer_logo_display' => 'yes',
+					'hello_footer_logo_type' => 'title',
+				],
+				'selector' => '.site-footer .site-title a',
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Text_Stroke::get_type(),
+			[
+				'name' => 'hello_footer_title_text_stroke',
+				'label' => esc_html__( 'Text Stroke', 'hello-elementor' ),
+				'condition' => [
+					'hello_footer_logo_display' => 'yes',
+					'hello_footer_logo_type' => 'title',
+				],
+				'selector' => '.site-footer .site-title a',
+			]
+		);
+
+		$this->start_controls_tabs( 'hello_footer_title_colors' );
+
+		$this->start_controls_tab(
+			'hello_footer_title_colors_normal',
+			[
+				'label' => esc_html__( 'Normal', 'hello-elementor' ),
+				'condition' => [
+					'hello_footer_logo_display' => 'yes',
+					'hello_footer_logo_type' => 'title',
+				],
+			]
+		);
+
 		$this->add_control(
 			'hello_footer_title_color',
 			[
@@ -353,35 +439,52 @@ class Settings_Footer extends Tab_Base {
 			]
 		);
 
-		$this->add_group_control(
-			Group_Control_Typography::get_type(),
+		$this->end_controls_tab();
+
+		$this->start_controls_tab(
+			'hello_footer_title_colors_hover',
 			[
-				'name' => 'hello_footer_title_typography',
-				'label' => esc_html__( 'Typography', 'hello-elementor' ),
+				'label' => esc_html__( 'Hover', 'hello-elementor' ),
 				'condition' => [
 					'hello_footer_logo_display' => 'yes',
 					'hello_footer_logo_type' => 'title',
 				],
-				'selector' => '.site-footer .site-title',
 			]
 		);
 
 		$this->add_control(
-			'hello_footer_title_link',
+			'hello_footer_title_hover_color',
 			[
-				'type' => Controls_Manager::RAW_HTML,
-				'raw' => sprintf(
-					/* translators: %s: Link that opens Elementor's "Site Identity" panel. */
-					__( 'Go to <a href="%s">Site Identity</a> to manage your site\'s title', 'hello-elementor' ),
-					"javascript:\$e.route('panel/global/settings-site-identity')"
-				),
-				'content_classes' => 'elementor-control-field-description',
+				'label' => esc_html__( 'Text Color', 'hello-elementor' ),
+				'type' => Controls_Manager::COLOR,
 				'condition' => [
 					'hello_footer_logo_display' => 'yes',
 					'hello_footer_logo_type' => 'title',
 				],
+				'selectors' => [
+					'.site-footer .site-title a:hover' => 'color: {{VALUE}};',
+				],
 			]
 		);
+
+		$this->add_control(
+			'hello_footer_title_hover_color_transition_duration',
+			[
+				'label' => esc_html__( 'Transition Duration', 'hello-elementor' ),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => [ 's', 'ms', 'custom' ],
+				'default' => [
+					'unit' => 's',
+				],
+				'selectors' => [
+					'.site-footer .site-title a' => 'transition-duration: {{SIZE}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->end_controls_tab();
+
+		$this->end_controls_tabs();
 
 		$this->end_controls_section();
 
@@ -390,6 +493,23 @@ class Settings_Footer extends Tab_Base {
 			[
 				'tab' => 'hello-settings-footer',
 				'label' => esc_html__( 'Tagline', 'hello-elementor' ),
+				'condition' => [
+					'hello_footer_tagline_display' => 'yes',
+				],
+			]
+		);
+
+		$this->add_control(
+			'hello_footer_tagline_link',
+			[
+				'type' => Controls_Manager::ALERT,
+				'alert_type' => 'info',
+				'content' => sprintf(
+					/* translators: %s: Link that opens Elementor's "Site Identity" panel. */
+					__( 'Go to <a href="%s">Site Identity</a> to manage your site\'s tagline', 'hello-elementor' ),
+					"javascript:\$e.route('panel/global/settings-site-identity')"
+				),
+				'render_type' => 'ui',
 				'condition' => [
 					'hello_footer_tagline_display' => 'yes',
 				],
@@ -422,16 +542,15 @@ class Settings_Footer extends Tab_Base {
 			]
 		);
 
-		$this->add_control(
-			'hello_footer_tagline_link',
+		$this->add_group_control(
+			Group_Control_Text_Shadow::get_type(),
 			[
-				'type' => Controls_Manager::RAW_HTML,
-				'raw' => sprintf(
-					/* translators: %s: Link that opens Elementor's "Site Identity" panel. */
-					__( 'Go to <a href="%s">Site Identity</a> to manage your site\'s tagline', 'hello-elementor' ),
-					"javascript:\$e.route('panel/global/settings-site-identity')"
-				),
-				'content_classes' => 'elementor-control-field-description',
+				'name' => 'hello_footer_tagline_text_shadow',
+				'label' => esc_html__( 'Text Shadow', 'hello-elementor' ),
+				'condition' => [
+					'hello_footer_tagline_display' => 'yes',
+				],
+				'selector' => '.site-footer .site-description',
 			]
 		);
 
@@ -459,13 +578,30 @@ class Settings_Footer extends Tab_Base {
 			$this->add_control(
 				'hello_footer_menu_notice',
 				[
-					'type' => Controls_Manager::RAW_HTML,
-					'raw' => '<strong>' . esc_html__( 'There are no menus in your site.', 'hello-elementor' ) . '</strong><br>' . sprintf( __( 'Go to <a href="%s" target="_blank">Menus screen</a> to create one.', 'hello-elementor' ), admin_url( 'nav-menus.php?action=edit&menu=0' ) ),
-					'separator' => 'after',
-					'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
+					'type' => Controls_Manager::ALERT,
+					'alert_type' => 'info',
+					'heading' => esc_html__( 'There are no menus in your site.', 'hello-elementor' ),
+					'content' => sprintf(
+						__( 'Go to <a href="%s" target="_blank">Menus screen</a> to create one.', 'hello-elementor' ),
+						admin_url( 'nav-menus.php?action=edit&menu=0' )
+					),
+					'render_type' => 'ui',
 				]
 			);
 		} else {
+			$this->add_control(
+				'hello_footer_menu_warning',
+				[
+					'type' => Controls_Manager::ALERT,
+					'alert_type' => 'info',
+					'content' => sprintf(
+						__( 'Go to the <a href="%s" target="_blank">Menus screen</a> to manage your menus. Changes will be reflected in the preview only after the page reloads.', 'hello-elementor' ),
+						admin_url( 'nav-menus.php' )
+					),
+					'render_type' => 'ui',
+				]
+			);
+
 			$this->add_control(
 				'hello_footer_menu',
 				[
@@ -473,16 +609,6 @@ class Settings_Footer extends Tab_Base {
 					'type' => Controls_Manager::SELECT,
 					'options' => $menus,
 					'default' => array_keys( $menus )[0],
-					'description' => sprintf( __( 'Go to the <a href="%s" target="_blank">Menus screen</a> to manage your menus.', 'hello-elementor' ), admin_url( 'nav-menus.php' ) ),
-				]
-			);
-
-			$this->add_control(
-				'hello_footer_menu_warning',
-				[
-					'type' => Controls_Manager::RAW_HTML,
-					'raw' => esc_html__( 'Changes will be reflected in the preview only after the page reloads.', 'hello-elementor' ),
-					'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
 				]
 			);
 
@@ -502,6 +628,15 @@ class Settings_Footer extends Tab_Base {
 				[
 					'name' => 'hello_footer_menu_typography',
 					'label' => esc_html__( 'Typography', 'hello-elementor' ),
+					'selector' => 'footer .footer-inner .site-navigation a',
+				]
+			);
+
+			$this->add_group_control(
+				Group_Control_Text_Shadow::get_type(),
+				[
+					'name' => 'hello_footer_menu_text_shadow',
+					'label' => esc_html__( 'Text Shadow', 'hello-elementor' ),
 					'selector' => 'footer .footer-inner .site-navigation a',
 				]
 			);
@@ -531,6 +666,7 @@ class Settings_Footer extends Tab_Base {
 			'hello_footer_copyright_text',
 			[
 				'type' => Controls_Manager::TEXTAREA,
+				'label' => esc_html__( 'Text', 'hello-elementor' ),
 				'default' => esc_html__( 'All rights reserved', 'hello-elementor' ),
 			]
 		);
@@ -554,6 +690,18 @@ class Settings_Footer extends Tab_Base {
 			[
 				'name' => 'hello_footer_copyright_typography',
 				'label' => esc_html__( 'Typography', 'hello-elementor' ),
+				'condition' => [
+					'hello_footer_copyright_display' => 'yes',
+				],
+				'selector' => '.site-footer .copyright p',
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Text_Shadow::get_type(),
+			[
+				'name' => 'hello_footer_copyright_text_shadow',
+				'label' => esc_html__( 'Text Shadow', 'hello-elementor' ),
 				'condition' => [
 					'hello_footer_copyright_display' => 'yes',
 				],
