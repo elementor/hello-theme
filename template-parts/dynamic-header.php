@@ -60,9 +60,8 @@ $header_mobile_nav_menu = wp_nav_menu( $menu_args ); // The same menu but separa
 		<?php endif; ?>
 		<?php if ( $header_mobile_nav_menu ) : ?>
 			<div class="site-navigation-toggle-holder <?php echo esc_attr( hello_show_or_hide( 'hello_header_menu_display' ) ); ?>">
-				<button type="button" class="site-navigation-toggle">
-					<span class="site-navigation-toggle-icon"></span>
-					<span class="screen-reader-text"><?php echo esc_html__( 'Menu', 'hello-elementor' ); ?></span>
+				<button type="button" class="site-navigation-toggle" aria-label="<?php echo esc_attr( 'Menu', 'hello-elementor' ); ?>">
+					<span class="site-navigation-toggle-icon" aria-hidden="true"></span>
 				</button>
 			</div>
 			<nav class="site-navigation-dropdown <?php echo esc_attr( hello_show_or_hide( 'hello_header_menu_display' ) ); ?>" aria-label="<?php echo esc_attr__( 'Mobile menu', 'hello-elementor' ); ?>" aria-hidden="true" inert>
