@@ -36,6 +36,11 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
 
+= 3.2.1 - 2024-12-16 =
+* Fix: Gutenberg editor expanded disproportionately after adding support for `theme.json` ([#430](https://github.com/elementor/hello-theme/issues/430))
+* Fix: Use CSS logical properties in the theme
+* Fix: Add ARIA attributes to header nav menu
+
 = 3.2.0 - 2024-12-15 =
 * Tweak: Convert classic to hybrid theme with block-editor support
 * Tweak: Added new design options to header/footer
