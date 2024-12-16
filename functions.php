@@ -62,8 +62,6 @@ if ( ! function_exists( 'hello_elementor_setup' ) ) {
 			);
 			add_theme_support( 'align-wide' );
 			add_theme_support( 'responsive-embeds' );
-			remove_theme_support( 'block-templates' );
-			remove_theme_support( 'block-template-parts' );
 
 			/*
 			 * Editor Styles
