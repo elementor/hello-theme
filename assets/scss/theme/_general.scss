@@ -23,20 +23,17 @@
 .aligncenter {
 	clear: both;
 	display: block;
-	margin-left: auto;
-	margin-right: auto;
+	margin-inline: auto;
 }
 
 //Gutenberg support
 .alignwide {
-	margin-left: -80px;
-	margin-right: -80px;
+	margin-inline: -80px;
 }
 
 //Gutenberg support
 .alignfull {
-	margin-left: calc(50% - 50vw);
-	margin-right: calc(50% - 50vw);
+	margin-inline: calc(50% - 50vw);
 	max-width: 100vw;
 	width: 100vw;
 
@@ -59,8 +56,7 @@
 
 	img {
 		display: block;
-		margin-left: auto;
-		margin-right: auto;
+		margin-inline: auto;
 	}
 }
 
