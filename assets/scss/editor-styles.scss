@@ -1,8 +1,12 @@
 /**
- * Classic editor styling
+ * WordPress editor styles
  */
 
 @import "reset/variables";
+
+body {
+	font-family: $font-family-base;
+}	
 
 p {
 	margin-block-end: $sm-margin;
