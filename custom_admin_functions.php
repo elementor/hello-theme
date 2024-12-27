@@ -17,6 +17,9 @@ include_once( 'includes/theme-usage-tracker.php' );
 // 30-11-2024 code - Elementor AI, notices, etc
 include_once( 'includes/elementor-helpers.php' );
 
+// 28-12-2024 code - Page layout override
+include_once( 'includes/page-layout.php' );
+
 // Disable comments functionality via customizer settings
 $disable_comments = get_theme_mod( 'htc_comments_setting' );
 $disable_comments_default = true;
