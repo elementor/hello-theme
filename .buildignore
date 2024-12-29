@@ -15,7 +15,6 @@ package.json
 phpcs.xml
 README.md
 webpack.config.js
-vendor/
 
 .github/
 .buildignore
