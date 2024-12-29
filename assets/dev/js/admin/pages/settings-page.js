@@ -123,7 +123,7 @@ export const SettingsPage = () => {
 								const dialog = document.getElementById( 'hello-elementor-notifications-dialog' );
 
 								if ( dialog ) {
-									dialog.showModal()
+									dialog.showModal();
 								}
 							} }
 						>
