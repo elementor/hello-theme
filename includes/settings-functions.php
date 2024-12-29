@@ -135,7 +135,7 @@ function hello_elementor_settings_page_footer() {
 		<h3><?php esc_html_e( 'What\'s new:', 'hello-elementor' ); ?></h3>
 		<?php foreach ( $notifications as $item ) : ?>
 			<h4><?php echo esc_html( $item['title'] ); ?></h4>
-			<p><?php echo wp_filter_post_kses( $item['description'] ); ?></p>
+			<p><?php echo wp_kses_post( $item['description'] ); ?></p>
 		<?php endforeach; ?>
 		<button class="close"><?php echo esc_html__( 'Close', 'hello-elementor' ); ?></button>
 	</dialog>
