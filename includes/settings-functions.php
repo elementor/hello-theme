@@ -1,5 +1,4 @@
 <?php
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
@@ -104,6 +103,42 @@ function hello_elementor_settings_page_scripts() {
 function hello_elementor_settings_page_render() {
 	?>
 	<div id="hello-elementor-settings"></div>
+	<?php
+
+	add_action( 'admin_footer', 'hello_elementor_settings_page_footer' );
+}
+
+function hello_elementor_settings_page_footer() {
+	$notifications = hello_elementor_get_theme_notifications()->get_notifications_by_conditions();
+	?>
+	<style>
+		#hello-elementor-notifications-dialog {
+			padding: 20px;
+			border: 1px solid #ccc;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+		}
+		#hello-elementor-notifications-dialog::backdrop {
+			background: rgba(0, 0, 0, 0.5);
+		}
+	</style>
+	<script>
+		document.addEventListener( 'DOMContentLoaded', function() {
+			const closeDialogBtn = document.querySelector( '#hello-elementor-notifications-dialog button.close' );
+			const dialog = document.getElementById( 'hello-elementor-notifications-dialog' );
+
+			closeDialogBtn.addEventListener( 'click', function() {
+				dialog.close();
+			} );
+		} );
+	</script>
+	<dialog id="hello-elementor-notifications-dialog">
+		<h3><?php esc_html_e( 'What\'s new:', 'hello-elementor' ); ?></h3>
+		<?php foreach ( $notifications as $item ) : ?>
+			<h4><?php echo esc_html( $item['title'] ); ?></h4>
+			<p><?php echo wp_filter_post_kses( $item['description'] ); ?></p>
+		<?php endforeach; ?>
+		<button class="close"><?php echo esc_html__( 'Close', 'hello-elementor' ); ?></button>
+	</dialog>
 	<?php
 }
 

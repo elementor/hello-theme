@@ -1,9 +1,12 @@
 {
     "name": "elementor/hello-theme",
-    "require": {
+    "require-dev": {
         "squizlabs/php_codesniffer": "^3.6",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
 	  	"wp-coding-standards/wpcs": "^2.3"
+	},
+	"require": {
+		"elementor/wp-notifications-package": "dev-tweak/ED-16360-initial-wip"
 	},
 	"config": {
 		"allow-plugins": {
@@ -12,5 +15,11 @@
 	},
     "scripts": {
         "lint": "phpcs --extensions=php -p"
-    }
+    },
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://github.com/elementor/wp-notifications-package"
+		}
+	]
 }
