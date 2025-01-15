@@ -6,7 +6,7 @@
 	  	"wp-coding-standards/wpcs": "^2.3"
 	},
 	"require": {
-		"elementor/wp-notifications-package": "dev-tweak/ED-16360-initial-wip"
+		"elementor/wp-notifications-package": "1.0.0"
 	},
 	"config": {
 		"allow-plugins": {

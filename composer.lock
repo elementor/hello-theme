@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "986bbddca7dec5609d5a6b3ff85356e8",
+    "content-hash": "ed24e216ae4961c3f07c1dbe359331c1",
     "packages": [
         {
             "name": "elementor/wp-notifications-package",
-            "version": "dev-tweak/ED-16360-initial-wip",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/elementor/wp-notifications-package.git",
-                "reference": "db1f35ccf4e9a9d7a681f722108dd8e20a82e4ac"
+                "reference": "ba1f449081b3077a1418cfb50e45b89038745ea3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elementor/wp-notifications-package/zipball/db1f35ccf4e9a9d7a681f722108dd8e20a82e4ac",
-                "reference": "db1f35ccf4e9a9d7a681f722108dd8e20a82e4ac",
+                "url": "https://api.github.com/repos/elementor/wp-notifications-package/zipball/ba1f449081b3077a1418cfb50e45b89038745ea3",
+                "reference": "ba1f449081b3077a1418cfb50e45b89038745ea3",
                 "shasum": ""
             },
             "require-dev": {
@@ -40,9 +40,9 @@
                 ]
             },
             "support": {
-                "source": "https://github.com/elementor/wp-notifications-package/tree/tweak/ED-16360-initial-wip"
+                "source": "https://github.com/elementor/wp-notifications-package/tree/v1.0.0"
             },
-            "time": "2024-12-26T12:24:55+00:00"
+            "time": "2025-01-15T12:20:53+00:00"
         }
     ],
     "packages-dev": [
@@ -255,9 +255,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "elementor/wp-notifications-package": 20
-    },
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {},
