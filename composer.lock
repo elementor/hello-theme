@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ed24e216ae4961c3f07c1dbe359331c1",
+    "content-hash": "e472277d42ff79f964e91145a530bd8e",
     "packages": [
         {
             "name": "elementor/wp-notifications-package",
@@ -31,14 +31,7 @@
                     "Elementor\\WPNotificationsPackage\\": "src/"
                 }
             },
-            "scripts": {
-                "lint": [
-                    "vendor/bin/phpcs --standard=./phpcs.xml ."
-                ],
-                "lint:fix": [
-                    "vendor/bin/phpcbf ."
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "support": {
                 "source": "https://github.com/elementor/wp-notifications-package/tree/v1.0.0"
             },

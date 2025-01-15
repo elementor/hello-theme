@@ -15,11 +15,5 @@
 	},
     "scripts": {
         "lint": "phpcs --extensions=php -p"
-    },
-	"repositories": [
-		{
-			"type": "vcs",
-			"url": "https://github.com/elementor/wp-notifications-package"
-		}
-	]
+    }
 }
