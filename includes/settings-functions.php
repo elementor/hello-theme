@@ -113,12 +113,19 @@ function hello_elementor_settings_page_footer() {
 	?>
 	<style>
 		#hello-elementor-notifications-dialog {
+			max-height: 80vh;
 			padding: 20px;
 			border: 1px solid #ccc;
 			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 		}
 		#hello-elementor-notifications-dialog::backdrop {
-			background: rgba(0, 0, 0, 0.5);
+			background-color: rgba(0, 0, 0, 0.5);
+		}
+		#hello-elementor-notifications-dialog h2 {
+			font-size: 1.5em;
+		}
+		#hello-elementor-notifications-dialog h3 {
+			font-size: 1.1em;
 		}
 	</style>
 	<script>
@@ -131,10 +138,10 @@ function hello_elementor_settings_page_footer() {
 			} );
 		} );
 	</script>
-	<dialog id="hello-elementor-notifications-dialog">
-		<h3><?php esc_html_e( 'What\'s new:', 'hello-elementor' ); ?></h3>
+	<dialog id="hello-elementor-notifications-dialog" aria-labelledby="hello-elementor-notifications-dialog-heading">
+		<h2 id="hello-elementor-notifications-dialog-heading"><?php esc_html_e( 'Changelog:', 'hello-elementor' ); ?></h2>
 		<?php foreach ( $notifications as $item ) : ?>
-			<h4><?php echo esc_html( $item['title'] ); ?></h4>
+			<h3><?php echo esc_html( $item['title'] ); ?></h3>
 			<p><?php echo wp_kses_post( $item['description'] ); ?></p>
 		<?php endforeach; ?>
 		<button class="close"><?php echo esc_html__( 'Close', 'hello-elementor' ); ?></button>
