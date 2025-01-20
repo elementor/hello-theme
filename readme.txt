@@ -36,6 +36,9 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
 
+= 3.3.0 - 2025-01-21 =
+* Tweak: Added changelog link in theme settings
+
 = 3.2.1 - 2024-12-16 =
 * Fix: Gutenberg editor expanded disproportionately after adding support for `theme.json` ([#430](https://github.com/elementor/hello-theme/issues/430))
 * Fix: Use CSS logical properties in the theme
