@@ -127,7 +127,7 @@ export const SettingsPage = () => {
 								}
 							} }
 						>
-							changelog
+							{ __( 'Changelog', 'hello-elementor' ) }
 						</Button>
 					</div>
 				</div>
