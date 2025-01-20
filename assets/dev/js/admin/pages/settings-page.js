@@ -116,6 +116,19 @@ export const SettingsPage = () => {
 				<div className="hello_elementor__container">
 					<div className="hello_elementor__title">
 						<h1>{ __( 'Hello Theme Settings', 'hello-elementor' ) }</h1>
+						<Button
+							size={ 'small' }
+							variant={ 'link' }
+							onClick={ () => {
+								const dialog = document.getElementById( 'hello-elementor-notifications-dialog' );
+
+								if ( dialog ) {
+									dialog.showModal();
+								}
+							} }
+						>
+							changelog
+						</Button>
 					</div>
 				</div>
 			</div>

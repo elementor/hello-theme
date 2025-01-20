@@ -4,10 +4,10 @@
  *
  * @package HelloElementor
  */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
+
 ?>
 <main id="content" class="site-main">
 
