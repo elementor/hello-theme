@@ -127,10 +127,20 @@ function hello_elementor_settings_page_footer() {
 		#hello-elementor-notifications-dialog h3 {
 			font-size: 1.1em;
 		}
+		#hello-elementor-notifications-dialog .close-notifications-dialog {
+			position: absolute;
+			inset-block-start: 20px;
+			inset-inline-end: 20px;
+			background: none;
+			border: none;
+			border-radius: 50%;
+			aspect-ratio: 1;
+			cursor: pointer;
+		}
 	</style>
 	<script>
 		document.addEventListener( 'DOMContentLoaded', function() {
-			const closeDialogBtn = document.querySelector( '#hello-elementor-notifications-dialog button.close' );
+			const closeDialogBtn = document.querySelector( '#hello-elementor-notifications-dialog button.close-notifications-dialog' );
 			const dialog = document.getElementById( 'hello-elementor-notifications-dialog' );
 
 			closeDialogBtn.addEventListener( 'click', function() {
@@ -139,12 +149,12 @@ function hello_elementor_settings_page_footer() {
 		} );
 	</script>
 	<dialog id="hello-elementor-notifications-dialog" aria-labelledby="hello-elementor-notifications-dialog-heading">
-		<h2 id="hello-elementor-notifications-dialog-heading"><?php esc_html_e( 'Changelog:', 'hello-elementor' ); ?></h2>
+		<button class="close-notifications-dialog" aria-label="<?php echo esc_attr__( 'Close changelog', 'hello-elementor' ); ?>"> &times; </button>
+		<h2 id="hello-elementor-notifications-dialog-heading"><?php echo esc_html__( 'Changelog:', 'hello-elementor' ); ?></h2>
 		<?php foreach ( $notifications as $item ) : ?>
 			<h3><?php echo esc_html( $item['title'] ); ?></h3>
 			<p><?php echo wp_kses_post( $item['description'] ); ?></p>
 		<?php endforeach; ?>
-		<button class="close"><?php echo esc_html__( 'Close', 'hello-elementor' ); ?></button>
 	</dialog>
 	<?php
 }
