@@ -5,7 +5,7 @@
  * @package HelloElementor
  */
 
-use Elementor\WPNotificationsPackage\V100\Notifications as ThemeNotifications;
+use Elementor\WPNotificationsPackage\V110\Notifications as ThemeNotifications;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.

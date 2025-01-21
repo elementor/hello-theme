@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e472277d42ff79f964e91145a530bd8e",
+    "content-hash": "05c72fd3cff988f6319ad655da525fd6",
     "packages": [
         {
             "name": "elementor/wp-notifications-package",
-            "version": "1.0.0",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/elementor/wp-notifications-package.git",
-                "reference": "ba1f449081b3077a1418cfb50e45b89038745ea3"
+                "reference": "cd8093bad42df73c738aa530b5be98ab16621822"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elementor/wp-notifications-package/zipball/ba1f449081b3077a1418cfb50e45b89038745ea3",
-                "reference": "ba1f449081b3077a1418cfb50e45b89038745ea3",
+                "url": "https://api.github.com/repos/elementor/wp-notifications-package/zipball/cd8093bad42df73c738aa530b5be98ab16621822",
+                "reference": "cd8093bad42df73c738aa530b5be98ab16621822",
                 "shasum": ""
             },
             "require-dev": {
@@ -33,9 +33,9 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "support": {
-                "source": "https://github.com/elementor/wp-notifications-package/tree/v1.0.0"
+                "source": "https://github.com/elementor/wp-notifications-package/tree/1.1.0"
             },
-            "time": "2025-01-15T12:20:53+00:00"
+            "time": "2025-01-21T13:50:20+00:00"
         }
     ],
     "packages-dev": [
