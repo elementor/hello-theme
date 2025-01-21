@@ -131,6 +131,8 @@ function hello_elementor_settings_page_footer() {
 			position: absolute;
 			inset-block-start: 20px;
 			inset-inline-end: 20px;
+			font-size: 26px;
+			line-height: 1;
 			background: none;
 			border: none;
 			border-radius: 50%;
