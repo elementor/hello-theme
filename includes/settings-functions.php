@@ -132,10 +132,8 @@ function hello_elementor_settings_page_footer() {
 			inset-block-start: 20px;
 			inset-inline-end: 20px;
 			font-size: 26px;
-			line-height: 1;
 			background: none;
 			border: none;
-			border-radius: 50%;
 			aspect-ratio: 1;
 			cursor: pointer;
 		}
@@ -151,7 +149,7 @@ function hello_elementor_settings_page_footer() {
 		} );
 	</script>
 	<dialog id="hello-elementor-notifications-dialog" aria-labelledby="hello-elementor-notifications-dialog-heading">
-		<button class="close-notifications-dialog" aria-label="<?php echo esc_attr__( 'Close changelog', 'hello-elementor' ); ?>"> &times; </button>
+		<button autofocus class="close-notifications-dialog" aria-label="<?php echo esc_attr__( 'Close changelog', 'hello-elementor' ); ?>"> &times; </button>
 		<h2 id="hello-elementor-notifications-dialog-heading"><?php echo esc_html__( 'Changelog:', 'hello-elementor' ); ?></h2>
 		<?php foreach ( $notifications as $item ) : ?>
 			<h3><?php echo esc_html( $item['title'] ); ?></h3>
