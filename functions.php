@@ -273,7 +273,7 @@ function hello_elementor_get_theme_notifications(): ThemeNotifications {
 		$notifications = new ThemeNotifications(
 			'hello-elementor',
 			HELLO_ELEMENTOR_VERSION,
-			'theme'
+			'hello-elementor'
 		);
 	}
 
