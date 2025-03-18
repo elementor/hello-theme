@@ -12,6 +12,7 @@ const entry = {
 	'hello-editor': path.resolve( __dirname, './assets/dev/js/editor/hello-editor.js' ),
 	'hello-frontend': path.resolve( __dirname, './assets/dev/js/frontend/hello-frontend.js' ),
 	'hello-admin': path.resolve( __dirname, './assets/dev/js/admin/hello-admin.js' ),
+	'hello-home-app': path.resolve( __dirname, './modules/admin-home/assets/js//hello-elementor-admin.js' ),
 };
 
 const moduleRules = {

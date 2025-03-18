@@ -47,7 +47,6 @@
         "load-grunt-tasks": "^4.0.0",
         "matchdep": "~2.0.0",
         "npm-build-zip": "^1.0.3",
-        "react": "^18.2.0",
         "rimraf": "^3.0.2",
         "sass": "^1.53.0",
         "terser-webpack-plugin": "^5.0.3",
@@ -57,8 +56,12 @@
     "dependencies": {
         "@babel/plugin-transform-modules-commonjs": "^7.2.0",
         "@babel/plugin-transform-runtime": "^7.3.4",
+		"@elementor/icons": "1.12.0",
+		"@elementor/ui": "1.20.3",
         "@lodder/grunt-postcss": "^3.1.1",
         "grunt-autoprefixer": "^3.0.4",
-        "grunt-cssnano": "^2.1.0"
-    }
+        "grunt-cssnano": "^2.1.0",
+		"react": "^18.3.1",
+		"react-dom": "^18.3.1"
+	}
 }
