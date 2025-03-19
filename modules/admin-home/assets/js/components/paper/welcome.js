@@ -15,6 +15,7 @@ export const Welcome = ( { sx, dismissable = false } ) => {
 	} = useAdminContext();
 
 	const [ isLoading, setIsLoading ] = useState( false );
+	const [ visible, setVisible ] = useState( true );
 	const [ imageWidth, setImageWidth ] = useState( 578 );
 	const parentRef = useRef( null );
 
@@ -34,7 +35,7 @@ export const Welcome = ( { sx, dismissable = false } ) => {
 		};
 	}, [] );
 
-	if ( ! title ) {
+	if ( ! title || ! visible ) {
 		return null;
 	}
 

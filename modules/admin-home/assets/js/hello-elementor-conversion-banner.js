@@ -9,7 +9,7 @@ const App = () => {
 		<ThemeProvider colorScheme="auto">
 			<AdminProvider>
 				<Box sx={ { pt: 2, pr: 2, pb: 1 } }>
-					<Welcome sx={ { width: '100%', px: 4, py: 3, position: 'relative' } } />
+					<Welcome sx={ { width: '100%', px: 4, py: 3, position: 'relative' } } dismissable />
 				</Box>
 			</AdminProvider>
 		</ThemeProvider>
