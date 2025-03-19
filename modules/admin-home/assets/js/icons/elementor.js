@@ -1,10 +1,12 @@
 import { ReactComponent as ElementorLogo } from '../../images/ElementorLogo.svg';
 import { SvgIcon } from '@elementor/ui';
 
-export const BrandElementorIcon = () => {
+const BrandElementorIcon = () => {
 	return (
-		<SvgIcon fontSize={ 'small' } >
+		<SvgIcon sx={ { fontSize: '1rem' } } >
 			<ElementorLogo />
 		</SvgIcon>
 	);
 };
+
+export default BrandElementorIcon;

@@ -1,27 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import { BrandYoutubeIcon } from '../icons/youtube';
-import { BrandElementorIcon } from '../icons/elementor';
 
 const componentMap = {
-	BrandYoutubeIcon,
-	BrandElementorIcon,
+	BrandYoutubeIcon: () => import( '../icons/youtube' ),
+	BrandElementorIcon: () => import( '../icons/elementor' ),
+	ThemeBuilderIcon: () => import( '@elementor/icons/ThemeBuilderIcon' ),
+	SettingsIcon: () => import( '@elementor/icons/SettingsIcon' ),
+	BrandFacebookIcon: () => import( '@elementor/icons/BrandFacebookIcon' ),
+	StarIcon: () => import( '@elementor/icons/StarIcon' ),
+	HelpIcon: () => import( '@elementor/icons/HelpIcon' ),
+	SpeakerphoneIcon: () => import( '@elementor/icons/SpeakerphoneIcon' ),
+	TextIcon: () => import( '@elementor/icons/TextIcon' ),
+	PhotoIcon: () => import( '@elementor/icons/PhotoIcon' ),
+	AppsIcon: () => import( '@elementor/icons/AppsIcon' ),
+	BrushIcon: () => import( '@elementor/icons/BrushIcon' ),
+	UnderlineIcon: () => import( '@elementor/icons/UnderlineIcon' ),
+	PagesIcon: () => import( '@elementor/icons/PagesIcon' ),
+	PageTypeIcon: () => import( '@elementor/icons/PageTypeIcon' ),
 };
 
 const DynamicIcon = ( { componentName, ...rest } ) => {
     const [ Component, setComponent ] = useState( null );
 
-    useEffect( () => {
+	useEffect( () => {
 		if ( componentMap[ componentName ] ) {
-			setComponent( () => componentMap[ componentName ] );
-			return;
+			componentMap[ componentName ]().then( ( module ) => {
+				setComponent( () => module.default );
+			} );
 		}
-
-        import( `@elementor/icons/${ componentName }` ).then( ( module ) => {
-            setComponent( () => module.default );
-        } ).catch( ( error ) => {
-            console.error( `Error loading component ${ componentName }:`, error );
-        } );
-    }, [ componentName ] );
+	}, [ componentName ] );
 
     if ( ! Component ) {
         return null;

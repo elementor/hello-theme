@@ -132,7 +132,7 @@ class Admin_Config extends Rest_Base {
 			],
 			[
 				'title' => __( 'Settings', 'hello-elementor' ),
-				'link'  => self_admin_url( 'admin.php?page=hello-plus-settings' ),
+				'link'  => self_admin_url( 'themes.php?page=hello-theme-settings' ),
 			],
 		];
 
