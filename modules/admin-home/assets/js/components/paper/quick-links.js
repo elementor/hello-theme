@@ -3,16 +3,7 @@ import Typography from '@elementor/ui/Typography';
 import { __ } from '@wordpress/i18n';
 import Stack from '@elementor/ui/Stack';
 import { ColumnLinkGroup } from '../linkGroup/column-link-group';
-import PhotoIcon from '@elementor/icons/PhotoIcon';
-import BrushIcon from '@elementor/icons/BrushIcon';
-import UnderlineIcon from '@elementor/icons/UnderlineIcon';
 import { useAdminContext } from '../../hooks/use-admin-context';
-
-const linksIcons = {
-	site_logo: PhotoIcon,
-	site_colors: BrushIcon,
-	site_fonts: UnderlineIcon,
-};
 
 export const QuickLinks = () => {
 	const { adminSettings: { quickLinks = [] } = {} } = useAdminContext();
@@ -26,7 +17,7 @@ export const QuickLinks = () => {
 			<Stack direction="row" gap={ 9 }>
 				{ Object.keys( quickLinks ).map( ( key ) => {
 					return (
-						<ColumnLinkGroup key={ key } links={ [ { ...quickLinks[ key ], Icon: linksIcons[ key ] } ] } />
+						<ColumnLinkGroup key={ key } links={ [ { ...quickLinks[ key ] } ] } />
 					);
 				} ) }
 

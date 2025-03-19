@@ -19,6 +19,5 @@ class Api_Controller {
 		$this->endpoints['promotions'] = new Promotions();
 		$this->endpoints['admin-config'] = new Admin_Config();
 		$this->endpoints['theme-settings'] = new Theme_Settings();
-		$this->endpoints['whats-new'] = new Whats_New();
 	}
 }

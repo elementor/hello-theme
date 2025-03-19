@@ -7,6 +7,7 @@ import Stack from '@elementor/ui/Stack';
 import { QuickLinks } from '../components/paper/quick-links';
 import { Welcome } from '../components/paper/welcome';
 import { SiteParts } from '../components/paper/site-parts';
+import { Resources } from '../components/paper/resources';
 
 export const AdminPage = () => {
 	return (
@@ -14,11 +15,14 @@ export const AdminPage = () => {
 			<Box className="hello_plus__notices" component="div">
 			</Box>
 			<Box>
+				<Box sx={ { mb: 2 } }>
+					<Welcome />
+				</Box>
 				<GridWithActionLinks>
 					<Stack direction="column" gap={ 2 }>
-						<Welcome />
 						<QuickLinks />
 						<SiteParts />
+						<Resources />
 					</Stack>
 				</GridWithActionLinks>
 			</Box>

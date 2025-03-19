@@ -2,6 +2,9 @@
 
 namespace HelloTheme\Includes;
 
+use Elementor\App\App;
+use Eunit\Mocks\Elementor;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
@@ -17,6 +20,10 @@ class Utils {
 
 	public static function elementor(): \Elementor\Plugin {
 		return \Elementor\Plugin::$instance;
+	}
+
+	public static function has_pro(): bool {
+		return defined( 'ELEMENTOR_PRO_VERSION' );
 	}
 
 	public static function is_elementor_active(): bool {
@@ -35,24 +42,20 @@ class Utils {
 		return self::$elementor_installed;
 	}
 
-	public static function is_hello_plus_active() {
-		return defined( 'HELLO_PLUS_VERSION' );
-	}
-
-	public static function is_hello_plus_installed() {
-		return file_exists( WP_PLUGIN_DIR . '/hello-plus/hello-plus.php' );
-	}
-
-	public static function is_hello_plus_setup_wizard_done() {
-		if ( ! class_exists( 'HelloPlus\Modules\Admin\Classes\Menu\Pages\Setup_Wizard' ) ) {
-			return false;
+	public static function get_theme_builder_url() {
+		if ( self::has_pro() ) {
+			return admin_url( 'admin.php?page=' . App::PAGE_ID . '&ver=' . ELEMENTOR_VERSION ) . '#site-editor';
 		}
 
-		return \HelloPlus\Modules\Admin\Classes\Menu\Pages\Setup_Wizard::has_site_wizard_been_completed();
+		if ( self::is_elementor_active() ) {
+			return admin_url( 'admin.php?page=' . App::PAGE_ID . '&ver=' . ELEMENTOR_VERSION ) . '#site-editor/promotion';
+		}
+
+		return '';
 	}
 
-	public static function get_hello_plus_activation_link() {
-		$plugin = 'hello-plus/hello-plus.php';
+	public static function get_elementor_activation_link() {
+		$plugin = 'elementor/elementor.php';
 
 		$url = 'plugins.php?action=activate&plugin=' . $plugin . '&plugin_status=all';
 
@@ -64,8 +67,8 @@ class Utils {
 
 		$url = add_query_arg(
 			[
-				'action' => $action,
-				'plugin' => $plugin_slug,
+				'action'   => $action,
+				'plugin'   => $plugin_slug,
 				'referrer' => 'hello-elementor',
 			],
 			admin_url( 'update.php' )

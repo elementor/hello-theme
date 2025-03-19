@@ -4,32 +4,57 @@ import { useAdminContext } from '../../hooks/use-admin-context';
 import Stack from '@elementor/ui/Stack';
 import Button from '@elementor/ui/Button';
 import { BaseAdminPaper } from './base-admin-paper';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import Box from '@elementor/ui/Box';
 
 export const Welcome = () => {
 	const { adminSettings: {
-		config: { nonceInstall = '', showText = false } = {},
-		welcome: { text = '', buttons = [] } = {},
+		config: { nonceInstall = '', disclaimer = '', slug = '' } = {},
+		welcome: { title = '', text = '', buttons = [], image: { src = '', alt = '' } = {} } = {},
 	} = {},
 	} = useAdminContext();
 
 	const [ isLoading, setIsLoading ] = useState( false );
+	const [ imageWidth, setImageWidth ] = useState( 578 );
+	const parentRef = useRef( null );
+
+	useEffect( () => {
+		const handleResize = () => {
+			if ( parentRef.current ) {
+				const parentWidth = parentRef.current.offsetWidth;
+				setImageWidth( parentWidth < 800 ? 400 : 578 );
+			}
+		};
+
+		handleResize();
+		window.addEventListener( 'resize', handleResize );
+
+		return () => {
+			window.removeEventListener( 'resize', handleResize );
+		};
+	}, [] );
+
+	if ( ! title ) {
+		return null;
+	}
 
 	return (
 		<BaseAdminPaper>
-			<Typography variant="h6" sx={ { color: 'text.primary', fontWeight: 500 } }>{ __( 'Welcome to Hello Biz', 'hello-elementor' ) }</Typography>
-			<Typography variant="body2" sx={ { mb: 3, color: 'text.secondary' } }>
-				{ text }
-			</Typography>
-			<Stack gap={ 1 } direction="row" sx={ { mb: 2 } }>
-				{
-					buttons.map( ( { title, link, variant, color } ) => {
+			<Stack ref={ parentRef } direction={ { xs: 'column', md: 'row' } } alignItems="center" justifyContent="space-between" sx={ { width: '100%', gap: 9 } }>
+				<Stack direction="column" sx={ { flex: 1 } }>
+					<Typography variant="h6" sx={ { color: 'text.primary', fontWeight: 500 } }>{ title }</Typography>
+					<Typography variant="body2" sx={ { mb: 3, color: 'text.secondary' } }>
+						{ text }
+					</Typography>
+					<Stack gap={ 1 } direction="row" sx={ { mb: 2 } }>
+						{
+					buttons.map( ( { linkText, link, variant, color, target = '' } ) => {
 						const onClick = async () => {
 							if ( 'install' === link ) {
 								try {
 									const data = {
 										_wpnonce: nonceInstall,
-										slug: 'hello-plus', // ToDo ensure this is the right slug, for now it is free.
+										slug,
 									};
 
 									setIsLoading( true );
@@ -48,26 +73,32 @@ export const Welcome = () => {
 									setIsLoading( false );
 								}
 							} else {
-								window.location.href = link;
+								window.open( link, target || '_self' );
 							}
 						};
 
 						return (
-							<Button key={ title } onClick={ onClick } variant={ variant } color={ color } >
-								{ isLoading ? __( 'Installing Hello Plus', 'hello-elementor' ) : title }
+							<Button key={ linkText } onClick={ onClick } variant={ variant } color={ color } >
+								{ isLoading ? __( 'Installing Elementor', 'hello-elementor' ) : linkText }
 							</Button>
 						);
 					} )
 				}
+					</Stack>
+					{ disclaimer && ( <Typography variant="body2" sx={ { color: 'text.tertiary' } }>
+						{ disclaimer }
+					</Typography> ) }
+				</Stack>
+				{ src && ( <Box
+					component="img"
+					src={ src }
+					sx={ {
+						width: { sm: 350, md: 450, lg: imageWidth },
+						aspectRatio: '289/98',
+						flex: 1,
+					} }
+				/> ) }
 			</Stack>
-			{ showText && ( <Typography variant="body2" sx={ { color: 'text.tertiary' } }>
-				{
-					__(
-						'By clicking "Begin setup" I agree to install and activate the Hello+ plugin.',
-						'hello-elementor',
-					)
-				}
-			</Typography> ) }
 		</BaseAdminPaper>
 	);
 };

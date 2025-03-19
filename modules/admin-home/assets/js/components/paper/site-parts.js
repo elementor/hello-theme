@@ -13,15 +13,17 @@ export const SiteParts = () => {
 				<ColumnLinkGroup
 					title={ __( 'Site Parts', 'hello-elementor' ) }
 					links={ siteParts }
-					noLinksMessage={ __( 'The kit you imported doesn\'t have an Header or a Footer.', 'hello-elementor' ) }
+					sx={ { minWidth: '25%' } }
 				/>
 				<ColumnLinkGroup
 					title={ __( 'Recent Pages', 'hello-elementor' ) }
 					links={ sitePages }
+					sx={ { minWidth: '25%' } }
 				/>
 				<ColumnLinkGroup
 					title={ __( 'General', 'hello-elementor' ) }
 					links={ general }
+					sx={ { minWidth: '25%' } }
 				/>
 			</Stack>
 		</BaseAdminPaper>
