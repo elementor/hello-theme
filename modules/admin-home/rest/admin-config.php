@@ -34,7 +34,6 @@ class Admin_Config extends Rest_Base {
 		$config = apply_filters( 'hello-plus-theme/rest/admin-config', $config );
 
 		$config['config'] = [
-			'disclaimer'   => ! Utils::is_elementor_active() ? __( 'By clicking "Begin setup" I agree to install and activate the Elementor plugin.', 'hello-elementor' ) : '',
 			'nonceInstall' => wp_create_nonce( 'updates' ),
 			'slug'         => 'elementor',
 		];
@@ -231,11 +230,11 @@ class Admin_Config extends Rest_Base {
 
 		if ( $is_elementor_active && ! $has_pro ) {
 			$config['welcome'] = [
-				'title'   => __( 'Bring your vision to life', 'hello-elementor' ),
-				'text'    => __( 'Get complete design flexibility for your website with Elementor Pro’s advanced tools and premium features..', 'hello-elementor' ),
+				'title'   => __( 'Go Pro, Go Limitless', 'hello-elementor' ),
+				'text'    => __( 'Unlock the theme builder, popup builder,100+ widgets and more advanced tools to take your website to the next level.', 'hello-elementor' ),
 				'buttons' => [
 					[
-						'linkText' => __( 'Upgrade Now', 'hello-elementor' ),
+						'linkText' => __( 'Upgrade now', 'hello-elementor' ),
 						'variant'  => 'contained',
 						'link'     => 'https://go.elementor.com/biz-home-wp-elementor-plugin-pricing/',
 						'color'    => 'primary',

@@ -19,8 +19,8 @@ class Admin_Menu_Controller {
 
 	public function admin_menu(): void {
 		add_menu_page(
-			__( 'Hello Elementor', 'hello-elementor' ),
-			__( 'Hello Elementor', 'hello-elementor' ),
+			__( 'Hello', 'hello-elementor' ),
+			__( 'Hello', 'hello-elementor' ),
 			'manage_options',
 			Module::MENU_PAGE_SLUG,
 			[ $this, 'render' ],
