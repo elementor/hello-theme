@@ -154,5 +154,5 @@ function ajax_hello_elementor_set_admin_notice_viewed() {
 add_action( 'wp_ajax_hello_elementor_set_admin_notice_viewed', 'ajax_hello_elementor_set_admin_notice_viewed' );
 
 if ( ! did_action( 'elementor/loaded' ) ) {
-	add_action( 'admin_notices', 'hello_elementor_fail_load_admin_notice' );
+	// add_action( 'admin_notices', 'hello_elementor_fail_load_admin_notice' );
 }

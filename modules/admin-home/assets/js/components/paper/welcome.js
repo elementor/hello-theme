@@ -7,7 +7,7 @@ import { BaseAdminPaper } from './base-admin-paper';
 import { useEffect, useRef, useState } from 'react';
 import Box from '@elementor/ui/Box';
 
-export const Welcome = () => {
+export const Welcome = ( { sx, dismissable = false } ) => {
 	const { adminSettings: {
 		config: { nonceInstall = '', disclaimer = '', slug = '' } = {},
 		welcome: { title = '', text = '', buttons = [], image: { src = '', alt = '' } = {} } = {},
@@ -39,7 +39,18 @@ export const Welcome = () => {
 	}
 
 	return (
-		<BaseAdminPaper>
+		<BaseAdminPaper sx={ sx }>
+			{ dismissable && (
+				<Box component="button" className="notice-dismiss" onClick={ async () => {
+					try {
+						await wp.ajax.post( 'ehe_dismiss_theme_notice', { nonce: window.ehe_cb.nonce } );
+						setVisible( false );
+					} catch ( e ) {
+					}
+				} }>
+					<Box component="span" className="screen-reader-text">{ __( 'Dismiss this notice.', 'hello-biz' ) }</Box>
+				</Box>
+			) }
 			<Stack ref={ parentRef } direction={ { xs: 'column', md: 'row' } } alignItems="center" justifyContent="space-between" sx={ { width: '100%', gap: 9 } }>
 				<Stack direction="column" sx={ { flex: 1 } }>
 					<Typography variant="h6" sx={ { color: 'text.primary', fontWeight: 500 } }>{ title }</Typography>
@@ -59,7 +70,7 @@ export const Welcome = () => {
 
 									setIsLoading( true );
 
-									const response = await wp.ajax.post( 'hello_biz_install_hp', data );
+									const response = await wp.ajax.post( 'ehe_install_elementor', data );
 
 									if ( response.activateUrl ) {
 										window.location.href = response.activateUrl;

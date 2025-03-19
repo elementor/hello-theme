@@ -54,7 +54,7 @@ class Promotions extends Rest_Base {
 			];
 		}
 
-		if ( ! defined( 'ELEMENTOR_PRO_VERSION' ) && Utils::is_elementor_installed() ) {
+		if ( ! defined( 'ELEMENTOR_PRO_VERSION' ) && ! Utils::is_elementor_active() ) {
 			$action_links_data[] = [
 				'type' => 'go-pro',
 				'image' => HELLO_THEME_IMAGES_URL . 'go-pro.svg',

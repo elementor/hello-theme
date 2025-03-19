@@ -18,6 +18,5 @@ class Api_Controller {
 	public function __construct() {
 		$this->endpoints['promotions'] = new Promotions();
 		$this->endpoints['admin-config'] = new Admin_Config();
-		$this->endpoints['theme-settings'] = new Theme_Settings();
 	}
 }

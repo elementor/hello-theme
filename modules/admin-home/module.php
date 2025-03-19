@@ -32,27 +32,9 @@ class Module extends Module_Base {
 			'Admin_Menu_Controller',
 			'Scripts_Controller',
 			'Api_Controller',
+			'Ajax_Handler',
+			'Conversion_Banner',
+			'Admin_Top_Bar',
 		];
-	}
-
-	protected function register_hooks(): void {
-		add_action( 'upgrader_process_complete', [ $this, 'add_attribution' ], 10, 2 );
-	}
-
-	public function add_attribution( $upgrader_object, $options ) {
-		if ( 'update' === $options['action'] && 'plugin' === $options['type'] ) {
-			$installed_plugin = filter_input( INPUT_GET, 'plugin', FILTER_UNSAFE_RAW );
-			$referrer = filter_input( INPUT_GET, 'referrer', FILTER_UNSAFE_RAW );
-
-			if ( 'hello-elementor' === $referrer && 'image-optimization' === $installed_plugin ) {
-				$campaign_data = [
-					'source' => 'io-ehp-install',
-					'campaign' => 'io-plg',
-					'medium' => 'wp-dash',
-				];
-
-				set_transient( 'elementor_image_optimization_campaign', $campaign_data, 30 * DAY_IN_SECONDS );
-			}
-		}
 	}
 }
