@@ -218,11 +218,6 @@ if ( ! function_exists( 'hello_elementor_add_description_meta_tag' ) ) {
 }
 add_action( 'wp_head', 'hello_elementor_add_description_meta_tag' );
 
-// Admin notice
-if ( is_admin() ) {
-	require get_template_directory() . '/includes/admin-functions.php';
-}
-
 // Settings page
 require get_template_directory() . '/includes/settings-functions.php';
 
