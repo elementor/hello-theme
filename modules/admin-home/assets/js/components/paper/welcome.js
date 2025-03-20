@@ -49,7 +49,7 @@ export const Welcome = ( { sx, dismissable = false } ) => {
 					} catch ( e ) {
 					}
 				} }>
-					<Box component="span" className="screen-reader-text">{ __( 'Dismiss this notice.', 'hello-biz' ) }</Box>
+					<Box component="span" className="screen-reader-text">{ __( 'Dismiss this notice.', 'hello-elementor' ) }</Box>
 				</Box>
 			) }
 			<Stack ref={ parentRef } direction={ { xs: 'column', md: 'row' } } alignItems="center" justifyContent="space-between" sx={ { width: '100%', gap: 9 } }>

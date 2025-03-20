@@ -11,7 +11,7 @@ export const TopBarContent = ( { sx = {}, iconSize = 'medium' } ) => {
 				<SvgIcon fontSize={ iconSize }>
 					<ElementorNoticeIcon />
 				</SvgIcon>
-				<Typography variant="subtitle1">{ __( 'Hello', 'hello-biz' ) }</Typography>
+				<Typography variant="subtitle1">{ __( 'Hello', 'hello-elementor' ) }</Typography>
 			</Stack>
 		</Stack>
 	);
