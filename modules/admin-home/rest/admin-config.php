@@ -210,7 +210,7 @@ class Admin_Config extends Rest_Base {
 
 			$config['welcome'] = [
 				'title'   => __( 'Thanks for installing the Hello Theme!', 'hello-elementor' ),
-				'text'    => __( 'The Hello Theme is a lightweight starter theme that works perfectly with the Elementor award-winning site builder plugin. Once you download and activate the plugin, you are only one click away from building an amazing website.', 'hello-elementor' ),
+				'text'    => __( 'Welcome to Hello Theme—a lightweight, blank canvas designed to integrate seamlessly with Elementor, the most popular, no-code visual website builder. By installing and activating Elementor, you\'ll unlock the power to craft a professional website with advanced features and functionalities.', 'hello-elementor' ),
 				'buttons' => [
 					[
 						'linkText' => __( 'Install Elementor', 'hello-elementor' ),
