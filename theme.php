@@ -151,10 +151,6 @@ final class Theme {
 		do_action( 'hello-plus-theme/after_switch_theme' );
 	}
 
-	public function redirect_on_first_activation() {
-		do_action( 'hello-plus-theme/redirect_on_first_activation' );
-	}
-
 	/**
 	 * Initialize all Modules
 	 *
@@ -188,7 +184,6 @@ final class Theme {
 		}
 
 		add_action( 'after_switch_theme', [ $this, 'activate' ] );
-		add_action( 'admin_init', [ $this, 'redirect_on_first_activation' ] );
 
 		$this->init_modules();
 	}

@@ -3,7 +3,6 @@
 namespace HelloTheme\Includes;
 
 use Elementor\App\App;
-use Eunit\Mocks\Elementor;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -42,7 +41,7 @@ class Utils {
 		return self::$elementor_installed;
 	}
 
-	public static function get_theme_builder_url() {
+	public static function get_theme_builder_url(): string {
 		if ( self::has_pro() ) {
 			return admin_url( 'admin.php?page=' . App::PAGE_ID . '&ver=' . ELEMENTOR_VERSION ) . '#site-editor';
 		}
@@ -54,12 +53,16 @@ class Utils {
 		return '';
 	}
 
-	public static function get_elementor_activation_link() {
+	public static function get_elementor_activation_link(): string {
 		$plugin = 'elementor/elementor.php';
 
 		$url = 'plugins.php?action=activate&plugin=' . $plugin . '&plugin_status=all';
 
 		return add_query_arg( '_wpnonce', wp_create_nonce( 'activate-plugin_' . $plugin ), $url );
+	}
+
+	public static function get_ai_site_planner_url(): string {
+		return 'https://planner.elementor.com/';
 	}
 
 	public static function get_plugin_install_url( $plugin_slug ): string {
