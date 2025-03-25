@@ -14,10 +14,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  **/
 class Utils {
 
-	private static ?bool $elementor_installed = null;
-
-	private static ?bool $elementor_active = null;
-
 	public static function elementor(): \Elementor\Plugin {
 		return \Elementor\Plugin::$instance;
 	}
