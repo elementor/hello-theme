@@ -14,10 +14,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  **/
 class Utils {
 
-	private static ?bool $elementor_installed = null;
-
-	private static ?bool $elementor_active = null;
-
 	public static function elementor(): \Elementor\Plugin {
 		return \Elementor\Plugin::$instance;
 	}
@@ -27,11 +23,12 @@ class Utils {
 	}
 
 	public static function is_elementor_active(): bool {
-		if ( null === self::$elementor_active ) {
-			self::$elementor_active = defined( 'ELEMENTOR_VERSION' );
+		static $elementor_active = null;
+		if ( null === $elementor_active ) {
+			$elementor_active = defined( 'ELEMENTOR_VERSION' );
 		}
 
-		return self::$elementor_active;
+		return $elementor_active;
 	}
 
 	public static function is_elementor_installed(): bool {
