@@ -32,11 +32,12 @@ class Utils {
 	}
 
 	public static function is_elementor_installed(): bool {
-		if ( null === self::$elementor_installed ) {
-			self::$elementor_installed = file_exists( WP_PLUGIN_DIR . '/elementor/elementor.php' );
+		static $elementor_installed = null;
+		if ( null === $elementor_installed ) {
+			$elementor_installed = file_exists( WP_PLUGIN_DIR . '/elementor/elementor.php' );
 		}
 
-		return self::$elementor_installed;
+		return $elementor_installed;
 	}
 
 	public static function get_theme_builder_url() {
