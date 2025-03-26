@@ -135,7 +135,6 @@ class Admin_Config extends Rest_Base {
 			],
 		];
 
-
 		$config['siteParts'] = [
 			'siteParts' => [],
 			'sitePages' => $site_pages,
