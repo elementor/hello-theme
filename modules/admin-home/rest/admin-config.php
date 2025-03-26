@@ -66,7 +66,7 @@ class Admin_Config extends Rest_Base {
 					'link'   => 'https://wordpress.org/support/theme/hello-elementor/reviews/#new-post',
 					'icon'   => 'StarIcon',
 					'target' => '_blank',
-				]
+				],
 			],
 			'resources' => [
 				[
@@ -87,7 +87,7 @@ class Admin_Config extends Rest_Base {
 					'icon'   => 'BrandElementorIcon',
 					'target' => '_blank',
 				],
-			]
+			],
 		];
 
 		return $config;
@@ -118,7 +118,7 @@ class Admin_Config extends Rest_Base {
 				$site_pages[] = [
 					'title' => get_the_title(),
 					'link'  => get_edit_post_link( get_the_ID(), 'admin' ) . $edit_with_elementor,
-					'icon'  => 'PagesIcon'
+					'icon'  => 'PagesIcon',
 				];
 			}
 		}
@@ -127,7 +127,7 @@ class Admin_Config extends Rest_Base {
 			[
 				'title' => __( 'Add New Page', 'hello-elementor' ),
 				'link'  => self_admin_url( 'post-new.php?post_type=page' ),
-				'icon'  => 'PageTypeIcon'
+				'icon'  => 'PageTypeIcon',
 			],
 			[
 				'title' => __( 'Settings', 'hello-elementor' ),
@@ -168,18 +168,18 @@ class Admin_Config extends Rest_Base {
 			'site_name'    => [
 				'title' => __( 'Site name', 'hello-elementor' ),
 				'link'  => $this->get_open_homepage_with_tab( 'settings-site-identity', [ 'autofocus[section]' => 'title_tagline' ] ),
-				'icon'  => 'TextIcon'
+				'icon'  => 'TextIcon',
 
 			],
 			'site_logo'    => [
 				'title' => __( 'Site Logo', 'hello-elementor' ),
 				'link'  => $this->get_open_homepage_with_tab( 'settings-site-identity', [ 'autofocus[section]' => 'title_tagline' ] ),
-				'icon'  => 'PhotoIcon'
+				'icon'  => 'PhotoIcon',
 			],
 			'site_favicon' => [
 				'title' => __( 'Site Favicon', 'hello-elementor' ),
 				'link'  => $this->get_open_homepage_with_tab( 'settings-site-identity', [ 'autofocus[section]' => 'title_tagline' ] ),
-				'icon'  => 'AppsIcon'
+				'icon'  => 'AppsIcon',
 			],
 		];
 
@@ -187,13 +187,13 @@ class Admin_Config extends Rest_Base {
 			$config['quickLinks']['site_colors'] = [
 				'title' => __( 'Site Colors', 'hello-elementor' ),
 				'link'  => $this->get_open_homepage_with_tab( 'global-colors' ),
-				'icon'  => 'BrushIcon'
+				'icon'  => 'BrushIcon',
 			];
 
 			$config['quickLinks']['site_fonts'] = [
 				'title' => __( 'Site Fonts', 'hello-elementor' ),
 				'link'  => $this->get_open_homepage_with_tab( 'global-typography' ),
-				'icon'  => 'UnderlineIcon'
+				'icon'  => 'UnderlineIcon',
 			];
 		}
 
