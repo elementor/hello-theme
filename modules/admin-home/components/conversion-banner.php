@@ -45,7 +45,7 @@ class Conversion_Banner {
 
 		wp_enqueue_script(
 			$handle,
-			$asset_url . $handle .'.js',
+			$asset_url . $handle . '.js',
 			array_merge( $asset['dependencies'], [ 'wp-util' ] ),
 			$asset['version'],
 			true
@@ -78,7 +78,6 @@ class Conversion_Banner {
 		add_action( 'wp_ajax_ehe_dismiss_theme_notice', [ $this, 'dismiss_theme_notice' ] );
 
 		add_action( 'current_screen', function () {
-			error_log(var_export( $this->is_conversion_banner_active(), true));
 			if ( ! $this->is_conversion_banner_active() ) {
 				return;
 			}
