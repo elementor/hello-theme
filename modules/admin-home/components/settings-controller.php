@@ -2,7 +2,6 @@
 
 namespace HelloTheme\Modules\AdminHome\Components;
 
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
