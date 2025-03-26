@@ -41,7 +41,7 @@ class Admin_Menu_Controller {
 		);
 
 		do_action( 'hello-plus-theme/admin-menu', Module::MENU_PAGE_SLUG );
-		
+
 		if ( Utils::is_elementor_active() ) {
 			add_submenu_page(
 				Module::MENU_PAGE_SLUG,
