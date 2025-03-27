@@ -15,6 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @subpackage HelloPlusModules
  */
 class Module extends Module_Base {
+
 	const MENU_PAGE_SLUG = 'hello-elementor';
 
 	/**

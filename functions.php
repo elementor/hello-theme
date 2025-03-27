@@ -5,8 +5,6 @@
  * @package HelloElementor
  */
 
-use Elementor\WPNotificationsPackage\V110\Notifications as ThemeNotifications;
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
@@ -270,24 +268,6 @@ if ( ! function_exists( 'hello_elementor_body_open' ) ) {
 		wp_body_open();
 	}
 }
-
-function hello_elementor_get_theme_notifications(): ThemeNotifications {
-	static $notifications = null;
-
-	if ( null === $notifications ) {
-		require get_template_directory() . '/vendor/autoload.php';
-
-		$notifications = new ThemeNotifications(
-			'hello-elementor',
-			HELLO_ELEMENTOR_VERSION,
-			'hello-elementor'
-		);
-	}
-
-	return $notifications;
-}
-
-hello_elementor_get_theme_notifications();
 
 require HELLO_THEME_PATH . '/theme.php';
 

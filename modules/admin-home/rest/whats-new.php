@@ -2,7 +2,7 @@
 
 namespace HelloTheme\Modules\AdminHome\Rest;
 
-use HelloBiz\Modules\Theme\Module as Theme_Module;
+use Elementor\WPNotificationsPackage\V110\Notifications as ThemeNotifications;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -10,8 +10,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Whats_New extends Rest_Base {
 
+	public function get_theme_notifications(): ThemeNotifications {
+		static $notifications = null;
+
+		if ( null === $notifications ) {
+			require get_template_directory() . '/vendor/autoload.php';
+
+			$notifications = new ThemeNotifications(
+				'hello-elementor',
+				HELLO_ELEMENTOR_VERSION,
+				'hello-elementor'
+			);
+		}
+
+		return $notifications;
+	}
+
 	public function get_notifications() {
-		return hello_elementor_get_theme_notifications()->get_notifications_by_conditions();
+		return $this->get_theme_notifications()->get_notifications_by_conditions();
 	}
 
 	public function register_routes() {

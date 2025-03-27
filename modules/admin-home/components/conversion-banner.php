@@ -23,7 +23,7 @@ class Conversion_Banner {
 			return false;
 		}
 
-		if ( Utils::is_elementor_active() ) {
+		if ( Utils::has_pro() ) {
 			return false;
 		}
 
