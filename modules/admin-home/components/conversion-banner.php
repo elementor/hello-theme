@@ -24,7 +24,7 @@ class Conversion_Banner {
 			return false;
 		}
 
-		if ( Utils::has_pro() ) {
+		if ( Utils::has_pro() && Utils::is_elementor_active() ) {
 			return false;
 		}
 

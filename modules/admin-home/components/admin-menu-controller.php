@@ -40,8 +40,8 @@ class Admin_Menu_Controller {
 
 		add_submenu_page(
 			Module::MENU_PAGE_SLUG,
-			__( 'Ai Site Planner', 'hello-elementor' ),
-			__( 'Ai Site Planner', 'hello-elementor' ),
+			__( 'AI Site Planner', 'hello-elementor' ),
+			__( 'AI Site Planner', 'hello-elementor' ),
 			'manage_options',
 			Module::MENU_PAGE_SLUG . self::AI_SITE_PLANNER_SLUG,
 			[ $this, 'render_home' ]

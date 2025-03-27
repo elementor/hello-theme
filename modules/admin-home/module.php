@@ -37,6 +37,7 @@ class Module extends Module_Base {
 			'Conversion_Banner',
 			'Admin_Top_Bar',
 			'Settings_Controller',
+			'Notificator',
 		];
 	}
 }

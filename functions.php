@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 define( 'HELLO_ELEMENTOR_VERSION', '3.3.0' );
-define( 'EHP_THEME_SLUG', 'hello-theme' );
+define( 'EHP_THEME_SLUG', 'hello-elementor' );
 
 define( 'HELLO_THEME_PATH', get_template_directory() );
 define( 'HELLO_THEME_URL', get_template_directory_uri() );
