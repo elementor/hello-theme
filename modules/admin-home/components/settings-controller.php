@@ -2,6 +2,8 @@
 
 namespace HelloTheme\Modules\AdminHome\Components;
 
+use HelloTheme\Includes\Script;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
@@ -128,27 +130,12 @@ class Settings_Controller {
 			return;
 		}
 
-		$handle     = 'hello-elementor-settings';
-		$asset_path = HELLO_THEME_SCRIPTS_PATH . $handle . '.asset.php';
-		$asset_url  = HELLO_THEME_SCRIPTS_URL;
-
-		if ( ! file_exists( $asset_path ) ) {
-			throw new \Exception( 'You need to run `npm run build` for the "hello-elementor" first.' );
-		}
-
-		$script_asset = require $asset_path;
-
-		$script_asset['dependencies'][] = 'wp-util';
-
-		wp_enqueue_script(
-			$handle,
-			$asset_url . "$handle.js",
-			$script_asset['dependencies'],
-			$script_asset['version'],
-			true
+		$script = new Script(
+			'hello-elementor-settings',
+			[ 'wp-util' ]
 		);
 
-		wp_set_script_translations( $handle, 'hello-elementor' );
+		$script->enqueue();
 	}
 
 	public function register_settings_page( $parent_slug ): void {
@@ -163,7 +150,7 @@ class Settings_Controller {
 	}
 
 	public function render_settings_page(): void {
-		echo '<div id="ehe-admin-settings" data-path="' . esc_attr( HELLO_THEME_PATH ) . '"></div>';
+		echo '<div id="ehe-admin-settings"></div>';
 	}
 
 	public function __construct() {

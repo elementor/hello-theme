@@ -2,6 +2,7 @@
 
 namespace HelloTheme\Modules\AdminHome\Components;
 
+use HelloTheme\Includes\Script;
 use HelloTheme\Includes\Utils;
 use HelloTheme\Modules\AdminHome\Module;
 
@@ -33,30 +34,17 @@ class Conversion_Banner {
 	}
 
 	private function enqueue_scripts() {
-		$handle = 'hello-conversion-banner';
-		$asset_path = HELLO_THEME_SCRIPTS_PATH . $handle . '.asset.php';
-		$asset_url = HELLO_THEME_SCRIPTS_URL;
-
-		if ( ! file_exists( $asset_path ) ) {
-			return;
-		}
-
-		$asset = require $asset_path;
-
-		wp_enqueue_script(
-			$handle,
-			$asset_url . $handle . '.js',
-			array_merge( $asset['dependencies'], [ 'wp-util' ] ),
-			$asset['version'],
-			true
+		$script = new Script(
+			'hello-conversion-banner',
+			[ 'wp-util' ]
 		);
 
-		wp_set_script_translations( $handle, 'hello-elementor' );
+		$script->enqueue();
 
 		$is_installing_plugin_with_uploader = 'upload-plugin' === filter_input( INPUT_GET, 'action', FILTER_UNSAFE_RAW );
 
 		wp_localize_script(
-			$handle,
+			'hello-conversion-banner',
 			'ehe_cb',
 			[
 				'nonce' => wp_create_nonce( 'ehe_cb_nonce' ),

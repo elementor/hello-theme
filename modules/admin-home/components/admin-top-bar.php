@@ -2,6 +2,7 @@
 
 namespace HelloTheme\Modules\AdminHome\Components;
 
+use HelloTheme\Includes\Script;
 use HelloTheme\Includes\Utils;
 use HelloTheme\Modules\AdminHome\Module;
 
@@ -26,25 +27,11 @@ class Admin_Top_Bar {
 	}
 
 	private function enqueue_scripts() {
-		$handle = 'hello-elementor-topbar';
-		$asset_path = HELLO_THEME_SCRIPTS_PATH . $handle . '.asset.php';
-		$asset_url = HELLO_THEME_SCRIPTS_URL;
-
-		if ( ! file_exists( $asset_path ) ) {
-			return;
-		}
-
-		$asset = require $asset_path;
-
-		wp_enqueue_script(
-			$handle,
-			$asset_url . $handle . '.js',
-			$asset['dependencies'],
-			$asset['version'],
-			true
+		$script = new Script(
+			'hello-elementor-topbar',
 		);
 
-		wp_set_script_translations( $handle, 'hello-elementor' );
+		$script->enqueue();
 	}
 
 	public function __construct() {
