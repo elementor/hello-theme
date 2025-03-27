@@ -34,6 +34,6 @@ class Script {
 			true
 		);
 
-		wp_set_script_translations( $this->handle, 'hello-elementor' );
+		\wp_set_script_translations( $this->handle, 'hello-elementor' );
 	}
 }
