@@ -19,7 +19,11 @@ function hello_elementor_tweak_settings() {
 
 	$settings_controller->legacy_register_settings();
 }
-
+/**
+ * Register a new setting.
+ *
+ * @deprecated 1.4.0
+ */
 function hello_elementor_register_settings( $settings_group, $settings ) {
 	/**
 	 * @var Settings_Controller $settings_controller
@@ -28,11 +32,13 @@ function hello_elementor_register_settings( $settings_group, $settings ) {
 								->get_module( 'AdminHome' )
 								->get_component( 'Settings_Controller' );
 
-	$settings_controller->register_settings();
+	$settings_controller->register_settings( $settings_group, $settings );
 }
 
 /**
  * Run a tweek only if the user requested it.
+ *
+ * @deprecated 1.4.0
  */
 function hello_elementor_do_tweak( $setting, $tweak_callback ) {
 	/**
@@ -47,6 +53,8 @@ function hello_elementor_do_tweak( $setting, $tweak_callback ) {
 
 /**
  * Render theme tweaks.
+ *
+ * @deprecated 1.4.0
  */
 function hello_elementor_render_tweaks( $settings_group, $settings ) {
 	/**
@@ -56,5 +64,5 @@ function hello_elementor_render_tweaks( $settings_group, $settings ) {
 								->get_module( 'AdminHome' )
 								->get_component( 'Settings_Controller' );
 
-	$settings_controller->apply_settings();
+	$settings_controller->apply_settings( $settings_group, $settings );
 }

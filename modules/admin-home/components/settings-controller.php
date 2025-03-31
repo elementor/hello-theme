@@ -60,67 +60,63 @@ class Settings_Controller {
 
 	}
 
-	public function apply_settings() {
-		$settings = static::get_settings_mapping();
+	public function apply_settings( $settings_group = self::SETTING_PREFIX, $settings = self::SETTINGS ) {
 
 		$this->apply_setting(
-			$settings['DESCRIPTION_META_TAG'],
+			$settings_group . $settings['DESCRIPTION_META_TAG'],
 			function () {
 				remove_action( 'wp_head', 'hello_elementor_add_description_meta_tag' );
 			}
 		);
 
 		$this->apply_setting(
-			$settings['SKIP_LINK'],
+			$settings_group . $settings['SKIP_LINK'],
 			function () {
 				add_filter( 'hello_elementor_enable_skip_link', '__return_false' );
 			}
 		);
 
 		$this->apply_setting(
-			$settings['HEADER_FOOTER'],
+			$settings_group . $settings['HEADER_FOOTER'],
 			function () {
 				add_filter( 'hello_elementor_header_footer', '__return_false' );
 			}
 		);
 
 		$this->apply_setting(
-			$settings['PAGE_TITLE'],
+			$settings_group . $settings['PAGE_TITLE'],
 			function () {
 				add_filter( 'hello_elementor_page_title', '__return_false' );
 			}
 		);
 
 		$this->apply_setting(
-			$settings['HELLO_STYLE'],
+			$settings_group . $settings['HELLO_STYLE'],
 			function () {
 				add_filter( 'hello_elementor_enqueue_style', '__return_false' );
 			}
 		);
 
 		$this->apply_setting(
-			$settings['HELLO_THEME'],
+			$settings_group . $settings['HELLO_THEME'],
 			function () {
 				add_filter( 'hello_elementor_enqueue_theme_style', '__return_false' );
 			}
 		);
-
 	}
 
-	public function register_settings() {
-
-		foreach ( static::get_settings_mapping() as $setting_value ) {
+	public function register_settings( $settings_group = self::SETTING_PREFIX, $settings = self::SETTINGS ) {
+		foreach ( $settings as $setting_value ) {
 			register_setting(
-				static::SETTING_PREFIX,
-				static::SETTING_PREFIX . $setting_value,
+				$settings_group,
+				$settings_group . $setting_value,
 				[
-					'default'      => '',
+					'default' => '',
 					'show_in_rest' => true,
-					'type'         => 'string',
+					'type' => 'string',
 				]
 			);
 		}
-
 	}
 
 	public function enqueue_hello_plus_settings_scripts() {
