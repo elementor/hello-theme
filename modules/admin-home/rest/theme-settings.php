@@ -59,6 +59,8 @@ class Theme_Settings extends Rest_Base {
 				continue;
 			}
 
+			$value = $value ? 'true' : 'false';
+
 			update_option( $settings_map[ $key ], $value );
 		}
 

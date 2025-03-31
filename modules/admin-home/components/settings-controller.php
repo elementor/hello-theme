@@ -34,7 +34,7 @@ class Settings_Controller {
 	public static function get_settings(): array {
 
 		$settings = array_map( function ( $key ) {
-			return self::get_option( $key );
+			return self::get_option( $key ) === 'true';
 		}, self::get_settings_mapping() );
 
 		return apply_filters( self::SETTINGS_FILTER_NAME, $settings );
@@ -52,8 +52,8 @@ class Settings_Controller {
 	}
 
 	public function apply_setting( $setting, $tweak_callback ) {
-
 		$option = get_option( $setting );
+
 		if ( isset( $option ) && ( 'true' === $option ) && is_callable( $tweak_callback ) ) {
 			$tweak_callback();
 		}

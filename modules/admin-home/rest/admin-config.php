@@ -71,19 +71,19 @@ class Admin_Config extends Rest_Base {
 			'resources' => [
 				[
 					'title'  => __( 'Help Center', 'hello-elementor' ),
-					'link'   => 'https://elementor.com/help/',
+					'link'   => ' https://go.elementor.com/hello-help/',
 					'icon'   => 'HelpIcon',
 					'target' => '_blank',
 				],
 				[
 					'title'  => __( 'Blog', 'hello-elementor' ),
-					'link'   => 'https://elementor.com/blog/',
+					'link'   => 'https://go.elementor.com/hello-blog/',
 					'icon'   => 'SpeakerphoneIcon',
 					'target' => '_blank',
 				],
 				[
 					'title'  => __( 'Platinum Support', 'hello-elementor' ),
-					'link'   => 'https://elementor.com/care/platinum-support/',
+					'link'   => 'https://go.elementor.com/platinum-support',
 					'icon'   => 'BrandElementorIcon',
 					'target' => '_blank',
 				],
