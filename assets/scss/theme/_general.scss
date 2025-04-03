@@ -91,12 +91,17 @@
     display: none !important;
 }
 
-.post-password-form p {
-	width: 100%;
-	display: flex;
-	align-items: flex-end;
-}
+.post-password-form {
+	max-width: 500px;
+	margin: 50px auto;
 
-.post-password-form [type=submit] {
-	margin-inline-start: 3px;
+	p {
+		width: 100%;
+		display: flex;
+		align-items: flex-end;
+	}
+
+	[type=submit] {
+		margin-inline-start: 3px;
+	}
 }
