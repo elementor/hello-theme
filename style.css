@@ -14,9 +14,4 @@
 	Text Domain: hello-elementor
 	Tags: accessibility-ready, flexible-header, custom-colors, custom-menu, custom-logo, featured-images, rtl-language-support, threaded-comments, translation-ready,
 */
-
-@import "reset/variables";
-@import "reset/reset";
-@import "reset/forms";
-@import "reset/table";
-@import "reset/list";
+@import "assets/css/reset.css";
