@@ -13,7 +13,14 @@ Thumbs.db
 *.map
 yarn.lock
 assets/js/
+assets/css/
 *.css
 *.zip
 .npmrc
 .env
+!style.css
+!customizer.css
+!editor.css
+!editor-styles.css
+!header-footer.css
+!theme.css
