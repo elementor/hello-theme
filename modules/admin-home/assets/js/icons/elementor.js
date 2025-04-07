@@ -1,5 +1,5 @@
 import { ReactComponent as ElementorLogo } from '../../images/ElementorLogo.svg';
-import { SvgIcon } from '@elementor/ui';
+import SvgIcon from '@elementor/ui/SvgIcon';
 
 const BrandElementorIcon = () => {
 	return (

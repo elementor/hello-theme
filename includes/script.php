@@ -28,7 +28,7 @@ class Script {
 
 		wp_enqueue_script(
 			$this->handle,
-			$asset_url . "$this->handle.js",
+			$asset_url . "$this->handle.min.js",
 			$script_asset['dependencies'],
 			$script_asset['version'],
 			true
