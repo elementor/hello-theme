@@ -4,7 +4,6 @@ namespace HelloTheme\Modules\AdminHome\Components;
 
 use HelloTheme\Includes\Script;
 use HelloTheme\Includes\Utils;
-use HelloTheme\Modules\AdminHome\Module;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -22,7 +21,7 @@ class Admin_Top_Bar {
 	private function is_top_bar_active() {
 		$current_screen = get_current_screen();
 
-		return strpos( $current_screen->id ?? '', Module::MENU_PAGE_SLUG ) !== false &&
+		return ( false !== strpos( $current_screen->id ?? '', EHP_THEME_SLUG ) ) &&
 			! Utils::is_elementor_active();
 	}
 

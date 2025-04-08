@@ -7,7 +7,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use HelloTheme\Includes\Script;
-use HelloTheme\Modules\AdminHome\Module;
 
 class Scripts_Controller {
 
@@ -18,7 +17,7 @@ class Scripts_Controller {
 	public function admin_enqueue_scripts() {
 		$screen = get_current_screen();
 
-		if ( 'toplevel_page_' . Module::MENU_PAGE_SLUG !== $screen->id ) {
+		if ( 'toplevel_page_' . EHP_THEME_SLUG !== $screen->id ) {
 			return;
 		}
 

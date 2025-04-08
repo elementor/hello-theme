@@ -8,7 +8,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use HelloTheme\Includes\Script;
 use HelloTheme\Includes\Utils;
-use HelloTheme\Modules\AdminHome\Module;
 
 class Admin_Menu_Controller {
 
@@ -21,29 +20,29 @@ class Admin_Menu_Controller {
 			__( 'Hello', 'hello-elementor' ),
 			__( 'Hello', 'hello-elementor' ),
 			'manage_options',
-			Module::MENU_PAGE_SLUG,
+			EHP_THEME_SLUG,
 			[ $this, 'render_home' ],
 			self::MENU_PAGE_ICON,
 			self::MENU_PAGE_POSITION
 		);
 
 		add_submenu_page(
-			Module::MENU_PAGE_SLUG,
+			EHP_THEME_SLUG,
 			__( 'Home', 'hello-elementor' ),
 			__( 'Home', 'hello-elementor' ),
 			'manage_options',
-			Module::MENU_PAGE_SLUG,
+			EHP_THEME_SLUG,
 			[ $this, 'render_home' ]
 		);
 
-		do_action( 'hello-plus-theme/admin-menu', Module::MENU_PAGE_SLUG );
+		do_action( 'hello-plus-theme/admin-menu', EHP_THEME_SLUG );
 
 		add_submenu_page(
-			Module::MENU_PAGE_SLUG,
+			EHP_THEME_SLUG,
 			__( 'AI Site Planner', 'hello-elementor' ),
 			__( 'AI Site Planner', 'hello-elementor' ),
 			'manage_options',
-			Module::MENU_PAGE_SLUG . self::AI_SITE_PLANNER_SLUG,
+			EHP_THEME_SLUG . self::AI_SITE_PLANNER_SLUG,
 			[ $this, 'render_home' ]
 		);
 	}
@@ -56,7 +55,7 @@ class Admin_Menu_Controller {
 		$page = sanitize_key( filter_input( INPUT_GET, 'page', FILTER_UNSAFE_RAW ) );
 
 		switch ( $page ) {
-			case Module::MENU_PAGE_SLUG . self::AI_SITE_PLANNER_SLUG:
+			case EHP_THEME_SLUG . self::AI_SITE_PLANNER_SLUG:
 				wp_redirect( Utils::get_ai_site_planner_url() );
 				exit;
 

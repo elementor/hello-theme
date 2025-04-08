@@ -4,7 +4,6 @@ namespace HelloTheme\Modules\AdminHome\Components;
 
 use HelloTheme\Includes\Script;
 use HelloTheme\Includes\Utils;
-use HelloTheme\Modules\AdminHome\Module;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -30,7 +29,7 @@ class Conversion_Banner {
 
 		$current_screen = get_current_screen();
 
-		return false === strpos( $current_screen->id ?? '', Module::MENU_PAGE_SLUG );
+		return false === strpos( $current_screen->id ?? '', EHP_THEME_SLUG );
 	}
 
 	private function enqueue_scripts() {
