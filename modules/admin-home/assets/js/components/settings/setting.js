@@ -14,7 +14,7 @@ export const Setting = ( { label, value, onSwitchClick, code, description, tip }
 				</Box>
 				<Box sx={ { height: 38, width: '100%' } }>
 					<Box display="flex" alignItems="center" justifyContent="flex-start" height="100%" width="fit-content">
-						<Typography variant="subtitle1" sx={ { fontWeight: 700 } }>{ label }</Typography>
+						<Typography variant="subtitle1" sx={ { fontWeight: 500 } }>{ label }</Typography>
 					</Box>
 				</Box>
 			</Stack>
@@ -24,8 +24,8 @@ export const Setting = ( { label, value, onSwitchClick, code, description, tip }
 				</Box>
 				<Box sx={ { width: '100%' } }>
 					<Box height="100%">
-						<Typography variant="body1" sx={ { py: 1, fontWeight: 500 } }>{ description }</Typography>
-						<Typography variant="body2" sx={ { py: 1, fontWeight: 400, mb: 2 } }>{ tip }</Typography>
+						<Typography variant="body1" sx={ { py: 1, fontWeight: 400 } }>{ description }</Typography>
+						<Typography variant="body2" sx={ { py: 1, mb: 2, fontWeight: 400 } }>{ tip }</Typography>
 						<Typography component="code" color="text.tertiary" variant="body2" sx={ { fontFamily: 'Courier New' } }>
 							{ code }
 						</Typography>
