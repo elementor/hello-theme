@@ -24,7 +24,7 @@ export const Theme = () => {
 				{ __( 'These settings allow you to change or remove default Hello Elementor theme styles.', 'hello-elementor' ) }
 			</Typography>
 			<Alert severity="warning" sx={ { mb: 2 } }>
-				{ __( 'Be Careful, disabling these settings could break your website.', 'hello-elementor' ) }
+				{ __( 'Be careful, disabling these settings could break your website.', 'hello-elementor' ) }
 			</Alert>
 			<Setting
 				value={ helloStyle }
