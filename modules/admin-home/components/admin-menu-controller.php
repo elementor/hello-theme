@@ -35,7 +35,7 @@ class Admin_Menu_Controller {
 			[ $this, 'render_home' ]
 		);
 
-		do_action( 'hello-plus-theme/admin-menu', EHP_THEME_SLUG );
+		do_action( 'hello-theme/admin-menu', EHP_THEME_SLUG );
 
 		add_submenu_page(
 			EHP_THEME_SLUG,

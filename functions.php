@@ -272,16 +272,3 @@ if ( ! function_exists( 'hello_elementor_body_open' ) ) {
 require HELLO_THEME_PATH . '/theme.php';
 
 HelloTheme\Theme::instance();
-
-/**
- * Unregister the setup wizard submenu page.
- */
-function hello_elementor_unregister_setup_wizard_page() {
-	if ( class_exists( 'HelloPlus\Modules\Admin\Classes\Menu\Pages\Setup_Wizard' ) ) {
-		remove_submenu_page(
-			EHP_THEME_SLUG,
-			HelloPlus\Modules\Admin\Classes\Menu\Pages\Setup_Wizard::SETUP_WIZARD_PAGE_SLUG
-		);
-	}
-}
-add_action( 'admin_menu', 'hello_elementor_unregister_setup_wizard_page', 100 );

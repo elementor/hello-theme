@@ -151,6 +151,6 @@ class Settings_Controller {
 
 	public function __construct() {
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_hello_plus_settings_scripts' ] );
-		add_action( 'hello-plus-theme/admin-menu', [ $this, 'register_settings_page' ], 10, 1 );
+		add_action( 'hello-theme/admin-menu', [ $this, 'register_settings_page' ], 10, 1 );
 	}
 }
