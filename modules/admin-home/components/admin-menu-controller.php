@@ -35,6 +35,15 @@ class Admin_Menu_Controller {
 			[ $this, 'render_home' ]
 		);
 
+		add_submenu_page(
+			EHP_THEME_SLUG,
+			__( 'Theme Builder', 'hello-elementor' ),
+			__( 'Theme Builder', 'hello-elementor' ),
+			'manage_options',
+			Utils::get_theme_builder_slug(),
+			[ $this, 'render_home' ]
+		);
+
 		do_action( 'hello-plus-theme/admin-menu', EHP_THEME_SLUG );
 
 		add_submenu_page(

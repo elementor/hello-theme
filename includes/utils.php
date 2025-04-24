@@ -39,6 +39,18 @@ class Utils {
 		return $elementor_installed;
 	}
 
+	public static function get_theme_builder_slug(): string {
+		if ( self::has_pro() ) {
+			return App::PAGE_ID . '&ver=' . ELEMENTOR_VERSION . '#site-editor';
+		}
+
+		if ( self::is_elementor_active() ) {
+			return App::PAGE_ID . '&ver=' . ELEMENTOR_VERSION . '#site-editor/promotion';
+		}
+
+		return '';
+	}
+
 	public static function get_theme_builder_url(): string {
 		if ( self::has_pro() ) {
 			return admin_url( 'admin.php?page=' . App::PAGE_ID . '&ver=' . ELEMENTOR_VERSION ) . '#site-editor';
