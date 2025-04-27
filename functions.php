@@ -274,7 +274,8 @@ function hello_elementor_get_theme_notifications(): ThemeNotifications {
 			'app_name' => 'hello-elementor',
 			'app_version' => HELLO_ELEMENTOR_VERSION,
 			'short_app_name' => 'hello-elementor',
-			'theme_data' => [
+			'app_data' => [
+				'type' => 'theme',
 				'theme_name' => 'hello-elementor',
 			],
 		] );
