@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "05c72fd3cff988f6319ad655da525fd6",
+    "content-hash": "2e54322bb8173f91f8ffc7ba2d1178ac",
     "packages": [
         {
             "name": "elementor/wp-notifications-package",
-            "version": "1.1.0",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/elementor/wp-notifications-package.git",
-                "reference": "cd8093bad42df73c738aa530b5be98ab16621822"
+                "reference": "dd25ca9dd79402c3bb51fab112aa079702eb165e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elementor/wp-notifications-package/zipball/cd8093bad42df73c738aa530b5be98ab16621822",
-                "reference": "cd8093bad42df73c738aa530b5be98ab16621822",
+                "url": "https://api.github.com/repos/elementor/wp-notifications-package/zipball/dd25ca9dd79402c3bb51fab112aa079702eb165e",
+                "reference": "dd25ca9dd79402c3bb51fab112aa079702eb165e",
                 "shasum": ""
             },
             "require-dev": {
@@ -33,9 +33,9 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "support": {
-                "source": "https://github.com/elementor/wp-notifications-package/tree/1.1.0"
+                "source": "https://github.com/elementor/wp-notifications-package/tree/1.2.0"
             },
-            "time": "2025-01-21T13:50:20+00:00"
+            "time": "2025-04-28T12:27:21+00:00"
         }
     ],
     "packages-dev": [
@@ -116,16 +116,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "3.11.2",
+            "version": "3.12.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPCSStandards/PHP_CodeSniffer.git",
-                "reference": "1368f4a58c3c52114b86b1abe8f4098869cb0079"
+                "reference": "6d4cf6032d4b718f168c90a96e36c7d0eaacb2aa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/1368f4a58c3c52114b86b1abe8f4098869cb0079",
-                "reference": "1368f4a58c3c52114b86b1abe8f4098869cb0079",
+                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/6d4cf6032d4b718f168c90a96e36c7d0eaacb2aa",
+                "reference": "6d4cf6032d4b718f168c90a96e36c7d0eaacb2aa",
                 "shasum": ""
             },
             "require": {
@@ -190,9 +190,13 @@
                 {
                     "url": "https://opencollective.com/php_codesniffer",
                     "type": "open_collective"
+                },
+                {
+                    "url": "https://thanks.dev/u/gh/phpcsstandards",
+                    "type": "thanks_dev"
                 }
             ],
-            "time": "2024-12-11T16:04:26+00:00"
+            "time": "2025-04-13T04:10:18+00:00"
         },
         {
             "name": "wp-coding-standards/wpcs",

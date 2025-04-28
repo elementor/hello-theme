@@ -5,7 +5,7 @@
  * @package HelloElementor
  */
 
-use Elementor\WPNotificationsPackage\V110\Notifications as ThemeNotifications;
+use Elementor\WPNotificationsPackage\V120\Notifications as ThemeNotifications;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -270,11 +270,14 @@ function hello_elementor_get_theme_notifications(): ThemeNotifications {
 	if ( null === $notifications ) {
 		require get_template_directory() . '/vendor/autoload.php';
 
-		$notifications = new ThemeNotifications(
-			'hello-elementor',
-			HELLO_ELEMENTOR_VERSION,
-			'hello-elementor'
-		);
+		$notifications = new ThemeNotifications( [
+			'app_name' => 'hello-elementor',
+			'app_version' => HELLO_ELEMENTOR_VERSION,
+			'short_app_name' => 'hello-elementor',
+			'app_data' => [
+				'theme_name' => 'hello-elementor',
+			],
+		] );
 	}
 
 	return $notifications;
