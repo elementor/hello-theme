@@ -58,7 +58,7 @@ class Promotions extends Rest_Base {
 			$action_links_data[] = [
 				'type' => 'go-pro',
 				'image' => HELLO_THEME_IMAGES_URL . 'go-pro.svg',
-				'url' => 'https://go.elementor.com/biz-home-wp-elementor-plugin-pricing/',
+				'url' => 'https://go.elementor.com/hello-upgrade-epro/',
 				'alt' => __( 'Elementor Pro', 'hello-elementor' ),
 				'title' => __( 'Bring your vision to life', 'hello-elementor' ),
 				'messages' => [
