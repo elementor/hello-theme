@@ -6,7 +6,7 @@
 	  	"wp-coding-standards/wpcs": "^2.3"
 	},
 	"require": {
-		"elementor/wp-notifications-package": "1.1.0"
+		"elementor/wp-notifications-package": "1.2.0"
 	},
 	"config": {
 		"allow-plugins": {
