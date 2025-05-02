@@ -39,6 +39,10 @@
 	background-color: #fff;
 	box-shadow: 2px 8px 20px 0px rgba(0, 0, 0, 0.20);
 
+	.accordion-section-title::after {
+		display: none;
+	}
+
 	h3,
 	p {
 		background-color: transparent !important;
