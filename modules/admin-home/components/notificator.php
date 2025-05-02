@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-use Elementor\WPNotificationsPackage\V110\Notifications as Notifications_SDK;
+use Elementor\WPNotificationsPackage\V120\Notifications as Notifications_SDK;
 
 class Notificator {
 	private ?Notifications_SDK $notificator = null;
@@ -15,12 +15,17 @@ class Notificator {
 	}
 
 	public function __construct() {
-		require_once HELLO_THEME_PATH . '/vendor/autoload.php';
+		if ( ! class_exists( 'Elementor\WPNotificationsPackage\V120\Notifications' ) ) {
+			require_once HELLO_THEME_PATH . '/vendor/autoload.php';
+		}
 
-		$this->notificator = new Notifications_SDK(
-			'hello-elementor',
-			HELLO_ELEMENTOR_VERSION,
-			'hello-elementor'
-		);
+		$this->notificator = new Notifications_SDK( [
+			'app_name' => 'hello-elementor',
+			'app_version' => HELLO_ELEMENTOR_VERSION,
+			'short_app_name' => 'hello-elementor',
+			'app_data' => [
+				'theme_name' => 'hello-elementor',
+			],
+		] );
 	}
 }
