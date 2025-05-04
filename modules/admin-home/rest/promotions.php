@@ -44,7 +44,7 @@ class Promotions extends Rest_Base {
 			$action_links_data[] = [
 				'type' => 'go-ai',
 				'image' => HELLO_THEME_IMAGES_URL . 'ai.png',
-				'url' => 'https://go.elementor.com/biz-home-wp-elementor-ai/',
+				'url' => 'https://go.elementor.com/hello-home-ai',
 				'alt' => __( 'Elementor AI', 'hello-elementor' ),
 				'title' => __( 'Elementor AI', 'hello-elementor' ),
 				'messages' => [
