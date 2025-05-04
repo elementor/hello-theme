@@ -235,7 +235,7 @@ class Admin_Config extends Rest_Base {
 					[
 						'linkText' => __( 'Upgrade now', 'hello-elementor' ),
 						'variant'  => 'contained',
-						'link'     => 'https://go.elementor.com/biz-home-wp-elementor-plugin-pricing/',
+						'link'     => 'https://go.elementor.com/hello-upgrade-epro/',
 						'color'    => 'primary',
 						'target'   => '_blank',
 					],
