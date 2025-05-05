@@ -11,7 +11,11 @@ const TerserPlugin = require( 'terser-webpack-plugin' );
 const entry = {
 	'hello-editor': path.resolve( __dirname, './assets/dev/js/editor/hello-editor.js' ),
 	'hello-frontend': path.resolve( __dirname, './assets/dev/js/frontend/hello-frontend.js' ),
-	'hello-admin': path.resolve( __dirname, './assets/dev/js/admin/hello-admin.js' ),
+	'hello-home-app': path.resolve( __dirname, './modules/admin-home/assets/js//hello-elementor-admin.js' ),
+	'hello-elementor-menu': path.resolve( __dirname, './modules/admin-home/assets/js//hello-elementor-menu.js' ),
+	'hello-elementor-settings': path.resolve( __dirname, './modules/admin-home/assets/js//hello-elementor-settings.js' ),
+	'hello-elementor-topbar': path.resolve( __dirname, './modules/admin-home/assets/js/hello-elementor-topbar.js' ),
+	'hello-conversion-banner': path.resolve( __dirname, './modules/admin-home/assets/js//hello-elementor-conversion-banner.js' ),
 };
 
 const moduleRules = {
@@ -30,6 +34,7 @@ const moduleRules = {
 							[ '@babel/plugin-transform-runtime' ],
 							[ '@babel/plugin-transform-modules-commonjs' ],
 							[ '@babel/plugin-proposal-optional-chaining' ],
+							[ '@babel/plugin-syntax-dynamic-import' ],
 						],
 					},
 				},

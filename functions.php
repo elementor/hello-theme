@@ -5,13 +5,23 @@
  * @package HelloElementor
  */
 
-use Elementor\WPNotificationsPackage\V120\Notifications as ThemeNotifications;
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
 define( 'HELLO_ELEMENTOR_VERSION', '3.3.0' );
+define( 'EHP_THEME_SLUG', 'hello-elementor' );
+
+define( 'HELLO_THEME_PATH', get_template_directory() );
+define( 'HELLO_THEME_URL', get_template_directory_uri() );
+define( 'HELLO_THEME_ASSETS_PATH', HELLO_THEME_PATH . '/assets/' );
+define( 'HELLO_THEME_ASSETS_URL', HELLO_THEME_URL . '/assets/' );
+define( 'HELLO_THEME_SCRIPTS_PATH', HELLO_THEME_ASSETS_PATH . 'js/' );
+define( 'HELLO_THEME_SCRIPTS_URL', HELLO_THEME_ASSETS_URL . 'js/' );
+define( 'HELLO_THEME_STYLE_PATH', HELLO_THEME_ASSETS_PATH . 'css/' );
+define( 'HELLO_THEME_STYLE_URL', HELLO_THEME_ASSETS_URL . 'css/' );
+define( 'HELLO_THEME_IMAGES_PATH', HELLO_THEME_ASSETS_PATH . 'images/' );
+define( 'HELLO_THEME_IMAGES_URL', HELLO_THEME_ASSETS_URL . 'images/' );
 
 if ( ! isset( $content_width ) ) {
 	$content_width = 800; // Pixels.
@@ -206,11 +216,6 @@ if ( ! function_exists( 'hello_elementor_add_description_meta_tag' ) ) {
 }
 add_action( 'wp_head', 'hello_elementor_add_description_meta_tag' );
 
-// Admin notice
-if ( is_admin() ) {
-	require get_template_directory() . '/includes/admin-functions.php';
-}
-
 // Settings page
 require get_template_directory() . '/includes/settings-functions.php';
 
@@ -264,23 +269,6 @@ if ( ! function_exists( 'hello_elementor_body_open' ) ) {
 	}
 }
 
-function hello_elementor_get_theme_notifications(): ThemeNotifications {
-	static $notifications = null;
+require HELLO_THEME_PATH . '/theme.php';
 
-	if ( null === $notifications ) {
-		require get_template_directory() . '/vendor/autoload.php';
-
-		$notifications = new ThemeNotifications( [
-			'app_name' => 'hello-elementor',
-			'app_version' => HELLO_ELEMENTOR_VERSION,
-			'short_app_name' => 'hello-elementor',
-			'app_data' => [
-				'theme_name' => 'hello-elementor',
-			],
-		] );
-	}
-
-	return $notifications;
-}
-
-hello_elementor_get_theme_notifications();
+HelloTheme\Theme::instance();
