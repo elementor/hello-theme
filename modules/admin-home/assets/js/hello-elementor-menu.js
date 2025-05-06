@@ -4,3 +4,4 @@ document.addEventListener( 'DOMContentLoaded', () => {
 		link.setAttribute( 'target', '_blank' );
 	} );
 } );
+

@@ -73,3 +73,4 @@ class elementorHelloThemeHandler {
 document.addEventListener( 'DOMContentLoaded', () => {
     new elementorHelloThemeHandler();
 } );
+
