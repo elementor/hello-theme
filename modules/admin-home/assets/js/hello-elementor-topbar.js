@@ -15,4 +15,3 @@ document.addEventListener( 'DOMContentLoaded', () => {
 		root.render( <App /> );
 	}
 } );
-
