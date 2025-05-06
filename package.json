@@ -58,7 +58,7 @@
         "@babel/plugin-transform-modules-commonjs": "^7.2.0",
         "@babel/plugin-transform-runtime": "^7.3.4",
         "@elementor/icons": "1.37.0",
-        "@elementor/ui": "1.20.3",
+        "@elementor/ui": "1.34.2",
         "@lodder/grunt-postcss": "^3.1.1",
         "grunt-autoprefixer": "^3.0.4",
         "grunt-cssnano": "^2.1.0",
