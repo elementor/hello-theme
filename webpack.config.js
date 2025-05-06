@@ -8,6 +8,25 @@ const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
 
 const TerserPlugin = require( 'terser-webpack-plugin' );
 
+// This plugin forces LF line endings in the output files.
+class ForceLfEolPlugin {
+	apply(compiler) {
+		compiler.hooks.emit.tapAsync('ForceLfEolPlugin', (compilation, callback) => {
+			for (const filename in compilation.assets) {
+				if (filename.endsWith('.js') || filename.endsWith('.css') || filename.endsWith('.map')) {
+					const asset = compilation.assets[filename];
+					const source = asset.source().toString().replace(/\r\n/g, '\n'); // Force LF
+					compilation.assets[filename] = {
+						source: () => source,
+						size: () => Buffer.byteLength(source, 'utf8'),
+					};
+				}
+			}
+			callback();
+		});
+	}
+}
+
 const entry = {
 	'hello-editor': path.resolve( __dirname, './assets/dev/js/editor/hello-editor.js' ),
 	'hello-frontend': path.resolve( __dirname, './assets/dev/js/frontend/hello-frontend.js' ),
@@ -67,6 +86,9 @@ const webpackConfig = {
 		...entry,
 	},
 	devtool: 'source-map',
+	plugins: [
+		new ForceLfEolPlugin(),
+	]
 };
 
 const webpackProductionConfig = {
@@ -85,6 +107,9 @@ const webpackProductionConfig = {
 		],
 	},
 	performance: { hints: false },
+	plugins: [
+		new ForceLfEolPlugin(),
+	]
 };
 
 // Add minified entry points
