@@ -64,7 +64,7 @@ class Utils {
 			return admin_url( 'admin.php?page=' . App::PAGE_ID . '&ver=' . ELEMENTOR_VERSION ) . '#site-editor/promotion';
 		}
 
-		return '';
+		return 'https://go.elementor.com/hello-home-pricing-plugin';
 	}
 
 	public static function get_elementor_activation_link(): string {
@@ -76,7 +76,7 @@ class Utils {
 	}
 
 	public static function get_ai_site_planner_url(): string {
-		return 'https://planner.elementor.com/';
+		return 'https://go.elementor.com/hello-home-ai';
 	}
 
 	public static function get_plugin_install_url( $plugin_slug ): string {
