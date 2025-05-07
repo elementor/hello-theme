@@ -40,6 +40,10 @@ class Utils {
 	}
 
 	public static function get_theme_builder_slug(): string {
+		if ( ! class_exists( 'Elementor\App\App' ) ) {
+			return '';
+		}
+
 		if ( self::has_pro() ) {
 			return App::PAGE_ID . '&ver=' . ELEMENTOR_VERSION . '#site-editor';
 		}
