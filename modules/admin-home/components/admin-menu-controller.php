@@ -14,6 +14,7 @@ class Admin_Menu_Controller {
 	const MENU_PAGE_ICON = 'dashicons-plus-alt';
 	const MENU_PAGE_POSITION = 59.9;
 	const AI_SITE_PLANNER_SLUG = '-ai-site-planner';
+	const THEME_BUILDER_SLUG = '-theme-builder';
 
 	public function admin_menu(): void {
 		add_menu_page(
@@ -38,16 +39,14 @@ class Admin_Menu_Controller {
 		do_action( 'hello-plus-theme/admin-menu', EHP_THEME_SLUG );
 
 		$theme_builder_slug = Utils::get_theme_builder_slug();
-		if ( ! empty( $theme_builder_slug ) ) {
-			add_submenu_page(
-				EHP_THEME_SLUG,
-				__( 'Theme Builder', 'hello-elementor' ),
-				__( 'Theme Builder', 'hello-elementor' ),
-				'manage_options',
-				$theme_builder_slug,
-				[ $this, 'render_home' ]
-			);
-		}
+		add_submenu_page(
+			EHP_THEME_SLUG,
+			__( 'Theme Builder', 'hello-elementor' ),
+			__( 'Theme Builder', 'hello-elementor' ),
+			'manage_options',
+			empty( $theme_builder_slug ) ? EHP_THEME_SLUG . self::THEME_BUILDER_SLUG : $theme_builder_slug,
+			[ $this, 'render_home' ]
+		);
 
 		add_submenu_page(
 			EHP_THEME_SLUG,
@@ -69,6 +68,10 @@ class Admin_Menu_Controller {
 		switch ( $page ) {
 			case EHP_THEME_SLUG . self::AI_SITE_PLANNER_SLUG:
 				wp_redirect( Utils::get_ai_site_planner_url() );
+				exit;
+
+			case EHP_THEME_SLUG . self::THEME_BUILDER_SLUG:
+				wp_redirect( Utils::get_theme_builder_url() );
 				exit;
 
 			default:
