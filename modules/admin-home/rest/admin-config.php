@@ -147,7 +147,7 @@ class Admin_Config extends Rest_Base {
 					'title' => __( 'Theme Builder', 'hello-elementor' ),
 					'link'  => Utils::get_theme_builder_url(),
 					'icon'  => 'ThemeBuilderIcon',
-				]
+				],
 			];
 			$free_version_parts = [];
 			if ( ! Utils::has_pro() ) {
@@ -164,7 +164,7 @@ class Admin_Config extends Rest_Base {
 					],
 				];
 			}
-			$config[ 'siteParts' ][ 'siteParts' ] = array_merge( $free_version_parts, $common_parts );
+			$config['siteParts']['siteParts'] = array_merge( $free_version_parts, $common_parts );
 		}
 
 		return $this->get_quicklinks( $config );
