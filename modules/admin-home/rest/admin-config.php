@@ -142,13 +142,29 @@ class Admin_Config extends Rest_Base {
 		];
 
 		if ( Utils::is_elementor_active() ) {
-			$config['siteParts']['siteParts'] = [
+			$common_parts       = [
 				[
 					'title' => __( 'Theme Builder', 'hello-elementor' ),
 					'link'  => Utils::get_theme_builder_url(),
 					'icon'  => 'ThemeBuilderIcon',
-				],
+				]
 			];
+			$free_version_parts = [];
+			if ( ! Utils::has_pro() ) {
+				$free_version_parts = [
+					[
+						'title' => __( 'Hello Header', 'hello-elementor' ),
+						'link'  => $this->get_open_homepage_with_tab( 'hello-settings-header' ),
+						'icon'  => 'HeaderTemplateIcon',
+					],
+					[
+						'title' => __( 'Hello Footer', 'hello-elementor' ),
+						'link'  => $this->get_open_homepage_with_tab( 'hello-settings-footer' ),
+						'icon'  => 'FooterTemplateIcon',
+					],
+				];
+			}
+			$config[ 'siteParts' ][ 'siteParts' ] = array_merge( $free_version_parts, $common_parts );
 		}
 
 		return $this->get_quicklinks( $config );
