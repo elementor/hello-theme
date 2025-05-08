@@ -10,7 +10,7 @@ export const QuickLinks = () => {
 
 	return (
 		<BaseAdminPaper>
-			<Typography variant="h6" sx={ { color: 'text.primary' } }>{ __( 'Quick links', 'hello-elementor' ) }</Typography>
+			<Typography variant="h6" sx={ { color: 'text.primary' } }>{ __( 'Quick Links', 'hello-elementor' ) }</Typography>
 			<Typography variant="body2" sx={ { mb: 3 } }>
 				{ __( 'These quick actions will get your site airborne in a flash.', 'hello-elementor' ) }
 			</Typography>
