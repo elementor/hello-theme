@@ -27,7 +27,7 @@ export const PromotionLink = (
 		: { p: 3 };
 	paperSx.backgroundImage = backgroundImage ? `url(${ backgroundImage })` : null;
 	paperSx.backgroundColor = backgroundImage ? 'transparent' : null;
-	paperSx.color 			= backgroundImage ? 'rgb(12, 13, 14)' : null;
+	paperSx.color 	= backgroundImage ? 'rgb(12, 13, 14)' : null;
 
 	const stackSx = horizontalLayout
 		? { flex: 0.6, alignItems: 'center', justifyContent: 'center' }
