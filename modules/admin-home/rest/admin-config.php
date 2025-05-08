@@ -165,7 +165,7 @@ class Admin_Config extends Rest_Base {
 	public function get_quicklinks( $config ): array {
 		$config['quickLinks'] = [
 			'site_name'    => [
-				'title' => __( 'Site name', 'hello-elementor' ),
+				'title' => __( 'Site Name', 'hello-elementor' ),
 				'link'  => $this->get_open_homepage_with_tab( 'settings-site-identity', [ 'autofocus[section]' => 'title_tagline' ] ),
 				'icon'  => 'TextIcon',
 
