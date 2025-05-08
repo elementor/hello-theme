@@ -3,7 +3,7 @@ import SvgIcon from '@elementor/ui/SvgIcon';
 
 const BrandYoutubeIcon = () => {
 	return (
-		<SvgIcon sx={ { fontSize: '1rem' } } >
+		<SvgIcon>
 			<YoutubeIcon />
 		</SvgIcon>
 	);
