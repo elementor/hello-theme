@@ -1,6 +1,6 @@
-@import "reset/variables";
-@import "theme/general";
-@import "theme/utilities";
-@import "theme/archive";
-@import "theme/comments";
-@import "theme/layout";
+@forward "reset/variables";
+@forward "theme/general";
+@forward "theme/utilities";
+@forward "theme/archive";
+@forward "theme/comments";
+@forward "theme/layout";
