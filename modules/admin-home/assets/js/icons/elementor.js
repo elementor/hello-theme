@@ -3,7 +3,7 @@ import SvgIcon from '@elementor/ui/SvgIcon';
 
 const BrandElementorIcon = () => {
 	return (
-		<SvgIcon sx={ { fontSize: '1rem' } } >
+		<SvgIcon>
 			<ElementorLogo />
 		</SvgIcon>
 	);
