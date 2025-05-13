@@ -1,6 +1,8 @@
 <?php
 namespace HelloElementor\Includes\Customizer;
 
+use HelloTheme\Includes\Utils;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
@@ -36,18 +38,7 @@ class Hello_Customizer_Action_Links extends \WP_Customize_Control {
 		}
 
 		$action_link_data = [];
-		$action_link_type = '';
-		$installed_plugins = get_plugins();
-
-		if ( ! isset( $installed_plugins['elementor/elementor.php'] ) ) {
-			$action_link_type = 'install-elementor';
-		} elseif ( ! defined( 'ELEMENTOR_VERSION' ) ) {
-			$action_link_type = 'activate-elementor';
-		} elseif ( ! hello_header_footer_experiment_active() ) {
-			$action_link_type = 'activate-header-footer-experiment';
-		} else {
-			$action_link_type = 'style-header-footer';
-		}
+		$action_link_type = Utils::get_action_link_type();
 
 		switch ( $action_link_type ) {
 			case 'install-elementor':
