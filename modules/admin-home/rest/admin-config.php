@@ -209,7 +209,7 @@ class Admin_Config extends Rest_Base {
 
 			$action_link_type = Utils::get_action_link_type();
 
-			if( 'activate-elementor' === $action_link_type ) {
+			if ( 'activate-elementor' === $action_link_type ) {
 				$cta_text = __( 'Activate Elementor', 'hello-elementor' );
 			} else {
 				$cta_text = __( 'Install Elementor', 'hello-elementor' );
