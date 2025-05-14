@@ -772,7 +772,7 @@ class Settings_Header extends Tab_Base {
 				esc_html__( 'Create custom headers', 'hello-elementor' ),
 				esc_html__( 'Add mega menus, search bars, login buttons and more with Elementor Pro.', 'hello-elementor' ),
 				'https://go.elementor.com/hello-theme-header/',
-				esc_html__( 'Upgrade', 'hello-elementor' )
+				esc_html__( 'Upgrade Now', 'hello-elementor' )
 			);
 		} else {
 			return sprintf(

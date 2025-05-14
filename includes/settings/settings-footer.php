@@ -739,7 +739,7 @@ class Settings_Footer extends Tab_Base {
 				esc_html__( 'Create custom footers', 'hello-elementor' ),
 				esc_html__( 'Adjust your footer to include contact forms, sitemaps and more with Elementor Pro.', 'hello-elementor' ),
 				'https://go.elementor.com/hello-theme-footer/',
-				esc_html__( 'Upgrade', 'hello-elementor' )
+				esc_html__( 'Upgrade Now', 'hello-elementor' )
 			);
 		} else {
 			return sprintf(
