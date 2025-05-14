@@ -728,7 +728,7 @@ class Settings_Footer extends Tab_Base {
 				<img src="%1$s" class="elementor-nerd-box-icon" alt="%2$s">
 				<p class="elementor-nerd-box-title">%3$s</p>
 				<p class="elementor-nerd-box-message">%4$s</p>
-				<a class="elementor-nerd-box-link elementor-button" target="_blank" href="%5$s">%6$s</a>
+				<a class="elementor-nerd-box-link elementor-button go-pro" target="_blank" href="%5$s">%6$s</a>
 			</div>';
 
 		if ( ! defined( 'ELEMENTOR_PRO_VERSION' ) ) {
@@ -736,10 +736,10 @@ class Settings_Footer extends Tab_Base {
 				$content_template,
 				get_template_directory_uri() . '/assets/images/go-pro.svg',
 				esc_attr__( 'Get Elementor Pro', 'hello-elementor' ),
-				esc_html__( 'Create a custom footer with multiple options', 'hello-elementor' ),
-				esc_html__( 'Upgrade to Elementor Pro and enjoy free design and many more features', 'hello-elementor' ),
+				esc_html__( 'Create custom footers', 'hello-elementor' ),
+				esc_html__( 'Adjust your footer to include contact forms, sitemaps and more with Elementor Pro.', 'hello-elementor' ),
 				'https://go.elementor.com/hello-theme-footer/',
-				esc_html__( 'Upgrade', 'hello-elementor' )
+				esc_html__( 'Upgrade Now', 'hello-elementor' )
 			);
 		} else {
 			return sprintf(
