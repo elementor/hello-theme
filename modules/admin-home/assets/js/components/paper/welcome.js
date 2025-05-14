@@ -10,7 +10,7 @@ import Box from '@elementor/ui/Box';
 export const Welcome = ( { sx, dismissable = false } ) => {
 	const { adminSettings: {
 		config: { nonceInstall = '', disclaimer = '', slug = '' } = {},
-		welcome: { title = '', text = '', buttons = [], image: { src = '', alt = '' } = {} } = {},
+		welcome: { title = '', text = '', buttons = [], image: { src = '' } = {} } = {},
 	} = {},
 	} = useAdminContext();
 
