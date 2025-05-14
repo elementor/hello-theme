@@ -226,7 +226,7 @@ add_action( 'elementor/experiments/default-features-registered', function( \Elem
 		'release_status' => $experiments_manager::RELEASE_STATUS_STABLE,
 		'new_site' => [
 			'minimum_installation_version' => '3.3.0',
-			'default_active' => $experiments_manager::STATE_ACTIVE,
+			'default_active' => false,
 		],
 	] );
 } );
