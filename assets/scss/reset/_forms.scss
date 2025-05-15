@@ -2,6 +2,8 @@
  * Form styling
  */
 
+@use "./variables" as variables;
+
 label {
 	// Allow labels to use `margin` for spacing.
 	display: inline-block;
@@ -36,13 +38,13 @@ input[type="url"],
 select,
 textarea {
 	width: 100%;
-	border: solid 1px $gray;
-	border-radius: $border-radius;
+	border: solid 1px variables.$gray;
+	border-radius: variables.$border-radius;
 	padding: 0.5rem 1rem;
 	transition: all .3s;
 
 	&:focus {
-		border-color: $gray-dark;
+		border-color: variables.$gray-dark;
 	}
 }
 
@@ -87,15 +89,15 @@ button,
 [type="button"] {
 	display: inline-block;
 	font-weight: 400;
-	color: $primary-color;
+	color: variables.$primary-color;
 	text-align: center;
 	white-space: nowrap;
 	user-select: none;
 	background-color: transparent;
-	border: 1px solid $primary-color;
+	border: 1px solid variables.$primary-color;
 	padding: 0.5rem 1rem;
 	font-size: 1rem;
-	border-radius: $border-radius;
+	border-radius: variables.$border-radius;
 	transition: all .3s;
 
 	&:focus:not(:focus-visible) {
@@ -105,7 +107,7 @@ button,
 	&:hover,
 	&:focus {
 		color: #ffffff;
-		background-color: $primary-color;
+		background-color: variables.$primary-color;
 		text-decoration: none;
 	}
 

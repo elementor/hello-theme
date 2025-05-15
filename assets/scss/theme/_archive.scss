@@ -2,6 +2,8 @@
  * Post item in archive pages
  */
 
+@use "../reset/variables" as variables;
+
 .post {
 
 	.entry-title a {
@@ -13,11 +15,11 @@
 		max-height: 500px;
 		object-fit: cover;
 
-		@media ( max-width: ( $screen-md - $screen-diff ) ) {
+		@media ( max-width: ( variables.$screen-md - variables.$screen-diff ) ) {
 			max-height: 400px;
 		}
 
-		@media ( max-width: ( $screen-xs - $screen-diff ) ) {
+		@media ( max-width: ( variables.$screen-xs - variables.$screen-diff ) ) {
 			max-height: 300px;
 		}
 	}

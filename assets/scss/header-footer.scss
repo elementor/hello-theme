@@ -1,4 +1,4 @@
-@import "reset/variables";
-@import "theme/header";
-@import "theme/footer";
-@import "theme/navigation";
+@forward "reset/variables";
+@forward "theme/header";
+@forward "theme/footer";
+@forward "theme/navigation";

@@ -2,6 +2,8 @@
  * Utility styles
  */
 
+@use "../reset/variables" as variables;
+
 .screen-reader-text {
 	clip: rect(1px, 1px, 1px, 1px);
 	height: 1px;
@@ -11,12 +13,12 @@
 	word-wrap: normal !important; /* Many screen reader and browser combinations announce broken words as they would appear visually. */
 
 	&:focus {
-		background-color: $gray-lighter;
+		background-color: variables.$gray-lighter;
 		clip: auto !important;
 		clip-path: none;
-		color: $gray-dark;
+		color: variables.$gray-dark;
 		display: block;
-		font-size: $font-size-base;
+		font-size: variables.$font-size-base;
 		height: auto;
 		left: 5px;
 		line-height: normal;

@@ -2,14 +2,14 @@
  * WordPress editor styles
  */
 
-@import "reset/variables";
+@use "./reset/variables" as variables;
 
 body {
-	font-family: $font-family-base;
-}	
+	font-family: variables.$font-family-base;
+}
 
 p {
-	margin-block-end: $sm-margin;
+	margin-block-end: variables.$sm-margin;
 }
 
 img {
@@ -29,15 +29,15 @@ code,
 kbd,
 pre,
 samp {
-	font-size: $font-size-base;
+	font-size: variables.$font-size-base;
 }
 
 code,
 kbd,
 pre,
 samp {
-	font-family: $font-family-base;
-	font-size: $font-size-base;
+	font-family: variables.$font-family-base;
+	font-size: variables.$font-size-base;
 }
 
 blockquote {

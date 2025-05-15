@@ -2,6 +2,8 @@
  * Responsive layouts
  */
 
+@use "../reset/variables" as variables;
+
 $containers: '.site-header .header-inner,.site-header:not(.dynamic-header), .site-footer .footer-inner, .site-footer:not(.dynamic-footer),body:not([class*="elementor-page-"]) .site-main, .page-header .entry-title';
 
 #{$containers} {
@@ -10,7 +12,7 @@ $containers: '.site-header .header-inner,.site-header:not(.dynamic-header), .sit
 	width: 100%;
 }
 
-@media (max-width: $screen-xs - $screen-diff){
+@media (max-width: variables.$screen-xs - variables.$screen-diff){
 
 	#{$containers} {
 		padding-inline-start: 10px;
@@ -18,7 +20,7 @@ $containers: '.site-header .header-inner,.site-header:not(.dynamic-header), .sit
 	}
 }
 
-@media (min-width: $screen-xs){
+@media (min-width: variables.$screen-xs){
 
 	#{$containers} {
 		max-width: 500px;
@@ -45,7 +47,7 @@ $containers: '.site-header .header-inner,.site-header:not(.dynamic-header), .sit
 	}
 }
 
-@media (min-width: $screen-sm){
+@media (min-width: variables.$screen-sm){
 
 	#{$containers} {
 		max-width: 600px;
@@ -66,7 +68,7 @@ $containers: '.site-header .header-inner,.site-header:not(.dynamic-header), .sit
 	}
 }
 
-@media (min-width: $screen-md) {
+@media (min-width: variables.$screen-md) {
 
 	#{$containers} {
 		max-width: 800px;
@@ -87,7 +89,7 @@ $containers: '.site-header .header-inner,.site-header:not(.dynamic-header), .sit
 	}
 }
 
-@media (min-width: $screen-xl) {
+@media (min-width: variables.$screen-xl) {
 
 	#{$containers} {
 		max-width: 1140px;

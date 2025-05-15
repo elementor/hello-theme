@@ -15,8 +15,8 @@
 	Tags: accessibility-ready, flexible-header, custom-colors, custom-menu, custom-logo, featured-images, rtl-language-support, threaded-comments, translation-ready,
 */
 
-@import "reset/variables";
-@import "reset/reset";
-@import "reset/forms";
-@import "reset/table";
-@import "reset/list";
+@forward "reset/variables";
+@forward "reset/reset";
+@forward "reset/forms";
+@forward "reset/table";
+@forward "reset/list";
