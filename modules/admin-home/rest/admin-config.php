@@ -151,15 +151,16 @@ class Admin_Config extends Rest_Base {
 			];
 			$free_version_parts = [];
 			if ( ! Utils::has_pro() ) {
+				$templates_url      = admin_url( 'edit.php?post_type=elementor_library&tabs_group=library&elementor_library_type=ehp-' );
 				$free_version_parts = [
 					[
 						'title' => __( 'Hello Header', 'hello-elementor' ),
-						'link'  => $this->get_open_homepage_with_tab( 'hello-settings-header' ),
+						'link'  => $templates_url . 'header',
 						'icon'  => 'HeaderTemplateIcon',
 					],
 					[
 						'title' => __( 'Hello Footer', 'hello-elementor' ),
-						'link'  => $this->get_open_homepage_with_tab( 'hello-settings-footer' ),
+						'link'  => $templates_url . 'footer',
 						'icon'  => 'FooterTemplateIcon',
 					],
 				];
