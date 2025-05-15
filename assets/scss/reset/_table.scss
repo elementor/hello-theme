@@ -2,6 +2,8 @@
  * Table styling
  */
 
+@use "./variables" as variables;
+
 $table-border-color: #80808080;
 $table-bg: transparent;
 $table-bg-odd: #80808012;
@@ -65,7 +67,7 @@ table {
 		border-block-start: 2px solid $table-border-color;
 	}
 
-	@media (max-width: $screen-sm - $screen-diff) {
+	@media (max-width: variables.$screen-sm - variables.$screen-diff) {
 
 		table {
 			font-size: 0.8em;

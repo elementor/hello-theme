@@ -186,7 +186,6 @@ export default class ControlsHook extends $e.modules.hookUI.After {
 	 * @param {string} classPrefix
 	 * @param {Object} inputOptions
 	 * @param {string} inputValue
-	 *
 	 */
 	toggleLayoutClass( element, classPrefix, inputOptions, inputValue ) {
 		// Loop through the possible classes and remove the one that's not in use

@@ -2,6 +2,8 @@
  * Navigation Menus
  */
 
+@use "../reset/variables" as variables;
+
 .site-header {
 
 	&.header-stacked {
@@ -99,7 +101,7 @@
 					font-size: 1.5em;
 					justify-content: center;
 					align-items: center;
-					color: $gray;
+					color: variables.$gray;
 					text-decoration: none;
 				}
 
@@ -121,7 +123,7 @@
 				top: 100%;
 
 				li {
-					border-block-end: $gray-lighter 1px solid;
+					border-block-end: variables.$gray-lighter 1px solid;
 				}
 
 				li:last-child {
@@ -242,7 +244,7 @@ footer {
 	}
 }
 
-@media (max-width: $screen-xs) {
+@media (max-width: variables.$screen-xs) {
 	.site-header.menu-dropdown-mobile:not(.menu-layout-dropdown) {
 
 		.site-navigation {
@@ -251,7 +253,7 @@ footer {
 	}
 }
 
-@media (min-width: $screen-sm) {
+@media (min-width: variables.$screen-sm) {
 	.site-header.menu-dropdown-mobile:not(.menu-layout-dropdown) {
 
 		.site-navigation-toggle-holder {
@@ -260,7 +262,7 @@ footer {
 	}
 }
 
-@media (min-width: $screen-xs) and (max-width: 767px) {
+@media (min-width: variables.$screen-xs) and (max-width: 767px) {
 	.site-header.menu-dropdown-mobile:not(.menu-layout-dropdown) {
 
         .site-navigation {
@@ -269,7 +271,7 @@ footer {
     }
 }
 
-@media (min-width: $screen-md) {
+@media (min-width: variables.$screen-md) {
 	.site-header.menu-dropdown-tablet:not(.menu-layout-dropdown) {
 
 		.site-navigation-toggle-holder {
@@ -278,7 +280,7 @@ footer {
 	}
 }
 
-@media (max-width: $screen-md) {
+@media (max-width: variables.$screen-md) {
 	.site-header.menu-dropdown-tablet:not(.menu-layout-dropdown) {
 
 		.site-navigation {

@@ -25,7 +25,6 @@ export const SettingsProvider = ( { children } ) => {
 		}
 
 		setIsLoading( true );
-		console.log( themeSettings );
 		apiFetch( {
 			path: '/elementor-hello-elementor/v1/theme-settings',
 			method: 'POST',
