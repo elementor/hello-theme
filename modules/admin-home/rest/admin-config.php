@@ -142,20 +142,37 @@ class Admin_Config extends Rest_Base {
 		];
 
 		if ( Utils::is_elementor_active() ) {
-			$config['siteParts']['siteParts'] = [
+			$common_parts       = [
 				[
 					'title' => __( 'Theme Builder', 'hello-elementor' ),
 					'link'  => Utils::get_theme_builder_url(),
 					'icon'  => 'ThemeBuilderIcon',
 				],
 			];
+			$free_version_parts = [];
+			if ( ! Utils::has_pro() ) {
+				$templates_url      = admin_url( 'edit.php?post_type=elementor_library&tabs_group=library&elementor_library_type=ehp-' );
+				$free_version_parts = [
+					[
+						'title' => __( 'Hello Header', 'hello-elementor' ),
+						'link'  => $templates_url . 'header',
+						'icon'  => 'HeaderTemplateIcon',
+					],
+					[
+						'title' => __( 'Hello Footer', 'hello-elementor' ),
+						'link'  => $templates_url . 'footer',
+						'icon'  => 'FooterTemplateIcon',
+					],
+				];
+			}
+			$config['siteParts']['siteParts'] = array_merge( $free_version_parts, $common_parts );
 		}
 
 		return $this->get_quicklinks( $config );
 	}
 
 	public function get_open_homepage_with_tab( $action, $customizer_fallback_args = [] ): string {
-		if ( Utils::is_elementor_active() ) {
+		if ( Utils::is_elementor_active() && method_exists( Page::class, 'get_site_settings_url_config' ) ) {
 			return Page::get_site_settings_url_config( $action )['url'];
 		}
 

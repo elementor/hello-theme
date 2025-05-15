@@ -56,6 +56,10 @@ class Utils {
 	}
 
 	public static function get_theme_builder_url(): string {
+		if ( ! class_exists( 'Elementor\App\App' ) ) {
+			return 'https://go.elementor.com/hello-theme-builder';
+		}
+
 		if ( self::has_pro() ) {
 			return admin_url( 'admin.php?page=' . App::PAGE_ID . '&ver=' . ELEMENTOR_VERSION ) . '#site-editor';
 		}

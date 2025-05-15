@@ -16,6 +16,8 @@ const componentMap = {
 	UnderlineIcon: () => import( '@elementor/icons/UnderlineIcon' ),
 	PagesIcon: () => import( '@elementor/icons/PagesIcon' ),
 	PageTypeIcon: () => import( '@elementor/icons/PageTypeIcon' ),
+	HeaderTemplateIcon: () => import( '@elementor/icons/HeaderTemplateIcon' ),
+	FooterTemplateIcon: () => import( '@elementor/icons/FooterTemplateIcon' ),
 };
 
 const DynamicIcon = ( { componentName, ...rest } ) => {
