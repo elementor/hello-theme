@@ -2,6 +2,8 @@
  * Loading first in the style.scss & classic-editor.scss
  */
 
+@use "sass:color";
+
 //Media Break-points
 $screen-xs: 576px !default;
 $screen-sm: 768px !default;
@@ -11,12 +13,12 @@ $screen-diff: 1px !default;
 
 //Default Color
 $gray-base: #000 !default;
-$gray-darker: lighten($gray-base, 13.5%) !default; // #222
-$gray-dark: lighten($gray-base, 20%) !default; // #333
-$gray: lighten($gray-base, 40%) !default; // #666
-$gray-light: lighten($gray-base, 80%) !default; // #ccc
-$gray-lighter: lighten($gray-base, 93.5%) !default; // #eee
-$gray-lightest: lighten($gray-base, 96.86%) !default; // #f7f7f7
+$gray-darker: color.adjust($gray-base, $lightness: 13.5%) !default; // #222
+$gray-dark: color.adjust($gray-base, $lightness: 20%) !default; // #333
+$gray: color.adjust($gray-base, $lightness: 40%) !default; // #666
+$gray-light: color.adjust($gray-base, $lightness: 80%) !default; // #ccc
+$gray-lighter: color.adjust($gray-base, $lightness: 93.5%) !default; // #eee
+$gray-lightest: color.adjust($gray-base, $lightness: 96.86%) !default; // #f7f7f7
 
 //Text & Paragraph
 $text-color: $gray-dark;

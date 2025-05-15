@@ -2,6 +2,8 @@
  * General - https://wordpress.org/documentation/article/css/
  */
 
+@use "../reset/variables" as variables;
+
 .page-content,
 .comments-area {
 
@@ -66,10 +68,10 @@
 
 .gallery-caption {
 	display: block;
-	font-size: $sm-font-size;
-	line-height: $line-height-base;
+	font-size: variables.$sm-font-size;
+	line-height: variables.$line-height-base;
 	margin: 0;
-	padding: $xs-padding;
+	padding: variables.$xs-padding;
 }
 
 .pagination {

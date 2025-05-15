@@ -2,6 +2,8 @@
  * Footer styling and layout
  */
 
+@use "../reset/variables" as variables;
+
 .site-footer {
 	padding-block-start: 1rem;
 	padding-block-end: 1rem;
@@ -101,7 +103,7 @@
 	}
 }
 
-@media (max-width: $screen-xs) {
+@media (max-width: variables.$screen-xs) {
 
 	.site-footer {
 

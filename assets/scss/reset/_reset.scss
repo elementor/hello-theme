@@ -9,6 +9,8 @@
  * 3. Change from `box-sizing: content-box` so that `width` is not affected by `padding` or `border`.
  */
 
+@use "./variables" as variables;
+
 html {
 	line-height: 1.15; /* 1 */
 	-webkit-text-size-adjust: 100%; /* 2 */
@@ -25,11 +27,11 @@ html {
 
 body {
 	margin: 0; //Remove the margin in all browsers.
-	font-family: $font-family-base;
-	font-size: $font-size-base;
-	font-weight: $font-weight-base;
-	line-height: $line-height-base;
-	color: $body-color;
+	font-family: variables.$font-family-base;
+	font-size: variables.$font-size-base;
+	font-weight: variables.$font-weight-base;
+	line-height: variables.$line-height-base;
+	color: variables.$body-color;
 	background-color: #fff;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -51,27 +53,27 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-	font-size: $h1-font-size;
+	font-size: variables.$h1-font-size;
 }
 
 h2 {
-	font-size: $h2-font-size;
+	font-size: variables.$h2-font-size;
 }
 
 h3 {
-	font-size: $h3-font-size;
+	font-size: variables.$h3-font-size;
 }
 
 h4 {
-	font-size: $h4-font-size;
+	font-size: variables.$h4-font-size;
 }
 
 h5 {
-	font-size: $h5-font-size;
+	font-size: variables.$h5-font-size;
 }
 
 h6 {
-	font-size: $h6-font-size;
+	font-size: variables.$h6-font-size;
 }
 
 p {
@@ -110,11 +112,11 @@ pre {
 a {
 	background-color: transparent; //Remove the gray background on active links in IE 10.
 	text-decoration: none;
-	color: $link-color-base;
+	color: variables.$link-color-base;
 
 	&:hover,
 	&:active {
-		color: $link-hover-color-base;
+		color: variables.$link-hover-color-base;
 	}
 
 	&:not([href]):not([tabindex]) {
@@ -227,7 +229,7 @@ summary {
 
 figcaption {
 	font-size: 16px;
-	color: $gray-dark;
+	color: variables.$gray-dark;
 	line-height: 1.4;
 	font-style: italic;
 	font-weight: 400;
@@ -291,7 +293,7 @@ template {
 	pre,
 	blockquote {
 		break-inside: avoid;
-		border: 1px solid $gray-light;
+		border: 1px solid variables.$gray-light;
 	}
 
 	thead {
