@@ -171,7 +171,7 @@ class Admin_Config extends Rest_Base {
 	}
 
 	public function get_open_homepage_with_tab( $action, $customizer_fallback_args = [] ): string {
-		if ( Utils::is_elementor_active() ) {
+		if ( Utils::is_elementor_active() && method_exists( Page::class, 'get_site_settings_url_config' ) ) {
 			return Page::get_site_settings_url_config( $action )['url'];
 		}
 
