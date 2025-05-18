@@ -80,7 +80,7 @@ class Utils {
 	}
 
 	public static function get_ai_site_planner_url(): string {
-		return 'https://go.elementor.com/hello-home-ai';
+		return 'https://go.elementor.com/hello-site-planner';
 	}
 
 	public static function get_plugin_install_url( $plugin_slug ): string {
