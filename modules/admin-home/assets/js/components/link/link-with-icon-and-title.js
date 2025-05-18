@@ -13,7 +13,7 @@ export const LinkWithIconAndTitle = ( {
 	} ) => {
 	return (
 		<Stack direction="row" gap={ 1 } sx={ { alignContent: 'flex-start' } }>
-			<DynamicIcon componentName={ icon } fontSize="tiny" color="secondary" sx={ { pt: 0.2 } } />
+			<DynamicIcon componentName={ icon } fontSize="tiny" color="text.primary" sx={ { pt: 0.2 } } />
 			<Stack direction="column">
 				<Typography variant="subtitle1" color="text.primary" sx={ { fontWeight: 400 } }>
 					<Link color="inherit" underline="hover" onClick={ onClick } href={ link } target={ target } sx={ { lineHeight: 'initial' } }>

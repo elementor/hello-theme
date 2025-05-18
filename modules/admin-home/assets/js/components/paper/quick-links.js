@@ -11,7 +11,7 @@ export const QuickLinks = () => {
 	return (
 		<BaseAdminPaper>
 			<Typography variant="h6" sx={ { color: 'text.primary' } }>{ __( 'Quick Links', 'hello-elementor' ) }</Typography>
-			<Typography variant="body2" sx={ { mb: 3 } }>
+			<Typography variant="body2" sx={ { mb: 3, color: 'text.secondary' } }>
 				{ __( 'These quick actions will get your site airborne in a flash.', 'hello-elementor' ) }
 			</Typography>
 			<Stack direction="row" gap={ 9 }>
