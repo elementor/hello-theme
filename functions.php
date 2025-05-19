@@ -14,8 +14,8 @@ define( 'EHP_THEME_SLUG', 'hello-elementor' );
 
 define( 'HELLO_THEME_PATH', get_template_directory() );
 define( 'HELLO_THEME_URL', get_template_directory_uri() );
-define( 'HELLO_THEME_ASSETS_PATH', HELLO_THEME_PATH . '/assets/' );
-define( 'HELLO_THEME_ASSETS_URL', HELLO_THEME_URL . '/assets/' );
+define( 'HELLO_THEME_ASSETS_PATH', HELLO_THEME_PATH . '/build/' );
+define( 'HELLO_THEME_ASSETS_URL', HELLO_THEME_URL . '/build/' );
 define( 'HELLO_THEME_SCRIPTS_PATH', HELLO_THEME_ASSETS_PATH . 'js/' );
 define( 'HELLO_THEME_SCRIPTS_URL', HELLO_THEME_ASSETS_URL . 'js/' );
 define( 'HELLO_THEME_STYLE_PATH', HELLO_THEME_ASSETS_PATH . 'css/' );
@@ -131,12 +131,10 @@ if ( ! function_exists( 'hello_elementor_scripts_styles' ) ) {
 	 * @return void
 	 */
 	function hello_elementor_scripts_styles() {
-		$min_suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-
 		if ( apply_filters( 'hello_elementor_enqueue_style', true ) ) {
 			wp_enqueue_style(
 				'hello-elementor',
-				get_template_directory_uri() . '/style' . $min_suffix . '.css',
+				HELLO_THEME_STYLE_URL . '/style.css',
 				[],
 				HELLO_ELEMENTOR_VERSION
 			);
@@ -145,7 +143,7 @@ if ( ! function_exists( 'hello_elementor_scripts_styles' ) ) {
 		if ( apply_filters( 'hello_elementor_enqueue_theme_style', true ) ) {
 			wp_enqueue_style(
 				'hello-elementor-theme-style',
-				get_template_directory_uri() . '/theme' . $min_suffix . '.css',
+				HELLO_THEME_STYLE_URL . '/theme.css',
 				[],
 				HELLO_ELEMENTOR_VERSION
 			);
@@ -154,7 +152,7 @@ if ( ! function_exists( 'hello_elementor_scripts_styles' ) ) {
 		if ( hello_elementor_display_header_footer() ) {
 			wp_enqueue_style(
 				'hello-elementor-header-footer',
-				get_template_directory_uri() . '/header-footer' . $min_suffix . '.css',
+				HELLO_THEME_STYLE_URL . '/header-footer.css',
 				[],
 				HELLO_ELEMENTOR_VERSION
 			);
