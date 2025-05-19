@@ -76,7 +76,7 @@ add_action( 'customize_register', 'hello_customizer_register_elementor_pro_upsel
 function hello_customizer_styles() {
 	wp_enqueue_style(
 		'hello-elementor-customizer',
-		HELLO_THEME_STYLE_URL . '/customizer.css',
+		HELLO_THEME_STYLE_URL . 'customizer.css',
 		[],
 		HELLO_ELEMENTOR_VERSION
 	);

@@ -147,7 +147,7 @@ add_action( 'elementor/editor/after_enqueue_scripts', function() {
 
 	wp_enqueue_style(
 		'hello-editor',
-		HELLO_THEME_STYLE_URL . '/editor.css',
+		HELLO_THEME_STYLE_URL . 'editor.css',
 		[],
 		HELLO_ELEMENTOR_VERSION
 	);

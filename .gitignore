@@ -1,8 +1,9 @@
 .idea/
 node_modules/
 .sass-cache/
-build/
+build/**
 hello-elementor/
+elementor-hello-theme/
 log/
 vendor/
 composer.lock
@@ -13,7 +14,6 @@ Thumbs.db
 *.map
 yarn.lock
 assets/js/
-*.css
 *.zip
 .npmrc
 .env
