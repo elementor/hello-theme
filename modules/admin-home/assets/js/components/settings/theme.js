@@ -28,11 +28,11 @@ export const Theme = () => {
 			</Alert>
 			<Setting
 				value={ helloStyle }
-				label={ __( 'Deregister Hello style.css', 'hello-elementor' ) }
+				label={ __( 'Deregister Hello reset.css', 'hello-elementor' ) }
 				onSwitchClick={ () => updateSetting( 'HELLO_STYLE', ! helloStyle ) }
 				description={ __( 'What it does: Turns off CSS reset rules by disabling the theme’s primary stylesheet. CSS reset rules make sure your website looks the same in different browsers.', 'hello-elementor' ) }
-				code={ `<link rel="stylesheet" href="${ window.location.origin }/wp-content/themes/hello-elementor/build/css/style.css" />` }
-				tip={ __( 'Tip: Deregistering style.css can make your website load faster. Disable it only if you’re using another style reset method, such as with a child theme.', 'hello-elementor' ) }
+				code={ `<link rel="stylesheet" href="${ window.location.origin }/wp-content/themes/hello-elementor/build/css/reset.css" />` }
+				tip={ __( 'Tip: Deregistering reset.css can make your website load faster. Disable it only if you’re using another style reset method, such as with a child theme.', 'hello-elementor' ) }
 			/>
 			<Setting
 				value={ helloTheme }

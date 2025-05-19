@@ -134,7 +134,7 @@ if ( ! function_exists( 'hello_elementor_scripts_styles' ) ) {
 		if ( apply_filters( 'hello_elementor_enqueue_style', true ) ) {
 			wp_enqueue_style(
 				'hello-elementor',
-				HELLO_THEME_STYLE_URL . 'style.css',
+				HELLO_THEME_STYLE_URL . 'reset.css',
 				[],
 				HELLO_ELEMENTOR_VERSION
 			);

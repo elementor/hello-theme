@@ -11,7 +11,7 @@ const imagesPath = path.resolve( __dirname, './build/images' );
 const modulesDir = process.cwd() + '/modules/';
 
 const entryPoints = {
-	'css/style': path.resolve( __dirname, './assets/scss', 'style.scss' ),
+	'css/reset': path.resolve( __dirname, './assets/scss', 'reset.scss' ),
 	'css/theme': path.resolve( __dirname, './assets/scss', 'theme.scss' ),
 	'css/header-footer': path.resolve( __dirname, './assets/scss', 'header-footer.scss' ),
 	'css/editor-styles': path.resolve( __dirname, './assets/scss', 'editor-styles.scss' ),
