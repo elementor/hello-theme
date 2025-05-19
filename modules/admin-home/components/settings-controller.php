@@ -122,7 +122,7 @@ class Settings_Controller {
 	public function enqueue_hello_plus_settings_scripts() {
 		$screen = get_current_screen();
 
-		if ( ! str_contains( $screen->id, '_page_hello-elementor-settings' ) ) {
+		if ( ! str_ends_with( $screen->id, '_page_hello-elementor-settings' ) ) {
 			return;
 		}
 
