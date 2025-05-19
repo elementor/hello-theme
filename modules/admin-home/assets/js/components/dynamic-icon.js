@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
 const componentMap = {
-	BrandYoutubeIcon: () => import( '../icons/youtube' ),
-	BrandElementorIcon: () => import( '../icons/elementor' ),
+	BrandYoutubeIcon: () => import( '../icons/youtube.tsx' ),
+	BrandElementorIcon: () => import( '../icons/elementor.tsx' ),
 	ThemeBuilderIcon: () => import( '@elementor/icons/ThemeBuilderIcon' ),
 	SettingsIcon: () => import( '@elementor/icons/SettingsIcon' ),
 	BrandFacebookIcon: () => import( '@elementor/icons/BrandFacebookIcon' ),
