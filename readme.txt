@@ -3,8 +3,8 @@
 Contributors: elemntor, KingYes, ariel.k, bainternet
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 3.4.1
-Version: 3.4.1
+Stable tag: 3.4.2
+Version: 3.4.2
 Requires PHP: 7.4
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -35,6 +35,11 @@ License: CC0 1.0 Universal (CC0 1.0)
 Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
+
+= 3.4.2 - 2025-05-19 =
+* Tweak: Set Home links font weight to regular
+* Tweak: Dart SASS 3.0.0 - resolve scss deprecated warnings
+* Fix: Settings page empty after 3.4.0
 
 = 3.4.1 - 2025-05-08 =
 * Fix: Critical Error after theme update [critical-error-on-website-54/#post-18454740](https://wordpress.org/support/topic/critical-error-on-website-54/#post-18454740)
