@@ -163,7 +163,7 @@ class Admin_Config extends Rest_Base {
 					'icon'  => 'ThemeBuilderIcon',
 				],
 			];
-			if ( ! Utils::has_pro() ) {
+			if ( ! Utils::has_pro() && 'true' !== $disable_theme_header_footer ) {
 				$templates_url = admin_url( 'edit.php?post_type=elementor_library&tabs_group=library&elementor_library_type=ehp-' );
 
 				$header_part['link'] = $templates_url . 'header';
