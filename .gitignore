@@ -6,7 +6,6 @@ hello-elementor/
 elementor-hello-theme/
 log/
 vendor/
-composer.lock
 .DS_Store
 .project
 Thumbs.db
