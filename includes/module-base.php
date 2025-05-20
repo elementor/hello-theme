@@ -196,7 +196,7 @@ abstract class Module_Base {
 	 * @param ?array $components_ids => component's class name.
 	 * @return void
 	 */
-	protected function register_components( array $components_ids = null ): void {
+	protected function register_components( ?array $components_ids = null ): void {
 		if ( empty( $components_ids ) ) {
 			$components_ids = $this->get_component_ids();
 		}
