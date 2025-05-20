@@ -137,12 +137,14 @@ class Admin_Config extends Rest_Base {
 
 		$common_parts = [];
 		$header_part  = [
+			'id'      => 'hello-header',
 			'title'   => __( 'Hello Header', 'hello-elementor' ),
 			'link'    => null,
 			'tooltip' => __( 'Please install Elementor to edit the Header', 'hello-elementor' ),
 			'icon'    => 'HeaderTemplateIcon',
 		];
 		$footer_part  = [
+			'id'      => 'hello-footer',
 			'title'   => __( 'Hello Footer', 'hello-elementor' ),
 			'link'    => null,
 			'tooltip' => __( 'Please install Elementor to edit the Footer', 'hello-elementor' ),
