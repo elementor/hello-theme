@@ -135,38 +135,47 @@ class Admin_Config extends Rest_Base {
 			],
 		];
 
-		$config['siteParts'] = [
-			'siteParts' => [],
-			'sitePages' => $site_pages,
-			'general'   => $general,
+		$common_parts = [];
+		$header_part  = [
+			'title'   => __( 'Hello Header', 'hello-elementor' ),
+			'link'    => null,
+			'tooltip' => __( 'Please install Elementor to edit the Header', 'hello-elementor' ),
+			'icon'    => 'HeaderTemplateIcon',
+		];
+		$footer_part  = [
+			'title'   => __( 'Hello Footer', 'hello-elementor' ),
+			'link'    => null,
+			'tooltip' => __( 'Please install Elementor to edit the Footer', 'hello-elementor' ),
+			'icon'    => 'FooterTemplateIcon',
 		];
 
+		$disable_theme_header_footer = get_option( 'hello_elementor_settings_header_footer' );
+		if ('true' === $disable_theme_header_footer ) {
+			$header_part[ 'tooltip' ] = __( 'Header and Footer are disabled in the theme settings', 'hello-elementor' );
+			$footer_part[ 'tooltip' ] = __( 'Header and Footer are disabled in the theme settings', 'hello-elementor' );
+		}
+
 		if ( Utils::is_elementor_active() ) {
-			$common_parts       = [
+			$common_parts = [
 				[
 					'title' => __( 'Theme Builder', 'hello-elementor' ),
 					'link'  => Utils::get_theme_builder_url(),
 					'icon'  => 'ThemeBuilderIcon',
 				],
 			];
-			$free_version_parts = [];
 			if ( ! Utils::has_pro() ) {
-				$templates_url      = admin_url( 'edit.php?post_type=elementor_library&tabs_group=library&elementor_library_type=ehp-' );
-				$free_version_parts = [
-					[
-						'title' => __( 'Hello Header', 'hello-elementor' ),
-						'link'  => $templates_url . 'header',
-						'icon'  => 'HeaderTemplateIcon',
-					],
-					[
-						'title' => __( 'Hello Footer', 'hello-elementor' ),
-						'link'  => $templates_url . 'footer',
-						'icon'  => 'FooterTemplateIcon',
-					],
-				];
+				$templates_url = admin_url( 'edit.php?post_type=elementor_library&tabs_group=library&elementor_library_type=ehp-' );
+
+				$header_part[ 'link' ] = $templates_url . 'header';
+				$footer_part[ 'link' ] = $templates_url . 'footer';
 			}
-			$config['siteParts']['siteParts'] = array_merge( $free_version_parts, $common_parts );
 		}
+
+		$config[ 'siteParts' ] = [
+			'siteParts' => array_merge( [ $header_part, $footer_part ], $common_parts ),
+			'sitePages' => $site_pages,
+			'general'   => $general,
+		];
 
 		return $this->get_quicklinks( $config );
 	}
