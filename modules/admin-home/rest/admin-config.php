@@ -150,9 +150,9 @@ class Admin_Config extends Rest_Base {
 		];
 
 		$disable_theme_header_footer = get_option( 'hello_elementor_settings_header_footer' );
-		if ('true' === $disable_theme_header_footer ) {
-			$header_part[ 'tooltip' ] = __( 'Header and Footer are disabled in the theme settings', 'hello-elementor' );
-			$footer_part[ 'tooltip' ] = __( 'Header and Footer are disabled in the theme settings', 'hello-elementor' );
+		if ( 'true' === $disable_theme_header_footer ) {
+			$header_part['tooltip'] = __( 'Header and Footer are disabled in the theme settings', 'hello-elementor' );
+			$footer_part['tooltip'] = __( 'Header and Footer are disabled in the theme settings', 'hello-elementor' );
 		}
 
 		if ( Utils::is_elementor_active() ) {
@@ -166,12 +166,12 @@ class Admin_Config extends Rest_Base {
 			if ( ! Utils::has_pro() ) {
 				$templates_url = admin_url( 'edit.php?post_type=elementor_library&tabs_group=library&elementor_library_type=ehp-' );
 
-				$header_part[ 'link' ] = $templates_url . 'header';
-				$footer_part[ 'link' ] = $templates_url . 'footer';
+				$header_part['link'] = $templates_url . 'header';
+				$footer_part['link'] = $templates_url . 'footer';
 			}
 		}
 
-		$config[ 'siteParts' ] = [
+		$config['siteParts'] = [
 			'siteParts' => array_merge( [ $header_part, $footer_part ], $common_parts ),
 			'sitePages' => $site_pages,
 			'general'   => $general,
