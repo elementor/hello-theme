@@ -164,18 +164,24 @@ class Admin_Config extends Rest_Base {
 				],
 			];
 			if ( ! Utils::has_pro() && 'true' !== $disable_theme_header_footer ) {
-				$templates_url = admin_url( 'edit.php?post_type=elementor_library&tabs_group=library&elementor_library_type=ehp-' );
-
-				$header_part['link'] = $templates_url . 'header';
-				$footer_part['link'] = $templates_url . 'footer';
+				$header_part['link'] = $this->get_open_homepage_with_tab( 'hello-settings-header' );
+				$footer_part['link'] = $this->get_open_homepage_with_tab( 'hello-settings-footer' );
 			}
 		}
 
-		$config['siteParts'] = [
-			'siteParts' => array_merge( [ $header_part, $footer_part ], $common_parts ),
+		$site_parts = [
+			'siteParts' => array_merge(
+				[
+					$header_part,
+					$footer_part,
+				],
+				$common_parts
+			),
 			'sitePages' => $site_pages,
 			'general'   => $general,
 		];
+
+		$config['siteParts'] = apply_filters( 'hello_elementor_site_parts', $site_parts );
 
 		return $this->get_quicklinks( $config );
 	}
