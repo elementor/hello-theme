@@ -7,6 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Elementor\Core\DocumentTypes\Page;
+use Elementor\Plugin;
 use HelloTheme\Includes\Utils;
 use WP_REST_Server;
 
@@ -135,21 +136,59 @@ class Admin_Config extends Rest_Base {
 			],
 		];
 
-		$config['siteParts'] = [
-			'siteParts' => [],
-			'sitePages' => $site_pages,
-			'general'   => $general,
+		$common_parts = [];
+		$header_part  = [
+			'id'      => 'hello-header',
+			'title'   => __( 'Hello Header', 'hello-elementor' ),
+			'link'    => null,
+			'tooltip' => __( 'Install Elementor to create a website header', 'hello-elementor' ),
+			'icon'    => 'HeaderTemplateIcon',
+		];
+		$footer_part  = [
+			'id'      => 'hello-footer',
+			'title'   => __( 'Hello Footer', 'hello-elementor' ),
+			'link'    => null,
+			'tooltip' => __( 'Install Elementor to create a website footer', 'hello-elementor' ),
+			'icon'    => 'FooterTemplateIcon',
 		];
 
+		$disable_theme_header_footer = get_option( 'hello_elementor_settings_header_footer' );
+		if ( 'true' === $disable_theme_header_footer ) {
+			$header_part['tooltip'] = __( 'Enable the theme header and footer in Settings, and install Elementor to create a website header', 'hello-elementor' );
+			$footer_part['tooltip'] = __( 'Enable the theme header and footer in Settings, and install Elementor to create a website footer', 'hello-elementor' );
+		}
+
 		if ( Utils::is_elementor_active() ) {
-			$config['siteParts']['siteParts'] = [
+			$common_parts = [
 				[
 					'title' => __( 'Theme Builder', 'hello-elementor' ),
 					'link'  => Utils::get_theme_builder_url(),
 					'icon'  => 'ThemeBuilderIcon',
 				],
 			];
+			if ( Utils::has_pro() ) {
+
+				$header_part['link'] = Plugin::instance()->app->get_base_url() . '#/site-editor/templates/header';
+				$footer_part['link'] = Plugin::instance()->app->get_base_url() . '#/site-editor/templates/footer';
+			} elseif ( 'true' !== $disable_theme_header_footer ) {
+				$header_part['link'] = $this->get_open_homepage_with_tab( 'hello-settings-header' );
+				$footer_part['link'] = $this->get_open_homepage_with_tab( 'hello-settings-footer' );
+			}
 		}
+
+		$site_parts = [
+			'siteParts' => array_merge(
+				[
+					$header_part,
+					$footer_part,
+				],
+				$common_parts
+			),
+			'sitePages' => $site_pages,
+			'general'   => $general,
+		];
+
+		$config['siteParts'] = apply_filters( 'hello_elementor_site_parts', $site_parts );
 
 		return $this->get_quicklinks( $config );
 	}

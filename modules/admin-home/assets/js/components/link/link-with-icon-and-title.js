@@ -1,12 +1,14 @@
 import Stack from '@elementor/ui/Stack';
 import Typography from '@elementor/ui/Typography';
 import Link from '@elementor/ui/Link';
+import Tooltip from '@elementor/ui/Tooltip';
 import { decode } from 'html-entities';
 import DynamicIcon from '../dynamic-icon';
 
 export const LinkWithIconAndTitle = ( {
 		title,
-		link = '#',
+		link = null,
+		tooltip = '',
 		icon = 'SettingsIcon',
 		onClick = () => {},
         target = '',
@@ -16,9 +18,19 @@ export const LinkWithIconAndTitle = ( {
 			<DynamicIcon componentName={ icon } fontSize="tiny" color="text.primary" sx={ { pt: 0.2 } } />
 			<Stack direction="column">
 				<Typography variant="subtitle1" color="text.primary">
-					<Link color="inherit" underline="hover" onClick={ onClick } href={ link } target={ target } sx={ { lineHeight: 'initial', fontWeight: 'normal' } }>
-						{ decode( title ) }
-					</Link>
+					{
+						link ? (
+							<Link color="inherit" underline="hover" onClick={ onClick } href={ link } target={ target } sx={ { lineHeight: 'initial', fontWeight: 'normal' } }>
+								{ decode( title ) }
+							</Link>
+						) : (
+							<Tooltip title={ tooltip } arrow>
+								<span style={ { lineHeight: 'initial', fontWeight: 'normal' } }>
+									{ decode( title ) }
+								</span>
+							</Tooltip>
+						)
+					}
 				</Typography>
 			</Stack>
 		</Stack>
