@@ -166,7 +166,8 @@ class Admin_Config extends Rest_Base {
 					'icon'  => 'ThemeBuilderIcon',
 				],
 			];
-			if( Utils::has_pro() ) {
+			if ( Utils::has_pro() ) {
+
 				$header_part['link'] = Plugin::instance()->app->get_base_url() . '#/site-editor/templates/header';
 				$footer_part['link'] = Plugin::instance()->app->get_base_url() . '#/site-editor/templates/footer';
 			} elseif ( 'true' !== $disable_theme_header_footer ) {
