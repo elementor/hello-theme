@@ -7,6 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Elementor\Core\DocumentTypes\Page;
+use Elementor\Plugin;
 use HelloTheme\Includes\Utils;
 use WP_REST_Server;
 
@@ -165,7 +166,10 @@ class Admin_Config extends Rest_Base {
 					'icon'  => 'ThemeBuilderIcon',
 				],
 			];
-			if ( ! Utils::has_pro() && 'true' !== $disable_theme_header_footer ) {
+			if( Utils::has_pro() ) {
+				$header_part['link'] = Plugin::instance()->app->get_base_url() . '#/site-editor/templates/header';
+				$footer_part['link'] = Plugin::instance()->app->get_base_url() . '#/site-editor/templates/footer';
+			} elseif ( 'true' !== $disable_theme_header_footer ) {
 				$header_part['link'] = $this->get_open_homepage_with_tab( 'hello-settings-header' );
 				$footer_part['link'] = $this->get_open_homepage_with_tab( 'hello-settings-footer' );
 			}
