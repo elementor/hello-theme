@@ -30,7 +30,7 @@ export const Theme = () => {
 				value={ helloStyle }
 				label={ __( 'Deregister Hello reset.css', 'hello-elementor' ) }
 				onSwitchClick={ () => updateSetting( 'HELLO_STYLE', ! helloStyle ) }
-				description={ __( 'What it does: Turns off CSS reset rules by disabling the theme’s primary stylesheet. CSS reset rules make sure your website looks the same in different browsers.', 'hello-elementor' ) }
+				description={ __( 'What it does: Turns off CSS reset rules by disabling the theme’s reset stylesheet. CSS reset rules make sure your website looks the same in different browsers.', 'hello-elementor' ) }
 				code={ `<link rel="stylesheet" href="${ window.location.origin }/wp-content/themes/hello-elementor/build/css/reset.css" />` }
 				tip={ __( 'Tip: Deregistering reset.css can make your website load faster. Disable it only if you’re using another style reset method, such as with a child theme.', 'hello-elementor' ) }
 			/>
@@ -38,7 +38,7 @@ export const Theme = () => {
 				value={ helloTheme }
 				label={ __( 'Deregister Hello theme.css', 'hello-elementor' ) }
 				onSwitchClick={ () => updateSetting( 'HELLO_THEME', ! helloTheme ) }
-				description={ __( 'What it does: Turns off CSS reset rules by disabling the theme’s primary stylesheet. CSS reset rules make sure your website looks the same in different browsers.', 'hello-elementor' ) }
+				description={ __( 'What it does: Turns off CSS reset rules by disabling the theme’s reset stylesheet. CSS reset rules make sure your website looks the same in different browsers.', 'hello-elementor' ) }
 				code={ `<link rel="stylesheet" href="${ window.location.origin }/wp-content/themes/hello-elementor/build/css/theme.css" />` }
 				tip={ __( 'Tip: Deregistering theme.css can make your website load faster. Disable it only if you are not using any WordPress elements on your website, or if you want to style them yourself. Examples of WordPress elements include comments area, pagination box, and image align classes.', 'hello-elementor' ) }
 			/>
