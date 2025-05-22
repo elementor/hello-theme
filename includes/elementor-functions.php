@@ -139,7 +139,7 @@ add_action( 'elementor/editor/after_enqueue_scripts', function() {
 
 	wp_enqueue_script(
 		'hello-theme-editor',
-		get_template_directory_uri() . '/assets/js/hello-editor' . $suffix . '.js',
+		HELLO_THEME_SCRIPTS_URL . 'hello-editor.js',
 		[ 'jquery', 'elementor-editor' ],
 		HELLO_ELEMENTOR_VERSION,
 		true
@@ -147,7 +147,7 @@ add_action( 'elementor/editor/after_enqueue_scripts', function() {
 
 	wp_enqueue_style(
 		'hello-editor',
-		get_template_directory_uri() . '/editor' . $suffix . '.css',
+		HELLO_THEME_STYLE_URL . 'editor.css',
 		[],
 		HELLO_ELEMENTOR_VERSION
 	);
@@ -162,11 +162,9 @@ add_action( 'wp_enqueue_scripts', function() {
 		return;
 	}
 
-	$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-
 	wp_enqueue_script(
 		'hello-theme-frontend',
-		get_template_directory_uri() . '/assets/js/hello-frontend' . $suffix . '.js',
+		HELLO_THEME_SCRIPTS_URL . 'hello-frontend.js',
 		[],
 		HELLO_ELEMENTOR_VERSION,
 		true
