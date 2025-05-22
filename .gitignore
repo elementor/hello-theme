@@ -2,6 +2,7 @@
 node_modules/
 .sass-cache/
 build/**
+assets/
 hello-elementor/
 elementor-hello-theme/
 log/

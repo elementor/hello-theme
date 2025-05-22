@@ -14,8 +14,8 @@ define( 'EHP_THEME_SLUG', 'hello-elementor' );
 
 define( 'HELLO_THEME_PATH', get_template_directory() );
 define( 'HELLO_THEME_URL', get_template_directory_uri() );
-define( 'HELLO_THEME_ASSETS_PATH', HELLO_THEME_PATH . '/build/' );
-define( 'HELLO_THEME_ASSETS_URL', HELLO_THEME_URL . '/build/' );
+define( 'HELLO_THEME_ASSETS_PATH', HELLO_THEME_PATH . '/assets/' );
+define( 'HELLO_THEME_ASSETS_URL', HELLO_THEME_URL . '/assets/' );
 define( 'HELLO_THEME_SCRIPTS_PATH', HELLO_THEME_ASSETS_PATH . 'js/' );
 define( 'HELLO_THEME_SCRIPTS_URL', HELLO_THEME_ASSETS_URL . 'js/' );
 define( 'HELLO_THEME_STYLE_PATH', HELLO_THEME_ASSETS_PATH . 'css/' );
