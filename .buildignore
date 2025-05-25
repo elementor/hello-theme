@@ -2,6 +2,7 @@
 karma.conf.js
 bin/
 dev/
+modules/**/assets/
 composer.json
 composer.lock
 Gruntfile.js
