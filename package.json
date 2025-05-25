@@ -10,7 +10,7 @@
         "build:dev": "composer update && composer install && wp-scripts build --env=developemntWithWatch",
         "build:prod": "composer install --no-dev && wp-scripts build --env=production",
         "lint:js": "wp-scripts lint-js",
-        "clean:build": "rimraf build && rimraf $npm_package_name",
+        "clean:build": "rimraf assets && rimraf $npm_package_name",
         "build:dir": "npm run clean:build && npm run build:prod && rsync -av --exclude-from=.buildignore . $npm_package_name",
         "package": "npm run clean:build && npm run build:prod && rsync -av --exclude-from=.buildignore . $npm_package_name",
         "package:zip": "npm run package && zip -r $npm_package_name.$npm_package_version.zip ./$npm_package_name/*",
