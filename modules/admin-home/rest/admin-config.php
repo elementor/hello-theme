@@ -188,7 +188,7 @@ class Admin_Config extends Rest_Base {
 			'general'   => $general,
 		];
 
-		$config['siteParts'] = apply_filters( 'hello_elementor_site_parts', $site_parts );
+		$config['siteParts'] = apply_filters( 'hello-plus-theme/template-parts', $site_parts );
 
 		return $this->get_quicklinks( $config );
 	}
