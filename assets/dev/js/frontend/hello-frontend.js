@@ -67,6 +67,9 @@ class elementorHelloThemeHandler {
         }
 
         parentLi.classList.toggle( 'elementor-active' );
+		if(parentLi.classList.contains('elementor-active')){
+  			event.preventDefault();
+		}
     }
 }
 
