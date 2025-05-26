@@ -3,7 +3,7 @@
 Contributors: elemntor, KingYes, ariel.k, bainternet
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 3.4.2
+Stable tag: 3.4.3
 Version: 3.4.2
 Requires PHP: 7.4
 License: GNU General Public License v3 or later
@@ -35,6 +35,10 @@ License: CC0 1.0 Universal (CC0 1.0)
 Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
+
+= 3.4.3 - 2025-05-26 =
+* Fix: Settings page empty after 3.4.0 in translated sites
+* Fix: PHP 8.4 deprecation notice
 
 = 3.4.2 - 2025-05-19 =
 * Tweak: Set Home links font weight to regular

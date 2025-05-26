@@ -3,7 +3,7 @@
     "slug": "elementor-hello-theme",
     "homepage": "https://elementor.com/",
     "description": "A sample theme for Elementor.",
-    "version": "3.4.2",
+    "version": "3.4.3",
     "last_beta_version": "2.4.0-beta3",
     "scripts": {
         "start": "wp-scripts start",
