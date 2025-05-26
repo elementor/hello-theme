@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-define( 'HELLO_ELEMENTOR_VERSION', '3.4.2' );
+define( 'HELLO_ELEMENTOR_VERSION', '3.4.3' );
 define( 'EHP_THEME_SLUG', 'hello-elementor' );
 
 define( 'HELLO_THEME_PATH', get_template_directory() );
