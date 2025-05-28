@@ -137,26 +137,21 @@ class Admin_Config extends Rest_Base {
 		];
 
 		$common_parts = [];
+
+		$customizer_header_footer_url = $this->get_open_homepage_with_tab( '', [ 'autofocus[section]' => 'hello-options' ] );
+
 		$header_part  = [
 			'id'      => 'hello-header',
 			'title'   => __( 'Hello Header', 'hello-elementor' ),
-			'link'    => null,
-			'tooltip' => __( 'Install Elementor to create a website header', 'hello-elementor' ),
+			'link'    => $customizer_header_footer_url,
 			'icon'    => 'HeaderTemplateIcon',
 		];
 		$footer_part  = [
 			'id'      => 'hello-footer',
 			'title'   => __( 'Hello Footer', 'hello-elementor' ),
-			'link'    => null,
-			'tooltip' => __( 'Install Elementor to create a website footer', 'hello-elementor' ),
+			'link'    => $customizer_header_footer_url,
 			'icon'    => 'FooterTemplateIcon',
 		];
-
-		$disable_theme_header_footer = get_option( 'hello_elementor_settings_header_footer' );
-		if ( 'true' === $disable_theme_header_footer ) {
-			$header_part['tooltip'] = __( 'Enable the theme header and footer in Settings, and install Elementor to create a website header', 'hello-elementor' );
-			$footer_part['tooltip'] = __( 'Enable the theme header and footer in Settings, and install Elementor to create a website footer', 'hello-elementor' );
-		}
 
 		if ( Utils::is_elementor_active() ) {
 			$common_parts = [
@@ -170,7 +165,7 @@ class Admin_Config extends Rest_Base {
 
 				$header_part['link'] = Plugin::instance()->app->get_base_url() . '#/site-editor/templates/header';
 				$footer_part['link'] = Plugin::instance()->app->get_base_url() . '#/site-editor/templates/footer';
-			} elseif ( 'true' !== $disable_theme_header_footer ) {
+			} else {
 				$header_part['link'] = $this->get_open_homepage_with_tab( 'hello-settings-header' );
 				$footer_part['link'] = $this->get_open_homepage_with_tab( 'hello-settings-footer' );
 			}
