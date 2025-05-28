@@ -145,12 +145,14 @@ class Admin_Config extends Rest_Base {
 			'title'   => __( 'Hello Header', 'hello-elementor' ),
 			'link'    => $customizer_header_footer_url,
 			'icon'    => 'HeaderTemplateIcon',
+			'sublinks' => [],
 		];
 		$footer_part  = [
 			'id'      => 'hello-footer',
 			'title'   => __( 'Hello Footer', 'hello-elementor' ),
 			'link'    => $customizer_header_footer_url,
 			'icon'    => 'FooterTemplateIcon',
+			'sublinks' => [],
 		];
 
 		if ( Utils::is_elementor_active() ) {
@@ -162,12 +164,31 @@ class Admin_Config extends Rest_Base {
 				],
 			];
 			if ( Utils::has_pro() ) {
+				$theme_builder_module = \ElementorPro\Modules\ThemeBuilder\Module::instance();
+				$conditions_manager   = $theme_builder_module->get_conditions_manager();
 
-				$header_part['link'] = Plugin::instance()->app->get_base_url() . '#/site-editor/templates/header';
-				$footer_part['link'] = Plugin::instance()->app->get_base_url() . '#/site-editor/templates/footer';
-			} else {
-				$header_part['link'] = $this->get_open_homepage_with_tab( 'hello-settings-header' );
-				$footer_part['link'] = $this->get_open_homepage_with_tab( 'hello-settings-footer' );
+				$pro_header = $conditions_manager->get_documents_for_location( 'header' );
+				if ( ! empty( $pro_header ) ) {
+					$header_part[ 'sublinks' ] = [
+						[
+							'title' => __( 'Edit', 'hello-elementor' ),
+							'link' => Plugin::instance()->app->get_base_url() . '#/site-editor/templates/header',
+						],
+						[
+							'title' => __( 'Add New', 'hello-elementor' ),
+							'link' => Plugin::instance()->app->get_base_url() . '#/site-editor/templates/headeraaaaaaaaaaa',
+						]
+					];
+				} else {
+					$header_part[ 'link' ] = $this->get_open_homepage_with_tab( 'hello-settings-header' );
+				}
+
+				$pro_footer = $conditions_manager->get_documents_for_location( 'footer' );
+				if ( ! empty( $pro_footer ) ) {
+					$footer_part[ 'link' ] = Plugin::instance()->app->get_base_url() . '#/site-editor/templates/footer';
+				} else {
+					$footer_part[ 'link' ] = $this->get_open_homepage_with_tab( 'hello-settings-footer' );
+				}
 			}
 		}
 
