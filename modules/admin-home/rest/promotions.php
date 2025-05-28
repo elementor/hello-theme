@@ -50,6 +50,7 @@ class Promotions extends Rest_Base {
 				],
 				'button' => __( 'Install', 'hello-elementor' ),
 				'buttonBgColor' => '#524CFF',
+				'width' => 72,
 				'height' => 'auto',
 			];
 		} elseif (

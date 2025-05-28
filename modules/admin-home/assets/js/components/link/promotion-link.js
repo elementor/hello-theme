@@ -24,12 +24,12 @@ export const PromotionLink = (
 		backgroundColor = false,
 		buttonBgColor = false,
 	} ) => {
+	const backgroundFallback = backgroundImage ? 'transparent' : null;
 	const paperSx = horizontalLayout
 		? { display: 'flex', alignItems: 'center', justifyContent: 'space-between', p: 3, gap: 4, maxWidth: 600 }
 		: { p: 3 };
 	paperSx.backgroundImage = backgroundImage ? `url(${ backgroundImage })` : null;
-	paperSx.backgroundColor = backgroundColor ? backgroundColor : ( backgroundImage ? 'transparent' : null );
-	paperSx.color 	= backgroundImage ? 'rgb(12, 13, 14)' : null;
+	paperSx.backgroundColor = backgroundColor ? backgroundColor : backgroundFallback;
 
 	const stackSx = horizontalLayout
 		? { flex: 0.6, alignItems: 'center', justifyContent: 'center' }
