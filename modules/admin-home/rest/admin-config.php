@@ -169,26 +169,41 @@ class Admin_Config extends Rest_Base {
 
 				$pro_header = $conditions_manager->get_documents_for_location( 'header' );
 				if ( ! empty( $pro_header ) ) {
-					$header_part[ 'sublinks' ] = [
-						[
-							'title' => __( 'Edit', 'hello-elementor' ),
-							'link' => Plugin::instance()->app->get_base_url() . '#/site-editor/templates/header',
-						],
-						[
-							'title' => __( 'Add New', 'hello-elementor' ),
-							'link' => Plugin::instance()->app->get_base_url() . '#/site-editor/templates/headeraaaaaaaaaaa',
-						]
-					];
+					$first_header_id  = array_key_first( $pro_header );
+					$header_edit_link = get_edit_post_link( $first_header_id, 'admin' ) . '&action=elementor';
+
 				} else {
-					$header_part[ 'link' ] = $this->get_open_homepage_with_tab( 'hello-settings-header' );
+					$header_edit_link = $this->get_open_homepage_with_tab( 'hello-settings-header' );
 				}
+				$header_part[ 'sublinks' ] = [
+					[
+						'title' => __( 'Edit', 'hello-elementor' ),
+						'link'  => $header_edit_link,
+					],
+					[
+						'title' => __( 'Add New', 'hello-elementor' ),
+						'link'  => Plugin::instance()->app->get_base_url() . '#/site-editor/templates/header',
+					]
+				];
 
 				$pro_footer = $conditions_manager->get_documents_for_location( 'footer' );
 				if ( ! empty( $pro_footer ) ) {
-					$footer_part[ 'link' ] = Plugin::instance()->app->get_base_url() . '#/site-editor/templates/footer';
+					$first_footer_id  = array_key_first( $pro_footer );
+					$footer_edit_link = get_edit_post_link( $first_footer_id, 'admin' ) . '&action=elementor';
+
 				} else {
-					$footer_part[ 'link' ] = $this->get_open_homepage_with_tab( 'hello-settings-footer' );
+					$footer_edit_link = $this->get_open_homepage_with_tab( 'hello-settings-footer' );
 				}
+				$footer_part[ 'sublinks' ] = [
+					[
+						'title' => __( 'Edit', 'hello-elementor' ),
+						'link'  => $footer_edit_link,
+					],
+					[
+						'title' => __( 'Add New', 'hello-elementor' ),
+						'link'  => Plugin::instance()->app->get_base_url() . '#/site-editor/templates/footer',
+					]
+				];
 			}
 		}
 
