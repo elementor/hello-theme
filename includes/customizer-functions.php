@@ -74,12 +74,9 @@ add_action( 'customize_register', 'hello_customizer_register_elementor_pro_upsel
  * @return void
  */
 function hello_customizer_styles() {
-
-	$min_suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-
 	wp_enqueue_style(
 		'hello-elementor-customizer',
-		get_template_directory_uri() . '/customizer' . $min_suffix . '.css',
+		HELLO_THEME_STYLE_URL . 'customizer.css',
 		[],
 		HELLO_ELEMENTOR_VERSION
 	);

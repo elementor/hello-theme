@@ -1,10 +1,8 @@
 *.zip
 karma.conf.js
-assets/dev/
-assets/scss/
-assets/js/qunit-tests*
 bin/
-build/
+dev/
+modules/**/assets/
 composer.json
 composer.lock
 Gruntfile.js
@@ -15,6 +13,8 @@ package.json
 phpcs.xml
 README.md
 webpack.config.js
+.DS_Store
+.git/
 
 .github/
 .buildignore
@@ -23,3 +23,4 @@ webpack.config.js
 .browserslistrc
 .eslintignore
 .eslintrc.js
+.npmrc
