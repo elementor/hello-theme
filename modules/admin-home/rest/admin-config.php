@@ -178,7 +178,7 @@ class Admin_Config extends Rest_Base {
 				} else {
 					$header_edit_link = $this->get_open_homepage_with_tab( 'hello-settings-header' );
 				}
-				$header_part[ 'sublinks' ] = [
+				$header_part['sublinks'] = [
 					[
 						'title' => __( 'Edit', 'hello-elementor' ),
 						'link'  => $header_edit_link,
@@ -186,7 +186,7 @@ class Admin_Config extends Rest_Base {
 					[
 						'title' => __( 'Add New', 'hello-elementor' ),
 						'link'  => Plugin::instance()->app->get_base_url() . '#/site-editor/templates/header',
-					]
+					],
 				];
 
 				$pro_footer = $conditions_manager->get_documents_for_location( 'footer' );
@@ -197,7 +197,7 @@ class Admin_Config extends Rest_Base {
 				} else {
 					$footer_edit_link = $this->get_open_homepage_with_tab( 'hello-settings-footer' );
 				}
-				$footer_part[ 'sublinks' ] = [
+				$footer_part['sublinks'] = [
 					[
 						'title' => __( 'Edit', 'hello-elementor' ),
 						'link'  => $footer_edit_link,
@@ -205,7 +205,7 @@ class Admin_Config extends Rest_Base {
 					[
 						'title' => __( 'Add New', 'hello-elementor' ),
 						'link'  => Plugin::instance()->app->get_base_url() . '#/site-editor/templates/footer',
-					]
+					],
 				];
 			}
 		}
