@@ -45,7 +45,7 @@ class Admin_Config extends Rest_Base {
 		$config['resourcesData'] = [
 			'community' => [
 				[
-					'title'  => __( 'FaceBook', 'hello-elementor' ),
+					'title'  => __( 'Facebook', 'hello-elementor' ),
 					'link'   => 'https://www.facebook.com/groups/Elementors/',
 					'icon'   => 'BrandFacebookIcon',
 					'target' => '_blank',
