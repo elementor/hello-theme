@@ -21,13 +21,16 @@ export const PromotionLink = (
 		horizontalLayout = false,
 		upgrade = false,
 		backgroundImage = false,
+		backgroundColor = false,
+		buttonBgColor = false,
 	} ) => {
+	const backgroundFallback = backgroundImage ? 'transparent' : null;
 	const paperSx = horizontalLayout
 		? { display: 'flex', alignItems: 'center', justifyContent: 'space-between', p: 3, gap: 4, maxWidth: 600 }
 		: { p: 3 };
 	paperSx.backgroundImage = backgroundImage ? `url(${ backgroundImage })` : null;
-	paperSx.backgroundColor = backgroundImage ? 'transparent' : null;
-	paperSx.color 	= backgroundImage ? 'rgb(12, 13, 14)' : null;
+	paperSx.backgroundColor = backgroundColor ? backgroundColor : backgroundFallback;
+	paperSx.color = ( backgroundImage || backgroundColor ) ? 'rgb(12, 13, 14)' : null;
 
 	const stackSx = horizontalLayout
 		? { flex: 0.6, alignItems: 'center', justifyContent: 'center' }
@@ -47,7 +50,7 @@ export const PromotionLink = (
 				{ messages.map( ( message, i ) => {
 					return <Typography key={ i } sx={ { mt: 0.6 } } align="center" variant="body2">{ message }</Typography>;
 				} ) }
-				<Button startIcon={ startIcon } sx={ { mt: 2 } } color="promotion" variant="contained" href={ url } target={ target } rel="noreferrer">{ button }</Button>
+				<Button startIcon={ startIcon } sx={ { mt: 2, backgroundColor: buttonBgColor } } color="promotion" variant="contained" href={ url } target={ target } rel="noreferrer">{ button }</Button>
 			</Stack>
 
 			{ features && (
