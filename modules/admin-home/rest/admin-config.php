@@ -163,6 +163,9 @@ class Admin_Config extends Rest_Base {
 					'icon'  => 'ThemeBuilderIcon',
 				],
 			];
+			$header_part['link'] = $this->get_open_homepage_with_tab( 'hello-settings-header' );
+			$footer_part['link'] = $this->get_open_homepage_with_tab( 'hello-settings-footer' );
+
 			if ( Utils::has_pro() ) {
 				$theme_builder_module = \ElementorPro\Modules\ThemeBuilder\Module::instance();
 				$conditions_manager   = $theme_builder_module->get_conditions_manager();
