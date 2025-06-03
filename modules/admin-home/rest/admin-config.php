@@ -141,14 +141,14 @@ class Admin_Config extends Rest_Base {
 		$customizer_header_footer_url = $this->get_open_homepage_with_tab( '', [ 'autofocus[section]' => 'hello-options' ] );
 
 		$header_part  = [
-			'id'      => 'hello-header',
+			'id'      => 'header',
 			'title'   => __( 'Hello Header', 'hello-elementor' ),
 			'link'    => $customizer_header_footer_url,
 			'icon'    => 'HeaderTemplateIcon',
 			'sublinks' => [],
 		];
 		$footer_part  = [
-			'id'      => 'hello-footer',
+			'id'      => 'footer',
 			'title'   => __( 'Hello Footer', 'hello-elementor' ),
 			'link'    => $customizer_header_footer_url,
 			'icon'    => 'FooterTemplateIcon',
