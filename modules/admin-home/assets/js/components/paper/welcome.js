@@ -104,6 +104,7 @@ export const Welcome = ( { sx, dismissable = false } ) => {
 				{ src && ( <Box
 					component="img"
 					src={ src }
+					alt={ alt }
 					sx={ {
 						width: { sm: 350, md: 450, lg: imageWidth },
 						aspectRatio: '289/98',
