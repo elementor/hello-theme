@@ -1,6 +1,7 @@
 import Stack from '@elementor/ui/Stack';
 import SublinksList from './sub-links-list';
-import LinkTitleWithIcon from './link-title-with-icon';
+import LinkOrTitle from './link-or-title';
+import DynamicIcon from '../dynamic-icon';
 
 export const LinkWithIconAndTitle = ( {
 	title,
@@ -11,16 +12,26 @@ export const LinkWithIconAndTitle = ( {
 	target = '',
 } ) => {
 	return (
-		<Stack direction="column">
-			<LinkTitleWithIcon
-				title={title}
-				link={link}
-				icon={icon}
-				sublinks={sublinks}
-				onClick={onClick}
-				target={target}
+		<Stack direction="row" gap={ 1 } sx={ { alignContent: 'flex-start' } }>
+			<DynamicIcon
+				componentName={ icon }
+				fontSize="tiny"
+				color="text.primary"
+				sx={ { pt: 0.2 } }
 			/>
-			{ sublinks.length > 0 && <SublinksList sublinks={sublinks} target={target} /> }
+			<Stack direction="column">
+				<LinkOrTitle
+					title={ title }
+					link={ link }
+					icon={ icon }
+					sublinks={ sublinks }
+					onClick={ onClick }
+					target={ target }
+				/>
+				{ sublinks.length > 0 && (
+					<SublinksList sublinks={ sublinks } target={ target } />
+				) }
+			</Stack>
 		</Stack>
 	);
 };
