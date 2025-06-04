@@ -142,14 +142,14 @@ class Admin_Config extends Rest_Base {
 
 		$header_part  = [
 			'id'      => 'header',
-			'title'   => __( 'Hello Header', 'hello-elementor' ),
+			'title'   => __( 'Header', 'hello-elementor' ),
 			'link'    => $customizer_header_footer_url,
 			'icon'    => 'HeaderTemplateIcon',
 			'sublinks' => [],
 		];
 		$footer_part  = [
 			'id'      => 'footer',
-			'title'   => __( 'Hello Footer', 'hello-elementor' ),
+			'title'   => __( 'Footer', 'hello-elementor' ),
 			'link'    => $customizer_header_footer_url,
 			'icon'    => 'FooterTemplateIcon',
 			'sublinks' => [],
