@@ -6,8 +6,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-use Elementor\Core\DocumentTypes\Page;
-use Elementor\Plugin;
 use HelloTheme\Includes\Utils;
 use WP_REST_Server;
 
@@ -167,46 +165,8 @@ class Admin_Config extends Rest_Base {
 			$footer_part['link'] = $this->get_open_homepage_with_tab( 'hello-settings-footer' );
 
 			if ( Utils::has_pro() ) {
-				$theme_builder_module = \ElementorPro\Modules\ThemeBuilder\Module::instance();
-				$conditions_manager   = $theme_builder_module->get_conditions_manager();
-
-				$pro_header = $conditions_manager->get_documents_for_location( 'header' );
-				if ( ! empty( $pro_header ) ) {
-					$first_header_id  = array_key_first( $pro_header );
-					$header_edit_link = get_edit_post_link( $first_header_id, 'admin' ) . '&action=elementor';
-
-				} else {
-					$header_edit_link = $this->get_open_homepage_with_tab( 'hello-settings-header' );
-				}
-				$header_part['sublinks'] = [
-					[
-						'title' => __( 'Edit', 'hello-elementor' ),
-						'link'  => $header_edit_link,
-					],
-					[
-						'title' => __( 'Add New', 'hello-elementor' ),
-						'link'  => Plugin::instance()->app->get_base_url() . '#/site-editor/templates/header',
-					],
-				];
-
-				$pro_footer = $conditions_manager->get_documents_for_location( 'footer' );
-				if ( ! empty( $pro_footer ) ) {
-					$first_footer_id  = array_key_first( $pro_footer );
-					$footer_edit_link = get_edit_post_link( $first_footer_id, 'admin' ) . '&action=elementor';
-
-				} else {
-					$footer_edit_link = $this->get_open_homepage_with_tab( 'hello-settings-footer' );
-				}
-				$footer_part['sublinks'] = [
-					[
-						'title' => __( 'Edit', 'hello-elementor' ),
-						'link'  => $footer_edit_link,
-					],
-					[
-						'title' => __( 'Add New', 'hello-elementor' ),
-						'link'  => Plugin::instance()->app->get_base_url() . '#/site-editor/templates/footer',
-					],
-				];
+				$header_part = $this->update_pro_part( $header_part, 'header' );
+				$footer_part = $this->update_pro_part( $footer_part, 'footer' );
 			}
 		}
 
@@ -227,9 +187,35 @@ class Admin_Config extends Rest_Base {
 		return $this->get_quicklinks( $config );
 	}
 
+	private function update_pro_part( array $part, string $location ): array {
+		$theme_builder_module = \ElementorPro\Modules\ThemeBuilder\Module::instance();
+		$conditions_manager   = $theme_builder_module->get_conditions_manager();
+
+		$documents = $conditions_manager->get_documents_for_location( $location );
+		if ( ! empty( $documents ) ) {
+			$first_document_id  = array_key_first( $documents );
+			$edit_link = get_edit_post_link( $first_document_id, 'admin' ) . '&action=elementor';
+
+		} else {
+			$edit_link = $this->get_open_homepage_with_tab( 'hello-settings-' . $location );
+		}
+		$part['sublinks'] = [
+			[
+				'title' => __( 'Edit', 'hello-elementor' ),
+				'link'  => $edit_link,
+			],
+			[
+				'title' => __( 'Add New', 'hello-elementor' ),
+				'link'  => \Elementor\Plugin::instance()->app->get_base_url() . '#/site-editor/templates/' . $location,
+			],
+		];
+
+		return $part;
+	}
+
 	public function get_open_homepage_with_tab( $action, $customizer_fallback_args = [] ): string {
-		if ( Utils::is_elementor_active() && method_exists( Page::class, 'get_site_settings_url_config' ) ) {
-			return Page::get_site_settings_url_config( $action )['url'];
+		if ( Utils::is_elementor_active() && method_exists( \Elementor\Core\DocumentTypes\Page::class, 'get_site_settings_url_config' ) ) {
+			return \Elementor\Core\DocumentTypes\Page::get_site_settings_url_config( $action )['url'];
 		}
 
 		return add_query_arg( $customizer_fallback_args, self_admin_url( 'customize.php' ) );
