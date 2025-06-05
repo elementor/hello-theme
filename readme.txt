@@ -3,8 +3,8 @@
 Contributors: elemntor, KingYes, ariel.k, bainternet
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 3.4.3
-Version: 3.4.2
+Stable tag: 3.4.4
+Version: 3.4.4
 Requires PHP: 7.4
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -35,6 +35,9 @@ License: CC0 1.0 Universal (CC0 1.0)
 Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
+
+= 3.4.4 - 2025-06-08 =
+* Tweak: Improve Header/Footer edit access from theme Home
 
 = 3.4.3 - 2025-05-26 =
 * Fix: Settings page empty after 3.4.0 in translated sites
