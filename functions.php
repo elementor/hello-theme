@@ -61,6 +61,7 @@ if ( ! function_exists( 'hello_elementor_setup' ) ) {
 					'caption',
 					'script',
 					'style',
+					'navigation-widgets',
 				]
 			);
 			add_theme_support(
