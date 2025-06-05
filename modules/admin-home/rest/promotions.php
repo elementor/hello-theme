@@ -14,7 +14,7 @@ class Promotions extends Rest_Base {
 	public function get_promotions() {
 		$action_links_data = [];
 
-        if ( ! defined( 'ELEMENTOR_PRO_VERSION' ) && Utils::is_elementor_active() ) {
+		if ( ! defined( 'ELEMENTOR_PRO_VERSION' ) && Utils::is_elementor_active() ) {
 			$action_links_data[] = [
 				'type' => 'go-pro',
 				'image' => HELLO_THEME_IMAGES_URL . 'go-pro.svg',
