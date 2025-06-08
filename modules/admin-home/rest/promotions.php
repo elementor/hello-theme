@@ -13,6 +13,32 @@ class Promotions extends Rest_Base {
 
 	public function get_promotions() {
 		$action_links_data = [];
+
+		if ( ! defined( 'ELEMENTOR_PRO_VERSION' ) && Utils::is_elementor_active() ) {
+			$action_links_data[] = [
+				'type' => 'go-pro',
+				'image' => HELLO_THEME_IMAGES_URL . 'go-pro.svg',
+				'url' => 'https://go.elementor.com/hello-upgrade-epro/',
+				'alt' => __( 'Elementor Pro', 'hello-elementor' ),
+				'title' => __( 'Bring your vision to life', 'hello-elementor' ),
+				'messages' => [
+					__( 'Get complete design flexibility for your website with Elementor Pro’s advanced tools and premium features.', 'hello-elementor' ),
+				],
+				'button' => __( 'Upgrade Now', 'hello-elementor' ),
+				'upgrade' => true,
+				'features' => [
+					__( 'Popup Builder', 'hello-elementor' ),
+					__( 'Custom Code & CSS', 'hello-elementor' ),
+					__( 'E-commerce Features', 'hello-elementor' ),
+					__( 'Collaborative Notes', 'hello-elementor' ),
+					__( 'Form Submission', 'hello-elementor' ),
+					__( 'Form Integrations', 'hello-elementor' ),
+					__( 'Customs Attribute', 'hello-elementor' ),
+					__( 'Role Manager', 'hello-elementor' ),
+				],
+			];
+		}
+
 		if (
 			! defined( 'ELEMENTOR_IMAGE_OPTIMIZER_VERSION' ) &&
 			! defined( 'IMAGE_OPTIMIZATION_VERSION' )
@@ -67,31 +93,6 @@ class Promotions extends Rest_Base {
 					__( 'Boost creativity with Elementor AI. Craft & enhance copy, create custom CSS & Code, and generate images to elevate your website.', 'hello-elementor' ),
 				],
 				'button' => __( 'Let\'s Go', 'hello-elementor' ),
-			];
-		}
-
-		if ( ! defined( 'ELEMENTOR_PRO_VERSION' ) && ! Utils::is_elementor_active() ) {
-			$action_links_data[] = [
-				'type' => 'go-pro',
-				'image' => HELLO_THEME_IMAGES_URL . 'go-pro.svg',
-				'url' => 'https://go.elementor.com/hello-upgrade-epro/',
-				'alt' => __( 'Elementor Pro', 'hello-elementor' ),
-				'title' => __( 'Bring your vision to life', 'hello-elementor' ),
-				'messages' => [
-					__( 'Get complete design flexibility for your website with Elementor Pro’s advanced tools and premium features.', 'hello-elementor' ),
-				],
-				'button' => __( 'Upgrade Now', 'hello-elementor' ),
-				'upgrade' => true,
-				'features' => [
-					__( 'Popup Builder', 'hello-elementor' ),
-					__( 'Custom Code & CSS', 'hello-elementor' ),
-					__( 'E-commerce Features', 'hello-elementor' ),
-					__( 'Collaborative Notes', 'hello-elementor' ),
-					__( 'Form Submission', 'hello-elementor' ),
-					__( 'Form Integrations', 'hello-elementor' ),
-					__( 'Customs Attribute', 'hello-elementor' ),
-					__( 'Role Manager', 'hello-elementor' ),
-				],
 			];
 		}
 
