@@ -92,7 +92,14 @@ export const Welcome = ( { sx, dismissable = false } ) => {
 
 						return (
 							<Button key={ linkText } onClick={ onClick } variant={ variant } color={ color } >
-								{ isLoading ? <><CircularProgress size={18} sx={{  verticalAlign: 'middle', display: 'inline-flex' }} />{ __( 'Installing Elementor', 'hello-elementor' ) }</> : linkText }
+								{ isLoading
+									? (
+										<>
+											<CircularProgress size={ 18 } sx={ { verticalAlign: 'middle', display: 'inline-flex' } } />
+											{ __( 'Installing Elementor', 'hello-elementor' ) }
+										</>
+									)
+								: linkText }
 							</Button>
 						);
 					} )
