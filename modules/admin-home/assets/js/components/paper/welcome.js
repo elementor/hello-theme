@@ -95,7 +95,7 @@ export const Welcome = ( { sx, dismissable = false } ) => {
 								{ isLoading
 									? (
 										<>
-											<CircularProgress size={ 18 } sx={ { verticalAlign: 'middle', display: 'inline-flex' } } />
+											<CircularProgress size={ 12 } sx={ { verticalAlign: 'middle', display: 'inline-flex' } } />
 											{ __( 'Installing Elementor', 'hello-elementor' ) }
 										</>
 									)
