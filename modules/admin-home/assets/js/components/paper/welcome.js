@@ -6,6 +6,7 @@ import Button from '@elementor/ui/Button';
 import { BaseAdminPaper } from './base-admin-paper';
 import { useEffect, useRef, useState } from 'react';
 import Box from '@elementor/ui/Box';
+import CircularProgress from '@elementor/ui/CircularProgress';
 
 export const Welcome = ( { sx, dismissable = false } ) => {
 	const { adminSettings: {
@@ -91,7 +92,7 @@ export const Welcome = ( { sx, dismissable = false } ) => {
 
 						return (
 							<Button key={ linkText } onClick={ onClick } variant={ variant } color={ color } >
-								{ isLoading ? __( 'Installing Elementor', 'hello-elementor' ) : linkText }
+								{ isLoading ? <><CircularProgress size={18} sx={{  verticalAlign: 'middle', display: 'inline-flex' }} />{ __( 'Installing Elementor', 'hello-elementor' ) }</> : linkText }
 							</Button>
 						);
 					} )
