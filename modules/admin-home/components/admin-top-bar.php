@@ -49,7 +49,7 @@ class Admin_Top_Bar {
 			add_action( 'admin_enqueue_scripts', function () {
 				$this->enqueue_scripts();
 			} );
-			
+
 			add_action( 'elementor/admin-top-bar/is-active', '__return_false' );
 		} );
 	}
