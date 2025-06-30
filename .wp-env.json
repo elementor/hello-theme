@@ -1,0 +1,18 @@
+{
+	"core": null,
+	"phpVersion": "8.0",
+	"plugins": [
+		"../../plugins/elementor/"
+	],
+	"themes": [
+		"./"
+	],
+	"mappings": {
+		"hello-elementor-config": "./tests/wp-env/config"
+	},
+	"config": {
+		"ELEMENTOR_SHOW_HIDDEN_EXPERIMENTS": true,
+		"SCRIPT_DEBUG": false,
+		"WP_DEBUG": false
+	}
+}

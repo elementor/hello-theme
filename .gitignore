@@ -17,3 +17,6 @@ assets/js/
 *.zip
 .npmrc
 .env
+tmp/
+.phpunit.result.cache
+!tests/phpunit/hello-elementor

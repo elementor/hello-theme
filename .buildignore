@@ -24,3 +24,8 @@ webpack.config.js
 .eslintignore
 .eslintrc.js
 .npmrc
+
+tests/
+test-results/
+tsconfig.json
+.wp-env.json
