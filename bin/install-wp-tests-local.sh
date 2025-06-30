@@ -27,7 +27,7 @@ WP_TESTS_UTILS_DIR=${WP_TESTS_UTILS_DIR-$WORKING_DIR/tmp/wordpress-tests-lib}
 WP_CORE_DIR=${WP_CORE_DIR-$WORKING_DIR/tmp/wordpress/}
 ELEMENTOR_PLUGIN_DIR=${ELEMENTOR_PLUGIN_DIR-$WORKING_DIR/tmp}
 HELLOPLUS_PLUGIN_DIR=${HELLOPLUS_PLUGIN_DIR-$WORKING_DIR/tmp}
-HELLOTHEME_THEME_DIR=${HELLOTHEME_THEME_DIR-$WP_CORE_DIR/wp-content/themes/}
+HELLOTHEME_THEME_DIR=${HELLOTHEME_THEME_DIR-$WP_CORE_DIR/wp-content/themes/hello-theme}
 
 # Download util
 download() {
@@ -142,10 +142,10 @@ install_helloplus_plugin() {
 	unzip -q /tmp/hello-plus.zip -d "$HELLOPLUS_PLUGIN_DIR"
 }
 
-install_hc_theme() {
-	download https://downloads.wordpress.org/theme/hello-elementor.latest-stable.zip  /tmp/hello-elementor.zip
-	# Using double-quotes to wrap the unzip path so directory names with spaces will not cause problems
-	unzip -q /tmp/hello-elementor.zip -d "$HELLOTHEME_THEME_DIR"
+symlink_theme() {
+	rm -rf "$HELLOTHEME_THEME_DIR"
+
+	ln -s "$WORKING_DIR" "$HELLOTHEME_THEME_DIR"
 }
 
 check_for_svn
@@ -153,5 +153,5 @@ install_wp
 install_test_suite
 install_elementor_plugin
 install_helloplus_plugin
-#install_hc_theme
+symlink_theme
 install_db
