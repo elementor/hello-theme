@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5d6e85c32df82168bbc3a3ebaceeb183",
+    "content-hash": "04ac1d678a1385242091d2c7d080839e",
     "packages": [
         {
             "name": "elementor/wp-notifications-package",
