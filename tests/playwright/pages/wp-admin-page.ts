@@ -351,7 +351,6 @@ export default class WpAdminPage extends BasePage {
 		}
 		let window: WindowType;
 		await this.page.evaluate( () => {
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore editor session is on the window object
 			const editorSessionId = window.EDITOR_SESSION_ID;
 			window.sessionStorage.setItem( 'ai_promotion_introduction_editor_session_key', editorSessionId );
