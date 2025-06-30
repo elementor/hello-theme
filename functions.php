@@ -80,7 +80,7 @@ if ( ! function_exists( 'hello_elementor_setup' ) ) {
 			 * Editor Styles
 			 */
 			add_theme_support( 'editor-styles' );
-			add_editor_style( 'editor-styles.css' );
+			add_editor_style( 'assets/css/editor-styles.css' );
 
 			/*
 			 * WooCommerce.
