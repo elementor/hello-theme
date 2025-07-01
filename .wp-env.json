@@ -2,7 +2,7 @@
 	"core": null,
 	"phpVersion": "8.0",
 	"plugins": [
-		"../../plugins/elementor/"
+		"https://downloads.wordpress.org/plugin/elementor.latest-stable.zip"
 	],
 	"themes": [
 		"./"
