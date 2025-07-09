@@ -21,8 +21,7 @@ class Admin_Top_Bar {
 	private function is_top_bar_active() {
 		$current_screen = get_current_screen();
 
-		return ( false !== strpos( $current_screen->id ?? '', EHP_THEME_SLUG ) ) &&
-			! Utils::is_elementor_active();
+		return ( false !== strpos( $current_screen->id ?? '', EHP_THEME_SLUG ) );
 	}
 
 	private function enqueue_scripts() {
@@ -50,6 +49,8 @@ class Admin_Top_Bar {
 			add_action( 'admin_enqueue_scripts', function () {
 				$this->enqueue_scripts();
 			} );
+
+			add_action( 'elementor/admin-top-bar/is-active', '__return_false' );
 		} );
 	}
 }
