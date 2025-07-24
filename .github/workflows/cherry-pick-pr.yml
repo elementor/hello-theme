@@ -309,9 +309,11 @@ jobs:
               # Extract tickets and add to title for Jira compatibility
               PR_TICKETS=$(echo "$PR_TITLE" | grep -o '\[[A-Z]\{2,\}-[0-9]\+\]' | tr '\n' ' ' | sed 's/[[:space:]]*$//')
               
-              # Create title with tickets at the end
+              # Create title with tickets at the end (remove duplicates if already present)
               if [ -n "$PR_TICKETS" ]; then
-                CHERRY_PICK_TITLE="$PR_TITLE (🍒 CP #${PR_NUMBER}→${TARGET}) ${PR_TICKETS}"
+                # Remove existing tickets from title to avoid duplication
+                TITLE_WITHOUT_TICKETS=$(echo "$PR_TITLE" | sed 's/\[[A-Z]\{2,\}-[0-9]\+\]//g' | sed 's/[[:space:]]*$//')
+                CHERRY_PICK_TITLE="$TITLE_WITHOUT_TICKETS (🍒 CP #${PR_NUMBER}→${TARGET}) ${PR_TICKETS}"
               else
                 CHERRY_PICK_TITLE="$PR_TITLE (🍒 CP #${PR_NUMBER}→${TARGET})"
               fi
