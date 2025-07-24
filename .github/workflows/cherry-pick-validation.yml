@@ -1,0 +1,239 @@
+name: Cherry-Pick Validation
+
+on:
+  pull_request:
+    branches:
+      - '**'
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  validate-cherry-pick:
+    # Only run on cherry-pick branches
+    if: ${{ startsWith(github.head_ref, 'cherry-pick-pr-') }}
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract cherry-pick information
+        id: extract_info
+        run: |
+          BRANCH_NAME="${{ github.head_ref }}"
+          # Extract PR number and target branch from branch name
+          # Format: cherry-pick-pr-{PR_NUMBER}-{TARGET_BRANCH}
+          if [[ $BRANCH_NAME =~ cherry-pick-pr-([0-9]+)-([a-zA-Z0-9._/-]+) ]]; then
+            ORIGINAL_PR="${BASH_REMATCH[1]}"
+            TARGET_BRANCH="${BASH_REMATCH[2]}"
+            # Minimal sanitization - strip dangerous shell chars
+            TARGET_BRANCH="${TARGET_BRANCH//[;|&<>]/}"
+            echo "original_pr=$ORIGINAL_PR" >> "$GITHUB_OUTPUT"
+            echo "target_branch=$TARGET_BRANCH" >> "$GITHUB_OUTPUT"
+            echo "is_cherry_pick=true" >> "$GITHUB_OUTPUT"
+            
+            echo "🍒 Cherry-pick detected:"
+            echo "  Original PR: #$ORIGINAL_PR"
+            echo "  Target branch: $TARGET_BRANCH"
+          else
+            echo "is_cherry_pick=false" >> "$GITHUB_OUTPUT"
+            echo "❌ Not a cherry-pick branch"
+            exit 1
+          fi
+
+      - name: Validate cherry-pick structure
+        run: |
+          echo "🔍 Cherry-pick specific validation..."
+          
+          # Check required theme files exist
+          REQUIRED_FILES=("style.css" "functions.php" "theme.json" "index.php")
+          MISSING_FILES=()
+          
+          for file in "${REQUIRED_FILES[@]}"; do
+            if [ ! -f "$file" ]; then
+              MISSING_FILES+=("$file")
+            fi
+          done
+          
+          if [ ${#MISSING_FILES[@]} -gt 0 ]; then
+            echo "::error:: Missing required theme files after cherry-pick: ${MISSING_FILES[*]}"
+            exit 1
+          fi
+          
+          echo "✅ All required theme files present"
+
+      - name: Check for conflict markers
+        run: |
+          echo "🔍 Checking for unresolved conflict markers..."
+          
+          # Check critical theme files for conflict markers
+          CONFLICT_FILES=()
+          THEME_FILES=("style.css" "functions.php" "theme.json")
+          
+          for file in "${THEME_FILES[@]}"; do
+            if [ -f "$file" ] && grep -q "<<<<<<< HEAD\|=======\|>>>>>>> " "$file"; then
+              CONFLICT_FILES+=("$file")
+            fi
+          done
+          
+          if [ ${#CONFLICT_FILES[@]} -gt 0 ]; then
+            echo "::error:: Unresolved conflict markers found in: ${CONFLICT_FILES[*]}"
+            echo "Please resolve all conflicts before proceeding."
+            exit 1
+          fi
+          
+          echo "✅ No conflict markers detected"
+
+      - name: Validate theme metadata
+        run: |
+          echo "🔍 Validating theme metadata..."
+          
+          # Check style.css header
+          if ! grep -q "Theme Name:" style.css; then
+            echo "::error:: Missing 'Theme Name' in style.css header"
+            exit 1
+          fi
+          
+          # Check for version consistency issues
+          if grep -q "Version:" style.css; then
+            STYLE_VERSION=$(grep "Version:" style.css | head -1 | sed 's/.*Version: *\([0-9.]*\).*/\1/')
+            echo "Theme version in style.css: $STYLE_VERSION"
+            
+            # Warn if version looks suspicious (common conflict issue)
+            if [[ "$STYLE_VERSION" =~ ^[0-9]+\.[0-9]+$ ]] && [[ ! "$STYLE_VERSION" =~ \.[0-9]$ ]]; then
+              echo "::warning:: Version format might indicate unresolved conflict: $STYLE_VERSION"
+            fi
+          fi
+          
+          # Check theme.json validity
+          if ! jq empty theme.json 2>/dev/null; then
+            echo "::error:: Invalid JSON syntax in theme.json"
+            exit 1
+          fi
+          
+          # Check theme.json schema version
+          SCHEMA_VERSION=$(jq -r '.version' theme.json 2>/dev/null)
+          if [ "$SCHEMA_VERSION" != "2" ] && [ "$SCHEMA_VERSION" != "3" ]; then
+            echo "::warning:: Unsupported theme.json schema version: $SCHEMA_VERSION"
+          fi
+          
+          echo "✅ Theme metadata validation passed"
+
+      - name: Check PHP syntax
+        run: |
+          echo "🔍 Basic PHP syntax validation..."
+          
+          # Check PHP files for syntax errors
+          PHP_FILES=($(find . -name "*.php" -not -path "./vendor/*" -not -path "./node_modules/*"))
+          SYNTAX_ERRORS=()
+          
+          for file in "${PHP_FILES[@]}"; do
+            if ! timeout 30s php -l "$file" >/dev/null 2>&1; then
+              SYNTAX_ERRORS+=("$file")
+            fi
+          done
+          
+          if [ ${#SYNTAX_ERRORS[@]} -gt 0 ]; then
+            echo "::error:: PHP syntax errors found in: ${SYNTAX_ERRORS[*]}"
+            exit 1
+          fi
+          
+          echo "✅ PHP syntax validation passed"
+
+      - name: Cherry-pick compatibility check
+        run: |
+          echo "🔍 Cherry-pick compatibility checks..."
+          
+          # Check if cherry-pick might have introduced function conflicts
+          if grep -r "function " . --include="*.php" | grep -v vendor | grep -v node_modules | \
+             sed 's/.*function \([a-zA-Z_][a-zA-Z0-9_]*\).*/\1/' | sort | uniq -d | head -1 >/dev/null; then
+            echo "::warning:: Potential duplicate function names detected - review for conflicts"
+          fi
+          
+          # Check for common cherry-pick issues in JavaScript
+          if find . -name "*.js" -not -path "./vendor/*" -not -path "./node_modules/*" -not -path "./assets/*" | \
+             xargs grep -l "<<<<<<< HEAD\|=======\|>>>>>>> " 2>/dev/null; then
+            echo "::error:: Conflict markers found in JavaScript files"
+            exit 1
+          fi
+          
+          echo "✅ Cherry-pick compatibility check passed"
+
+      - name: Generate validation report
+        run: |
+          echo "📊 Generating cherry-pick validation report..."
+          
+          cat << EOF > cherry-pick-validation-report.md
+          # 🍒 Cherry-Pick Validation Report
+          
+          **Branch:** \`${{ github.head_ref }}\`  
+          **Original PR:** [#${{ steps.extract_info.outputs.original_pr }}](https://github.com/${{ github.repository }}/pull/${{ steps.extract_info.outputs.original_pr }})  
+          **Target Branch:** \`${{ steps.extract_info.outputs.target_branch }}\`  
+          **Repository:** ${{ github.repository }}
+          
+          ## ✅ Validation Results
+          
+          - ✅ **Theme Structure** - All required files present
+          - ✅ **Conflict Resolution** - No unresolved conflict markers
+          - ✅ **Theme Metadata** - Valid theme headers and JSON
+          - ✅ **PHP Syntax** - No syntax errors detected
+          - ✅ **Cherry-pick Compatibility** - No obvious conflicts
+          
+          ## 📋 Files Validated
+          
+          - \`style.css\` - Theme header and version info
+          - \`functions.php\` - PHP syntax and structure  
+          - \`theme.json\` - JSON validity and schema
+          - \`index.php\` - Main theme file presence
+          - Other PHP files - Basic syntax validation
+          
+          ## 🔄 Additional Validation
+          
+          This cherry-pick PR will also be validated by:
+          - **Build Workflow** (\`build.yml\`) - Theme compilation and packaging
+          - **JavaScript CI** (\`lint.yml\`) - JS linting and building
+          - **Other CI workflows** - As configured for the repository
+          
+          ## ✨ Next Steps
+          
+          1. **Review Changes** - Examine the cherry-picked code changes
+          2. **Test Functionality** - Verify theme works as expected on target branch
+          3. **Check Compatibility** - Ensure compatibility with target branch requirements
+          4. **Monitor CI** - Watch for any failures in build/lint workflows
+          5. **Merge When Ready** - All validations pass and code review complete
+          
+          ---
+          *🤖 Generated by Cherry-Pick Validation Workflow*
+          EOF
+          
+          echo "✅ Validation report generated"
+
+      - name: Post validation summary
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            
+            try {
+              const report = fs.readFileSync('cherry-pick-validation-report.md', 'utf8');
+              
+              await github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: report
+              });
+              
+              console.log('✅ Cherry-pick validation report posted to PR');
+            } catch (error) {
+              console.error('❌ Failed to post validation report:', error);
+              // Don't fail the workflow if comment posting fails
+            } 
