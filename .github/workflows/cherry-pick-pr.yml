@@ -1,0 +1,348 @@
+name: Cherry Pick Merged PR
+# Add a test comment.
+
+on:
+  pull_request_target:
+    types:
+      - closed
+      - labeled
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  load-config:
+    runs-on: ubuntu-latest
+    outputs:
+      ubuntu_version: ${{ steps.config.outputs.ubuntu_version }}
+      theme_name: ${{ steps.config.outputs.theme_name }}
+      main_branch: ${{ steps.config.outputs.main_branch }}
+      allowed_repos: ${{ steps.config.outputs.allowed_repos }}
+      blocked_actors: ${{ steps.config.outputs.blocked_actors }}
+      release_branches: ${{ steps.config.outputs.release_branches }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Load Release Configuration
+        id: config
+        run: |
+          echo "📋 Loading release configuration..."
+          CONFIG_FILE=".github/config/release.json"
+          
+          if [ ! -f "$CONFIG_FILE" ]; then
+            echo "❌ Error: Release configuration file not found: $CONFIG_FILE"
+            exit 1
+          fi
+          
+          # Validate JSON syntax
+          if ! jq empty "$CONFIG_FILE" 2>/dev/null; then
+            echo "❌ Error: Invalid JSON in release configuration"
+            exit 1
+          fi
+          
+          # Load configuration values (only what's needed for cherry-pick)
+          UBUNTU_VERSION=$(jq -r '.environment.ubuntu_version' "$CONFIG_FILE")
+          THEME_NAME=$(jq -r '.repository.name' "$CONFIG_FILE")
+          MAIN_BRANCH=$(jq -r '.repository.main_branch' "$CONFIG_FILE")
+          ALLOWED_REPOS=$(jq -r '.security.allowed_repositories[]' "$CONFIG_FILE" | tr '\n' ' ')
+          BLOCKED_ACTORS=$(jq -r '.security.blocked_actors[]' "$CONFIG_FILE" | tr '\n' ' ')
+          RELEASE_BRANCHES=$(jq -r '.repository.release_branches[]' "$CONFIG_FILE" | tr '\n' ' ')
+          
+          # Set outputs
+          echo "ubuntu_version=$UBUNTU_VERSION" >> "$GITHUB_OUTPUT"
+          echo "theme_name=$THEME_NAME" >> "$GITHUB_OUTPUT"
+          echo "main_branch=$MAIN_BRANCH" >> "$GITHUB_OUTPUT"
+          echo "allowed_repos=$ALLOWED_REPOS" >> "$GITHUB_OUTPUT"
+          echo "blocked_actors=$BLOCKED_ACTORS" >> "$GITHUB_OUTPUT"
+          echo "release_branches=$RELEASE_BRANCHES" >> "$GITHUB_OUTPUT"
+          
+          echo "✅ Release configuration loaded successfully"
+          echo "Theme: $THEME_NAME"
+          echo "Ubuntu: $UBUNTU_VERSION"
+          echo "Main branch: $MAIN_BRANCH"
+          echo "Release branches: $RELEASE_BRANCHES"
+
+  cherry-pick:
+    needs: load-config
+    if: ${{ github.event.pull_request.merged == true && (github.event.action == 'closed' || (github.event.action == 'labeled' && startsWith(github.event.label.name, 'cp_'))) }}
+    runs-on: ${{ needs.load-config.outputs.ubuntu_version }}
+
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      HEAD_REF: ${{ github.event.pull_request.head.ref }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ github.event.pull_request.base.ref }}
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Set Configuration Variables
+        run: |
+          echo "📋 Setting configuration variables from load-config job..."
+          echo "UBUNTU_VERSION=${{ needs.load-config.outputs.ubuntu_version }}" >> $GITHUB_ENV
+          echo "THEME_NAME=${{ needs.load-config.outputs.theme_name }}" >> $GITHUB_ENV
+          echo "MAIN_BRANCH=${{ needs.load-config.outputs.main_branch }}" >> $GITHUB_ENV
+          echo "ALLOWED_REPOS=${{ needs.load-config.outputs.allowed_repos }}" >> $GITHUB_ENV
+          echo "BLOCKED_ACTORS=${{ needs.load-config.outputs.blocked_actors }}" >> $GITHUB_ENV
+          echo "RELEASE_BRANCHES=${{ needs.load-config.outputs.release_branches }}" >> $GITHUB_ENV
+          
+          echo "✅ Configuration variables set successfully"
+          echo "Theme: ${{ needs.load-config.outputs.theme_name }}"
+          echo "Ubuntu: ${{ needs.load-config.outputs.ubuntu_version }}"
+          echo "Main branch: ${{ needs.load-config.outputs.main_branch }}"
+
+      - name: Security and Pre-flight Checks
+        run: |
+          echo "🔍 Security and pre-flight checks..."
+          echo "Repository: ${{ github.repository }}"
+          echo "Actor: ${{ github.actor }}"
+          echo "Base branch: ${{ github.event.pull_request.base.ref }}"
+          echo "Head branch: $HEAD_REF"
+          
+          # Repository permissions validation
+          REPO_ALLOWED=false
+          IFS=' ' read -ra ALLOWED_REPOS_ARRAY <<< "${{ env.ALLOWED_REPOS }}"
+          for allowed_repo in "${ALLOWED_REPOS_ARRAY[@]}"; do
+            if [ "${{ github.repository }}" = "$allowed_repo" ]; then
+              REPO_ALLOWED=true
+              break
+            fi
+          done
+          
+          if [ "$REPO_ALLOWED" != "true" ]; then
+            echo "⚠️  Warning: Cherry-pick attempted on unauthorized repository: ${{ github.repository }}"
+            echo "Allowed repositories: ${{ env.ALLOWED_REPOS }}"
+          fi
+          
+          # Check actor permissions (basic validation)
+          IFS=' ' read -ra BLOCKED_ACTORS_ARRAY <<< "${{ env.BLOCKED_ACTORS }}"
+          for blocked_actor in "${BLOCKED_ACTORS_ARRAY[@]}"; do
+            if [ "${{ github.actor }}" = "$blocked_actor" ]; then
+              echo "❌ Error: Blocked actor cannot create cherry-pick: ${{ github.actor }}"
+              exit 1
+            fi
+          done
+          
+          # Validate that this is a legitimate cherry-pick operation
+          if [ "${{ github.event.pull_request.merged }}" != "true" ]; then
+            echo "❌ Error: Cherry-pick can only be performed on merged PRs"
+            exit 1
+          fi
+          
+          echo "✅ Security and pre-flight checks passed"
+
+      - name: Check if PR is from fork
+        id: check_fork
+        run: |
+          IS_FORK="${{ github.event.pull_request.head.repo.full_name != github.repository }}"
+          echo "is_fork=$IS_FORK" >> "$GITHUB_OUTPUT"
+          echo "Fork status: $IS_FORK"
+        shell: bash
+
+      - name: Log trigger and PR information
+        run: |
+          echo "Trigger: ${{ github.event.action }}"
+          if [ "${{ github.event.action }}" = "labeled" ]; then
+            echo "Added label: ${{ github.event.label.name }}"
+          fi
+          echo "PR #${{ github.event.pull_request.number }} from: ${{ github.event.pull_request.head.repo.full_name }}"
+          echo "Target repository: ${{ github.repository }}"
+          echo "Is fork PR: ${{ steps.check_fork.outputs.is_fork }}"
+          echo "PR merged: ${{ github.event.pull_request.merged }}"
+        shell: bash
+
+      - name: Get branch labels
+        id: get_labels
+        run: |
+          LABELS=$(jq -r '.[].name' <<< '${{ toJSON(github.event.pull_request.labels) }}' | grep '^cp_' | paste -sd ',' || echo "")
+          echo "filtered_labels_csv=$LABELS" >> "$GITHUB_OUTPUT"
+        shell: bash
+
+      - name: Fetch all branches
+        run: git fetch --all
+        shell: bash
+
+      - name: Cherry-Pick and Create PRs
+        if: ${{ steps.get_labels.outputs.filtered_labels_csv != '' }}
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_USER_LOGIN: ${{ github.event.pull_request.user.login }}
+          LABEL_NAME: ${{ github.event.label.name }}
+        run: |
+          PR_NUMBER="${{ github.event.pull_request.number }}"
+          MERGE_SHA="${{ github.event.pull_request.merge_commit_sha }}"
+          ORIG_URL="${{ github.event.pull_request.html_url }}"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          IFS=',' read -ra BRANCHES <<< "${{ steps.get_labels.outputs.filtered_labels_csv }}"
+          for lbl in "${BRANCHES[@]}"; do
+            TARGET=${lbl#cp_}
+            
+            # Create sanitized branch name from original branch name with timestamp for uniqueness
+            ORIGINAL_BRANCH="${{ github.event.pull_request.head.ref }}"
+            # Strip any word followed by '/' to ensure ticket numbers appear at the beginning
+            CLEAN_BRANCH=$(echo "$ORIGINAL_BRANCH" | sed 's|^[^/]*/||g')
+            SANITIZED_BRANCH=$(echo "$CLEAN_BRANCH" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g' | sed 's/--*/-/g' | sed 's/^-\|-$//g')
+            # Limit length to 35 chars to leave room for PR number and timestamp suffix
+            SANITIZED_BRANCH=${SANITIZED_BRANCH:0:35}
+            TIMESTAMP=$(date +%s)
+            BRANCH="${SANITIZED_BRANCH}-cherry-pick-pr${PR_NUMBER}-${TIMESTAMP}"
+
+            echo "🍒 Processing cherry-pick for branch: $TARGET"
+
+            # Create branch
+            if ! git checkout -b "$BRANCH" "origin/$TARGET"; then
+              echo "::warning:: Branch $TARGET does not exist - skipping"
+              continue
+            fi
+
+            # Cherry-pick
+            if ! git cherry-pick -m 1 "$MERGE_SHA"; then
+              echo "::error:: Cherry-pick conflicts detected for PR #${PR_NUMBER} on branch ${TARGET}"
+
+              # Create a conflict resolution branch
+              CONFLICT_BRANCH="${BRANCH}-conflicts"
+
+              # Add conflict markers and create a commit for manual resolution
+              git add .
+              git commit -m "Cherry-pick PR #${PR_NUMBER} with conflicts - manual resolution needed"
+
+              # Push the conflict branch
+              if git push --force-with-lease origin "$BRANCH:$CONFLICT_BRANCH"; then
+                # Create draft PR with conflict information
+                if ! gh pr list --head "$CONFLICT_BRANCH" --base "$TARGET" --state open | grep -q .; then
+                  CONFLICT_TRIGGER_INFO=""
+                  if [ "${{ github.event.action }}" = "labeled" ]; then
+                    CONFLICT_TRIGGER_INFO="
+                  **Trigger:** Label \`${LABEL_NAME}\` added to closed PR"
+                  fi
+                  
+                  gh pr create \
+                    --base "$TARGET" \
+                    --head "$CONFLICT_BRANCH" \
+                    --title "🔧 [CONFLICTS] Cherry-pick PR #${PR_NUMBER} → ${TARGET}: ${PR_TITLE}" \
+                    --body "⚠️ **Manual Resolution Required**
+
+                  This cherry-pick of [#${PR_NUMBER}](${ORIG_URL}) to \`${TARGET}\` branch has conflicts that need manual resolution.
+
+                  **Theme-Specific Conflict Resolution:**
+                  - **Version Conflicts**: Check \`style.css\` header for version mismatches
+                  - **Schema Conflicts**: Validate \`theme.json\` structure changes
+                  - **Function Conflicts**: Resolve \`functions.php\` function name collisions
+
+                  **Resolution Steps:**
+                  1. Check out this branch: \`git checkout $CONFLICT_BRANCH\`
+                  2. Resolve conflicts in the marked files
+                  3. Stage resolved files: \`git add <resolved-files>\`
+                  4. Amend the commit: \`git commit --amend\`
+                  5. Push changes: \`git push --force-with-lease\`
+                  6. Mark this PR as ready for review
+
+                  **Automatic Validation:**
+                  Once you push resolved changes, the following workflows will run automatically:
+                  - Build validation (\`build.yml\`)
+                  - JavaScript linting (\`lint.yml\`)
+                  - Cherry-pick validation (\`cherry-pick-validation.yml\`)
+                  - Additional CI workflows as configured
+
+                  **Original PR:** [#${PR_NUMBER}](${ORIG_URL})${CONFLICT_TRIGGER_INFO}" \
+                    --draft
+
+                  echo "::notice:: Created draft PR for manual conflict resolution: $CONFLICT_BRANCH"
+                else
+                  echo "::notice:: Draft PR already exists for conflict resolution: $CONFLICT_BRANCH"
+                fi
+              else
+                echo "::warning:: Failed to push conflict branch $CONFLICT_BRANCH"
+                git cherry-pick --abort
+              fi
+              continue
+            else
+              echo "✅ Cherry-pick successful for $TARGET"
+            fi
+
+            # Basic theme structure validation (quick checks only)
+            echo "🔍 Basic theme structure validation..."
+            if [ ! -f "style.css" ]; then
+              echo "::error:: Missing style.css after cherry-pick"
+              continue
+            fi
+            if [ ! -f "functions.php" ]; then
+              echo "::error:: Missing functions.php after cherry-pick"
+              continue
+            fi
+            if [ ! -f "theme.json" ]; then
+              echo "::error:: Missing theme.json after cherry-pick"
+              continue
+            fi
+
+            # Check for obvious conflict markers
+            if grep -q "<<<<<<< HEAD" style.css functions.php theme.json 2>/dev/null; then
+              echo "::warning:: Conflict markers detected - this should not happen in successful cherry-pick"
+            fi
+
+            # Push (force push to handle existing branches)
+            if ! git push --force-with-lease origin "$BRANCH"; then
+              echo "::error:: Failed to push branch $BRANCH"
+              exit 1
+            fi
+
+            # Create PR via gh CLI (token already in env: GH_TOKEN)
+            # Check if PR already exists
+            if gh pr list --head "$BRANCH" --base "$TARGET" --state open | grep -q .; then
+              echo "PR already exists for branch $BRANCH -> $TARGET, skipping creation"
+            else
+              TRIGGER_INFO=""
+              if [ "${{ github.event.action }}" = "labeled" ]; then
+                TRIGGER_INFO="
+                **Trigger:** Label \`${LABEL_NAME}\` added to closed PR"
+              fi
+
+              # Extract tickets and add to title for Jira compatibility
+              PR_TICKETS=$(echo "$PR_TITLE" | grep -o '\[[A-Z]\{2,\}-[0-9]\+\]' | tr '\n' ' ' | sed 's/[[:space:]]*$//')
+              
+              # Create title with tickets at the end
+              if [ -n "$PR_TICKETS" ]; then
+                CHERRY_PICK_TITLE="$PR_TITLE (🍒 CP #${PR_NUMBER}→${TARGET}) ${PR_TICKETS}"
+              else
+                CHERRY_PICK_TITLE="$PR_TITLE (🍒 CP #${PR_NUMBER}→${TARGET})"
+              fi
+
+              gh pr create \
+                --base "$TARGET" \
+                --head "$BRANCH" \
+                --title "$CHERRY_PICK_TITLE" \
+                --body "Automatic cherry-pick of [#${PR_NUMBER}](${ORIG_URL}) to \`${TARGET}\` branch.
+
+                **Theme Information:**
+                - **Theme:** ${THEME_NAME}
+                - **Source:** ${{ github.event.pull_request.head.repo.full_name }}
+                - **Original Author:** @${PR_USER_LOGIN}${TRIGGER_INFO}
+
+                **Automatic Validation:**
+                The following workflows will run automatically to validate this cherry-pick:
+                - 🏗️ **Build validation** (\`build.yml\`) - Theme compilation and asset building
+                - 🧹 **JavaScript linting** (\`lint.yml\`) - Code quality checks  
+                - ✅ **Cherry-pick validation** (\`cherry-pick-validation.yml\`) - Theme-specific validation
+                - 🔍 **Additional CI workflows** - As configured for the repository
+
+                **Next Steps:**
+                - Wait for validation workflows to complete
+                - Review automated validation results
+                - Test theme functionality if needed
+                - Merge when all checks pass
+
+                **Note:** Build and validation happen automatically via PR workflows, following the same process as regular PRs."
+            fi
+            
+            echo "✅ Successfully created cherry-pick PR for $TARGET"
+          done
+        shell: bash 
