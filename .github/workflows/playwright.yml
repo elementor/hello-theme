@@ -1,0 +1,66 @@
+name: Playwright Tests
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  playwright-tests:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@elementor'
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          tools: composer
+          coverage: none
+
+      - name: Install Composer dependencies
+        run: composer install --no-dev --optimize-autoloader
+
+      - name: Install npm dependencies
+        run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.CLOUD_DEVOPS_TOKEN }}
+
+      - name: Start wp-env
+        run: npm run wp-env:start
+
+      - name: Setup Playwright
+        run: npm run test:setup:playwright
+
+      - name: Setup Chromium
+        run: npm run test:setup:chromium
+
+      - name: Run Playwright tests
+        id: playwright-tests
+        run: |
+          npm run test:playwright
+          echo "exit_code=$?" >> $GITHUB_OUTPUT
+        continue-on-error: false
+
+      - name: Check test results
+        if: steps.playwright-tests.outcome == 'failure'
+        run: |
+          echo "❌ Playwright tests failed!"
+          exit 1
+
+      - name: Stop wp-env
+        if: always()
+        run: npm run wp-env:stop
