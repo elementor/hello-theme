@@ -68,7 +68,7 @@ class Promotions extends Rest_Base {
 				'type' => 'go-send',
 				'image' => HELLO_THEME_IMAGES_URL . 'send-logo.gif',
 				'backgroundColor' => '#EFEFFF',
-				'url' =>  Utils::get_plugin_install_url( 'send-app' ),
+				'url' => Utils::get_plugin_install_url( 'send-app' ),
 				'alt' => __( 'Send', 'hello-elementor' ),
 				'title' => '',
 				'target' => '_self',
