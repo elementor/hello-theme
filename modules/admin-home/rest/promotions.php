@@ -68,9 +68,10 @@ class Promotions extends Rest_Base {
 				'type' => 'go-send',
 				'image' => HELLO_THEME_IMAGES_URL . 'send-logo.gif',
 				'backgroundColor' => '#EFEFFF',
-				'url' => 'https://go.elementor.com/Hello_send',
+				'url' => Utils::get_plugin_install_url( 'send-app' ),
 				'alt' => __( 'Send', 'hello-elementor' ),
 				'title' => '',
+				'target' => '_self',
 				'messages' => [
 					__( 'Connect any website to automated Email & SMS workflows in a click with Send.', 'hello-elementor' ),
 				],
