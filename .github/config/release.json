@@ -2,7 +2,7 @@
   "repository": {
     "name": "hello-elementor",
     "owner": "elementor",
-    "main_branch": "master",
+    "main_branch": "main",
     "release_branches": ["3.4"]
   },
   "versioning": {
