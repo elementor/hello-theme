@@ -11,7 +11,7 @@ permissions:
 jobs:
   playwright-tests:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -38,6 +38,9 @@ jobs:
         run: npm ci
         env:
           NODE_AUTH_TOKEN: ${{ secrets.CLOUD_DEVOPS_TOKEN }}
+
+      - name: Build plugin
+        run: npm run build
 
       - name: Start wp-env
         run: npm run wp-env:start
