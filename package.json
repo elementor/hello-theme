@@ -21,10 +21,13 @@
 		"test:setup:playwright": "wp-env run cli bash hello-elementor-config/setup.sh && wp-env run tests-cli bash hello-elementor-config/setup.sh",
 		"test:setup:chromium": "npx playwright install chromium",
         "zip": "npm run clean:build && npm run build:prod && rsync -av --exclude-from=.buildignore . $npm_package_name && zip -r $npm_package_name.$npm_package_version.zip $npm_package_name/*",
-        "update-version": "node .github/scripts/update-version-in-files.js"
+        "update-version": "node .github/scripts/update-version-in-files.js",
+		"wp-env:start": "wp-env start",
+		"wp-env:stop": "wp-env stop"
     },
     "devDependencies": {
         "@wordpress/components": "^29.9.0",
+		"@wordpress/env": "^10.26.0",
         "@wordpress/eslint-plugin": "^22.9.0",
         "@wordpress/i18n": "^5.23.0",
         "@wordpress/notices": "^5.23.0",

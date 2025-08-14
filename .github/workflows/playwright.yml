@@ -11,7 +11,7 @@ permissions:
 jobs:
   playwright-tests:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -31,13 +31,13 @@ jobs:
           tools: composer
           coverage: none
 
-      - name: Install Composer dependencies
-        run: composer install --no-dev --optimize-autoloader
-
       - name: Install npm dependencies
         run: npm ci
         env:
           NODE_AUTH_TOKEN: ${{ secrets.CLOUD_DEVOPS_TOKEN }}
+
+      - name: Build plugin
+        run: npm run build:prod
 
       - name: Start wp-env
         run: npm run wp-env:start
