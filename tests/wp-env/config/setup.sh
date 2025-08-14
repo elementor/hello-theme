@@ -2,7 +2,7 @@
 set -eox pipefail
 
 wp plugin activate elementor
-wp theme activate hello-elementor
+wp theme activate hello-theme
 
 WP_CLI_CONFIG_PATH=hello-elementor-config/wp-cli.yml wp rewrite structure '/%postname%/' --hard
 
