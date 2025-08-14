@@ -1,0 +1,37 @@
+{
+  "repository": {
+    "name": "hello-elementor",
+    "owner": "elementor",
+    "main_branch": "main",
+    "release_branches": ["3.4"]
+  },
+  "versioning": {
+    "default_type": "patch",
+    "allowed_types": ["current", "patch", "minor", "major"]
+  },
+  "release": {
+    "changelog_file": "readme.txt",
+    "changelog_section": "## Changelog",
+    "build_artifacts": ["hello-elementor.zip"],
+    "wordpress_org": {
+      "manual_upload": true,
+      "theme_slug": "hello-elementor"
+    }
+  },
+  "notifications": {
+    "slack": {
+      "default_channel": "#release",
+      "enabled": true
+    }
+  },
+  "security": {
+    "allowed_repositories": ["elementor/hello-theme"],
+    "blocked_actors": ["dependabot[bot]"]
+  },
+  "environment": {
+    "node_version": "18",
+    "php_version": "7.4",
+    "composer_version": "2",
+    "ubuntu_version": "ubuntu-22.04"
+  }
+} 

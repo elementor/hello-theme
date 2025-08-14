@@ -8,9 +8,9 @@ PACKAGE_VERSION=$(node -p "require('./package.json').version")
 NEXT_PACKAGE_VERSION=$(npx semver $PACKAGE_VERSION -i minor)
 NEXT_RELEASE_BRANCH="release/${NEXT_PACKAGE_VERSION}"
 
-# Merge master -> develop
+# Merge main -> develop
 git checkout develop
-git merge origin/master
+git merge origin/main
 git push origin develop
 
 # Merge develop -> next release
