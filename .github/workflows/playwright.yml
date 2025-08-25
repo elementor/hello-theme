@@ -40,7 +40,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.CLOUD_DEVOPS_TOKEN }}
 
       - name: Build plugin
-        run: npm run build
+        run: npm run build:prod
 
       - name: Start wp-env
         run: npm run wp-env:start
