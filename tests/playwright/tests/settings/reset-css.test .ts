@@ -1,6 +1,6 @@
-import { parallelTest as test } from '../../parallelTest.js';
+import { parallelTest as test } from '../../parallelTest.ts';
 import { expect } from '@playwright/test';
-import SettingsPage from '../../pages/settings-page.js';
+import SettingsPage from '../../pages/settings-page.ts';
 
 test.describe.serial( 'Reset CSS Setting - Behavior Tests', () => {
 	test.beforeEach( async ( { page, apiRequests }, testInfo ) => {
