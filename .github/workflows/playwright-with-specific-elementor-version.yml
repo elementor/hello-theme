@@ -59,24 +59,32 @@ jobs:
       - name: Set version outputs
         id: set-versions
         run: |
-          HELLO_THEME_VERSION="${{ inputs.hello_theme_version || 'main' }}"
+          # Set Elementor Core branch from input (can be branch name or version)
           ELEMENTOR_CORE_BRANCH="${{ inputs.core_branch }}"
           
-          echo "hello-theme-version=${HELLO_THEME_VERSION}" >> $GITHUB_OUTPUT
+          # Hello Theme version from current repo (like Hello Commerce pattern)
+          HT_VERSION=$(node -p "require('./package.json').version")
+          
+          # Input version for reference (main, etc.)
+          HELLO_THEME_INPUT="${{ inputs.hello_theme_version || 'main' }}"
+          
+          echo "hello-theme-version=${HT_VERSION}" >> $GITHUB_OUTPUT
+          echo "hello-theme-input=${HELLO_THEME_INPUT}" >> $GITHUB_OUTPUT
           echo "elementor-core-branch=${ELEMENTOR_CORE_BRANCH}" >> $GITHUB_OUTPUT
           echo "elementor-version=${ELEMENTOR_CORE_BRANCH}" >> $GITHUB_OUTPUT
           echo "hello-theme-source=github" >> $GITHUB_OUTPUT
           
-          # Generate artifact name
-          ARTIFACT_NAME="core-ht${HELLO_THEME_VERSION}-el${ELEMENTOR_CORE_BRANCH}-${{ github.run_id }}"
+          # Generate artifact name using input version for readability
+          ARTIFACT_NAME="core-ht${HELLO_THEME_INPUT}-el${ELEMENTOR_CORE_BRANCH}-${{ github.run_id }}"
           echo "artifact-name=${ARTIFACT_NAME}" >> $GITHUB_OUTPUT
           
-          echo "✅ Set versions: Hello Theme=${HELLO_THEME_VERSION}, Elementor=${ELEMENTOR_CORE_BRANCH}"
+          echo "✅ Set versions: Hello Theme=${HT_VERSION} (${HELLO_THEME_INPUT}), Elementor=${ELEMENTOR_CORE_BRANCH}"
 
       - name: Build Hello Theme
         uses: ./.github/workflows/build-theme
         with:
-          HELLO_THEME_VERSION: ${{ steps.set-versions.outputs.hello-theme-version }}
+          PACKAGE_VERSION: ${{ steps.set-versions.outputs.hello-theme-version }}
+          BUILD_SCRIPT_PATH: "npm run build:prod"
 
       - name: Create theme build directory
         run: |

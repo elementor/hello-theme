@@ -2,92 +2,17 @@ name: Build Hello Theme
 description: Build Hello Theme with specified version
 
 inputs:
-  HELLO_THEME_VERSION:
-    description: 'The Hello Theme version to build (e.g. 3.4.4, main)'
+  PACKAGE_VERSION:
+    description: 'The package version to build (e.g. 3.4.4)'
     required: true
   BUILD_SCRIPT_PATH:
     description: 'Path to build script'
     required: false
-    default: "npm run zip"
-
-outputs:
-  hello-theme-version:
-    description: 'The Hello Theme version that was built'
-    value: ${{ steps.set-version.outputs.hello-theme-version }}
-  hello-theme-source:
-    description: 'Source type used for Hello Theme (github or wordpress-org)'
-    value: ${{ steps.determine-source.outputs.source-type }}
+    default: "npm run build:prod"
 
 runs:
   using: "composite"
   steps:
-    - name: Determine source type
-      id: determine-source
-      shell: bash
-      run: |
-        # Hello Theme builds from GitHub for workflow testing (like Hello Commerce)
-        # This ensures we have workflows and tests available
-        echo "source-type=github" >> $GITHUB_OUTPUT
-        echo "🔍 Using GitHub source for Hello Theme version: ${{ inputs.HELLO_THEME_VERSION }}"
-
-    - name: Checkout Hello Theme source
-      shell: bash
-      env:
-        HELLO_THEME_VERSION: ${{ inputs.HELLO_THEME_VERSION }}
-      run: |
-        echo "🔄 Checking out Hello Theme version: ${HELLO_THEME_VERSION}"
-        
-        # Hello Theme builds from current repo like Hello Commerce
-        if [[ "$HELLO_THEME_VERSION" != "main" ]]; then
-          # Check if it's a semantic version (add 'v' prefix)
-          if [[ "$HELLO_THEME_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            echo "📋 Checking out Git tag: v${HELLO_THEME_VERSION}"
-            git fetch --all --tags
-            git checkout "v${HELLO_THEME_VERSION}" || git checkout "${HELLO_THEME_VERSION}" || {
-              echo "⚠️ Version v${HELLO_THEME_VERSION} not found, trying without 'v' prefix"
-              git checkout "${HELLO_THEME_VERSION}" || {
-                echo "❌ Version ${HELLO_THEME_VERSION} not found, using current version"
-              }
-            }
-          else
-            # Branch name or other format
-            echo "📋 Checking out branch/ref: ${HELLO_THEME_VERSION}"
-            git fetch --all
-            git checkout "${HELLO_THEME_VERSION}" || {
-              echo "❌ Branch ${HELLO_THEME_VERSION} not found, using current version"
-            }
-          fi
-        else
-          echo "📋 Using main branch (already checked out)"
-        fi
-        
-        # Verify we have the theme files
-        if [ ! -f "functions.php" ]; then
-          echo "❌ Hello Theme functions.php not found after checkout"
-          exit 1
-        fi
-
-    - name: Set version outputs
-      id: set-version
-      shell: bash
-      env:
-        HELLO_THEME_VERSION: ${{ inputs.HELLO_THEME_VERSION }}
-      run: |
-        # Get actual version from the checked out code
-        if [ -f "functions.php" ]; then
-          ACTUAL_VERSION=$(grep "HELLO_ELEMENTOR_VERSION" functions.php | sed "s/.*'\([^']*\)'.*/\1/" | head -1)
-          if [[ -n "$ACTUAL_VERSION" ]]; then
-            echo "✅ Detected Hello Theme version from functions.php: $ACTUAL_VERSION"
-            echo "hello-theme-version=$ACTUAL_VERSION" >> $GITHUB_OUTPUT
-          else
-            echo "⚠️ Could not detect version from functions.php, using input: $HELLO_THEME_VERSION"
-            echo "hello-theme-version=$HELLO_THEME_VERSION" >> $GITHUB_OUTPUT
-          fi
-        else
-          echo "⚠️ functions.php not found, using input: $HELLO_THEME_VERSION"
-          echo "hello-theme-version=$HELLO_THEME_VERSION" >> $GITHUB_OUTPUT
-        fi
-
     - name: Install npm dependencies
       shell: bash
       run: |
@@ -103,10 +28,10 @@ runs:
     - name: Set package version
       shell: bash
       env:
-        HELLO_THEME_VERSION: ${{ steps.set-version.outputs.hello-theme-version }}
+        PACKAGE_VERSION: ${{ inputs.PACKAGE_VERSION }}
       run: |
-        echo "HELLO_THEME_VERSION=${HELLO_THEME_VERSION}" >> $GITHUB_ENV
-        echo "Building Hello Theme version: ${HELLO_THEME_VERSION}"
+        echo "PACKAGE_VERSION=${PACKAGE_VERSION}" >> $GITHUB_ENV
+        echo "Building Hello Theme version: ${PACKAGE_VERSION}"
 
     - name: Build Hello Theme
       shell: bash
@@ -125,33 +50,20 @@ runs:
     - name: Package Hello Theme
       shell: bash
       env:
-        HELLO_THEME_VERSION: ${{ steps.set-version.outputs.hello-theme-version }}
+        PACKAGE_VERSION: ${{ inputs.PACKAGE_VERSION }}
       run: |
-        # Create zip file with proper naming (following Hello Theme's pattern)
-        # Hello Theme generates: hello-elementor.{version}.zip
-        if [ -f "hello-elementor.${HELLO_THEME_VERSION}.zip" ]; then
-          # Use existing zip from npm run zip
-          mv "hello-elementor.${HELLO_THEME_VERSION}.zip" "/tmp/hello-theme-builds/"
-          echo "✅ Found and moved existing zip: hello-elementor.${HELLO_THEME_VERSION}.zip"
-        elif [ -f "hello-elementor.zip" ]; then
-          # Rename generic zip to versioned
-          mv "hello-elementor.zip" "/tmp/hello-theme-builds/hello-elementor.${HELLO_THEME_VERSION}.zip"
-          echo "✅ Renamed hello-elementor.zip to hello-elementor.${HELLO_THEME_VERSION}.zip"
-        else
-          # Create zip manually if npm run zip didn't work as expected
-          echo "⚠️ No existing zip found, creating manually..."
-          zip -r "/tmp/hello-theme-builds/hello-elementor.${HELLO_THEME_VERSION}.zip" . \
-            -x "node_modules/*" "test-results/*" "tests/*" ".git/*" "*.zip" \
-               "playwright-report/*" ".wp-env.json.*" ".wp-env" "vendor/*"
-        fi
+        # Create zip file with proper naming (following Hello Commerce pattern)
+        zip -r "/tmp/hello-theme-builds/hello-elementor.${PACKAGE_VERSION}.zip" . \
+          -x "node_modules/*" "test-results/*" "tests/*" ".git/*" "*.zip" \
+             "playwright-report/*" ".wp-env.json.*" ".wp-env" "vendor/*"
 
     - name: Move build to workspace
       shell: bash
       env:
-        HELLO_THEME_VERSION: ${{ steps.set-version.outputs.hello-theme-version }}
+        PACKAGE_VERSION: ${{ inputs.PACKAGE_VERSION }}
       run: |
-        mv "/tmp/hello-theme-builds/hello-elementor.${HELLO_THEME_VERSION}.zip" \
-           "./hello-elementor.${HELLO_THEME_VERSION}.zip"
+        mv "/tmp/hello-theme-builds/hello-elementor.${PACKAGE_VERSION}.zip" \
+           "./hello-elementor.${PACKAGE_VERSION}.zip"
         
-        echo "✅ Hello Theme build completed: hello-elementor.${HELLO_THEME_VERSION}.zip"
+        echo "✅ Hello Theme build completed: hello-elementor.${PACKAGE_VERSION}.zip"
         ls -la hello-elementor.*.zip
