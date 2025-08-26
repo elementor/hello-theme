@@ -437,105 +437,72 @@ jobs:
             echo "targeted-tests=[]" >> $GITHUB_OUTPUT
           fi
 
-  trigger-core-workflow:
-    name: Trigger Core Tests
+  trigger-targeted-tests:
+    name: Trigger Targeted Tests
     needs: [calculate-test-matrix]
-    if: ${{ fromJson(needs.calculate-test-matrix.outputs.targeted-tests)[0].elementor_version != '' }}
+    if: ${{ needs.calculate-test-matrix.outputs.targeted-tests != '[]' }}
     runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
-        test: ${{ fromJson(needs.calculate-test-matrix.outputs.targeted-tests) }}
+        include: ${{ fromJson(needs.calculate-test-matrix.outputs.targeted-tests) }}
     steps:
-      - name: Filter and trigger Core workflows
-        if: contains(matrix.test.combination, 'el')
+      - name: Checkout Hello Theme
+        uses: actions/checkout@v4
+
+      - name: Trigger targeted compatibility test
+        id: trigger
         uses: actions/github-script@v7
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { triggerWorkflowAndWait, applyTriggerDelay } = require('./.github/scripts/workflow-trigger.js');
-            const { getDailyTriggerTimingConfig } = require('./.github/scripts/workflow-reporting.js');
+            const { triggerWorkflowAndWait } = require('./.github/scripts/workflow-trigger.js');
+
+            // Apply delay to prevent race conditions
+            const delay = ${{ matrix.delay }} * 1000;
+            if (delay > 0) {
+              console.log(`Applying ${delay/1000}s delay to prevent race condition...`);
+              await new Promise(resolve => setTimeout(resolve, delay));
+            }
+
+            // Determine which workflow to trigger based on combination type
+            const workflowId = '${{ matrix.combination }}'.includes('hp') ? '${{ env.PLUS_WORKFLOW }}' : '${{ env.CORE_WORKFLOW }}';
             
-            const timing = getDailyTriggerTimingConfig();
+            // Build inputs based on target workflow
+            let inputs;
+            if (workflowId === '${{ env.CORE_WORKFLOW }}') {
+              // Core workflow: needs core_branch and hello_theme_version
+              inputs = {
+                core_branch: '${{ matrix.elementor_version || 'main' }}',
+                hello_theme_version: '${{ matrix.hello_theme_version || 'main' }}'
+              };
+            } else {
+              // Plus workflow: needs hello_plus_version and hello_theme_version
+              inputs = {
+                hello_plus_version: '${{ matrix.hello_plus_version || 'latest-stable' }}',
+                hello_theme_version: '${{ matrix.hello_theme_version || 'main' }}'
+              };
+            }
             
-            // Apply trigger delay to prevent race conditions
-            await applyTriggerDelay('${{ matrix.test.combination }}', timing);
+            // Add tag if provided
+            if ('${{ inputs.tag || '' }}') {
+              inputs.tag = '${{ inputs.tag }}';
+            }
             
-            const workflowConfig = {
-              combination: '${{ matrix.test.combination }}',
-              name: '${{ matrix.test.name }}',
-              workflowId: '${{ env.CORE_WORKFLOW }}',
+            const config = {
+              combination: '${{ matrix.combination }}',
+              name: '${{ matrix.name }}',
+              workflowId: workflowId,
               ref: 'main',
-              inputs: {
-                core_branch: '${{ matrix.test.elementor_version }}',
-                hello_theme_version: '${{ matrix.test.hello_theme_version }}',
-                tag: '${{ inputs.tag || '' }}'
-              }
+              inputs: inputs
             };
-            
-            const result = await triggerWorkflowAndWait(github, context, core, workflowConfig);
-            core.setOutput('run-id', result.runId);
-            core.setOutput('run-url', result.runUrl);
 
-      - name: Store Core workflow run info
-        if: contains(matrix.test.combination, 'el')
-        run: |
-          echo "Core workflow triggered:"
-          echo "- Combination: ${{ matrix.test.combination }}"
-          echo "- Name: ${{ matrix.test.name }}"
-          echo "- Run ID: ${{ steps.trigger-core.outputs.run-id }}"
-          echo "- Run URL: ${{ steps.trigger-core.outputs.run-url }}"
-
-  trigger-plus-workflow:
-    name: Trigger Plus Tests
-    needs: [calculate-test-matrix]
-    if: ${{ fromJson(needs.calculate-test-matrix.outputs.targeted-tests)[0].hello_plus_version != '' }}
-    runs-on: ubuntu-22.04
-    strategy:
-      fail-fast: false
-      matrix:
-        test: ${{ fromJson(needs.calculate-test-matrix.outputs.targeted-tests) }}
-    steps:
-      - name: Filter and trigger Plus workflows
-        if: contains(matrix.test.combination, 'hp')
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const { triggerWorkflowAndWait, applyTriggerDelay } = require('./.github/scripts/workflow-trigger.js');
-            const { getDailyTriggerTimingConfig } = require('./.github/scripts/workflow-reporting.js');
-            
-            const timing = getDailyTriggerTimingConfig();
-            
-            // Apply trigger delay to prevent race conditions
-            await applyTriggerDelay('${{ matrix.test.combination }}', timing);
-            
-            const workflowConfig = {
-              combination: '${{ matrix.test.combination }}',
-              name: '${{ matrix.test.name }}',
-              workflowId: '${{ env.PLUS_WORKFLOW }}',
-              ref: 'main',
-              inputs: {
-                hello_plus_version: '${{ matrix.test.hello_plus_version }}',
-                hello_theme_version: '${{ matrix.test.hello_theme_version }}',
-                tag: '${{ inputs.tag || '' }}'
-              }
-            };
-            
-            const result = await triggerWorkflowAndWait(github, context, core, workflowConfig);
-            core.setOutput('run-id', result.runId);
-            core.setOutput('run-url', result.runUrl);
-
-      - name: Store Plus workflow run info
-        if: contains(matrix.test.combination, 'hp')
-        run: |
-          echo "Plus workflow triggered:"
-          echo "- Combination: ${{ matrix.test.combination }}"
-          echo "- Name: ${{ matrix.test.name }}"
-          echo "- Run ID: ${{ steps.trigger-plus.outputs.run-id }}"
-          echo "- Run URL: ${{ steps.trigger-plus.outputs.run-url }}"
+            const result = await triggerWorkflowAndWait(github, context, core, config);
+            console.log(`✅ Triggered: ${result.runUrl} for ${config.combination}`);
 
   daily-trigger-report:
     name: Daily Trigger Report
-    needs: [calculate-test-matrix, trigger-core-workflow, trigger-plus-workflow]
+    needs: [calculate-test-matrix, trigger-targeted-tests]
     runs-on: ubuntu-22.04
     if: always()
     steps:
@@ -550,9 +517,8 @@ jobs:
             // Collect all workflow runs triggered by this daily matrix
             const workflowRuns = [];
             
-            // Get runs from both core and plus workflows
-            const coreJobs = ${{ toJson(needs.trigger-core-workflow.outputs) }} || {};
-            const plusJobs = ${{ toJson(needs.trigger-plus-workflow.outputs) }} || {};
+            // Get runs from targeted tests
+            const targetedJobs = ${{ toJson(needs.trigger-targeted-tests.outputs) }} || {};
             
             // Note: In a real implementation, we'd need to collect run IDs from the matrix jobs
             // For now, we'll generate a placeholder report
