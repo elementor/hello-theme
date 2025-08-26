@@ -40,6 +40,11 @@ tests_add_filter('muplugins_loaded', function () {
 	require $elementor_plugin_path;
 });
 
+tests_add_filter('after_setup_theme', function() {
+	// Load theme functions
+	require_once dirname(__DIR__) . '/functions.php';
+});
+
 // Removes all sql tables on shutdown
 // Do this action last
 tests_add_filter('shutdown', 'drop_tables', 999999);
