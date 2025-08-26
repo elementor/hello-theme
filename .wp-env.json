@@ -5,7 +5,7 @@
         "https://downloads.wordpress.org/plugin/elementor.latest-stable.zip"
     ],
     "themes": [
-        "./tmp/hello-theme"
+        "./hello-elementor"
     ],
     "mappings": {
         "hello-elementor-config": "./tests/wp-env/config"

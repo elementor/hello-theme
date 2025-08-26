@@ -154,6 +154,13 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Debug artifact download location
+        run: |
+          echo "Current directory contents before artifact download:"
+          ls -la ./
+          echo "Creating tmp directory if it doesn't exist:"
+          mkdir -p ./tmp
+          
       - name: Hybrid Test Setup - Extract tests from target version
         id: extract-version-tests
         run: |
@@ -255,6 +262,29 @@ jobs:
         with:
           name: ${{ needs.build-core-components.outputs.artifact-name }}
           path: ./
+
+      - name: Debug downloaded artifacts
+        run: |
+          echo "=== ARTIFACT DEBUG ==="
+          echo "Current directory contents:"
+          ls -la ./
+          echo ""
+          echo "Checking for tmp directory:"
+          if [ -d "./tmp" ]; then
+            echo "✅ tmp directory exists"
+            echo "Contents of ./tmp/:"
+            ls -la ./tmp/
+            
+            if [ -d "./tmp/elementor" ]; then
+              echo "✅ Elementor directory found in tmp"
+              echo "Contents of ./tmp/elementor/ (first 10):"
+              ls -la ./tmp/elementor/ | head -10
+            else
+              echo "❌ No elementor directory in tmp"
+            fi
+          else
+            echo "❌ No tmp directory found"
+          fi
 
       - name: Extract Hello Theme build
         run: |
@@ -460,6 +490,29 @@ jobs:
         with:
           name: ${{ needs.build-core-components.outputs.artifact-name }}
           path: ./
+
+      - name: Debug downloaded artifacts
+        run: |
+          echo "=== ARTIFACT DEBUG ==="
+          echo "Current directory contents:"
+          ls -la ./
+          echo ""
+          echo "Checking for tmp directory:"
+          if [ -d "./tmp" ]; then
+            echo "✅ tmp directory exists"
+            echo "Contents of ./tmp/:"
+            ls -la ./tmp/
+            
+            if [ -d "./tmp/elementor" ]; then
+              echo "✅ Elementor directory found in tmp"
+              echo "Contents of ./tmp/elementor/ (first 10):"
+              ls -la ./tmp/elementor/ | head -10
+            else
+              echo "❌ No elementor directory in tmp"
+            fi
+          else
+            echo "❌ No tmp directory found"
+          fi
 
       - name: Extract Hello Theme build
         run: |

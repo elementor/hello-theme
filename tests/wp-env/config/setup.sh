@@ -5,14 +5,7 @@ wp plugin activate elementor
 echo "Available themes:"
 wp theme list
 echo "Attempting to activate hello-elementor theme..."
-wp theme activate hello-elementor || {
-    echo "Failed to activate hello-elementor, trying alternative names..."
-    wp theme activate tmp || wp theme activate hello-theme || {
-        echo "Theme activation failed. Available themes:"
-        wp theme list
-        exit 1
-    }
-}
+wp theme activate hello-elementor
 
 WP_CLI_CONFIG_PATH=hello-elementor-config/wp-cli.yml wp rewrite structure '/%postname%/' --hard
 
