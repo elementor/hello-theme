@@ -92,12 +92,13 @@ runs:
       shell: bash
       run: |
         export PUPPETEER_SKIP_DOWNLOAD=true
-        npm ci
+        export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
+        npm ci --prefer-offline --no-audit --no-fund --silent
 
     - name: Install composer dependencies
       shell: bash
       run: |
-        composer install --no-dev --no-scripts --optimize-autoloader
+        composer install --no-dev --no-scripts --optimize-autoloader --quiet
 
     - name: Set package version
       shell: bash

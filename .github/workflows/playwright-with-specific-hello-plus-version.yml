@@ -247,8 +247,9 @@ jobs:
       - name: Install Dependencies
         run: |
           export PUPPETEER_SKIP_DOWNLOAD=true
-          npm ci
-          composer install --no-dev --no-scripts --optimize-autoloader
+          export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
+          npm ci --prefer-offline --no-audit --no-fund --silent
+          composer install --no-dev --no-scripts --optimize-autoloader --quiet
 
       - name: Download build artifacts
         uses: actions/download-artifact@v4
@@ -424,8 +425,9 @@ jobs:
       - name: Install Dependencies
         run: |
           export PUPPETEER_SKIP_DOWNLOAD=true
-          npm ci
-          composer install --no-dev --no-scripts --optimize-autoloader
+          export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
+          npm ci --prefer-offline --no-audit --no-fund --silent
+          composer install --no-dev --no-scripts --optimize-autoloader --quiet
 
       - name: Download build artifacts
         uses: actions/download-artifact@v4
