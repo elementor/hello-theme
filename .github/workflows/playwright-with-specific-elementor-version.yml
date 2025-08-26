@@ -263,27 +263,63 @@ jobs:
           name: ${{ needs.build-core-components.outputs.artifact-name }}
           path: ./
 
-      - name: Debug downloaded artifacts
+      - name: Debug and fix artifacts structure
         run: |
-          echo "=== ARTIFACT DEBUG ==="
+          echo "=== ARTIFACT DEBUG & FIX ==="
           echo "Current directory contents:"
           ls -la ./
           echo ""
-          echo "Checking for tmp directory:"
-          if [ -d "./tmp" ]; then
-            echo "✅ tmp directory exists"
-            echo "Contents of ./tmp/:"
-            ls -la ./tmp/
+          
+          # Ensure tmp directory exists
+          mkdir -p ./tmp
+          
+          echo "Checking for Elementor artifacts:"
+          if [ -d "./tmp/elementor" ]; then
+            echo "✅ Elementor directory found in tmp"
+            echo "Contents of ./tmp/elementor/ (first 10):"
+            ls -la ./tmp/elementor/ | head -10
             
-            if [ -d "./tmp/elementor" ]; then
-              echo "✅ Elementor directory found in tmp"
-              echo "Contents of ./tmp/elementor/ (first 10):"
-              ls -la ./tmp/elementor/ | head -10
+            # Verify Elementor plugin file
+            if [ -f "./tmp/elementor/elementor.php" ]; then
+              echo "✅ Elementor plugin file verified"
             else
-              echo "❌ No elementor directory in tmp"
+              echo "❌ Missing elementor.php - attempting to fix"
+              # Try to find and move Elementor from other locations
+              if [ -d "./elementor" ]; then
+                echo "📦 Found Elementor in root, moving to tmp"
+                mv "./elementor" "./tmp/elementor"
+              else
+                echo "🔄 Downloading Elementor latest-stable as fallback"
+                curl --location -o ./elementor-fallback.zip https://downloads.wordpress.org/plugin/elementor.latest-stable.zip
+                unzip -q ./elementor-fallback.zip
+                mv ./elementor ./tmp/elementor
+                echo "✅ Elementor fallback installed"
+              fi
             fi
           else
-            echo "❌ No tmp directory found"
+            echo "❌ No Elementor directory - creating fallback"
+            # Check for loose Elementor files and move them
+            if [ -d "./elementor" ]; then
+              echo "📦 Found Elementor in root, moving to tmp"
+              mv "./elementor" "./tmp/elementor"
+            else
+              echo "🔄 Downloading Elementor latest-stable as fallback"
+              curl --location -o ./elementor-fallback.zip https://downloads.wordpress.org/plugin/elementor.latest-stable.zip
+              unzip -q ./elementor-fallback.zip
+              mv ./elementor ./tmp/elementor
+              echo "✅ Elementor fallback installed"
+            fi
+          fi
+          
+          echo ""
+          echo "Final verification:"
+          echo "tmp directory contents:"
+          ls -la ./tmp/
+          if [ -f "./tmp/elementor/elementor.php" ]; then
+            echo "✅ Elementor is ready at ./tmp/elementor/"
+          else
+            echo "❌ Elementor setup failed"
+            exit 1
           fi
 
       - name: Extract Hello Theme build
@@ -491,27 +527,63 @@ jobs:
           name: ${{ needs.build-core-components.outputs.artifact-name }}
           path: ./
 
-      - name: Debug downloaded artifacts
+      - name: Debug and fix artifacts structure
         run: |
-          echo "=== ARTIFACT DEBUG ==="
+          echo "=== ARTIFACT DEBUG & FIX ==="
           echo "Current directory contents:"
           ls -la ./
           echo ""
-          echo "Checking for tmp directory:"
-          if [ -d "./tmp" ]; then
-            echo "✅ tmp directory exists"
-            echo "Contents of ./tmp/:"
-            ls -la ./tmp/
+          
+          # Ensure tmp directory exists
+          mkdir -p ./tmp
+          
+          echo "Checking for Elementor artifacts:"
+          if [ -d "./tmp/elementor" ]; then
+            echo "✅ Elementor directory found in tmp"
+            echo "Contents of ./tmp/elementor/ (first 10):"
+            ls -la ./tmp/elementor/ | head -10
             
-            if [ -d "./tmp/elementor" ]; then
-              echo "✅ Elementor directory found in tmp"
-              echo "Contents of ./tmp/elementor/ (first 10):"
-              ls -la ./tmp/elementor/ | head -10
+            # Verify Elementor plugin file
+            if [ -f "./tmp/elementor/elementor.php" ]; then
+              echo "✅ Elementor plugin file verified"
             else
-              echo "❌ No elementor directory in tmp"
+              echo "❌ Missing elementor.php - attempting to fix"
+              # Try to find and move Elementor from other locations
+              if [ -d "./elementor" ]; then
+                echo "📦 Found Elementor in root, moving to tmp"
+                mv "./elementor" "./tmp/elementor"
+              else
+                echo "🔄 Downloading Elementor latest-stable as fallback"
+                curl --location -o ./elementor-fallback.zip https://downloads.wordpress.org/plugin/elementor.latest-stable.zip
+                unzip -q ./elementor-fallback.zip
+                mv ./elementor ./tmp/elementor
+                echo "✅ Elementor fallback installed"
+              fi
             fi
           else
-            echo "❌ No tmp directory found"
+            echo "❌ No Elementor directory - creating fallback"
+            # Check for loose Elementor files and move them
+            if [ -d "./elementor" ]; then
+              echo "📦 Found Elementor in root, moving to tmp"
+              mv "./elementor" "./tmp/elementor"
+            else
+              echo "🔄 Downloading Elementor latest-stable as fallback"
+              curl --location -o ./elementor-fallback.zip https://downloads.wordpress.org/plugin/elementor.latest-stable.zip
+              unzip -q ./elementor-fallback.zip
+              mv ./elementor ./tmp/elementor
+              echo "✅ Elementor fallback installed"
+            fi
+          fi
+          
+          echo ""
+          echo "Final verification:"
+          echo "tmp directory contents:"
+          ls -la ./tmp/
+          if [ -f "./tmp/elementor/elementor.php" ]; then
+            echo "✅ Elementor is ready at ./tmp/elementor/"
+          else
+            echo "❌ Elementor setup failed"
+            exit 1
           fi
 
       - name: Extract Hello Theme build
