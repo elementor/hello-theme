@@ -27,8 +27,8 @@ $active_plugins = [$elementor_plugin_path];
 // Activates this plugin in WordPress so it can be tested.
 $GLOBALS['wp_tests_options'] = [
 	'active_plugins' => $active_plugins,
-	'template' => 'hello-elementor',
-	'stylesheet' => 'hello-elementor',
+	'template' => 'hello-theme',
+	'stylesheet' => 'hello-theme',
 ];
 
 require_once $_tests_dir . '/includes/functions.php';
@@ -38,11 +38,6 @@ tests_add_filter('muplugins_loaded', function () {
 	$elementor_plugin_path = getenv('WP_TESTS_ELEMENTOR_DIR');
 
 	require $elementor_plugin_path;
-});
-
-tests_add_filter('after_setup_theme', function() {
-	// Load theme functions
-	require_once dirname(__DIR__) . '/functions.php';
 });
 
 // Removes all sql tables on shutdown
