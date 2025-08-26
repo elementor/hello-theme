@@ -19,26 +19,53 @@ runs:
         export PUPPETEER_SKIP_DOWNLOAD=true
         export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
         
-        # Retry npm ci up to 3 times to handle transient registry issues (E429, network errors)
+        # Enhanced retry logic for npm ci with registry fallbacks and cache clearing
         for i in {1..3}; do
           echo "🔄 Attempt $i/3: Installing npm dependencies..."
+          
+          # Try npm ci first
           if npm ci --prefer-offline --no-audit --no-fund --silent; then
             echo "✅ npm ci succeeded on attempt $i"
             break
           else
             echo "❌ npm ci failed on attempt $i"
-            if [ $i -eq 3 ]; then
-              echo "⚠️ npm ci failed all attempts, falling back to npm install"
-              npm install --legacy-peer-deps --no-audit --no-fund
-              if [ $? -eq 0 ]; then
-                echo "✅ npm install fallback succeeded"
-              else
-                echo "💥 Both npm ci and npm install failed"
-                exit 1
-              fi
-            else
+            
+            # Check if it's a 403/registry error and clear cache
+            if [ $i -lt 3 ]; then
+              echo "🧹 Clearing npm cache to resolve potential registry issues..."
+              npm cache clean --force 2>/dev/null || true
               echo "⏳ Waiting 30 seconds before retry..."
               sleep 30
+            else
+              echo "⚠️ npm ci failed all attempts, trying advanced fallbacks..."
+              
+              # Fallback 1: Clear cache and try npm install
+              echo "🔄 Fallback 1: Clearing cache and using npm install..."
+              npm cache clean --force 2>/dev/null || true
+              if npm install --legacy-peer-deps --no-audit --no-fund; then
+                echo "✅ npm install fallback succeeded"
+                break
+              fi
+              
+              # Fallback 2: Use different registry
+              echo "🔄 Fallback 2: Trying with public registry explicitly..."
+              if NPM_CONFIG_REGISTRY=https://registry.npmjs.org/ npm install --legacy-peer-deps --no-audit --no-fund; then
+                echo "✅ Public registry fallback succeeded"
+                break
+              fi
+              
+              # Fallback 3: Install without package-lock
+              echo "🔄 Fallback 3: Installing without package-lock.json..."
+              mv package-lock.json package-lock.json.backup 2>/dev/null || true
+              if npm install --legacy-peer-deps --no-audit --no-fund; then
+                echo "✅ No-lock installation succeeded"
+                mv package-lock.json.backup package-lock.json 2>/dev/null || true
+                break
+              fi
+              mv package-lock.json.backup package-lock.json 2>/dev/null || true
+              
+              echo "💥 All npm installation methods failed"
+              exit 1
             fi
           fi
         done
