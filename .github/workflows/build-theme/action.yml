@@ -76,7 +76,7 @@ runs:
         PACKAGE_VERSION: ${{ inputs.PACKAGE_VERSION }}
       run: |
         # Create zip file with proper naming (following Hello Commerce pattern)
-        zip -r "/tmp/hello-theme-builds/hello-elementor.${PACKAGE_VERSION}.zip" . \
+        zip -r "/tmp/hello-theme-builds/hello-elementor-${PACKAGE_VERSION}.zip" . \
           -x "node_modules/*" "test-results/*" "tests/*" ".git/*" "*.zip" \
              "playwright-report/*" ".wp-env.json.*" ".wp-env" "vendor/*"
 
@@ -85,8 +85,8 @@ runs:
       env:
         PACKAGE_VERSION: ${{ inputs.PACKAGE_VERSION }}
       run: |
-        mv "/tmp/hello-theme-builds/hello-elementor.${PACKAGE_VERSION}.zip" \
-           "./hello-elementor.${PACKAGE_VERSION}.zip"
+        mv "/tmp/hello-theme-builds/hello-elementor-${PACKAGE_VERSION}.zip" \
+           "./hello-elementor-${PACKAGE_VERSION}.zip"
         
-        echo "✅ Hello Theme build completed: hello-elementor.${PACKAGE_VERSION}.zip"
-        ls -la hello-elementor.*.zip
+        echo "✅ Hello Theme build completed: hello-elementor-${PACKAGE_VERSION}.zip"
+        ls -la hello-elementor-*.zip
