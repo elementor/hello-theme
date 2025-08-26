@@ -86,51 +86,7 @@ jobs:
           PACKAGE_VERSION: ${{ steps.set-versions.outputs.hello-theme-version }}
           BUILD_SCRIPT_PATH: "npm run build:prod"
 
-      - name: Extract Hello Theme build
-        run: |
-          echo "=== Debug: Current directory contents after build ==="
-          ls -la ./
-          echo ""
-          echo "=== Looking for Hello Theme ZIP files ==="
-          find . -name "hello-elementor-*.zip" -type f || echo "No hello-elementor-*.zip files found"
-          find . -name "*.zip" -type f || echo "No ZIP files found at all"
-          echo ""
-          
-          # Try to find any hello-elementor ZIP file
-          HT_ZIP=$(find . -name "hello-elementor-*.zip" -type f | head -1)
-          
-          if [ -n "$HT_ZIP" ]; then
-            echo "Found Hello Theme build: $HT_ZIP"
-            echo "Extracting for use..."
-            mkdir -p ./tmp
-            unzip -q "$HT_ZIP" -d ./tmp/
-            
-            # The ZIP content might be in a subdirectory, check structure
-            echo "Contents of ./tmp/ after extraction:"
-            ls -la ./tmp/
-            
-            # Find the actual theme directory
-            if [ -d "./tmp/hello-elementor" ]; then
-              echo "Moving hello-elementor to hello-theme..."
-              mv "./tmp/hello-elementor" "./tmp/hello-theme"
-              echo "✅ Hello Theme built theme found at ./tmp/hello-theme/"
-              ls -la ./tmp/hello-theme/ | head -10
-            elif [ -d "./tmp" ] && [ "$(ls -A ./tmp/)" ]; then
-              # Content might be directly in tmp, move it to hello-theme subdirectory
-              echo "Theme extracted directly to ./tmp/, creating hello-theme subdirectory..."
-              mkdir -p ./tmp/hello-theme-temp
-              mv ./tmp/* ./tmp/hello-theme-temp/ 2>/dev/null || true
-              mv ./tmp/hello-theme-temp ./tmp/hello-theme
-              echo "✅ Hello Theme built theme organized at ./tmp/hello-theme/"
-              ls -la ./tmp/hello-theme/ | head -10
-            else
-              echo "❌ Theme content not found in expected location"
-              exit 1
-            fi
-          else
-            echo "❌ No Hello Theme build ZIP found"
-            exit 1
-          fi
+
 
       - name: Download Elementor Core
         run: |
@@ -168,7 +124,7 @@ jobs:
         with:
           name: ${{ steps.set-versions.outputs.artifact-name }}
           path: |
-            ./tmp/hello-theme
+            ./hello-elementor-*.zip
             ./tmp/elementor
           retention-days: 3
 
