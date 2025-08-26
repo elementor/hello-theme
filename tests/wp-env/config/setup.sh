@@ -63,7 +63,8 @@ wp option set elementor_onboarded true
 
 # Add user meta so the announcement popup will not be displayed - ED-9723
 for id in $(wp user list --field=ID)
-do wp user meta add "$id" "announcements_user_counter" 999
+	do wp user meta add "$id" "announcements_user_counter" 999
+	wp user meta add "$id" "elementor_onboarded" "a:1:{s:27:\"ai-get-started-announcement\";b:1;}"
 done
 
 wp cache flush
