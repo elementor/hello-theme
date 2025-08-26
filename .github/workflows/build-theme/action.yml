@@ -105,7 +105,7 @@ runs:
         # Create zip file with proper naming (following Hello Commerce pattern)
         zip -r "/tmp/hello-theme-builds/hello-elementor-${PACKAGE_VERSION}.zip" . \
           -x "node_modules/*" "test-results/*" "tests/*" ".git/*" "*.zip" \
-             "playwright-report/*" ".wp-env.json.*" ".wp-env" "vendor/*"
+             "playwright-report/*" ".wp-env.json.*" ".wp-env"
 
     - name: Move build to workspace
       shell: bash
