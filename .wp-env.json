@@ -1,6 +1,6 @@
 {
     "core": null,
-    "phpVersion": "8.1",
+    "phpVersion": "8.0",
     "plugins": [
         "https://downloads.wordpress.org/plugin/elementor.latest-stable.zip"
     ],
@@ -8,14 +8,13 @@
         "./"
     ],
     "mappings": {
-        "hello-elementor-config": "./tests/wp-env/config"
+        "hello-theme-config": "./tests/wp-env/config"
     },
     "config": {
         "ELEMENTOR_SHOW_HIDDEN_EXPERIMENTS": true,
         "SCRIPT_DEBUG": false,
         "WP_DEBUG": true,
         "WP_DEBUG_LOG": true,
-        "WP_DEBUG_DISPLAY": false,
-        "HELLO_THEME_VERSION": "3.4.4"
+        "WP_DEBUG_DISPLAY": false
     }
 }
