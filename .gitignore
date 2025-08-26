@@ -17,3 +17,10 @@ assets/js/
 *.zip
 .npmrc
 .env
+<<<<<<< HEAD
+=======
+tmp/
+.phpunit.result.cache
+test-results/
+!tests/phpunit/hello-elementor
+>>>>>>> dab5ced (Internal: Settings page test [TMZ-894] (#520))
