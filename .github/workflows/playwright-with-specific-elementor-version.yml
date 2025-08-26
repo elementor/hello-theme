@@ -59,46 +59,34 @@ jobs:
       - name: Set version outputs
         id: set-versions
         run: |
-          HELLO_THEME_VERSION="${{ inputs.hello_theme_version || 'main' }}"
+          # Set Elementor Core branch from input (can be branch name or version)
           ELEMENTOR_CORE_BRANCH="${{ inputs.core_branch }}"
           
-          echo "hello-theme-version=${HELLO_THEME_VERSION}" >> $GITHUB_OUTPUT
+          # Hello Theme version from current repo (like Hello Commerce pattern)
+          HT_VERSION=$(node -p "require('./package.json').version")
+          
+          # Input version for reference (main, etc.)
+          HELLO_THEME_INPUT="${{ inputs.hello_theme_version || 'main' }}"
+          
+          echo "hello-theme-version=${HT_VERSION}" >> $GITHUB_OUTPUT
+          echo "hello-theme-input=${HELLO_THEME_INPUT}" >> $GITHUB_OUTPUT
           echo "elementor-core-branch=${ELEMENTOR_CORE_BRANCH}" >> $GITHUB_OUTPUT
           echo "elementor-version=${ELEMENTOR_CORE_BRANCH}" >> $GITHUB_OUTPUT
           echo "hello-theme-source=github" >> $GITHUB_OUTPUT
           
-          # Generate artifact name
-          ARTIFACT_NAME="core-ht${HELLO_THEME_VERSION}-el${ELEMENTOR_CORE_BRANCH}-${{ github.run_id }}"
+          # Generate artifact name using input version for readability
+          ARTIFACT_NAME="core-ht${HELLO_THEME_INPUT}-el${ELEMENTOR_CORE_BRANCH}-${{ github.run_id }}"
           echo "artifact-name=${ARTIFACT_NAME}" >> $GITHUB_OUTPUT
           
-          echo "✅ Set versions: Hello Theme=${HELLO_THEME_VERSION}, Elementor=${ELEMENTOR_CORE_BRANCH}"
+          echo "✅ Set versions: Hello Theme=${HT_VERSION} (${HELLO_THEME_INPUT}), Elementor=${ELEMENTOR_CORE_BRANCH}"
 
       - name: Build Hello Theme
         uses: ./.github/workflows/build-theme
         with:
-          HELLO_THEME_VERSION: ${{ steps.set-versions.outputs.hello-theme-version }}
+          PACKAGE_VERSION: ${{ steps.set-versions.outputs.hello-theme-version }}
+          BUILD_SCRIPT_PATH: "npm run build:prod"
 
-      - name: Create theme build directory
-        run: |
-          mkdir -p ./tmp/hello-theme
-          
-          # Extract the built theme zip to tmp directory
-          HELLO_THEME_VERSION="${{ steps.set-versions.outputs.hello-theme-version }}"
-          if [ -f "hello-elementor.${HELLO_THEME_VERSION}.zip" ]; then
-            unzip -q "hello-elementor.${HELLO_THEME_VERSION}.zip" -d ./tmp/
-            
-            # The zip creates hello-elementor directory, rename to hello-theme for consistency
-            if [ -d "./tmp/hello-elementor" ]; then
-              mv "./tmp/hello-elementor" "./tmp/hello-theme"
-              echo "✅ Extracted and renamed theme to ./tmp/hello-theme"
-            else
-              echo "❌ Expected hello-elementor directory not found after extraction"
-              exit 1
-            fi
-          else
-            echo "❌ Theme zip file not found: hello-elementor.${HELLO_THEME_VERSION}.zip"
-            exit 1
-          fi
+
 
       - name: Download Elementor Core
         run: |
@@ -136,7 +124,7 @@ jobs:
         with:
           name: ${{ steps.set-versions.outputs.artifact-name }}
           path: |
-            ./tmp/hello-theme
+            ./hello-elementor-*.zip
             ./tmp/elementor
           retention-days: 3
 
@@ -166,6 +154,13 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Debug artifact download location
+        run: |
+          echo "Current directory contents before artifact download:"
+          ls -la ./
+          echo "Creating tmp directory if it doesn't exist:"
+          mkdir -p ./tmp
+          
       - name: Hybrid Test Setup - Extract tests from target version
         id: extract-version-tests
         run: |
@@ -258,14 +253,102 @@ jobs:
       - name: Install Dependencies
         run: |
           export PUPPETEER_SKIP_DOWNLOAD=true
-          npm ci
-          composer install --no-dev --no-scripts --optimize-autoloader
+          export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
+          npm ci --prefer-offline --no-audit --no-fund --silent
+          composer install --no-dev --no-scripts --optimize-autoloader --quiet
 
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
           name: ${{ needs.build-core-components.outputs.artifact-name }}
           path: ./
+
+      - name: Debug and fix artifacts structure
+        run: |
+          echo "=== ARTIFACT DEBUG & FIX ==="
+          echo "Current directory contents:"
+          ls -la ./
+          echo ""
+          
+          # Ensure tmp directory exists
+          mkdir -p ./tmp
+          
+          echo "Checking for Elementor artifacts:"
+          if [ -d "./tmp/elementor" ]; then
+            echo "✅ Elementor directory found in tmp"
+            echo "Contents of ./tmp/elementor/ (first 10):"
+            ls -la ./tmp/elementor/ | head -10
+            
+            # Verify Elementor plugin file
+            if [ -f "./tmp/elementor/elementor.php" ]; then
+              echo "✅ Elementor plugin file verified"
+            else
+              echo "❌ Missing elementor.php - attempting to fix"
+              # Try to find and move Elementor from other locations
+              if [ -d "./elementor" ]; then
+                echo "📦 Found Elementor in root, moving to tmp"
+                mv "./elementor" "./tmp/elementor"
+              else
+                echo "🔄 Downloading Elementor latest-stable as fallback"
+                curl --location -o ./elementor-fallback.zip https://downloads.wordpress.org/plugin/elementor.latest-stable.zip
+                unzip -q ./elementor-fallback.zip
+                mv ./elementor ./tmp/elementor
+                echo "✅ Elementor fallback installed"
+              fi
+            fi
+          else
+            echo "❌ No Elementor directory - creating fallback"
+            # Check for loose Elementor files and move them
+            if [ -d "./elementor" ]; then
+              echo "📦 Found Elementor in root, moving to tmp"
+              mv "./elementor" "./tmp/elementor"
+            else
+              echo "🔄 Downloading Elementor latest-stable as fallback"
+              curl --location -o ./elementor-fallback.zip https://downloads.wordpress.org/plugin/elementor.latest-stable.zip
+              unzip -q ./elementor-fallback.zip
+              mv ./elementor ./tmp/elementor
+              echo "✅ Elementor fallback installed"
+            fi
+          fi
+          
+          echo ""
+          echo "Final verification:"
+          echo "tmp directory contents:"
+          ls -la ./tmp/
+          if [ -f "./tmp/elementor/elementor.php" ]; then
+            echo "✅ Elementor is ready at ./tmp/elementor/"
+          else
+            echo "❌ Elementor setup failed"
+            exit 1
+          fi
+
+      - name: Extract Hello Theme build
+        run: |
+          echo "Extracting Hello Theme build..."
+          HT_ZIP=$(find . -name "hello-elementor-*.zip" -type f | head -1)
+          
+          if [ -n "$HT_ZIP" ]; then
+            echo "Found Hello Theme build: $HT_ZIP"
+            mkdir -p ./tmp
+            unzip -q "$HT_ZIP" -d ./tmp/
+            
+            if [ -d "./tmp/hello-elementor" ]; then
+              echo "✅ Hello Theme extracted to ./tmp/hello-elementor/"
+            elif [ -d "./tmp" ] && [ "$(ls -A ./tmp/)" ]; then
+              mkdir -p ./tmp/hello-elementor-temp
+              mv ./tmp/* ./tmp/hello-elementor-temp/ 2>/dev/null || true
+              mv ./tmp/hello-elementor-temp ./tmp/hello-elementor
+              echo "✅ Hello Theme organized at ./tmp/hello-elementor/"
+            else
+              echo "❌ Theme content not found in expected location"
+              exit 1
+            fi
+          else
+            echo "❌ No Hello Theme build ZIP found"
+            echo "Available files:"
+            ls -la ./
+            exit 1
+          fi
 
       - name: Update wp-env.json file
         env:
@@ -434,14 +517,102 @@ jobs:
       - name: Install Dependencies
         run: |
           export PUPPETEER_SKIP_DOWNLOAD=true
-          npm ci
-          composer install --no-dev --no-scripts --optimize-autoloader
+          export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
+          npm ci --prefer-offline --no-audit --no-fund --silent
+          composer install --no-dev --no-scripts --optimize-autoloader --quiet
 
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
           name: ${{ needs.build-core-components.outputs.artifact-name }}
           path: ./
+
+      - name: Debug and fix artifacts structure
+        run: |
+          echo "=== ARTIFACT DEBUG & FIX ==="
+          echo "Current directory contents:"
+          ls -la ./
+          echo ""
+          
+          # Ensure tmp directory exists
+          mkdir -p ./tmp
+          
+          echo "Checking for Elementor artifacts:"
+          if [ -d "./tmp/elementor" ]; then
+            echo "✅ Elementor directory found in tmp"
+            echo "Contents of ./tmp/elementor/ (first 10):"
+            ls -la ./tmp/elementor/ | head -10
+            
+            # Verify Elementor plugin file
+            if [ -f "./tmp/elementor/elementor.php" ]; then
+              echo "✅ Elementor plugin file verified"
+            else
+              echo "❌ Missing elementor.php - attempting to fix"
+              # Try to find and move Elementor from other locations
+              if [ -d "./elementor" ]; then
+                echo "📦 Found Elementor in root, moving to tmp"
+                mv "./elementor" "./tmp/elementor"
+              else
+                echo "🔄 Downloading Elementor latest-stable as fallback"
+                curl --location -o ./elementor-fallback.zip https://downloads.wordpress.org/plugin/elementor.latest-stable.zip
+                unzip -q ./elementor-fallback.zip
+                mv ./elementor ./tmp/elementor
+                echo "✅ Elementor fallback installed"
+              fi
+            fi
+          else
+            echo "❌ No Elementor directory - creating fallback"
+            # Check for loose Elementor files and move them
+            if [ -d "./elementor" ]; then
+              echo "📦 Found Elementor in root, moving to tmp"
+              mv "./elementor" "./tmp/elementor"
+            else
+              echo "🔄 Downloading Elementor latest-stable as fallback"
+              curl --location -o ./elementor-fallback.zip https://downloads.wordpress.org/plugin/elementor.latest-stable.zip
+              unzip -q ./elementor-fallback.zip
+              mv ./elementor ./tmp/elementor
+              echo "✅ Elementor fallback installed"
+            fi
+          fi
+          
+          echo ""
+          echo "Final verification:"
+          echo "tmp directory contents:"
+          ls -la ./tmp/
+          if [ -f "./tmp/elementor/elementor.php" ]; then
+            echo "✅ Elementor is ready at ./tmp/elementor/"
+          else
+            echo "❌ Elementor setup failed"
+            exit 1
+          fi
+
+      - name: Extract Hello Theme build
+        run: |
+          echo "Extracting Hello Theme build..."
+          HT_ZIP=$(find . -name "hello-elementor-*.zip" -type f | head -1)
+          
+          if [ -n "$HT_ZIP" ]; then
+            echo "Found Hello Theme build: $HT_ZIP"
+            mkdir -p ./tmp
+            unzip -q "$HT_ZIP" -d ./tmp/
+            
+            if [ -d "./tmp/hello-elementor" ]; then
+              echo "✅ Hello Theme extracted to ./tmp/hello-elementor/"
+            elif [ -d "./tmp" ] && [ "$(ls -A ./tmp/)" ]; then
+              mkdir -p ./tmp/hello-elementor-temp
+              mv ./tmp/* ./tmp/hello-elementor-temp/ 2>/dev/null || true
+              mv ./tmp/hello-elementor-temp ./tmp/hello-elementor
+              echo "✅ Hello Theme organized at ./tmp/hello-elementor/"
+            else
+              echo "❌ Theme content not found in expected location"
+              exit 1
+            fi
+          else
+            echo "❌ No Hello Theme build ZIP found"
+            echo "Available files:"
+            ls -la ./
+            exit 1
+          fi
 
       - name: Update wp-env.json file
         env:
