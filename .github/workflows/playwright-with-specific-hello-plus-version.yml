@@ -245,6 +245,35 @@ jobs:
           name: ${{ needs.build-plus-components.outputs.artifact-name }}
           path: ./
 
+      - name: Extract Hello Theme build
+        run: |
+          echo "Extracting Hello Theme build..."
+          HT_ZIP=$(find . -name "hello-elementor-*.zip" -type f | head -1)
+          
+          if [ -n "$HT_ZIP" ]; then
+            echo "Found Hello Theme build: $HT_ZIP"
+            mkdir -p ./tmp
+            unzip -q "$HT_ZIP" -d ./tmp/
+            
+            if [ -d "./tmp/hello-elementor" ]; then
+              mv "./tmp/hello-elementor" "./tmp/hello-theme"
+              echo "✅ Hello Theme extracted to ./tmp/hello-theme/"
+            elif [ -d "./tmp" ] && [ "$(ls -A ./tmp/)" ]; then
+              mkdir -p ./tmp/hello-theme-temp
+              mv ./tmp/* ./tmp/hello-theme-temp/ 2>/dev/null || true
+              mv ./tmp/hello-theme-temp ./tmp/hello-theme
+              echo "✅ Hello Theme organized at ./tmp/hello-theme/"
+            else
+              echo "❌ Theme content not found in expected location"
+              exit 1
+            fi
+          else
+            echo "❌ No Hello Theme build ZIP found"
+            echo "Available files:"
+            ls -la ./
+            exit 1
+          fi
+
       - name: Update wp-env.json file
         env:
           PHP_VERSION: '8.1'
@@ -422,6 +451,35 @@ jobs:
         with:
           name: ${{ needs.build-plus-components.outputs.artifact-name }}
           path: ./
+
+      - name: Extract Hello Theme build
+        run: |
+          echo "Extracting Hello Theme build..."
+          HT_ZIP=$(find . -name "hello-elementor-*.zip" -type f | head -1)
+          
+          if [ -n "$HT_ZIP" ]; then
+            echo "Found Hello Theme build: $HT_ZIP"
+            mkdir -p ./tmp
+            unzip -q "$HT_ZIP" -d ./tmp/
+            
+            if [ -d "./tmp/hello-elementor" ]; then
+              mv "./tmp/hello-elementor" "./tmp/hello-theme"
+              echo "✅ Hello Theme extracted to ./tmp/hello-theme/"
+            elif [ -d "./tmp" ] && [ "$(ls -A ./tmp/)" ]; then
+              mkdir -p ./tmp/hello-theme-temp
+              mv ./tmp/* ./tmp/hello-theme-temp/ 2>/dev/null || true
+              mv ./tmp/hello-theme-temp ./tmp/hello-theme
+              echo "✅ Hello Theme organized at ./tmp/hello-theme/"
+            else
+              echo "❌ Theme content not found in expected location"
+              exit 1
+            fi
+          else
+            echo "❌ No Hello Theme build ZIP found"
+            echo "Available files:"
+            ls -la ./
+            exit 1
+          fi
 
       - name: Update wp-env.json file
         env:
