@@ -19,4 +19,5 @@ assets/js/
 .env
 tmp/
 .phpunit.result.cache
+test-results/
 !tests/phpunit/hello-elementor
