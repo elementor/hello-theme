@@ -80,25 +80,49 @@ jobs:
           PACKAGE_VERSION: ${{ steps.set-versions.outputs.hello-theme-version }}
           BUILD_SCRIPT_PATH: "npm run build:prod"
 
-      - name: Create theme build directory
+      - name: Extract Hello Theme build
         run: |
-          mkdir -p ./tmp/hello-theme
+          echo "=== Debug: Current directory contents after build ==="
+          ls -la ./
+          echo ""
+          echo "=== Looking for Hello Theme ZIP files ==="
+          find . -name "hello-elementor-*.zip" -type f || echo "No hello-elementor-*.zip files found"
+          find . -name "*.zip" -type f || echo "No ZIP files found at all"
+          echo ""
           
-          # Extract the built theme zip to tmp directory
-          HELLO_THEME_VERSION="${{ steps.set-versions.outputs.hello-theme-version }}"
-          if [ -f "hello-elementor.${HELLO_THEME_VERSION}.zip" ]; then
-            unzip -q "hello-elementor.${HELLO_THEME_VERSION}.zip" -d ./tmp/
+          # Try to find any hello-elementor ZIP file
+          HT_ZIP=$(find . -name "hello-elementor-*.zip" -type f | head -1)
+          
+          if [ -n "$HT_ZIP" ]; then
+            echo "Found Hello Theme build: $HT_ZIP"
+            echo "Extracting for use..."
+            mkdir -p ./tmp
+            unzip -q "$HT_ZIP" -d ./tmp/
             
-            # The zip creates hello-elementor directory, rename to hello-theme for consistency
+            # The ZIP content might be in a subdirectory, check structure
+            echo "Contents of ./tmp/ after extraction:"
+            ls -la ./tmp/
+            
+            # Find the actual theme directory
             if [ -d "./tmp/hello-elementor" ]; then
+              echo "Moving hello-elementor to hello-theme..."
               mv "./tmp/hello-elementor" "./tmp/hello-theme"
-              echo "✅ Extracted and renamed theme to ./tmp/hello-theme"
+              echo "✅ Hello Theme built theme found at ./tmp/hello-theme/"
+              ls -la ./tmp/hello-theme/ | head -10
+            elif [ -d "./tmp" ] && [ "$(ls -A ./tmp/)" ]; then
+              # Content might be directly in tmp, move it to hello-theme subdirectory
+              echo "Theme extracted directly to ./tmp/, creating hello-theme subdirectory..."
+              mkdir -p ./tmp/hello-theme-temp
+              mv ./tmp/* ./tmp/hello-theme-temp/ 2>/dev/null || true
+              mv ./tmp/hello-theme-temp ./tmp/hello-theme
+              echo "✅ Hello Theme built theme organized at ./tmp/hello-theme/"
+              ls -la ./tmp/hello-theme/ | head -10
             else
-              echo "❌ Expected hello-elementor directory not found after extraction"
+              echo "❌ Theme content not found in expected location"
               exit 1
             fi
           else
-            echo "❌ Theme zip file not found: hello-elementor.${HELLO_THEME_VERSION}.zip"
+            echo "❌ No Hello Theme build ZIP found"
             exit 1
           fi
 

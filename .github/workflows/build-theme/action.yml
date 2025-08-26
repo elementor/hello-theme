@@ -18,7 +18,30 @@ runs:
       run: |
         export PUPPETEER_SKIP_DOWNLOAD=true
         export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
-        npm ci --prefer-offline --no-audit --no-fund --silent
+        
+        # Retry npm ci up to 3 times to handle transient registry issues (E429, network errors)
+        for i in {1..3}; do
+          echo "🔄 Attempt $i/3: Installing npm dependencies..."
+          if npm ci --prefer-offline --no-audit --no-fund --silent; then
+            echo "✅ npm ci succeeded on attempt $i"
+            break
+          else
+            echo "❌ npm ci failed on attempt $i"
+            if [ $i -eq 3 ]; then
+              echo "⚠️ npm ci failed all attempts, falling back to npm install"
+              npm install --legacy-peer-deps --no-audit --no-fund
+              if [ $? -eq 0 ]; then
+                echo "✅ npm install fallback succeeded"
+              else
+                echo "💥 Both npm ci and npm install failed"
+                exit 1
+              fi
+            else
+              echo "⏳ Waiting 30 seconds before retry..."
+              sleep 30
+            fi
+          fi
+        done
 
     - name: Install composer dependencies
       shell: bash
