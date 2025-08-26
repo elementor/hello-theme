@@ -8,7 +8,7 @@
         "./"
     ],
     "mappings": {
-        "hello-theme-config": "./tests/wp-env/config"
+        "hello-elementor-config": "./tests/wp-env/config"
     },
     "config": {
         "ELEMENTOR_SHOW_HIDDEN_EXPERIMENTS": true,
