@@ -27,8 +27,8 @@ $active_plugins = [$elementor_plugin_path];
 // Activates this plugin in WordPress so it can be tested.
 $GLOBALS['wp_tests_options'] = [
 	'active_plugins' => $active_plugins,
-	'template' => 'hello-theme',
-	'stylesheet' => 'hello-theme',
+	'template' => 'hello-elementor',
+	'stylesheet' => 'hello-elementor',
 ];
 
 require_once $_tests_dir . '/includes/functions.php';

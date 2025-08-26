@@ -267,13 +267,12 @@ jobs:
             unzip -q "$HT_ZIP" -d ./tmp/
             
             if [ -d "./tmp/hello-elementor" ]; then
-              mv "./tmp/hello-elementor" "./tmp/hello-theme"
-              echo "✅ Hello Theme extracted to ./tmp/hello-theme/"
+              echo "✅ Hello Theme extracted to ./tmp/hello-elementor/"
             elif [ -d "./tmp" ] && [ "$(ls -A ./tmp/)" ]; then
-              mkdir -p ./tmp/hello-theme-temp
-              mv ./tmp/* ./tmp/hello-theme-temp/ 2>/dev/null || true
-              mv ./tmp/hello-theme-temp ./tmp/hello-theme
-              echo "✅ Hello Theme organized at ./tmp/hello-theme/"
+              mkdir -p ./tmp/hello-elementor-temp
+              mv ./tmp/* ./tmp/hello-elementor-temp/ 2>/dev/null || true
+              mv ./tmp/hello-elementor-temp ./tmp/hello-elementor
+              echo "✅ Hello Theme organized at ./tmp/hello-elementor/"
             else
               echo "❌ Theme content not found in expected location"
               exit 1
@@ -473,13 +472,12 @@ jobs:
             unzip -q "$HT_ZIP" -d ./tmp/
             
             if [ -d "./tmp/hello-elementor" ]; then
-              mv "./tmp/hello-elementor" "./tmp/hello-theme"
-              echo "✅ Hello Theme extracted to ./tmp/hello-theme/"
+              echo "✅ Hello Theme extracted to ./tmp/hello-elementor/"
             elif [ -d "./tmp" ] && [ "$(ls -A ./tmp/)" ]; then
-              mkdir -p ./tmp/hello-theme-temp
-              mv ./tmp/* ./tmp/hello-theme-temp/ 2>/dev/null || true
-              mv ./tmp/hello-theme-temp ./tmp/hello-theme
-              echo "✅ Hello Theme organized at ./tmp/hello-theme/"
+              mkdir -p ./tmp/hello-elementor-temp
+              mv ./tmp/* ./tmp/hello-elementor-temp/ 2>/dev/null || true
+              mv ./tmp/hello-elementor-temp ./tmp/hello-elementor
+              echo "✅ Hello Theme organized at ./tmp/hello-elementor/"
             else
               echo "❌ Theme content not found in expected location"
               exit 1

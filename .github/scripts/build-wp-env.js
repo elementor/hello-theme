@@ -34,13 +34,13 @@ wpEnv.phpVersion = PHP_VERSION;
 wpEnv.core = wpCore;
 
 // Configure themes - Require built Hello Theme to avoid false positives
-if ( fs.existsSync( './tmp/hello-theme' ) ) {
-	wpEnv.themes = [ './tmp/hello-theme' ];
+if ( fs.existsSync( './tmp/hello-elementor' ) ) {
+	wpEnv.themes = [ './tmp/hello-elementor' ];
 	// eslint-disable-next-line no-console
-	console.log( '✅ Using built Hello Theme from ./tmp/hello-theme' );
+	console.log( '✅ Using built Hello Theme from ./tmp/hello-elementor' );
 } else {
 	// eslint-disable-next-line no-console
-	console.error( 'Built Hello Theme not found at ./tmp/hello-theme' );
+	console.error( 'Built Hello Theme not found at ./tmp/hello-elementor' );
 	// eslint-disable-next-line no-console
 	console.error( 'This prevents false positives from using unbuild source theme' );
 	// eslint-disable-next-line no-console
