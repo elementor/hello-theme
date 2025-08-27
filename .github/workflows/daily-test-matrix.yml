@@ -23,9 +23,9 @@
 #   {"combination":"ht-main-el-main","name":"Hello Theme main + Elementor main","hello_theme_version":"main","elementor_version":"main","delay":0},
 #   {"combination":"ht-main-el-prev","name":"Hello Theme main + Elementor 3.31.1 (GA)","hello_theme_version":"main","elementor_version":"3.31.1","delay":15},
 #   {"combination":"ht-main-el-prev","name":"Hello Theme main + Elementor 3.30.4 (GA)","hello_theme_version":"main","elementor_version":"3.30.4","delay":30},
-#   {"combination":"ht-ga-el-main","name":"Hello Theme 3.4.4 + Elementor main","hello_theme_version":"3.4.4","elementor_version":"main","delay":60},
-#   {"combination":"ht-ga-el-prev","name":"Hello Theme 3.4.4 + Elementor 3.31.1 (GA)","hello_theme_version":"3.4.4","elementor_version":"3.31.1","delay":60},
-#   {"combination":"ht-ga-el-prev","name":"Hello Theme 3.4.4 + Elementor 3.30.4 (GA)","hello_theme_version":"3.4.4","elementor_version":"3.30.4","delay":75},
+#   {"combination":"ht-ga-el-main","name":"Hello Theme 3.4.4 (GA) + Elementor main","hello_theme_version":"3.4.4","elementor_version":"main","delay":60},
+#   {"combination":"ht-ga-el-prev","name":"Hello Theme 3.4.4 (GA) + Elementor 3.31.1 (GA)","hello_theme_version":"3.4.4","elementor_version":"3.31.1","delay":75},
+#   {"combination":"ht-ga-el-prev","name":"Hello Theme 3.4.4 (GA) + Elementor 3.30.4 (GA)","hello_theme_version":"3.4.4","elementor_version":"3.30.4","delay":90},
 #   {"combination":"ht-main-hp-latest","name":"Hello Theme main + Hello Plus 1.7.2","hello_theme_version":"main","hello_plus_version":"1.7.2","delay":105},
 #   {"combination":"ht-main-hp-prev","name":"Hello Theme main + Hello Plus 1.7.1","hello_theme_version":"main","hello_plus_version":"1.7.1","delay":120}
 # ]
@@ -87,6 +87,7 @@ jobs:
       elementor-version: ${{ steps.matrix.outputs.elementor-version }}
       hello-theme-previous: ${{ steps.matrix.outputs.hello-theme-previous }}
       targeted-tests: ${{ steps.matrix.outputs.targeted-tests }}
+      hello-theme-version-for-display: ${{ steps.matrix.outputs.hello-theme-version-for-display }}
     steps:
       - name: Calculate version matrix
         id: matrix
@@ -96,6 +97,11 @@ jobs:
           HP_VERSION="${{ inputs.hello_plus_version || 'latest-stable' }}"
           EL_VERSION="${{ inputs.elementor_version || 'main' }}"
           DEPTH="${{ inputs.compatibility_depth || '2' }}"
+          
+          # Preserve original input values for display purposes
+          HT_VERSION_DISPLAY="$HT_VERSION"
+          HP_VERSION_DISPLAY="$HP_VERSION"
+          EL_VERSION_DISPLAY="$EL_VERSION"
           
           # Function to get latest released version from GitHub
           get_latest_version() {
@@ -239,6 +245,7 @@ jobs:
           echo "hello-theme-version=${HT_VERSION}" >> $GITHUB_OUTPUT
           echo "hello-plus-version=${HP_VERSION}" >> $GITHUB_OUTPUT
           echo "elementor-version=${EL_VERSION}" >> $GITHUB_OUTPUT
+          echo "hello-theme-version-for-display=${HT_VERSION_DISPLAY}" >> $GITHUB_OUTPUT
 
           # Function to calculate previous versions with different strategies
           calculate_previous_versions() {
@@ -386,13 +393,13 @@ jobs:
             
             # GA Hello Theme combinations (if detected)
             if [[ "$HT_VERSION_FOR_MATRIX" != "main" ]]; then
-              add_test_combination "ht-ga-el-main" "Hello Theme ${HT_VERSION_FOR_MATRIX} + Elementor main" "$HT_VERSION_FOR_MATRIX" "main" "" $((DELAY_COUNTER * 15))
+              add_test_combination "ht-ga-el-main" "Hello Theme ${HT_VERSION_FOR_MATRIX} (GA) + Elementor main" "$HT_VERSION_FOR_MATRIX" "main" "" $((DELAY_COUNTER * 15))
               DELAY_COUNTER=$((DELAY_COUNTER + 1))
               
               if [[ -n "$ELEMENTOR_PREVIOUS" ]]; then
                 IFS=',' read -ra EL_PREV_ARRAY <<< "$ELEMENTOR_PREVIOUS"
                 for el_prev in "${EL_PREV_ARRAY[@]}"; do
-                  add_test_combination "ht-ga-el-prev" "Hello Theme ${HT_VERSION_FOR_MATRIX} + Elementor ${el_prev} (GA)" "$HT_VERSION_FOR_MATRIX" "$el_prev" "" $((DELAY_COUNTER * 15))
+                  add_test_combination "ht-ga-el-prev" "Hello Theme ${HT_VERSION_FOR_MATRIX} (GA) + Elementor ${el_prev} (GA)" "$HT_VERSION_FOR_MATRIX" "$el_prev" "" $((DELAY_COUNTER * 15))
                   DELAY_COUNTER=$((DELAY_COUNTER + 1))
                 done
               fi
@@ -413,13 +420,13 @@ jobs:
             
             # GA Hello Theme combinations (if detected)
             if [[ "$HT_VERSION_FOR_MATRIX" != "main" ]]; then
-              add_test_combination "ht-ga-hp-latest" "Hello Theme ${HT_VERSION_FOR_MATRIX} + Hello Plus ${HP_VERSION}" "$HT_VERSION_FOR_MATRIX" "" "$HP_VERSION" $((DELAY_COUNTER * 15))
+              add_test_combination "ht-ga-hp-latest" "Hello Theme ${HT_VERSION_FOR_MATRIX} (GA) + Hello Plus ${HP_VERSION}" "$HT_VERSION_FOR_MATRIX" "" "$HP_VERSION" $((DELAY_COUNTER * 15))
               DELAY_COUNTER=$((DELAY_COUNTER + 1))
               
               if [[ -n "$HELLO_PLUS_PREVIOUS" ]]; then
                 IFS=',' read -ra HP_PREV_ARRAY <<< "$HELLO_PLUS_PREVIOUS"
                 for hp_prev in "${HP_PREV_ARRAY[@]}"; do
-                  add_test_combination "ht-ga-hp-prev" "Hello Theme ${HT_VERSION_FOR_MATRIX} + Hello Plus ${hp_prev}" "$HT_VERSION_FOR_MATRIX" "" "$hp_prev" $((DELAY_COUNTER * 15))
+                  add_test_combination "ht-ga-hp-prev" "Hello Theme ${HT_VERSION_FOR_MATRIX} (GA) + Hello Plus ${hp_prev}" "$HT_VERSION_FOR_MATRIX" "" "$hp_prev" $((DELAY_COUNTER * 15))
                   DELAY_COUNTER=$((DELAY_COUNTER + 1))
                 done
               fi
@@ -543,7 +550,7 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "| Component | Version | Source |" >> $GITHUB_STEP_SUMMARY
           echo "|-----------|---------|--------|" >> $GITHUB_STEP_SUMMARY
-          echo "| Hello Theme | ${{ needs.calculate-test-matrix.outputs.hello-theme-version }} | GitHub/WordPress.org |" >> $GITHUB_STEP_SUMMARY
+          echo "| Hello Theme | ${{ needs.calculate-test-matrix.outputs.hello-theme-version-for-display }} | GitHub/WordPress.org |" >> $GITHUB_STEP_SUMMARY
           echo "| Hello Plus | ${{ needs.calculate-test-matrix.outputs.hello-plus-version }} | WordPress.org |" >> $GITHUB_STEP_SUMMARY
           echo "| Elementor | ${{ needs.calculate-test-matrix.outputs.elementor-version }} | WordPress.org/GitHub |" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
