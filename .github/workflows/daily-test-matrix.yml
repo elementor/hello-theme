@@ -331,7 +331,7 @@ jobs:
           }
 
           # Calculate previous versions for each component
-          if [[ "${{ inputs.run_targeted_tests }}" == "true" ]]; then
+          if [[ "${{ inputs.run_targeted_tests || 'true' }}" == "true" ]]; then
             ELEMENTOR_PREVIOUS=$(calculate_previous_versions "$EL_VERSION" "$DEPTH" "elementor")
             HELLO_PLUS_PREVIOUS=$(calculate_previous_versions "$HP_VERSION" "$DEPTH" "theme")
             HELLO_THEME_PREVIOUS=$(calculate_previous_versions "$HT_VERSION_FOR_MATRIX" "$DEPTH" "theme")
