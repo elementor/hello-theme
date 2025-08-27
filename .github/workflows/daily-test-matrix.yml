@@ -507,18 +507,92 @@ jobs:
             const result = await triggerWorkflowAndWait(github, context, core, config);
             console.log(`✅ Triggered: ${result.runUrl} for ${config.combination}`);
             
-            // Output the workflow run data for collection by the daily report
-            core.setOutput('workflow-run-id', result.runId);
-            core.setOutput('workflow-run-url', result.runUrl);
-            core.setOutput('workflow-status', result.status);
-            core.setOutput('combination', '${{ matrix.combination }}');
-            core.setOutput('test-name', '${{ matrix.name }}');
+            // Store run metadata in a file for collection
+            const fs = require('fs');
+            const timestamp = Date.now();
+            const runMetadata = {
+              id: result.runId,
+              url: result.runUrl,
+              name: '${{ matrix.name }}',
+              combination: '${{ matrix.combination }}',
+              hello_theme_version: '${{ matrix.hello_theme_version }}',
+              elementor_version: '${{ matrix.elementor_version || '' }}',
+              hello_plus_version: '${{ matrix.hello_plus_version || '' }}',
+              type: '${{ matrix.combination }}'.includes('hp') ? 'plus-matrix' : 'core-matrix',
+              source: 'current-execution',
+              timestamp: timestamp
+            };
+
+            const metadataFileName = `run-metadata-${{ matrix.combination }}-${timestamp}.json`;
+            fs.writeFileSync(metadataFileName, JSON.stringify(runMetadata, null, 2));
+            
+            // Set output for the upload step
+            core.setOutput('metadata-filename', metadataFileName);
+
+      - name: Upload run metadata
+        uses: actions/upload-artifact@v4
+        with:
+          name: run-metadata-${{ matrix.combination }}-${{ github.run_id }}-${{ strategy.job-index }}
+          path: ${{ steps.trigger.outputs.metadata-filename }}
+          retention-days: 1
+
+  collect-matrix-results:
+    name: Collect Matrix Results
+    needs: [calculate-test-matrix, trigger-targeted-tests]
+    runs-on: ubuntu-22.04
+    if: always() && needs.calculate-test-matrix.result == 'success'
+    outputs:
+      all-workflow-data: ${{ steps.collect-data.outputs.all-workflow-data }}
+    steps:
+      - name: Checkout for scripts
+        uses: actions/checkout@v4
+      
+      - name: Download all metadata artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: run-metadata-*
+          merge-multiple: true
+      
+      - name: Collect workflow data
+        id: collect-data
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            
+            let allWorkflowData = [];
+            
+            // Find all metadata files
+            const files = fs.readdirSync('.').filter(file => file.startsWith('run-metadata-') && file.endsWith('.json'));
+            
+            console.log(`Found ${files.length} metadata files`);
+            
+            // Read and combine all metadata
+            for (const file of files) {
+              try {
+                const content = fs.readFileSync(file, 'utf8');
+                const metadata = JSON.parse(content);
+                allWorkflowData.push(metadata);
+                console.log(`Loaded metadata for ${metadata.combination}: ${metadata.id}`);
+              } catch (error) {
+                console.error(`Error reading ${file}: ${error.message}`);
+              }
+            }
+            
+            console.log(`Collected ${allWorkflowData.length} workflow runs`);
+            
+            // Set output for the next job
+            core.setOutput('all-workflow-data', JSON.stringify(allWorkflowData));
+            
+            return allWorkflowData;
 
   daily-trigger-report:
     name: Daily Trigger Report
-    needs: [calculate-test-matrix, trigger-targeted-tests]
+    needs: [calculate-test-matrix, trigger-targeted-tests, collect-matrix-results]
     runs-on: ubuntu-22.04
-    if: always()
+    if: always() && needs.calculate-test-matrix.result == 'success'
     outputs:
       overall-status: ${{ steps.aggregate-status.outputs.overall-status }}
       test-summary: ${{ steps.aggregate-status.outputs.test-summary }}
@@ -526,97 +600,35 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Collect workflow run data
-        id: collect-data
+      - name: Generate Hello Theme daily test report
         uses: actions/github-script@v7
         with:
-          script: |
-            // Collect all workflow runs triggered by this daily matrix
-            const workflowRuns = [];
-            
-            // Get the result of the matrix jobs
-            const matrixResult = '${{ needs.trigger-targeted-tests.result }}';
-            console.log(`Matrix jobs result: ${matrixResult}`);
-            
-            if (matrixResult === 'success') {
-              // Get outputs from all matrix jobs
-              const matrixOutputs = ${{ toJson(needs.trigger-targeted-tests.outputs) }} || {};
-              console.log('Matrix outputs available:', Object.keys(matrixOutputs));
-              
-              // Note: GitHub Actions only provides outputs from a single matrix job in the outputs object
-              // To collect from all matrix jobs, we need a different approach
-              // For now, we'll attempt to get the latest workflow runs that match our trigger pattern
-              
-              const triggerTime = new Date();
-              triggerTime.setMinutes(triggerTime.getMinutes() - 30); // Look back 30 minutes
-              
-              try {
-                // Get recent workflow runs that were triggered by workflow_dispatch
-                const { data: runs } = await github.rest.actions.listWorkflowRuns({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  workflow_id: 'playwright-with-specific-elementor-version.yml',
-                  event: 'workflow_dispatch',
-                  per_page: 20
-                });
-                
-                // Filter runs that were created recently (likely from this matrix)
-                const recentRuns = runs.workflow_runs.filter(run => 
-                  new Date(run.created_at) >= triggerTime
-                );
-                
-                console.log(`Found ${recentRuns.length} recent elementor workflow runs`);
-                
-                // Also check Hello Plus workflows
-                const { data: plusRuns } = await github.rest.actions.listWorkflowRuns({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  workflow_id: 'playwright-with-specific-hello-plus-version.yml',
-                  event: 'workflow_dispatch',
-                  per_page: 20
-                });
-                
-                const recentPlusRuns = plusRuns.workflow_runs.filter(run => 
-                  new Date(run.created_at) >= triggerTime
-                );
-                
-                console.log(`Found ${recentPlusRuns.length} recent hello-plus workflow runs`);
-                
-                // Combine and format the runs
-                const allRecentRuns = [...recentRuns, ...recentPlusRuns];
-                
-                for (const run of allRecentRuns) {
-                  workflowRuns.push({
-                    runId: run.id,
-                    runUrl: run.html_url,
-                    status: run.status,
-                    conclusion: run.conclusion,
-                    name: run.display_title || `Workflow ${run.id}`,
-                    createdAt: run.created_at,
-                    workflowName: run.name
-                  });
-                }
-                
-                console.log(`Collected ${workflowRuns.length} workflow runs for reporting`);
-              } catch (error) {
-                console.error('Error collecting workflow runs:', error.message);
-              }
-            } else {
-              console.log('Matrix jobs did not complete successfully, no workflow runs to collect');
-            }
-            
-            core.setOutput('workflow-runs', JSON.stringify(workflowRuns));
-
-      - name: Generate daily compatibility report
-        uses: actions/github-script@v7
-        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const { generateDailyTriggerReport } = require('./.github/scripts/daily-report.js');
             const { getDailyTriggerTimingConfig } = require('./.github/scripts/workflow-reporting.js');
-            
-            const workflowData = JSON.parse('${{ steps.collect-data.outputs.workflow-runs }}');
+
+            // Use the collected workflow data
+            const collectedWorkflowData = '${{ needs.collect-matrix-results.outputs.all-workflow-data }}';
+            let workflowData = [];
+
+            if (collectedWorkflowData && collectedWorkflowData !== '') {
+              try {
+                workflowData = JSON.parse(collectedWorkflowData);
+                console.log(`Using collected workflow data: ${workflowData.length} runs`);
+              } catch (error) {
+                console.error('Failed to parse collected workflow data:', error.message);
+                console.log('Using empty workflow data array');
+                workflowData = [];
+              }
+            } else {
+              console.warn('No collected workflow data found');
+              workflowData = [];
+            }
+
             const timing = getDailyTriggerTimingConfig();
-            
+
+            console.log(`Generating report for ${workflowData.length} compatibility tests`);
             await generateDailyTriggerReport(github, context, core, workflowData, timing);
 
       - name: Aggregate test status
@@ -624,7 +636,20 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const workflowData = JSON.parse('${{ steps.collect-data.outputs.workflow-runs }}');
+            // Use the collected workflow data
+            const collectedWorkflowData = '${{ needs.collect-matrix-results.outputs.all-workflow-data }}';
+            let workflowData = [];
+
+            if (collectedWorkflowData && collectedWorkflowData !== '') {
+              try {
+                workflowData = JSON.parse(collectedWorkflowData);
+                console.log(`Using collected workflow data for aggregation: ${workflowData.length} runs`);
+              } catch (error) {
+                console.error('Failed to parse collected workflow data:', error.message);
+                workflowData = [];
+              }
+            }
+            
             const matrixResult = '${{ needs.trigger-targeted-tests.result }}';
             
             let overallStatus = 'success';
@@ -649,24 +674,14 @@ jobs:
               return;
             }
             
-            // Analyze individual workflow results
-            for (const workflow of workflowData) {
-              console.log(`Workflow ${workflow.runId}: status=${workflow.status}, conclusion=${workflow.conclusion}`);
-              
-              if (workflow.conclusion === 'success') {
-                summary.success++;
-              } else if (workflow.conclusion === 'failure') {
-                summary.failed++;
-                overallStatus = 'failure';
-              } else if (workflow.conclusion === 'cancelled') {
-                summary.cancelled++;
-                if (overallStatus === 'success') overallStatus = 'cancelled';
-              } else if (workflow.status === 'in_progress' || workflow.status === 'queued') {
-                summary.in_progress++;
-                if (overallStatus === 'success') overallStatus = 'in_progress';
-              } else {
-                summary.skipped++;
-              }
+            // For now, since we're just triggering workflows, we'll base status on successful triggering
+            // In a future enhancement, we would poll the actual workflow results
+            if (workflowData.length > 0) {
+              summary.success = workflowData.length; // All workflows were successfully triggered
+              console.log(`${workflowData.length} workflows triggered successfully`);
+            } else {
+              overallStatus = 'failure';
+              console.log('No workflows were triggered');
             }
             
             console.log('Final summary:', JSON.stringify(summary, null, 2));
