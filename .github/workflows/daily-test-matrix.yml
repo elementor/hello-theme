@@ -506,12 +506,22 @@ jobs:
 
             const result = await triggerWorkflowAndWait(github, context, core, config);
             console.log(`✅ Triggered: ${result.runUrl} for ${config.combination}`);
+            
+            // Output the workflow run data for collection by the daily report
+            core.setOutput('workflow-run-id', result.runId);
+            core.setOutput('workflow-run-url', result.runUrl);
+            core.setOutput('workflow-status', result.status);
+            core.setOutput('combination', '${{ matrix.combination }}');
+            core.setOutput('test-name', '${{ matrix.name }}');
 
   daily-trigger-report:
     name: Daily Trigger Report
     needs: [calculate-test-matrix, trigger-targeted-tests]
     runs-on: ubuntu-22.04
     if: always()
+    outputs:
+      overall-status: ${{ steps.aggregate-status.outputs.overall-status }}
+      test-summary: ${{ steps.aggregate-status.outputs.test-summary }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -524,11 +534,76 @@ jobs:
             // Collect all workflow runs triggered by this daily matrix
             const workflowRuns = [];
             
-            // Get runs from targeted tests
-            const targetedJobs = ${{ toJson(needs.trigger-targeted-tests.outputs) }} || {};
+            // Get the result of the matrix jobs
+            const matrixResult = '${{ needs.trigger-targeted-tests.result }}';
+            console.log(`Matrix jobs result: ${matrixResult}`);
             
-            // Note: In a real implementation, we'd need to collect run IDs from the matrix jobs
-            // For now, we'll generate a placeholder report
+            if (matrixResult === 'success') {
+              // Get outputs from all matrix jobs
+              const matrixOutputs = ${{ toJson(needs.trigger-targeted-tests.outputs) }} || {};
+              console.log('Matrix outputs available:', Object.keys(matrixOutputs));
+              
+              // Note: GitHub Actions only provides outputs from a single matrix job in the outputs object
+              // To collect from all matrix jobs, we need a different approach
+              // For now, we'll attempt to get the latest workflow runs that match our trigger pattern
+              
+              const triggerTime = new Date();
+              triggerTime.setMinutes(triggerTime.getMinutes() - 30); // Look back 30 minutes
+              
+              try {
+                // Get recent workflow runs that were triggered by workflow_dispatch
+                const { data: runs } = await github.rest.actions.listWorkflowRuns({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  workflow_id: 'playwright-with-specific-elementor-version.yml',
+                  event: 'workflow_dispatch',
+                  per_page: 20
+                });
+                
+                // Filter runs that were created recently (likely from this matrix)
+                const recentRuns = runs.workflow_runs.filter(run => 
+                  new Date(run.created_at) >= triggerTime
+                );
+                
+                console.log(`Found ${recentRuns.length} recent elementor workflow runs`);
+                
+                // Also check Hello Plus workflows
+                const { data: plusRuns } = await github.rest.actions.listWorkflowRuns({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  workflow_id: 'playwright-with-specific-hello-plus-version.yml',
+                  event: 'workflow_dispatch',
+                  per_page: 20
+                });
+                
+                const recentPlusRuns = plusRuns.workflow_runs.filter(run => 
+                  new Date(run.created_at) >= triggerTime
+                );
+                
+                console.log(`Found ${recentPlusRuns.length} recent hello-plus workflow runs`);
+                
+                // Combine and format the runs
+                const allRecentRuns = [...recentRuns, ...recentPlusRuns];
+                
+                for (const run of allRecentRuns) {
+                  workflowRuns.push({
+                    runId: run.id,
+                    runUrl: run.html_url,
+                    status: run.status,
+                    conclusion: run.conclusion,
+                    name: run.display_title || `Workflow ${run.id}`,
+                    createdAt: run.created_at,
+                    workflowName: run.name
+                  });
+                }
+                
+                console.log(`Collected ${workflowRuns.length} workflow runs for reporting`);
+              } catch (error) {
+                console.error('Error collecting workflow runs:', error.message);
+              }
+            } else {
+              console.log('Matrix jobs did not complete successfully, no workflow runs to collect');
+            }
             
             core.setOutput('workflow-runs', JSON.stringify(workflowRuns));
 
@@ -544,16 +619,97 @@ jobs:
             
             await generateDailyTriggerReport(github, context, core, workflowData, timing);
 
-      - name: Matrix calculation summary
+      - name: Aggregate test status
+        id: aggregate-status
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const workflowData = JSON.parse('${{ steps.collect-data.outputs.workflow-runs }}');
+            const matrixResult = '${{ needs.trigger-targeted-tests.result }}';
+            
+            let overallStatus = 'success';
+            let summary = {
+              total: workflowData.length,
+              success: 0,
+              failed: 0,
+              cancelled: 0,
+              in_progress: 0,
+              skipped: 0
+            };
+            
+            console.log(`Aggregating status for ${workflowData.length} workflow runs`);
+            console.log(`Matrix trigger result: ${matrixResult}`);
+            
+            // If matrix triggering failed, overall status is failure
+            if (matrixResult !== 'success') {
+              overallStatus = 'failure';
+              core.setOutput('overall-status', overallStatus);
+              core.setOutput('test-summary', JSON.stringify(summary));
+              console.log('Matrix triggering failed, marking overall status as failure');
+              return;
+            }
+            
+            // Analyze individual workflow results
+            for (const workflow of workflowData) {
+              console.log(`Workflow ${workflow.runId}: status=${workflow.status}, conclusion=${workflow.conclusion}`);
+              
+              if (workflow.conclusion === 'success') {
+                summary.success++;
+              } else if (workflow.conclusion === 'failure') {
+                summary.failed++;
+                overallStatus = 'failure';
+              } else if (workflow.conclusion === 'cancelled') {
+                summary.cancelled++;
+                if (overallStatus === 'success') overallStatus = 'cancelled';
+              } else if (workflow.status === 'in_progress' || workflow.status === 'queued') {
+                summary.in_progress++;
+                if (overallStatus === 'success') overallStatus = 'in_progress';
+              } else {
+                summary.skipped++;
+              }
+            }
+            
+            console.log('Final summary:', JSON.stringify(summary, null, 2));
+            console.log(`Overall status: ${overallStatus}`);
+            
+            core.setOutput('overall-status', overallStatus);
+            core.setOutput('test-summary', JSON.stringify(summary));
+
+      - name: Matrix configuration summary
         run: |
-          echo "## 🧮 Hello Theme Daily Test Matrix Summary" >> $GITHUB_STEP_SUMMARY
+          echo "## ⚙️ Matrix Configuration Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "| Component | Version | Source |" >> $GITHUB_STEP_SUMMARY
-          echo "|-----------|---------|--------|" >> $GITHUB_STEP_SUMMARY
-          echo "| Hello Theme | ${{ needs.calculate-test-matrix.outputs.hello-theme-version-for-display }} | GitHub/WordPress.org |" >> $GITHUB_STEP_SUMMARY
-          echo "| Hello Plus | ${{ needs.calculate-test-matrix.outputs.hello-plus-version }} | WordPress.org |" >> $GITHUB_STEP_SUMMARY
-          echo "| Elementor | ${{ needs.calculate-test-matrix.outputs.elementor-version }} | WordPress.org/GitHub |" >> $GITHUB_STEP_SUMMARY
+          echo "*This table shows the input parameters used to generate the test matrix, not the individual test results.*" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Previous versions tested:** ${{ needs.calculate-test-matrix.outputs.hello-theme-previous || 'none' }}" >> $GITHUB_STEP_SUMMARY
+          echo "| Component | Input Version | Resolution Source |" >> $GITHUB_STEP_SUMMARY
+          echo "|-----------|---------------|-------------------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Hello Theme | \`${{ needs.calculate-test-matrix.outputs.hello-theme-version-for-display }}\` | GitHub/WordPress.org |" >> $GITHUB_STEP_SUMMARY
+          echo "| Hello Plus | \`${{ needs.calculate-test-matrix.outputs.hello-plus-version }}\` | WordPress.org |" >> $GITHUB_STEP_SUMMARY
+          echo "| Elementor | \`${{ needs.calculate-test-matrix.outputs.elementor-version }}\` | WordPress.org/GitHub |" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Matrix generation time:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")" >> $GITHUB_STEP_SUMMARY
+          echo "**Previous versions included in matrix:** ${{ needs.calculate-test-matrix.outputs.hello-theme-previous || 'none' }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Matrix generated at:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "---" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+      - name: Final status check
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const overallStatus = '${{ steps.aggregate-status.outputs.overall-status }}';
+            const summary = JSON.parse('${{ steps.aggregate-status.outputs.test-summary }}');
+            
+            console.log(`Final workflow status check: ${overallStatus}`);
+            console.log('Test summary:', summary);
+            
+            if (overallStatus === 'failure') {
+              core.setFailed(`❌ Daily test matrix completed with failures: ${summary.failed} failed out of ${summary.total} tests`);
+            } else if (overallStatus === 'cancelled') {
+              core.setFailed(`🚫 Daily test matrix completed with cancellations: ${summary.cancelled} cancelled out of ${summary.total} tests`);
+            } else if (overallStatus === 'in_progress') {
+              console.log(`⏳ Some tests are still in progress: ${summary.in_progress} out of ${summary.total} tests`);
+            } else {
+              console.log(`✅ Daily test matrix completed successfully: ${summary.success} passed out of ${summary.total} tests`);
+            }

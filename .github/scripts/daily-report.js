@@ -100,7 +100,10 @@ function generateDailyMarkdownReport( results ) {
 	report += `## 🎯 Matrix Strategy\n\n`;
 	report += `- **Core Matrix**: Hello Theme × Elementor (main, latest, previous minors)\n`;
 	report += `- **Plus Matrix**: Hello Theme × Hello Plus (latest, previous patch - WordPress.org only)\n`;
-	report += `- **Versions**: Tests both main development and GA release combinations\n\n`;
+	report += `- **Version Types**: \n`;
+	report += `  - \`main\` = Latest development version from GitHub\n`;
+	report += `  - \`X.Y.Z (GA)\` = General availability release version\n`;
+	report += `  - \`latest-stable\` = Latest published version from WordPress.org\n\n`;
 
 	report += `*Generated at ${ new Date().toISOString() }*`;
 
