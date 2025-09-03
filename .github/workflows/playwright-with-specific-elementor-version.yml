@@ -402,8 +402,7 @@ jobs:
           export DAILY_MATRIX_WORKFLOW=true
           echo "🧪 Running tests from: ${{ steps.extract-version-tests.outputs.test-source-type }}"
           # Only run Hello Theme tests, not Elementor or other plugin tests
-          # Use Daily Matrix specific config that excludes problematic tests
-          npx playwright test -c tests/playwright/playwright.daily-matrix.config.ts
+          npm run test:playwright -- tests/playwright/tests/
           
       - name: Skip tests - version incompatible
         if: steps.extract-version-tests.outputs.tests-available != 'true'
@@ -662,8 +661,8 @@ jobs:
         run: |
           export DAILY_MATRIX_WORKFLOW=true
           echo "🧪 Running tagged tests from: ${{ steps.extract-version-tests.outputs.test-source-type }}"
-          # Only run Hello Theme tests with the specified tag using Daily Matrix config
-          npx playwright test -c tests/playwright/playwright.daily-matrix.config.ts --grep="${{ github.event.inputs.tag }}"
+          # Only run Hello Theme tests with the specified tag
+          npm run test:playwright -- tests/playwright/tests/ --grep="${{ github.event.inputs.tag }}"
           
       - name: Skip tagged tests - version incompatible
         if: steps.extract-version-tests.outputs.tests-available != 'true'
