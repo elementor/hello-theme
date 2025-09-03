@@ -63,10 +63,31 @@ jobs:
           # Input version for reference (main, etc.)
           HELLO_THEME_INPUT="${{ inputs.hello_theme_version || 'main' }}"
           
+          # Determine source type for reporting - Hello Theme always builds from GitHub
+          # Unlike Hello Commerce/Biz, Hello Theme doesn't download from WordPress.org
+          if [[ "$HELLO_THEME_INPUT" == "main" ]]; then
+            HELLO_THEME_SOURCE_TYPE="git-branch"
+            HELLO_THEME_SOURCE="github"
+          elif [[ "$HELLO_THEME_INPUT" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            # Released version input, but still built from GitHub source
+            HELLO_THEME_SOURCE_TYPE="git-tag"
+            HELLO_THEME_SOURCE="github"
+          else
+            # Other cases (branches, etc.)
+            HELLO_THEME_SOURCE_TYPE="git-branch"
+            HELLO_THEME_SOURCE="github"
+          fi
+          
           echo "hello-theme-version=${HT_VERSION}" >> $GITHUB_OUTPUT
           echo "hello-theme-input=${HELLO_THEME_INPUT}" >> $GITHUB_OUTPUT
+          echo "hello-theme-source-type=${HELLO_THEME_SOURCE_TYPE}" >> $GITHUB_OUTPUT
           echo "hello-plus-version=${HELLO_PLUS_VERSION}" >> $GITHUB_OUTPUT
-          echo "hello-theme-source=github" >> $GITHUB_OUTPUT
+          echo "hello-theme-source=${HELLO_THEME_SOURCE}" >> $GITHUB_OUTPUT
+          
+          # Set environment variables for later steps
+          echo "HELLO_THEME_VERSION=${HT_VERSION}" >> $GITHUB_ENV
+          echo "HELLO_THEME_INPUT=${HELLO_THEME_INPUT}" >> $GITHUB_ENV
+          echo "HELLO_THEME_SOURCE_TYPE=${HELLO_THEME_SOURCE_TYPE}" >> $GITHUB_ENV
           
           # Generate artifact name using input version for readability
           ARTIFACT_NAME="plus-ht${HELLO_THEME_INPUT}-hp${HELLO_PLUS_VERSION}-${{ github.run_id }}"
@@ -123,10 +144,10 @@ jobs:
           echo "|-----------------|----------------------------|-----------------------|" >> $GITHUB_STEP_SUMMARY
           echo "| Component       | Version                    | Source               |" >> $GITHUB_STEP_SUMMARY
           echo "|-----------------|----------------------------|-----------------------|" >> $GITHUB_STEP_SUMMARY
-          echo "| Hello Theme     | ${{ steps.set-versions.outputs.hello-theme-version }} | ${{ steps.set-versions.outputs.hello-theme-source }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Hello Theme     | ${{ env.HELLO_THEME_VERSION }} (${{ env.HELLO_THEME_INPUT }}) | ${{ env.HELLO_THEME_SOURCE_TYPE }} |" >> $GITHUB_STEP_SUMMARY
           echo "| Hello Plus      | ${{ steps.set-versions.outputs.hello-plus-version }} | WordPress.org        |" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Strategy:** GitHub source for Hello Theme, WordPress.org for Hello Plus" >> $GITHUB_STEP_SUMMARY
+          echo "**Strategy:** GitHub source for Hello Theme (always built), WordPress.org for Hello Plus" >> $GITHUB_STEP_SUMMARY
 
   plus-playwright-tests:
     name: Hello Theme + Hello Plus Tests
