@@ -1,0 +1,49 @@
+name: 'Install Dependencies for Hello Elementor (Release)'
+description: 'Install PHP, Composer, and npm dependencies for release workflow'
+inputs:
+  DEVOPS_TOKEN:
+    description: 'GitHub token for Composer authentication'
+    required: true
+  CLOUD_DEVOPS_TOKEN:
+    description: 'npm registry access token'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.4'
+    
+    - name: OAuth Composer Authentication
+      shell: bash
+      run: composer config -g github-oauth.github.com ${{ inputs.DEVOPS_TOKEN }}
+    
+    - name: Install Composer dependencies (cache)
+      uses: ramsey/composer-install@v2
+      with:
+        custom-cache-key: cache-${{ hashFiles('composer.lock') }}
+    
+    - name: Install Composer dependencies (production)
+      shell: bash
+      run: composer install --no-dev
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        registry-url: 'https://npm.pkg.github.com'
+        scope: '@elementor'
+        cache: 'npm'
+    
+    - name: Install npm dependencies
+      shell: bash
+      run: |
+        if npm ci; then
+          echo "✅ npm ci succeeded"
+        else
+          echo "⚠️ npm ci failed, falling back to npm install --legacy-peer-deps"
+          npm install --legacy-peer-deps
+        fi
+      env:
+        NODE_AUTH_TOKEN: ${{ inputs.CLOUD_DEVOPS_TOKEN }}

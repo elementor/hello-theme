@@ -1,0 +1,40 @@
+name: 'Create PR With Bumped Theme Version (Release)'
+description: 'Creates a pull request with the bumped Hello Elementor theme version'
+
+inputs:
+  base_branch:
+    required: true
+    description: 'The base branch for the PR'
+  package_version:
+    required: true
+    description: 'The new package version'
+  token:
+    required: true
+    description: 'GitHub token for authentication'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Configure Git
+      shell: bash
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v5
+      with:
+        token: ${{ inputs.token }}
+        commit-message: "chore: bump Hello Elementor version to v${{ inputs.package_version }}"
+        branch: release/v${{ inputs.package_version }}
+        title: "Release Hello Elementor v${{ inputs.package_version }}"
+        body: "Automated PR to bump Hello Elementor version for release."
+        base: ${{ inputs.base_branch }}
+        add-paths: |
+          package.json
+          package-lock.json
+          functions.php
+          style.css
+          theme.json
+          readme.txt
+          assets/scss/style.scss

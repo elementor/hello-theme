@@ -1,0 +1,249 @@
+name: 'Update Main Branch Version (Release)'
+description: 'Updates main branch version only if new version is greater than current main version (Hello Elementor)'
+
+inputs:
+  new_version:
+    required: true
+    description: 'The new version to potentially update to'
+  token:
+    required: true
+    description: 'GitHub token for authentication'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Auto-detect default branch
+      shell: bash
+      run: |
+        # Auto-detect the default branch (supports both 'master' and 'main')
+        DEFAULT_BRANCH=""
+
+        # Check if main exists, then master, then fallback
+        if git ls-remote --heads origin main | grep -q "refs/heads/main"; then
+          DEFAULT_BRANCH="main"
+        elif git ls-remote --heads origin master | grep -q "refs/heads/master"; then
+          DEFAULT_BRANCH="main"
+        else
+          # Use git symbolic-ref to get the actual default branch
+          DEFAULT_BRANCH=$(git ls-remote --symref origin HEAD | head -n1 | cut -d$'\t' -f2 | sed 's|refs/heads/||')
+          if [ -z "$DEFAULT_BRANCH" ]; then
+            echo "Error: Could not determine default branch"
+            exit 1
+          fi
+        fi
+        
+        echo "DEFAULT_BRANCH=$DEFAULT_BRANCH" >> $GITHUB_ENV
+        echo "Detected default branch: $DEFAULT_BRANCH"
+
+    - name: Get current default branch version
+      shell: bash
+      run: |
+        DEFAULT_BRANCH="${{ env.DEFAULT_BRANCH }}"
+        
+        # Extract package.json first, then parse it with proper error checking
+        git show "origin/$DEFAULT_BRANCH:package.json" > /tmp/package_temp.json 2>/dev/null || {
+          echo "Error: Could not extract package.json from $DEFAULT_BRANCH branch"
+          echo "This is expected if the branch doesn't exist or package.json is missing"
+          exit 1
+        }
+        
+        # Parse the JSON file with proper error handling
+        if ! DEFAULT_BRANCH_VERSION=$(node -p "JSON.parse(require('fs').readFileSync('/tmp/package_temp.json', 'utf8')).version" 2>/dev/null); then
+          echo "Error: Could not parse version from $DEFAULT_BRANCH branch package.json"
+          echo "The file exists but JSON parsing failed"
+          rm -f /tmp/package_temp.json
+          exit 1
+        fi
+        
+        # Clean up temporary file
+        rm -f /tmp/package_temp.json
+        
+        echo "DEFAULT_BRANCH_VERSION=$DEFAULT_BRANCH_VERSION" >> $GITHUB_ENV
+        echo "Current $DEFAULT_BRANCH version: $DEFAULT_BRANCH_VERSION"
+
+    - name: Compare versions (simple numeric comparison)
+      shell: bash
+      run: |
+        NEW_VERSION="${{ inputs.new_version }}"
+        DEFAULT_BRANCH_VERSION="${{ env.DEFAULT_BRANCH_VERSION }}"
+        
+        # Simple version comparison for numeric versions (e.g., 1.2.3)
+        # Note: This project only uses numeric releases, so we keep this simple
+        # If comparison fails, we exit early (fail-safe approach)
+        version_compare() {
+          local v1="$1"
+          local v2="$2"
+          
+          # Parse version numbers (assumes X.Y.Z format)
+          IFS='.' read -r v1_major v1_minor v1_patch <<< "$v1"
+          IFS='.' read -r v2_major v2_minor v2_patch <<< "$v2"
+          
+          # Set defaults and validate numeric
+          v1_major=${v1_major:-0}
+          v1_minor=${v1_minor:-0}
+          v1_patch=${v1_patch:-0}
+          v2_major=${v2_major:-0}
+          v2_minor=${v2_minor:-0}
+          v2_patch=${v2_patch:-0}
+          
+          # Simple numeric comparison
+          if [ "$v1_major" -gt "$v2_major" ]; then return 0; fi
+          if [ "$v1_major" -lt "$v2_major" ]; then return 1; fi
+          if [ "$v1_minor" -gt "$v2_minor" ]; then return 0; fi
+          if [ "$v1_minor" -lt "$v2_minor" ]; then return 1; fi
+          if [ "$v1_patch" -gt "$v2_patch" ]; then return 0; fi
+          return 1
+        }
+        
+        if version_compare "$NEW_VERSION" "$DEFAULT_BRANCH_VERSION"; then
+          echo "✅ New version ($NEW_VERSION) > Default branch version ($DEFAULT_BRANCH_VERSION)"
+          echo "SHOULD_UPDATE=true" >> $GITHUB_ENV
+        else
+          echo "⏭️ New version ($NEW_VERSION) <= Default branch version ($DEFAULT_BRANCH_VERSION)"
+          echo "Skipping default branch update to preserve higher version"
+          echo "SHOULD_UPDATE=false" >> $GITHUB_ENV
+        fi
+
+    - name: Create safe branch name
+      if: env.SHOULD_UPDATE == 'true'
+      shell: bash
+      run: |
+        NEW_VERSION="${{ inputs.new_version }}"
+        DEFAULT_BRANCH="${{ env.DEFAULT_BRANCH }}"
+        
+        # Sanitize version for branch name
+        # Note: This project only uses numeric versions (e.g., 1.2.3) so minimal sanitization needed
+        SAFE_VERSION=$(echo "$NEW_VERSION" | sed 's/[^a-zA-Z0-9.-]/-/g')
+        echo "BRANCH_NAME=update-$DEFAULT_BRANCH-to-v$SAFE_VERSION" >> $GITHUB_ENV
+
+    - name: Extract and update files from default branch
+      if: env.SHOULD_UPDATE == 'true'
+      shell: bash
+      run: |
+        NEW_VERSION="${{ inputs.new_version }}"
+        DEFAULT_BRANCH="${{ env.DEFAULT_BRANCH }}"
+        
+        # Simple approach: Extract files directly, fail if any step fails
+        # Since PRs are manually reviewed, we don't need complex error handling
+        
+        # Extract package.json and update version
+        git show "origin/$DEFAULT_BRANCH:package.json" > package.json || exit 1
+        node -e "
+          const fs = require('fs');
+          const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+          pkg.version = '$NEW_VERSION';
+          fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
+        " || exit 1
+        
+        # Extract and update functions.php (Hello Elementor specific)
+        git show "origin/$DEFAULT_BRANCH:functions.php" > functions.php || exit 1
+        sed -i.bak "s/define( 'HELLO_ELEMENTOR_VERSION', '[^']*'/define( 'HELLO_ELEMENTOR_VERSION', '$NEW_VERSION' /" functions.php || exit 1
+        rm -f functions.php.bak
+        # Verify functions.php was actually updated
+        if ! grep -q "HELLO_ELEMENTOR_VERSION.*$NEW_VERSION" functions.php; then
+          echo "Error: Failed to update version in functions.php"
+          exit 1
+        fi
+        
+        # Extract and update style.css
+        git show "origin/$DEFAULT_BRANCH:style.css" > style.css || exit 1
+        sed -i.bak "s/Version: .*/Version: $NEW_VERSION/" style.css || exit 1
+        rm -f style.css.bak
+        # Verify style.css was actually updated
+        if ! grep -q "Version: $NEW_VERSION" style.css; then
+          echo "Error: Failed to update version in style.css"
+          exit 1
+        fi
+        
+        # Extract and update assets/scss/style.scss if it exists (Hello Theme specific)
+        if git show "origin/$DEFAULT_BRANCH:assets/scss/style.scss" > assets/scss/style.scss 2>/dev/null; then
+          mkdir -p assets/scss
+          sed -i.bak -e "s/Version: .*/Version: $NEW_VERSION/" -e "s/Stable tag: .*/Stable tag: $NEW_VERSION/" assets/scss/style.scss || exit 1
+          rm -f assets/scss/style.scss.bak
+          echo "✅ Updated assets/scss/style.scss"
+        else
+          echo "ℹ️ No assets/scss/style.scss found in $DEFAULT_BRANCH branch"
+        fi
+        
+        # Extract and update readme.txt
+        git show "origin/$DEFAULT_BRANCH:readme.txt" > readme.txt || exit 1
+        # Update fields that exist in the file
+        sed -i.bak -e "s/^Stable tag: .*/Stable tag: $NEW_VERSION/" -e "s/^Version: .*/Version: $NEW_VERSION/" readme.txt || exit 1
+        rm -f readme.txt.bak
+        
+        # Verify that fields were updated (check each field independently)
+        VALIDATION_PASSED=true
+        
+        # Check if Stable tag field exists and was updated
+        if grep -q "^Stable tag:" readme.txt; then
+          if ! grep -q "^Stable tag: $NEW_VERSION" readme.txt; then
+            echo "Error: Found 'Stable tag:' field but failed to update it to $NEW_VERSION"
+            VALIDATION_PASSED=false
+          else
+            echo "✅ Updated Stable tag to $NEW_VERSION"
+          fi
+        else
+          echo "ℹ️ No 'Stable tag:' field found in readme.txt"
+        fi
+        
+        # Check if Version field exists and was updated
+        if grep -q "^Version:" readme.txt; then
+          if ! grep -q "^Version: $NEW_VERSION" readme.txt; then
+            echo "Error: Found 'Version:' field but failed to update it to $NEW_VERSION"
+            VALIDATION_PASSED=false
+          else
+            echo "✅ Updated Version to $NEW_VERSION"
+          fi
+        else
+          echo "ℹ️ No 'Version:' field found in readme.txt"
+        fi
+        
+        if [ "$VALIDATION_PASSED" = "false" ]; then
+          echo "❌ readme.txt version update failed"
+          exit 1
+        fi
+        
+        echo "✅ readme.txt version update completed successfully"
+        
+        # Generate package-lock.json
+        npm install --package-lock-only || {
+          echo "Warning: npm install failed, continuing without package-lock.json update"
+          echo "This may be due to network issues, registry timeouts, or dependency conflicts"
+          echo "The version update will proceed without regenerating package-lock.json"
+        }
+        
+        echo "Successfully updated all files"
+
+    - name: Create pull request
+      if: env.SHOULD_UPDATE == 'true'
+      uses: peter-evans/create-pull-request@v5
+      with:
+        token: ${{ inputs.token }}
+        commit-message: "chore: update ${{ env.DEFAULT_BRANCH }} version to v${{ inputs.new_version }}"
+        branch: ${{ env.BRANCH_NAME }}
+        title: "Update ${{ env.DEFAULT_BRANCH }} version to v${{ inputs.new_version }}"
+        body: |
+          Update ${{ env.DEFAULT_BRANCH }} branch version to v${{ inputs.new_version }}
+          
+          **Version Update:**
+          - New version: v${{ inputs.new_version }}
+          - Previous ${{ env.DEFAULT_BRANCH }} version: v${{ env.DEFAULT_BRANCH_VERSION }}
+          
+          **Files updated:**
+          - package.json
+          - functions.php (HELLO_ELEMENTOR_VERSION)
+          - style.css
+          - readme.txt
+          - assets/scss/style.scss (if exists)
+          - package-lock.json
+          
+          Auto-generated by Hello Elementor release preparation workflow.
+          **Please review manually before merging.**
+        base: ${{ env.DEFAULT_BRANCH }}
+        add-paths: |
+          package.json
+          package-lock.json
+          functions.php
+          style.css
+          readme.txt
+          assets/scss/style.scss
