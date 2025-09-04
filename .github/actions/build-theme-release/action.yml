@@ -45,15 +45,15 @@ runs:
     - name: Create theme build directory
       shell: bash
       run: |
-        mkdir -p /tmp/hello-elementor-builds
+        mkdir -p /tmp/hello-theme-builds
         
     - name: Package theme
       shell: bash
       env:
         PACKAGE_VERSION: ${{ inputs.PACKAGE_VERSION }}
       run: |
-        # Create zip file with proper naming (hello-elementor instead of hello-theme)
-        zip -r "/tmp/hello-elementor-builds/hello-elementor-${PACKAGE_VERSION}.zip" . \
+        # Create zip file with hello-theme naming
+        zip -r "/tmp/hello-theme-builds/hello-theme-${PACKAGE_VERSION}.zip" . \
           -x "node_modules/*" "test-results/*" "tests/*" ".git/*" "*.zip" \
              "playwright-report/*" ".wp-env.json.*" ".wp-env"
 
@@ -62,11 +62,11 @@ runs:
       env:
         PACKAGE_VERSION: ${{ inputs.PACKAGE_VERSION }}
       run: |
-        mv "/tmp/hello-elementor-builds/hello-elementor-${PACKAGE_VERSION}.zip" \
-           "./hello-elementor-${PACKAGE_VERSION}.zip"
+        mv "/tmp/hello-theme-builds/hello-theme-${PACKAGE_VERSION}.zip" \
+           "./hello-theme-${PACKAGE_VERSION}.zip"
         
-        echo "✅ Hello Elementor theme build complete: hello-elementor-${PACKAGE_VERSION}.zip"
-        ls -la hello-elementor-*.zip
+        echo "✅ Hello Elementor theme build complete: hello-theme-${PACKAGE_VERSION}.zip"
+        ls -la hello-theme-*.zip
         
         # Set build path for downstream actions
-        echo "BUILD_ZIP_PATH=hello-elementor-${PACKAGE_VERSION}.zip" >> $GITHUB_ENV
+        echo "BUILD_ZIP_PATH=hello-theme-${PACKAGE_VERSION}.zip" >> $GITHUB_ENV
