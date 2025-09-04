@@ -35,6 +35,4 @@ runs:
           package-lock.json
           functions.php
           style.css
-          theme.json
           readme.txt
-          assets/scss/style.scss
