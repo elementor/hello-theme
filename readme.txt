@@ -36,12 +36,6 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
 
-= 3.4.6 - 2025-06-08 =
-* Tweak: Improve Header/Footer edit access from theme Home
-
-= 3.4.5 - 2025-06-08 =
-* Tweak: Improve Header/Footer edit access from theme Home
-
 = 3.4.4 - 2025-06-08 =
 * Tweak: Improve Header/Footer edit access from theme Home
 
