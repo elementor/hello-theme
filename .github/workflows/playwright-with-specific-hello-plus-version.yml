@@ -323,6 +323,7 @@ jobs:
         if: steps.extract-version-tests.outputs.tests-available == 'true'
         run: |
           export TEST_TITLE="Hello Theme Plus Test - HT ${HELLO_THEME_VERSION} + HP ${HELLO_PLUS_VERSION}"
+          export DAILY_MATRIX_WORKFLOW=true
           echo "🧪 Running tests from: ${{ steps.extract-version-tests.outputs.test-source-type }}"
           # Only run Hello Theme tests, not Hello Plus or other plugin tests
           npm run test:playwright -- tests/playwright/tests/
