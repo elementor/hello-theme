@@ -137,7 +137,7 @@ runs:
         
         # Extract and update functions.php (Hello Elementor specific)
         git show "origin/$DEFAULT_BRANCH:functions.php" > functions.php || exit 1
-        sed -i.bak "s/define( 'HELLO_ELEMENTOR_VERSION', '[^']*'/define( 'HELLO_ELEMENTOR_VERSION', '$NEW_VERSION' /" functions.php || exit 1
+        sed -i.bak "s/define( 'HELLO_ELEMENTOR_VERSION', '[^']*' );/define( 'HELLO_ELEMENTOR_VERSION', '$NEW_VERSION' );/" functions.php || exit 1
         rm -f functions.php.bak
         # Verify functions.php was actually updated
         if ! grep -q "HELLO_ELEMENTOR_VERSION.*$NEW_VERSION" functions.php; then
