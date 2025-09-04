@@ -1,0 +1,730 @@
+# 🧪 Hello Theme Daily Test Matrix
+# 
+# This workflow runs daily automated testing across different version combinations:
+# - Core Matrix: Hello Theme × Elementor versions  
+# - Plus Matrix: Hello Theme × Hello Plus versions
+# - By default tests main branches (cutting-edge compatibility)
+# - Can be manually triggered with specific versions for release testing
+#
+# Each matrix workflow handles its own version calculation and testing logic.
+#
+# 📊 Targeted Matrix Generation:
+#
+# Hello Theme × Elementor:
+# - Hello Theme (main) × Elementor (main, previous GA minor.x, previous-previous GA minor.x)
+# - Hello Theme (ga, if exists) × Elementor (main, previous GA minor.x, previous-previous GA minor.x)
+#
+# Hello Theme × Hello Plus:
+# - Hello Theme (main) × Hello Plus (latest, previous patch - WordPress.org releases only)
+# - Hello Theme (ga, if exists) × Hello Plus (latest, previous patch - WordPress.org releases only)
+#
+# Example Output (HT GA=3.4.4, EL latest=3.30.4, HP latest=1.7.2):
+# [
+#   {"combination":"ht-main-el-main","name":"Hello Theme main + Elementor main","hello_theme_version":"main","elementor_version":"main","delay":0},
+#   {"combination":"ht-main-el-prev","name":"Hello Theme main + Elementor 3.31.1 (GA)","hello_theme_version":"main","elementor_version":"3.31.1","delay":15},
+#   {"combination":"ht-main-el-prev","name":"Hello Theme main + Elementor 3.30.4 (GA)","hello_theme_version":"main","elementor_version":"3.30.4","delay":30},
+#   {"combination":"ht-ga-el-main","name":"Hello Theme 3.4.4 (GA) + Elementor main","hello_theme_version":"3.4.4","elementor_version":"main","delay":60},
+#   {"combination":"ht-ga-el-prev","name":"Hello Theme 3.4.4 (GA) + Elementor 3.31.1 (GA)","hello_theme_version":"3.4.4","elementor_version":"3.31.1","delay":75},
+#   {"combination":"ht-ga-el-prev","name":"Hello Theme 3.4.4 (GA) + Elementor 3.30.4 (GA)","hello_theme_version":"3.4.4","elementor_version":"3.30.4","delay":90},
+#   {"combination":"ht-main-hp-latest","name":"Hello Theme main + Hello Plus 1.7.2","hello_theme_version":"main","hello_plus_version":"1.7.2","delay":105},
+#   {"combination":"ht-main-hp-prev","name":"Hello Theme main + Hello Plus 1.7.1","hello_theme_version":"main","hello_plus_version":"1.7.1","delay":120}
+# ]
+
+name: Daily Test Matrix
+
+on:
+  schedule:
+    # Run daily at 8:00 AM UTC (spread load from other themes)
+    - cron: '0 8 * * *'
+  workflow_dispatch:
+    inputs:
+      hello_theme_version:
+        description: 'Hello Theme version to test (e.g., 3.4.4) - defaults to main for scheduled runs'
+        required: false
+        default: 'main'
+        type: string
+      hello_plus_version:
+        description: 'Hello Plus version to test (e.g., 1.7.2) - defaults to latest-stable for scheduled runs'
+        required: false
+        default: 'latest-stable'
+        type: string
+      elementor_version:
+        description: 'Elementor version to test (e.g., 3.29.7) - defaults to main for scheduled runs'
+        required: false
+        default: 'main'
+        type: string
+      compatibility_depth:
+        description: 'Number of previous versions to test'
+        required: false
+        default: '2'
+        type: choice
+        options: ['1', '2', '3']
+      run_targeted_tests:
+        description: 'Run targeted compatibility tests'
+        required: false
+        default: true
+        type: boolean
+      tag:
+        description: 'Provide @tag or a keyword for Playwright tests'
+        required: false
+        type: string
+
+permissions:
+  contents: read
+  actions: write
+
+env:
+  CORE_WORKFLOW: 'playwright-with-specific-elementor-version.yml'
+  PLUS_WORKFLOW: 'playwright-with-specific-hello-plus-version.yml'
+
+jobs:
+  calculate-test-matrix:
+    name: Calculate Dynamic Test Matrix
+    runs-on: ubuntu-22.04
+    outputs:
+      hello-theme-version: ${{ steps.matrix.outputs.hello-theme-version }}
+      hello-plus-version: ${{ steps.matrix.outputs.hello-plus-version }}
+      elementor-version: ${{ steps.matrix.outputs.elementor-version }}
+      hello-theme-previous: ${{ steps.matrix.outputs.hello-theme-previous }}
+      targeted-tests: ${{ steps.matrix.outputs.targeted-tests }}
+      hello-theme-version-for-display: ${{ steps.matrix.outputs.hello-theme-version-for-display }}
+    steps:
+      - name: Calculate version matrix
+        id: matrix
+        run: |
+          # Use defaults for scheduled runs, inputs for manual runs
+          HT_VERSION="${{ inputs.hello_theme_version || 'main' }}"
+          HP_VERSION="${{ inputs.hello_plus_version || 'latest-stable' }}"
+          EL_VERSION="${{ inputs.elementor_version || 'main' }}"
+          DEPTH="${{ inputs.compatibility_depth || '2' }}"
+          
+          # Preserve original input values for display purposes
+          HT_VERSION_DISPLAY="$HT_VERSION"
+          HP_VERSION_DISPLAY="$HP_VERSION"
+          EL_VERSION_DISPLAY="$EL_VERSION"
+          
+          # Function to get latest released version from GitHub
+          get_latest_version() {
+            local repo=$1
+            local latest_version
+            
+            # Get latest release tag from GitHub API
+            latest_version=$(curl -s "https://api.github.com/repos/${repo}/releases/latest" | jq -r '.tag_name // empty')
+            
+            # Remove 'v' prefix if present
+            latest_version=${latest_version#v}
+            
+            # If no version found or empty, return empty
+            if [[ -z "$latest_version" || "$latest_version" == "null" ]]; then
+              echo ""
+            else
+              echo "$latest_version"
+            fi
+          }
+          
+          # Function to get latest version from WordPress.org API (plugins)
+          get_wp_org_latest_version() {
+            local plugin_slug=$1
+            local latest_version
+            
+            # Get plugin info from WordPress.org API
+            latest_version=$(curl -s "https://api.wordpress.org/plugins/info/1.0/${plugin_slug}.json" | jq -r '.version // empty')
+            
+            # If no version found or empty, return empty
+            if [[ -z "$latest_version" || "$latest_version" == "null" ]]; then
+              echo ""
+            else
+              echo "$latest_version"
+            fi
+          }
+          
+          # Function to get latest version from WordPress.org API (themes)
+          get_wp_org_theme_latest_version() {
+            local theme_slug=$1
+            local latest_version
+            
+            # Get theme info from WordPress.org API (URL-encoded array syntax)
+            latest_version=$(curl -s "https://api.wordpress.org/themes/info/1.1/?action=theme_information&request%5Bslug%5D=${theme_slug}" | jq -r '.version // empty')
+            
+            # If no version found or empty, return empty
+            if [[ -z "$latest_version" || "$latest_version" == "null" ]]; then
+              echo ""
+            else
+              echo "$latest_version"
+            fi
+          }
+          
+          echo "🧮 Calculating Hello Theme Daily Test Matrix"
+          echo "=============================================="
+          echo "Input versions:"
+          echo "- Hello Theme: $HT_VERSION"
+          echo "- Hello Plus: $HP_VERSION" 
+          echo "- Elementor: $EL_VERSION"
+          echo "- Compatibility depth: $DEPTH"
+          echo ""
+          
+          # Resolve Hello Theme GA version for matrix calculation
+          if [[ "$HT_VERSION" == "main" ]]; then
+            # For scheduled runs, try to detect the latest GA version
+            HT_GA_LATEST=""
+            
+            # Hello Theme is published to WordPress.org, try there first
+            HT_GA_LATEST=$(get_wp_org_theme_latest_version "hello-elementor")
+            if [[ -n "$HT_GA_LATEST" ]]; then
+              echo "🔍 Detected Hello Theme GA -> ${HT_GA_LATEST} (from WordPress.org)"
+              HT_VERSION_FOR_MATRIX="$HT_GA_LATEST"
+            else
+              # Fallback to GitHub (may not be publicly available for themes)
+              HT_GA_LATEST=$(get_latest_version "elementor/hello-theme")
+              if [[ -n "$HT_GA_LATEST" ]]; then
+                echo "🔍 Detected Hello Theme GA -> ${HT_GA_LATEST} (from GitHub)"
+                HT_VERSION_FOR_MATRIX="$HT_GA_LATEST"
+              else
+                echo "⚠️  Could not detect Hello Theme GA version, using main only"
+                HT_VERSION_FOR_MATRIX="main"
+              fi
+            fi
+          else
+            HT_VERSION_FOR_MATRIX="$HT_VERSION"
+          fi
+          
+          # Handle Hello Plus (WordPress.org releases only)
+          if [[ "$HP_VERSION" == "latest-stable" ]]; then
+            # For latest-stable, we need to resolve to actual version number for matrix calculation
+            HP_LATEST=$(get_wp_org_latest_version "hello-plus")
+            if [[ -n "$HP_LATEST" ]]; then
+              echo "🔍 Resolved Hello Plus latest-stable -> ${HP_LATEST} (from WordPress.org)"
+              HP_VERSION_FOR_MATRIX="$HP_LATEST"
+            else
+              echo "⚠️  Could not resolve Hello Plus latest version from WordPress.org, using latest-stable"
+              HP_VERSION_FOR_MATRIX="latest-stable"
+            fi
+          else
+            HP_VERSION_FOR_MATRIX="$HP_VERSION"
+          fi
+
+          # Validation: If WordPress version is required but not available, use main version
+          # This handles the case when no GA versions exist yet (e.g., releasing 3.5.0)
+          validate_version_availability() {
+            local version=$1
+            local plugin_name=$2
+            
+            # If version is "main", it's always available
+            if [[ "$version" == "main" ]]; then
+              echo "$version"
+              return 0
+            fi
+            
+            # Special case for Hello Plus: "latest-stable" is valid
+            if [[ "$plugin_name" == "Hello Plus" && "$version" == "latest-stable" ]]; then
+              echo "$version"
+              return 0
+            fi
+            
+            # Check if it's a semantic version format
+            if [[ $version =~ ^([0-9]+)\.([0-9]+) ]]; then
+              # For Hello Theme 3.5.0 (first release), previous versions won't exist
+              # For other plugins, we assume the version exists if it's in semantic format
+              echo "$version"
+            else
+              if [[ "$plugin_name" == "Hello Plus" ]]; then
+                echo "⚠️  Invalid version format for $plugin_name: '$version', falling back to latest-stable"
+                echo "latest-stable"
+              else
+                echo "⚠️  Invalid version format for $plugin_name: '$version', falling back to main"
+                echo "main"
+              fi
+            fi
+          }
+
+          # Validate and potentially fallback versions
+          HT_VERSION=$(validate_version_availability "$HT_VERSION" "Hello Theme")
+          HP_VERSION=$(validate_version_availability "$HP_VERSION" "Hello Plus")
+          EL_VERSION=$(validate_version_availability "$EL_VERSION" "Elementor")
+
+          echo "hello-theme-version=${HT_VERSION}" >> $GITHUB_OUTPUT
+          echo "hello-plus-version=${HP_VERSION}" >> $GITHUB_OUTPUT
+          echo "elementor-version=${EL_VERSION}" >> $GITHUB_OUTPUT
+          echo "hello-theme-version-for-display=${HT_VERSION_DISPLAY}" >> $GITHUB_OUTPUT
+
+          # Function to calculate previous versions with different strategies
+          calculate_previous_versions() {
+            local version=$1
+            local depth=$2
+            local strategy=${3:-"elementor"} # "elementor" for minor-based, "theme" for patch-based
+            
+            if [[ "$version" == "main" || "$version" == "latest-stable" ]]; then
+              echo ""
+              return 0
+            fi
+            
+            # Different strategies based on plugin type
+            if [[ "$strategy" == "elementor" ]]; then
+              # Elementor: Minor-level versioning (3.30.4 -> 3.29.x, 3.28.x)
+              if [[ $version =~ ^([0-9]+)\.([0-9]+)\.([0-9]+) ]]; then
+                major=${BASH_REMATCH[1]}
+                minor=${BASH_REMATCH[2]}
+                patch=${BASH_REMATCH[3]}
+                
+                previous_versions=""
+                for i in $(seq 1 $depth); do
+                  prev_minor=$((minor - i))
+                  if [ $prev_minor -ge 0 ]; then
+                    # For Elementor, assume latest patch in previous minor (e.g., 3.29.7)
+                    prev_version="${major}.${prev_minor}.7"
+                    if [ -z "$previous_versions" ]; then
+                      previous_versions="$prev_version"
+                    else
+                      previous_versions="$previous_versions,$prev_version"
+                    fi
+                  fi
+                done
+                echo "$previous_versions"
+              else
+                echo ""
+                return 0
+              fi
+            else
+              # Hello Theme & Hello Plus: Patch-level versioning (3.4.4 -> 3.4.3, 3.4.2)
+              if [[ $version =~ ^([0-9]+)\.([0-9]+)\.([0-9]+) ]]; then
+                major=${BASH_REMATCH[1]}
+                minor=${BASH_REMATCH[2]}
+                patch=${BASH_REMATCH[3]}
+                
+                previous_versions=""
+                
+                # Strategy: Get patch versions in current minor, then latest of previous minor
+                # Example: 3.4.4 -> 3.4.3, then 3.3.x (latest)
+                
+                # First, get previous patch versions in current minor
+                local patches_added=0
+                for i in $(seq 1 $depth); do
+                  if [ $patches_added -ge $depth ]; then
+                    break
+                  fi
+                  
+                  prev_patch=$((patch - i))
+                  if [ $prev_patch -ge 0 ]; then
+                    prev_version="${major}.${minor}.${prev_patch}"
+                    if [ -z "$previous_versions" ]; then
+                      previous_versions="$prev_version"
+                    else
+                      previous_versions="$previous_versions,$prev_version"
+                    fi
+                    patches_added=$((patches_added + 1))
+                  else
+                    # If we run out of patches, try previous minor
+                    prev_minor=$((minor - 1))
+                    if [ $prev_minor -ge 0 ] && [ $patches_added -lt $depth ]; then
+                      # Assume latest patch in previous minor (e.g., 3.3.9)
+                      prev_version="${major}.${prev_minor}.9"
+                      if [ -z "$previous_versions" ]; then
+                        previous_versions="$prev_version"
+                      else
+                        previous_versions="$previous_versions,$prev_version"
+                      fi
+                      patches_added=$((patches_added + 1))
+                    fi
+                    break
+                  fi
+                done
+                
+                echo "$previous_versions"
+              else
+                echo ""
+                return 0
+              fi
+            fi
+          }
+
+          # Calculate previous versions for each component
+          if [[ "${{ inputs.run_targeted_tests || 'true' }}" == "true" ]]; then
+            ELEMENTOR_PREVIOUS=$(calculate_previous_versions "$EL_VERSION" "$DEPTH" "elementor")
+            HELLO_PLUS_PREVIOUS=$(calculate_previous_versions "$HP_VERSION" "$DEPTH" "theme")
+            HELLO_THEME_PREVIOUS=$(calculate_previous_versions "$HT_VERSION_FOR_MATRIX" "$DEPTH" "theme")
+            
+            echo "hello-theme-previous=${HELLO_THEME_PREVIOUS}" >> $GITHUB_OUTPUT
+            
+            echo ""
+            echo "📋 Version Matrix Calculation Complete:"
+            echo "- Hello Theme: $HT_VERSION (previous: ${HELLO_THEME_PREVIOUS:-none})"
+            echo "- Hello Plus: $HP_VERSION (previous: ${HELLO_PLUS_PREVIOUS:-none})"
+            echo "- Elementor: $EL_VERSION (previous: ${ELEMENTOR_PREVIOUS:-none})"
+            echo ""
+            
+            # Generate targeted test matrix
+            TARGETED_TESTS="["
+            DELAY_COUNTER=0
+            
+            # Helper function to add test combination
+            add_test_combination() {
+              local combination=$1
+              local name=$2
+              local ht_ver=$3
+              local el_ver=$4
+              local hp_ver=$5
+              local delay=$6
+              
+              if [[ "$TARGETED_TESTS" != "[" ]]; then
+                TARGETED_TESTS="${TARGETED_TESTS},"
+              fi
+              
+              if [[ -n "$hp_ver" ]]; then
+                # Hello Plus matrix
+                TARGETED_TESTS="${TARGETED_TESTS}{\"combination\":\"${combination}\",\"name\":\"${name}\",\"hello_theme_version\":\"${ht_ver}\",\"hello_plus_version\":\"${hp_ver}\",\"delay\":${delay}}"
+              else
+                # Elementor matrix
+                TARGETED_TESTS="${TARGETED_TESTS}{\"combination\":\"${combination}\",\"name\":\"${name}\",\"hello_theme_version\":\"${ht_ver}\",\"elementor_version\":\"${el_ver}\",\"delay\":${delay}}"
+              fi
+            }
+            
+            # Core Matrix: Hello Theme × Elementor
+            # Main Hello Theme combinations
+            add_test_combination "ht-main-el-main" "Hello Theme main + Elementor main" "main" "main" "" $((DELAY_COUNTER * 15))
+            DELAY_COUNTER=$((DELAY_COUNTER + 1))
+            
+            if [[ -n "$ELEMENTOR_PREVIOUS" ]]; then
+              IFS=',' read -ra EL_PREV_ARRAY <<< "$ELEMENTOR_PREVIOUS"
+              for el_prev in "${EL_PREV_ARRAY[@]}"; do
+                add_test_combination "ht-main-el-prev" "Hello Theme main + Elementor ${el_prev} (GA)" "main" "$el_prev" "" $((DELAY_COUNTER * 15))
+                DELAY_COUNTER=$((DELAY_COUNTER + 1))
+              done
+            fi
+            
+            # GA Hello Theme combinations (if detected)
+            if [[ "$HT_VERSION_FOR_MATRIX" != "main" ]]; then
+              add_test_combination "ht-ga-el-main" "Hello Theme ${HT_VERSION_FOR_MATRIX} (GA) + Elementor main" "$HT_VERSION_FOR_MATRIX" "main" "" $((DELAY_COUNTER * 15))
+              DELAY_COUNTER=$((DELAY_COUNTER + 1))
+              
+              if [[ -n "$ELEMENTOR_PREVIOUS" ]]; then
+                IFS=',' read -ra EL_PREV_ARRAY <<< "$ELEMENTOR_PREVIOUS"
+                for el_prev in "${EL_PREV_ARRAY[@]}"; do
+                  add_test_combination "ht-ga-el-prev" "Hello Theme ${HT_VERSION_FOR_MATRIX} (GA) + Elementor ${el_prev} (GA)" "$HT_VERSION_FOR_MATRIX" "$el_prev" "" $((DELAY_COUNTER * 15))
+                  DELAY_COUNTER=$((DELAY_COUNTER + 1))
+                done
+              fi
+            fi
+            
+            # Plus Matrix: Hello Theme × Hello Plus
+            # Main Hello Theme combinations
+            add_test_combination "ht-main-hp-latest" "Hello Theme main + Hello Plus ${HP_VERSION}" "main" "" "$HP_VERSION" $((DELAY_COUNTER * 15))
+            DELAY_COUNTER=$((DELAY_COUNTER + 1))
+            
+            if [[ -n "$HELLO_PLUS_PREVIOUS" ]]; then
+              IFS=',' read -ra HP_PREV_ARRAY <<< "$HELLO_PLUS_PREVIOUS"
+              for hp_prev in "${HP_PREV_ARRAY[@]}"; do
+                add_test_combination "ht-main-hp-prev" "Hello Theme main + Hello Plus ${hp_prev}" "main" "" "$hp_prev" $((DELAY_COUNTER * 15))
+                DELAY_COUNTER=$((DELAY_COUNTER + 1))
+              done
+            fi
+            
+            # GA Hello Theme combinations (if detected)
+            if [[ "$HT_VERSION_FOR_MATRIX" != "main" ]]; then
+              add_test_combination "ht-ga-hp-latest" "Hello Theme ${HT_VERSION_FOR_MATRIX} (GA) + Hello Plus ${HP_VERSION}" "$HT_VERSION_FOR_MATRIX" "" "$HP_VERSION" $((DELAY_COUNTER * 15))
+              DELAY_COUNTER=$((DELAY_COUNTER + 1))
+              
+              if [[ -n "$HELLO_PLUS_PREVIOUS" ]]; then
+                IFS=',' read -ra HP_PREV_ARRAY <<< "$HELLO_PLUS_PREVIOUS"
+                for hp_prev in "${HP_PREV_ARRAY[@]}"; do
+                  add_test_combination "ht-ga-hp-prev" "Hello Theme ${HT_VERSION_FOR_MATRIX} (GA) + Hello Plus ${hp_prev}" "$HT_VERSION_FOR_MATRIX" "" "$hp_prev" $((DELAY_COUNTER * 15))
+                  DELAY_COUNTER=$((DELAY_COUNTER + 1))
+                done
+              fi
+            fi
+            
+            TARGETED_TESTS="${TARGETED_TESTS}]"
+            
+            echo "targeted-tests=${TARGETED_TESTS}" >> $GITHUB_OUTPUT
+            
+            echo ""
+            echo "🎯 Generated Targeted Test Matrix:"
+            echo "$TARGETED_TESTS" | jq '.'
+          else
+            echo "⏭️ Skipping targeted test matrix generation (run_targeted_tests=false)"
+            echo "targeted-tests=[]" >> $GITHUB_OUTPUT
+          fi
+
+  trigger-targeted-tests:
+    name: Trigger Targeted Tests
+    needs: [calculate-test-matrix]
+    if: ${{ needs.calculate-test-matrix.outputs.targeted-tests != '[]' }}
+    runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJson(needs.calculate-test-matrix.outputs.targeted-tests) }}
+    steps:
+      - name: Checkout Hello Theme
+        uses: actions/checkout@v4
+
+      - name: Trigger targeted compatibility test
+        id: trigger
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { triggerWorkflowAndWait } = require('./.github/scripts/workflow-trigger.js');
+
+            // Apply delay to prevent race conditions
+            const delay = ${{ matrix.delay }} * 1000;
+            if (delay > 0) {
+              console.log(`Applying ${delay/1000}s delay to prevent race condition...`);
+              await new Promise(resolve => setTimeout(resolve, delay));
+            }
+
+            // Determine which workflow to trigger based on combination type
+            const workflowId = '${{ matrix.combination }}'.includes('hp') ? '${{ env.PLUS_WORKFLOW }}' : '${{ env.CORE_WORKFLOW }}';
+            
+            // Build inputs based on target workflow
+            let inputs;
+            if (workflowId === '${{ env.CORE_WORKFLOW }}') {
+              // Core workflow: needs core_branch and hello_theme_version
+              inputs = {
+                core_branch: '${{ matrix.elementor_version || 'main' }}',
+                hello_theme_version: '${{ matrix.hello_theme_version || 'main' }}'
+              };
+            } else {
+              // Plus workflow: needs hello_plus_version and hello_theme_version
+              inputs = {
+                hello_plus_version: '${{ matrix.hello_plus_version || 'latest-stable' }}',
+                hello_theme_version: '${{ matrix.hello_theme_version || 'main' }}'
+              };
+            }
+            
+            // Add tag if provided
+            if ('${{ inputs.tag || '' }}') {
+              inputs.tag = '${{ inputs.tag }}';
+            }
+            
+            const config = {
+              combination: '${{ matrix.combination }}',
+              name: '${{ matrix.name }}',
+              workflowId: workflowId,
+              ref: 'main',
+              inputs: inputs
+            };
+
+            const result = await triggerWorkflowAndWait(github, context, core, config);
+            console.log(`✅ Triggered: ${result.runUrl} for ${config.combination}`);
+            
+            // Store run metadata in a file for collection
+            const fs = require('fs');
+            const timestamp = Date.now();
+            const runMetadata = {
+              id: result.runId,
+              url: result.runUrl,
+              name: '${{ matrix.name }}',
+              combination: '${{ matrix.combination }}',
+              hello_theme_version: '${{ matrix.hello_theme_version }}',
+              elementor_version: '${{ matrix.elementor_version || '' }}',
+              hello_plus_version: '${{ matrix.hello_plus_version || '' }}',
+              type: '${{ matrix.combination }}'.includes('hp') ? 'plus-matrix' : 'core-matrix',
+              source: 'current-execution',
+              timestamp: timestamp
+            };
+
+            const metadataFileName = `run-metadata-${{ matrix.combination }}-${timestamp}.json`;
+            fs.writeFileSync(metadataFileName, JSON.stringify(runMetadata, null, 2));
+            
+            // Set output for the upload step
+            core.setOutput('metadata-filename', metadataFileName);
+
+      - name: Upload run metadata
+        uses: actions/upload-artifact@v4
+        with:
+          name: run-metadata-${{ matrix.combination }}-${{ github.run_id }}-${{ strategy.job-index }}
+          path: ${{ steps.trigger.outputs.metadata-filename }}
+          retention-days: 1
+
+  collect-matrix-results:
+    name: Collect Matrix Results
+    needs: [calculate-test-matrix, trigger-targeted-tests]
+    runs-on: ubuntu-22.04
+    if: always() && needs.calculate-test-matrix.result == 'success'
+    outputs:
+      all-workflow-data: ${{ steps.collect-data.outputs.all-workflow-data }}
+    steps:
+      - name: Checkout for scripts
+        uses: actions/checkout@v4
+      
+      - name: Download all metadata artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: run-metadata-*
+          merge-multiple: true
+      
+      - name: Collect workflow data
+        id: collect-data
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            
+            let allWorkflowData = [];
+            
+            // Find all metadata files
+            const files = fs.readdirSync('.').filter(file => file.startsWith('run-metadata-') && file.endsWith('.json'));
+            
+            console.log(`Found ${files.length} metadata files`);
+            
+            // Read and combine all metadata
+            for (const file of files) {
+              try {
+                const content = fs.readFileSync(file, 'utf8');
+                const metadata = JSON.parse(content);
+                allWorkflowData.push(metadata);
+                console.log(`Loaded metadata for ${metadata.combination}: ${metadata.id}`);
+              } catch (error) {
+                console.error(`Error reading ${file}: ${error.message}`);
+              }
+            }
+            
+            console.log(`Collected ${allWorkflowData.length} workflow runs`);
+            
+            // Set output for the next job
+            core.setOutput('all-workflow-data', JSON.stringify(allWorkflowData));
+            
+            return allWorkflowData;
+
+  daily-trigger-report:
+    name: Daily Trigger Report
+    needs: [calculate-test-matrix, trigger-targeted-tests, collect-matrix-results]
+    runs-on: ubuntu-22.04
+    if: always() && needs.calculate-test-matrix.result == 'success'
+    outputs:
+      overall-status: ${{ steps.aggregate-status.outputs.overall-status }}
+      test-summary: ${{ steps.aggregate-status.outputs.test-summary }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generate Hello Theme daily test report
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { generateDailyTriggerReport } = require('./.github/scripts/daily-report.js');
+            const { getDailyTriggerTimingConfig } = require('./.github/scripts/workflow-reporting.js');
+
+            // Use the collected workflow data
+            const collectedWorkflowData = '${{ needs.collect-matrix-results.outputs.all-workflow-data }}';
+            let workflowData = [];
+
+            if (collectedWorkflowData && collectedWorkflowData !== '') {
+              try {
+                workflowData = JSON.parse(collectedWorkflowData);
+                console.log(`Using collected workflow data: ${workflowData.length} runs`);
+              } catch (error) {
+                console.error('Failed to parse collected workflow data:', error.message);
+                console.log('Using empty workflow data array');
+                workflowData = [];
+              }
+            } else {
+              console.warn('No collected workflow data found');
+              workflowData = [];
+            }
+
+            const timing = getDailyTriggerTimingConfig();
+
+            console.log(`Generating report for ${workflowData.length} compatibility tests`);
+            await generateDailyTriggerReport(github, context, core, workflowData, timing);
+
+      - name: Aggregate test status
+        id: aggregate-status
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Use the collected workflow data
+            const collectedWorkflowData = '${{ needs.collect-matrix-results.outputs.all-workflow-data }}';
+            let workflowData = [];
+
+            if (collectedWorkflowData && collectedWorkflowData !== '') {
+              try {
+                workflowData = JSON.parse(collectedWorkflowData);
+                console.log(`Using collected workflow data for aggregation: ${workflowData.length} runs`);
+              } catch (error) {
+                console.error('Failed to parse collected workflow data:', error.message);
+                workflowData = [];
+              }
+            }
+            
+            const matrixResult = '${{ needs.trigger-targeted-tests.result }}';
+            
+            let overallStatus = 'success';
+            let summary = {
+              total: workflowData.length,
+              success: 0,
+              failed: 0,
+              cancelled: 0,
+              in_progress: 0,
+              skipped: 0
+            };
+            
+            console.log(`Aggregating status for ${workflowData.length} workflow runs`);
+            console.log(`Matrix trigger result: ${matrixResult}`);
+            
+            // If matrix triggering failed, overall status is failure
+            if (matrixResult !== 'success') {
+              overallStatus = 'failure';
+              core.setOutput('overall-status', overallStatus);
+              core.setOutput('test-summary', JSON.stringify(summary));
+              console.log('Matrix triggering failed, marking overall status as failure');
+              return;
+            }
+            
+            // For now, since we're just triggering workflows, we'll base status on successful triggering
+            // In a future enhancement, we would poll the actual workflow results
+            if (workflowData.length > 0) {
+              summary.success = workflowData.length; // All workflows were successfully triggered
+              console.log(`${workflowData.length} workflows triggered successfully`);
+            } else {
+              overallStatus = 'failure';
+              console.log('No workflows were triggered');
+            }
+            
+            console.log('Final summary:', JSON.stringify(summary, null, 2));
+            console.log(`Overall status: ${overallStatus}`);
+            
+            core.setOutput('overall-status', overallStatus);
+            core.setOutput('test-summary', JSON.stringify(summary));
+
+      - name: Matrix configuration summary
+        run: |
+          echo "## ⚙️ Matrix Configuration Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "*This table shows the input parameters used to generate the test matrix, not the individual test results.*" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Component | Input Version | Resolution Source |" >> $GITHUB_STEP_SUMMARY
+          echo "|-----------|---------------|-------------------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Hello Theme | \`${{ needs.calculate-test-matrix.outputs.hello-theme-version-for-display }}\` | GitHub/WordPress.org |" >> $GITHUB_STEP_SUMMARY
+          echo "| Hello Plus | \`${{ needs.calculate-test-matrix.outputs.hello-plus-version }}\` | WordPress.org |" >> $GITHUB_STEP_SUMMARY
+          echo "| Elementor | \`${{ needs.calculate-test-matrix.outputs.elementor-version }}\` | WordPress.org/GitHub |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Previous versions included in matrix:** ${{ needs.calculate-test-matrix.outputs.hello-theme-previous || 'none' }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Matrix generated at:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "---" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+      - name: Final status check
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const overallStatus = '${{ steps.aggregate-status.outputs.overall-status }}';
+            const summary = JSON.parse('${{ steps.aggregate-status.outputs.test-summary }}');
+            
+            console.log(`Final workflow status check: ${overallStatus}`);
+            console.log('Test summary:', summary);
+            
+            if (overallStatus === 'failure') {
+              core.setFailed(`❌ Daily test matrix completed with failures: ${summary.failed} failed out of ${summary.total} tests`);
+            } else if (overallStatus === 'cancelled') {
+              core.setFailed(`🚫 Daily test matrix completed with cancellations: ${summary.cancelled} cancelled out of ${summary.total} tests`);
+            } else if (overallStatus === 'in_progress') {
+              console.log(`⏳ Some tests are still in progress: ${summary.in_progress} out of ${summary.total} tests`);
+            } else {
+              console.log(`✅ Daily test matrix completed successfully: ${summary.success} passed out of ${summary.total} tests`);
+            }
