@@ -1,0 +1,68 @@
+name: 'Create Theme Release (Release)'
+description: 'Create GitHub release for Hello Elementor theme'
+inputs:
+  PACKAGE_VERSION:
+    required: true
+    description: 'Release version'
+  BUILD_ZIP_PATH:
+    required: true
+    description: 'Path to theme zip file'
+  CHANGELOG_FILE:
+    required: true
+    description: 'Path to changelog file'
+  PRE_RELEASE:
+    required: false
+    default: 'false'
+    description: 'Is this a pre-release?'
+  GITHUB_TOKEN:
+    required: true
+    description: 'GitHub token for creating releases'
+
+outputs:
+  RELEASE_URL:
+    description: 'URL of the created GitHub release'
+    value: ${{ steps.create-release.outputs.html_url }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Verify files exist
+      shell: bash
+      run: |
+        if [ ! -f "${{ inputs.BUILD_ZIP_PATH }}" ]; then
+          echo "Error: Build zip file not found: ${{ inputs.BUILD_ZIP_PATH }}"
+          exit 1
+        fi
+        
+        if [ ! -f "${{ inputs.CHANGELOG_FILE }}" ]; then
+          echo "Error: Changelog file not found: ${{ inputs.CHANGELOG_FILE }}"
+          exit 1
+        fi
+        
+        echo "✅ Build zip: ${{ inputs.BUILD_ZIP_PATH }}"
+        echo "✅ Changelog: ${{ inputs.CHANGELOG_FILE }}"
+    
+    - name: Create GitHub release
+      id: create-release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: v${{ inputs.PACKAGE_VERSION }}
+        name: Hello Elementor v${{ inputs.PACKAGE_VERSION }}
+        files: |
+          ${{ inputs.BUILD_ZIP_PATH }}
+          ${{ inputs.CHANGELOG_FILE }}
+        body_path: ${{ inputs.CHANGELOG_FILE }}
+        prerelease: ${{ inputs.PRE_RELEASE }}
+        token: ${{ inputs.GITHUB_TOKEN }}
+        generate_release_notes: false
+    
+    - name: Release summary
+      shell: bash
+      run: |
+        echo "🚀 **Release Created Successfully!**"
+        echo "📋 **Release Details:**"
+        echo "   - Version: v${{ inputs.PACKAGE_VERSION }}"
+        echo "   - Pre-release: ${{ inputs.PRE_RELEASE }}"
+        echo "   - Build file: ${{ inputs.BUILD_ZIP_PATH }}"
+        echo "   - Release URL: ${{ steps.create-release.outputs.html_url }}"
+        echo "RELEASE_URL=${{ steps.create-release.outputs.html_url }}" >> $GITHUB_ENV

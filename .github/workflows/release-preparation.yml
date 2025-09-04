@@ -1,0 +1,350 @@
+name: 'Release Preparation (Hello Elementor)'
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_branch:
+        type: string
+        description: 'Branch to create release from (e.g., main, 3.4, feature/xyz)'
+        required: true
+      version_type:
+        required: true
+        type: choice
+        description: 'Version increment type'
+        options:
+          - current  # For first release - keeps version as-is (3.4.4)
+          - patch    # 3.4.4 → 3.4.5
+          - minor    # 3.4.4 → 3.5.0  
+          - major    # 3.4.4 → 4.0.0
+      dry_run:
+        type: boolean
+        description: 'Dry run (test without creating actual release)?'
+        required: false
+        default: false
+      slack_channel:
+        type: string
+        description: 'Slack channel for notifications'
+        required: false
+        default: '#release'
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+env:
+  NODE_VERSION: '18'
+  PHP_VERSION: '7.4'
+  COMPOSER_VERSION: '2'
+
+jobs:
+  release:
+    runs-on: ubuntu-22.04
+    # Workflow design: version files are bumped early, used for build/release, then automatically restored
+    # by peter-evans/create-pull-request action. Error cleanup ensures consistent state on any failure.
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.release_branch }}
+          fetch-depth: 0
+      
+      - name: Load Release Configuration
+        id: config
+        run: |
+          echo "📋 Loading Hello Elementor release configuration..."
+          CONFIG_FILE=".github/config/release.json"
+          
+          if [ ! -f "$CONFIG_FILE" ]; then
+            echo "❌ Error: Release configuration file not found: $CONFIG_FILE"
+            exit 1
+          fi
+          
+          # Validate JSON syntax
+          if ! jq empty "$CONFIG_FILE" 2>/dev/null; then
+            echo "❌ Error: Invalid JSON in release configuration"
+            exit 1
+          fi
+          
+          # Load configuration values
+          ALLOWED_REPOS=$(jq -r '.security.allowed_repositories[]' "$CONFIG_FILE" | tr '\n' ' ')
+          BLOCKED_ACTORS=$(jq -r '.security.blocked_actors[]' "$CONFIG_FILE" | tr '\n' ' ')
+          RELEASE_BRANCHES=$(jq -r '.repository.release_branches[]' "$CONFIG_FILE" | tr '\n' ' ')
+          CONFIG_THEME_SLUG=$(jq -r '.release.wordpress_org.theme_slug' "$CONFIG_FILE")
+          
+          echo "ALLOWED_REPOS=$ALLOWED_REPOS" >> $GITHUB_ENV
+          echo "BLOCKED_ACTORS=$BLOCKED_ACTORS" >> $GITHUB_ENV
+          echo "RELEASE_BRANCHES=$RELEASE_BRANCHES" >> $GITHUB_ENV
+          echo "CONFIG_THEME_SLUG=$CONFIG_THEME_SLUG" >> $GITHUB_ENV
+          
+          echo "✅ Hello Elementor release configuration loaded successfully"
+      
+      - name: Pre-flight checks
+        run: |
+          echo "🔍 Pre-flight checks..."
+          echo "Release Branch: ${{ inputs.release_branch }}"
+          echo "Current Branch: ${{ github.ref_name }}"
+          echo "Version Type: ${{ inputs.version_type }}"
+          echo "Dry Run: ${{ inputs.dry_run }}"
+          echo "Repository: ${{ github.repository }}"
+          echo "Actor: ${{ github.actor }}"
+          
+          if [ "${{ inputs.dry_run }}" == "true" ]; then
+            echo "🧪 **DRY RUN MODE** - No actual release will be created"
+          fi
+          
+          # Repository permissions validation
+          REPO_ALLOWED=false
+          for allowed_repo in ${{ env.ALLOWED_REPOS }}; do
+            if [ "${{ github.repository }}" == "$allowed_repo" ]; then
+              REPO_ALLOWED=true
+              break
+            fi
+          done
+          
+          if [ "$REPO_ALLOWED" != "true" ]; then
+            echo "⚠️  Warning: Running on unauthorized repository: ${{ github.repository }}"
+          fi
+          
+          # Check actor permissions (basic validation)
+          for blocked_actor in ${{ env.BLOCKED_ACTORS }}; do
+            if [ "${{ github.actor }}" == "$blocked_actor" ]; then
+              echo "❌ Error: Blocked actor cannot create releases: ${{ github.actor }}"
+              exit 1
+            fi
+          done
+          
+          # Check if the specified branch exists
+          if ! git show-ref --verify --quiet refs/remotes/origin/${{ inputs.release_branch }}; then
+            echo "❌ Error: Branch '${{ inputs.release_branch }}' does not exist"
+            echo "💡 Available branches:"
+            git branch -r --format='%(refname:short)' | sed 's/origin\///' | head -10
+            exit 1
+          fi
+          
+          # Check if selected release branch is allowed (if configured)
+          if [ -n "${{ env.RELEASE_BRANCHES }}" ]; then
+            BRANCH_ALLOWED=false
+            for release_branch in ${{ env.RELEASE_BRANCHES }}; do
+              if [ "${{ inputs.release_branch }}" == "$release_branch" ]; then
+                BRANCH_ALLOWED=true
+                break
+              fi
+            done
+            
+            if [ "$BRANCH_ALLOWED" != "true" ]; then
+              echo "⚠️  Warning: Branch '${{ inputs.release_branch }}' is not in configured release branches"
+              echo "📋 Configured release branches: ${{ env.RELEASE_BRANCHES }}"
+              echo "🔄 Continuing anyway - remove this branch from release.json if releases should be blocked"
+            fi
+          fi
+          
+          # Check for uncommitted changes
+          if ! git diff --quiet; then
+            echo "❌ Error: Uncommitted changes found"
+            exit 1
+          fi
+          
+          echo "✅ Pre-flight checks passed"
+      
+      - name: Install Dependencies
+        uses: ./.github/actions/install-dependencies-release
+        with:
+          DEVOPS_TOKEN: ${{ secrets.DEVOPS_TOKEN }}
+          CLOUD_DEVOPS_TOKEN: ${{ secrets.CLOUD_DEVOPS_TOKEN }}
+      
+      - name: Get current version
+        id: current-version
+        run: |
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          echo "CLEAN_PACKAGE_VERSION=$PACKAGE_VERSION" >> $GITHUB_ENV
+          echo "Current Hello Elementor version: $PACKAGE_VERSION"
+      
+      - name: Bump Theme Version (Dry Run)
+        if: ${{ inputs.dry_run == true }}
+        run: |
+          echo "🧪 DRY RUN: Would bump Hello Elementor version from ${{ env.CLEAN_PACKAGE_VERSION }}"
+          
+          CURRENT_VERSION="${{ env.CLEAN_PACKAGE_VERSION }}"
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT_VERSION"
+          
+          case "${{ inputs.version_type }}" in
+            "current")
+              NEW_VERSION="$CURRENT_VERSION"
+              ;;
+            "major")
+              NEW_MAJOR=$((MAJOR + 1))
+              NEW_VERSION="$NEW_MAJOR.0.0"
+              ;;
+            "minor")
+              NEW_MINOR=$((MINOR + 1))
+              NEW_VERSION="$MAJOR.$NEW_MINOR.0"
+              ;;
+            "patch")
+              NEW_PATCH=$((PATCH + 1))
+              NEW_VERSION="$MAJOR.$MINOR.$NEW_PATCH"
+              ;;
+          esac
+          
+          echo "DRY_RUN_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+          echo "PACKAGE_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+          echo "🧪 DRY RUN: Version would be: $CURRENT_VERSION → $NEW_VERSION"
+          echo "🧪 DRY RUN: Changelog validation will use current version: $CURRENT_VERSION"
+      
+      - name: Bump Theme Version (Actual)
+        if: ${{ inputs.dry_run == false }}
+        uses: ./.github/actions/bump-theme-version-release
+        with:
+          CLEAN_PACKAGE_VERSION: ${{ env.CLEAN_PACKAGE_VERSION }}
+          VERSION_TYPE: ${{ inputs.version_type }}
+
+      - name: Validate current versions (Dry Run)
+        if: ${{ inputs.dry_run == true }}
+        run: |
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          echo "🔍 Validating CURRENT versions ($CURRENT_VERSION)..."
+          bash .github/scripts/validate-versions-release.sh
+
+      - name: Validate changelog for updated version (Dry Run)
+        if: ${{ inputs.dry_run == true }}
+        uses: ./.github/actions/get-changelog-from-readme-release
+        with:
+          VERSION: ${{ env.DRY_RUN_VERSION }}
+
+      - name: Validate changelog for new version (Actual)
+        if: ${{ inputs.dry_run == false }}
+        uses: ./.github/actions/get-changelog-from-readme-release
+        with:
+          VERSION: ${{ env.PACKAGE_VERSION }}
+      
+      # Build with version-bumped files to ensure release assets contain correct versions
+      - name: Build Hello Elementor Theme
+        id: build
+        uses: ./.github/actions/build-theme-release
+        with:
+          PACKAGE_VERSION: ${{ env.PACKAGE_VERSION }}
+          BUILD_SCRIPT_PATH: "npm run package:zip"
+
+      - name: Create GitHub Release (Dry Run)
+        if: ${{ inputs.dry_run == true }}
+        run: |
+          echo "🧪 DRY RUN: Would create GitHub release"
+          echo "   - Tag: v${{ env.PACKAGE_VERSION }}"
+          echo "   - Build file: ${{ env.BUILD_ZIP_PATH }}"
+          echo "   - Changelog: ${{ env.CHANGELOG_FILE }}"
+          echo "RELEASE_URL=https://github.com/elementor/hello-theme/releases/tag/v${{ env.PACKAGE_VERSION }}" >> $GITHUB_ENV
+      
+      # Create GitHub release with version-bumped assets before repository cleanup
+      # This ensures the published release contains the correct version numbers
+      - name: Create GitHub Release (Actual)
+        if: ${{ inputs.dry_run == false }}
+        id: create-release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ env.PACKAGE_VERSION }}
+          name: Hello Elementor v${{ env.PACKAGE_VERSION }}
+          body_path: ${{ env.CHANGELOG_FILE }}
+          files: ${{ env.BUILD_ZIP_PATH }}
+          prerelease: false
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # Repository maintenance steps happen after release creation
+      # Note: peter-evans/create-pull-request automatically restores working directory
+      # This design ensures release assets are created before any git cleanup occurs
+      
+      # Skip PR creation for 'current' version type since no version bump occurs
+      - name: Create PR With Bumped Version
+        if: ${{ inputs.dry_run == false && inputs.version_type != 'current' }}
+        uses: ./.github/actions/create-pr-with-bumped-theme-version-release
+        with:
+          base_branch: ${{ inputs.release_branch }}
+          # Use NEW_VERSION (bumped version) instead of CLEAN_PACKAGE_VERSION (old version)
+          # This ensures PR title/branch reflects the actual new version (e.g., "Release v3.4.5")
+          # Fallback to CLEAN_PACKAGE_VERSION for safety if NEW_VERSION is not set
+          package_version: ${{ env.NEW_VERSION || env.CLEAN_PACKAGE_VERSION }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # Update main branch version if new version > main version
+      - name: Update Main Branch Version
+        if: ${{ inputs.dry_run == false && inputs.version_type != 'current' }}
+        uses: ./.github/actions/update-main-branch-version-release
+        with:
+          new_version: ${{ env.NEW_VERSION }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Set Release URL
+        if: ${{ inputs.dry_run == false }}
+        run: |
+          echo "RELEASE_URL=${{ steps.create-release.outputs.html_url }}" >> $GITHUB_ENV
+      
+      - name: Send Slack Notification (Dry Run)
+        if: false
+        run: |
+          echo "🧪 DRY RUN: Would send Slack notification"
+          echo "   - Channel: ${{ inputs.slack_channel }}"
+          echo "   - Version: v${{ env.PACKAGE_VERSION }}"
+          echo "   - Message: Hello Elementor release preparation complete (DRY RUN)"
+      
+      - name: Slack Notification Skipped
+        if: ${{ inputs.dry_run == true }}
+        run: |
+          echo "📢 Slack notification skipped (release-preparation workflow)"
+          echo "   - Only full releases with WordPress.org deployment trigger Slack notifications"
+      
+      - name: Send Slack Notification (Actual)
+        if: false
+        uses: ./.github/actions/theme-slack-notification-release
+        with:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          PACKAGE_VERSION: ${{ env.PACKAGE_VERSION }}
+          BUILD_ZIP_PATH: ${{ env.BUILD_ZIP_PATH }}
+          GITHUB_RELEASE_URL: ${{ env.RELEASE_URL }}
+          SLACK_CHANNEL: ${{ inputs.slack_channel }}
+          WPORG_DEPLOYMENT_STATUS: 'skipped'
+      
+      - name: Manual Upload Instructions
+        run: |
+          if [ "${{ inputs.dry_run }}" == "true" ]; then
+            echo "🧪 **DRY RUN COMPLETE!**"
+            echo ""
+            echo "📋 **This was a test run - no actual release was created**"
+            echo ""
+            echo "🔍 **What would have happened:**"
+            echo "1. Version would be bumped to: v${{ env.PACKAGE_VERSION }}"
+            echo "2. Hello Elementor theme would be built: ${{ env.BUILD_ZIP_PATH }}"
+            echo "3. GitHub release would be created: ${{ env.RELEASE_URL }}"
+            echo "4. Slack notification would be sent to #release"
+            echo ""
+            echo "✅ **Dry run validation passed - ready for actual release!**"
+          else
+            bash .github/scripts/generate-upload-instructions-release.sh
+          fi
+      
+      # Error recovery: restore repository to clean state on any workflow failure
+      # Design principle: always return to original branch state for consistency
+      # This prevents partial updates and ensures repository remains in sync with branch
+      - name: Cleanup on Error
+        if: ${{ always() && !inputs.dry_run && failure() }}
+        run: |
+          echo "🧹 Workflow failed - restoring to original state..."
+          
+          # Restore all version-bumped files to their original branch state
+          # This maintains consistency between working directory and remote branch
+          if ! git diff --quiet; then
+            echo "⚠️ Found modified files, restoring original versions..."
+            
+            # Restore specific files that were version-bumped earlier in workflow
+            git checkout -- package.json functions.php style.css readme.txt 2>/dev/null || true
+            git checkout -- assets/scss/style.scss 2>/dev/null || true
+            
+            echo "✅ Files restored to original state"
+          else
+            echo "ℹ️ Working directory already clean"
+          fi
+          
+          # Remove temporary files generated during workflow execution
+          rm -f temp-changelog-from-readme.txt 2>/dev/null || true
+          rm -f *.bak 2>/dev/null || true
+          
+          echo "🔍 Final state check:"
+          git status --porcelain || true
