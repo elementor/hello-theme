@@ -96,7 +96,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: v${{ env.PACKAGE_VERSION }}
-          files: hello-theme.*.zip
+          files: hello-elementor.*.zip
           prerelease: true
         env:
           GITHUB_TOKEN: ${{ secrets.MAINTAIN_TOKEN }}
