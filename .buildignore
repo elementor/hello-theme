@@ -11,6 +11,7 @@ npm-debug.log
 package-lock.json
 package.json
 phpcs.xml
+phpunit.xml
 README.md
 webpack.config.js
 .DS_Store
@@ -24,3 +25,13 @@ webpack.config.js
 .eslintignore
 .eslintrc.js
 .npmrc
+<<<<<<< HEAD
+=======
+
+tests/
+test-results/
+tsconfig.json
+.wp-env.json
+.phpunit.result.cache
+temp-changelog-from-readme.txt
+>>>>>>> 6adb123 (Internal: Clone Release workflow [TMZ-803] (#532))
