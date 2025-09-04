@@ -1,0 +1,33 @@
+name: 'Get changelog from readme.txt (Release)'
+description: 'Get changelog from readme.txt file - Hello Elementor release validation'
+
+inputs:
+  VERSION:
+    description: 'Theme Version'
+    required: true
+
+outputs:
+  CHANGELOG_FILE:
+    description: 'Path to the extracted changelog file'
+    value: temp-changelog-from-readme.txt
+
+runs:
+  using: "composite"
+  steps:
+    - name: Extract changelog from readme.txt
+      shell: bash
+      env:
+        VERSION: ${{ inputs.VERSION }}
+      run: |
+        node ./.github/scripts/get-changelog-from-readme-release.js
+        
+    - name: Verify changelog file
+      shell: bash
+      run: |
+        if [ ! -f "temp-changelog-from-readme.txt" ]; then
+          echo "Error: Failed to create changelog file"
+          exit 1
+        fi
+        
+        echo "✅ Changelog extracted successfully for version ${{ inputs.VERSION }}"
+        echo "CHANGELOG_FILE=temp-changelog-from-readme.txt" >> $GITHUB_ENV
