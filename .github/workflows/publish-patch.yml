@@ -51,23 +51,23 @@ jobs:
     needs: bump-version
     runs-on: ubuntu-20.04
     steps:
-      - name: Checkout master branch
+      - name: Checkout main branch
         uses: actions/checkout@v2
         with:
           token: ${{ secrets.MAINTAIN_TOKEN }}
-          ref: master
-      - name: Merge develop -> master
+          ref: main
+      - name: Merge develop -> main
         uses: devmasx/merge-branch@a1752b9ba42bb417ec19be7dc974e2faf77d3ef2 # v1.3.1
         with:
           type: now
           from_branch: develop
-          target_branch: master
+          target_branch: main
           github_token: ${{ secrets.MAINTAIN_TOKEN }}
-      - name: Checkout updated master branch
+      - name: Checkout updated main branch
         uses: actions/checkout@v2
         with:
           token: ${{ secrets.MAINTAIN_TOKEN }}
-          ref: master
+          ref: main
       - name: Install Dependencies
         run: |
           PACKAGE_VERSION=$(node -p "require('./package.json').version")

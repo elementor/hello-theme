@@ -3,10 +3,13 @@
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.6",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
-	  	"wp-coding-standards/wpcs": "^2.3"
+	  	"wp-coding-standards/wpcs": "^2.3",
+		"phpunit/phpunit": "9.5.14",
+		"elementor/elementor-editor-testing": "0.0.3",
+		"yoast/phpunit-polyfills": "^1.0.1"
 	},
 	"require": {
-		"elementor/wp-notifications-package": "1.2.0"
+		"elementor/wp-notifications-package": "1.2.*"
 	},
 	"config": {
 		"allow-plugins": {
@@ -14,6 +17,9 @@
 		}
 	},
     "scripts": {
-        "lint": "phpcs --extensions=php -p"
+        "lint": "phpcs --extensions=php -p",
+		"lint:fix": "vendor/bin/phpcbf --ignore=node_modules,vendor,build .",
+		"test": "phpunit --testsuite hello-elementor",
+		"test:install": "bash ./bin/install-wp-tests-local.sh"
     }
 }

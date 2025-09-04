@@ -29,12 +29,13 @@ test.describe.serial( 'Reset CSS Setting - Behavior Tests', () => {
 		await page.goto( '/' );
 
 		const themeCssLoaded = cssRequests.some( ( url ) =>
-			url.includes( '/hello-theme/assets/css/reset.css' ),
+			url.includes( '/hello-theme/assets/css/reset.css' ) ||
+			url.includes( '/hello-elementor/assets/css/reset.css' ),
 		);
 
 		expect( themeCssLoaded ).toBeTruthy();
 
-		const themeCssLink = page.locator( 'link[rel="stylesheet"][href*="hello-theme"][href*="reset.css"]' );
+		const themeCssLink = page.locator( 'link[rel="stylesheet"][href*="reset.css"]' ).first();
 		await expect( themeCssLink ).toBeAttached();
 	} );
 
@@ -57,12 +58,13 @@ test.describe.serial( 'Reset CSS Setting - Behavior Tests', () => {
 		await page.goto( '/' );
 
 		const themeCssLoaded = cssRequests.some( ( url ) =>
-			url.includes( '/hello-theme/assets/css/reset.css' ),
+			url.includes( '/hello-theme/assets/css/reset.css' ) ||
+			url.includes( '/hello-elementor/assets/css/reset.css' ),
 		);
 
 		expect( themeCssLoaded ).toBeFalsy();
 
-		const themeCssLink = page.locator( 'link[rel="stylesheet"][href*="hello-theme"][href*="reset.css"]' );
+		const themeCssLink = page.locator( 'link[rel="stylesheet"][href*="reset.css"]' ).first();
 		await expect( themeCssLink ).not.toBeAttached();
 	} );
 } );
