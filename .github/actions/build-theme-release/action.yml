@@ -52,7 +52,7 @@ runs:
       env:
         PACKAGE_VERSION: ${{ inputs.PACKAGE_VERSION }}
       run: |
-        # Create zip file with hello-theme naming
+        # Create zip file with hello-theme naming (hardcoded, not from package.json)
         zip -r "/tmp/hello-theme-builds/hello-theme-${PACKAGE_VERSION}.zip" . \
           -x "node_modules/*" "test-results/*" "tests/*" ".git/*" "*.zip" \
              "playwright-report/*" ".wp-env.json.*" ".wp-env"
