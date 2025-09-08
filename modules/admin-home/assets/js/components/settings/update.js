@@ -3,13 +3,13 @@ import Typography from '@elementor/ui/Typography';
 import { useMemo } from 'react';
 
 export default function Update( { title, description } ) {
-	const descriptionToShow = useMemo(() => {
+	const descriptionToShow = useMemo( () => {
 		const parser = new DOMParser();
 		const doc = parser.parseFromString( description, 'text/html' );
 		const listItems = doc.querySelectorAll( 'li' );
 		const extractedContent = Array.from( listItems ).map( ( item ) => item.textContent.trim() );
 		return extractedContent.join( '\n' );
-	}, [description]);
+	}, [ description ] );
     return (
 	<Box sx={ { py: 2, px: 3 } }>
 		<Typography variant={ 'subtitle1' } sx={ { pb: 0.75 } }>{ title }</Typography>
