@@ -56,126 +56,55 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set version variables and Elementor Core branch
+      - name: Set version outputs
         id: set-versions
         run: |
           # Set Elementor Core branch from input (can be branch name or version)
           ELEMENTOR_CORE_BRANCH="${{ inputs.core_branch }}"
           
-          # Hello Theme source ref (main or specific GA version) from input when available
-          # Always use main actions regardless of source version - this is the key principle
-          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            HELLO_THEME_SOURCE="${{ inputs.hello_theme_version || 'main' }}"
-          else
-            HELLO_THEME_SOURCE="main"
-          fi
-          
-          # Current Hello Theme version from package.json (actual version string)
+          # Hello Theme version from current repo (like Hello Commerce pattern)
           HT_VERSION=$(node -p "require('./package.json').version")
           
-          echo "ELEMENTOR_CORE_BRANCH=${ELEMENTOR_CORE_BRANCH}" >> $GITHUB_ENV
-          echo "HELLO_THEME_SOURCE=${HELLO_THEME_SOURCE}" >> $GITHUB_ENV
-          echo "HELLO_THEME_VERSION=${HT_VERSION}" >> $GITHUB_ENV
+          # Input version for reference (main, etc.)
+          HELLO_THEME_INPUT="${{ inputs.hello_theme_version || 'main' }}"
+          
+          # Determine source type for reporting - Hello Theme always builds from GitHub
+          # Unlike Hello Commerce/Biz, Hello Theme doesn't download from WordPress.org
+          if [[ "$HELLO_THEME_INPUT" == "main" ]]; then
+            HELLO_THEME_SOURCE_TYPE="git-branch"
+            HELLO_THEME_SOURCE="github"
+          elif [[ "$HELLO_THEME_INPUT" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            # Released version input, but still built from GitHub source
+            HELLO_THEME_SOURCE_TYPE="git-tag"
+            HELLO_THEME_SOURCE="github"
+          else
+            # Other cases (branches, etc.)
+            HELLO_THEME_SOURCE_TYPE="git-branch"
+            HELLO_THEME_SOURCE="github"
+          fi
           
           echo "hello-theme-version=${HT_VERSION}" >> $GITHUB_OUTPUT
+          echo "hello-theme-input=${HELLO_THEME_INPUT}" >> $GITHUB_OUTPUT
+          echo "hello-theme-source-type=${HELLO_THEME_SOURCE_TYPE}" >> $GITHUB_OUTPUT
+          echo "hello-theme-source=${HELLO_THEME_SOURCE}" >> $GITHUB_OUTPUT
           echo "elementor-core-branch=${ELEMENTOR_CORE_BRANCH}" >> $GITHUB_OUTPUT
+          echo "elementor-version=${ELEMENTOR_CORE_BRANCH}" >> $GITHUB_OUTPUT
           
-          # Create artifact name
-          ARTIFACT_NAME="core-ht${HELLO_THEME_SOURCE}-el${ELEMENTOR_CORE_BRANCH}-$(date +%Y%m%d-%H%M)"
+          # Set environment variables for later steps
+          echo "HELLO_THEME_VERSION=${HT_VERSION}" >> $GITHUB_ENV
+          echo "HELLO_THEME_INPUT=${HELLO_THEME_INPUT}" >> $GITHUB_ENV
+          echo "HELLO_THEME_SOURCE_TYPE=${HELLO_THEME_SOURCE_TYPE}" >> $GITHUB_ENV
+          
+          # Generate artifact name using input version for readability
+          ARTIFACT_NAME="core-ht${HELLO_THEME_INPUT}-el${ELEMENTOR_CORE_BRANCH}-${{ github.run_id }}"
           echo "artifact-name=${ARTIFACT_NAME}" >> $GITHUB_OUTPUT
           
-          echo "✅ Hello Theme version: ${HT_VERSION}"
-          echo "✅ Hello Theme source: ${HELLO_THEME_SOURCE}"
-          echo "✅ Elementor Core Branch: ${ELEMENTOR_CORE_BRANCH}"
-
-      - name: Validate and preserve workflow infrastructure
-        run: |
-          set -e  # Exit on any error
-          
-          echo "🔍 DEBUG: Validating version $HELLO_THEME_SOURCE"
-          
-          # Validate version exists (if not main)
-          if [[ "$HELLO_THEME_SOURCE" != "main" ]]; then
-            git fetch --all --tags
-            if ! git rev-parse --verify "v$HELLO_THEME_SOURCE" >/dev/null 2>&1 && ! git rev-parse --verify "$HELLO_THEME_SOURCE" >/dev/null 2>&1; then
-              echo "❌ ERROR: Version $HELLO_THEME_SOURCE not found"
-              exit 1
-            fi
-            echo "✅ Version $HELLO_THEME_SOURCE exists"
-          fi
-          
-          # Preserve entire .github directory
-          echo "📦 DEBUG: Preserving .github directory from main branch"
-          if ! cp -r .github .github-main-backup; then
-            echo "❌ ERROR: Failed to preserve .github directory"
-            exit 1
-          fi
-          echo "✅ .github directory preserved"
-
-      - name: Checkout specific Hello Theme version
-        run: |
-          set -e  # Exit on any error
-          
-          if [[ "$HELLO_THEME_SOURCE" != "main" ]]; then
-            echo "🔄 DEBUG: Checking out Hello Theme version: $HELLO_THEME_SOURCE"
-            
-            # Attempt checkout with proper error handling
-            if git checkout "v$HELLO_THEME_SOURCE" 2>/dev/null || git checkout "$HELLO_THEME_SOURCE" 2>/dev/null; then
-              echo "✅ Successfully checked out $HELLO_THEME_SOURCE"
-            else
-              echo "❌ ERROR: Failed to checkout $HELLO_THEME_SOURCE"
-              exit 1
-            fi
-            
-            # Validate package.json version matches
-            ACTUAL_VERSION=$(node -p "require('./package.json').version")
-            if [[ "$ACTUAL_VERSION" != "$HELLO_THEME_SOURCE" ]]; then
-              echo "❌ ERROR: Version mismatch - Expected: $HELLO_THEME_SOURCE, Got: $ACTUAL_VERSION"
-              exit 1
-            fi
-            echo "✅ Version validated: $ACTUAL_VERSION"
-            
-            echo "HELLO_THEME_SOURCE_TYPE=git-tag" >> $GITHUB_ENV
-          else
-            echo "✅ DEBUG: Using main branch"
-            echo "HELLO_THEME_SOURCE_TYPE=git-branch" >> $GITHUB_ENV
-          fi
-
-      - name: Restore main branch workflow infrastructure
-        run: |
-          set -e  # Exit on any error
-          
-          if [[ "$HELLO_THEME_SOURCE" != "main" ]]; then
-            echo "🔄 DEBUG: Restoring .github directory from main branch"
-            
-            # Remove old .github and restore main version
-            if ! rm -rf .github; then
-              echo "❌ ERROR: Failed to remove old .github directory"
-              exit 1
-            fi
-            
-            if ! mv .github-main-backup .github; then
-              echo "❌ ERROR: Failed to restore .github directory"
-              exit 1
-            fi
-            
-            echo "✅ Main branch actions restored"
-            echo "🎯 DEBUG: Using $HELLO_THEME_SOURCE source code with main branch actions"
-          else
-            # Clean up backup if we didn't need it
-            rm -rf .github-main-backup 2>/dev/null || true
-            echo "✅ DEBUG: Using main branch (no restore needed)"
-          fi
-          
-          # Set final version for build
-          FINAL_VERSION=$(node -p "require('./package.json').version")
-          echo "HELLO_THEME_VERSION=$FINAL_VERSION" >> $GITHUB_ENV
-          echo "📋 DEBUG: Final state - Version: $FINAL_VERSION, Actions: main branch"
+          echo "✅ Set versions: Hello Theme=${HT_VERSION} (${HELLO_THEME_INPUT}), Elementor=${ELEMENTOR_CORE_BRANCH}"
 
       - name: Build Hello Theme
         uses: ./.github/workflows/build-theme
         with:
-          PACKAGE_VERSION: ${{ env.HELLO_THEME_VERSION }}
+          PACKAGE_VERSION: ${{ steps.set-versions.outputs.hello-theme-version }}
           BUILD_SCRIPT_PATH: "npm run build:prod"
 
 
@@ -219,13 +148,6 @@ jobs:
             ./hello-elementor-*.zip
             ./tmp/elementor
           retention-days: 3
-
-      - name: Cleanup backup files
-        if: always()
-        run: |
-          echo "🧹 DEBUG: Cleaning up backup files"
-          rm -rf .github-main-backup 2>/dev/null || true
-          echo "✅ Cleanup complete"
 
       - name: Generate build summary
         run: |
@@ -783,10 +705,3 @@ jobs:
       - name: Check Core Matrix status
         if: ${{ needs.core-playwright-tests.result != 'success' && needs.core-playwright-tests.result != 'skipped' }}
         run: exit 1
-
-      - name: Cleanup backup files (final)
-        if: always()
-        run: |
-          echo "🧹 DEBUG: Final cleanup of any remaining backup files"
-          rm -rf .github-main-backup 2>/dev/null || true
-          echo "✅ Final cleanup complete"
