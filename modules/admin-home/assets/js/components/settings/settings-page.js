@@ -18,8 +18,7 @@ import Paper from '@elementor/ui/Paper';
 import { styled } from '@elementor/ui/styles';
 import Link from '@elementor/ui/Link';
 import Stack from '@elementor/ui/Stack';
-import Modal from '@elementor/ui/Modal';
-import Update from './update';
+import { ChangelogDialog } from './changelog';
 
 const Notices = () => {
 	const notices = useSelect(
@@ -75,19 +74,6 @@ const StyledTabs = styled( Tabs )( () => ( {
 	},
 } ) );
 
-const style = {
-	position: 'absolute',
-	top: '50%',
-	left: '50%',
-	transform: 'translate(-50%, -50%)',
-	bgcolor: 'background.paper',
-	border: '1px solid #000',
-	boxShadow: 24,
-	p: 2,
-	maxHeight: '80vh',
-	overflowY: 'auto',
-};
-
 export const SettingsPage = () => {
 	const { whatsNew } = useSettingsContext();
 	const { getTabsProps, getTabProps, getTabPanelProps } = useTabs( 'one' );
@@ -131,19 +117,7 @@ export const SettingsPage = () => {
 					<TabPanel { ...getTabPanelProps( 'three' ) }><Theme /></TabPanel>
 				</Box>
 			</Paper>
-			<Modal
-				open={ open }
-				onClose={ handleClose }
-				aria-labelledby="modal-modal-title"
-				aria-describedby="modal-modal-description"
-	>
-				<Box sx={ style }>
-					<Typography variant={ 'h4' }>{ __( 'Changelog', 'hello-plus' ) }</Typography>
-					<Stack direction={ 'column' } gap={ 1 } sx={ { mt: 2 } }>
-						{ whatsNew.map( ( item ) => <Update key={ item.id } { ...item } /> ) }
-					</Stack>
-				</Box>
-			</Modal>
+			<ChangelogDialog open={ open } onClose={ handleClose } whatsNew={ whatsNew } />
 		</>
 	);
 };
