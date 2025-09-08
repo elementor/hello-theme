@@ -2,7 +2,8 @@
 node_modules/
 .sass-cache/
 build/**
-assets/
+# Only ignore root-level assets directory (build output), not module assets (source files)
+/assets/
 hello-elementor/
 elementor-hello-theme/
 log/
@@ -13,7 +14,6 @@ Thumbs.db
 *.log
 *.map
 yarn.lock
-assets/js/
 *.zip
 .npmrc
 .env
