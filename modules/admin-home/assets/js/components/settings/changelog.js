@@ -7,6 +7,7 @@ import Stack from '@elementor/ui/Stack';
 import Update from './update';
 import Divider from '@elementor/ui/Divider';
 import { PlusIcon } from './plus-icon';
+import { Fragment } from 'react';
 
 export const ChangelogDialog = ( { open, onClose, whatsNew } ) => {
 	return (
@@ -30,10 +31,10 @@ export const ChangelogDialog = ( { open, onClose, whatsNew } ) => {
 				<Stack direction={ 'column' } >
 					{ whatsNew.map( ( item, index ) => {
 							return (
-								<>
-									<Update key={ item.id } { ...item } />
+								<Fragment key={ item.id } >
+									<Update { ...item } />
 									{ index !== whatsNew.length - 1 && <Divider /> }
-								</>
+								</Fragment>
 							);
 						} ) }
 				</Stack>
