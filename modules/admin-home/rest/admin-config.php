@@ -285,18 +285,18 @@ class Admin_Config extends Rest_Base {
 		$config['quickLinks'] = [
 			'site_name'    => [
 				'title' => __( 'Site Name', 'hello-elementor' ),
-				'link'  => $this->get_open_homepage_with_tab( $elementor_page_id, 'settings-site-identity' ),
+				'link'  => $this->get_open_homepage_with_tab( $elementor_page_id, 'settings-site-identity', null, [ 'autofocus[section]' => 'title_tagline' ] ),
 				'icon'  => 'TextIcon',
 
 			],
 			'site_logo'    => [
 				'title' => __( 'Site Logo', 'hello-elementor' ),
-				'link'  => $this->get_open_homepage_with_tab( $elementor_page_id, 'settings-site-identity' ),
+				'link'  => $this->get_open_homepage_with_tab( $elementor_page_id, 'settings-site-identity', null, [ 'autofocus[section]' => 'title_tagline' ] ),
 				'icon'  => 'PhotoIcon',
 			],
 			'site_favicon' => [
 				'title' => __( 'Site Favicon', 'hello-elementor' ),
-				'link'  => $this->get_open_homepage_with_tab( $elementor_page_id, 'settings-site-identity' ),
+				'link'  => $this->get_open_homepage_with_tab( $elementor_page_id, 'settings-site-identity', null, [ 'autofocus[section]' => 'title_tagline' ] ),
 				'icon'  => 'AppsIcon',
 			],
 		];
