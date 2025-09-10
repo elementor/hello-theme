@@ -63,11 +63,6 @@ test.describe( 'Hello Theme Admin Home Page', () => {
 			const linkElement = page.locator( `h6:has-text("${ linkTest.linkText }") a` );
 			await expect( linkElement ).toBeVisible();
 
-			if ( !! process.env.DAILY_MATRIX_WORKFLOW ) {
-				// Skip this test in Daily Matrix workflow due to artifact deployment timing issues
-				continue;
-			}
-
 			await Promise.all( [
 				page.waitForURL( linkTest.expectedUrlPattern ),
 				linkElement.click(),
