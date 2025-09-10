@@ -86,7 +86,7 @@ class Admin_Config extends Rest_Base {
 				'post' => $page_id,
 				'action' => 'elementor',
 				'active-tab' => $active_tab,
-				'active-document' => $active_kit_id,
+				// 'active-document' => $active_kit_id,
 			],
 			admin_url( 'post.php' )
 		);
