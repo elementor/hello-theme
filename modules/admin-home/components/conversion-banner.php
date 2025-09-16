@@ -11,6 +11,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Conversion_Banner {
 
+	const DEFAULT_SELECTOR = '.wrap h1, .wrap h2';
+	const SCRIPT_HANDLE = 'hello-conversion-banner';
+	const NONCE_ACTION = 'ehe_cb_nonce';
+	const OBJECT_NAME = 'ehe_cb';
+	const USER_META_KEY = '_hello_elementor_install_notice';
+	const AJAX_ACTION = 'ehe_dismiss_theme_notice';
+
 	private function render_conversion_banner() {
 		?>
 		<div id="ehe-admin-cb" style="width: calc(100% - 48px)">
@@ -21,23 +28,23 @@ class Conversion_Banner {
 	private function get_allowed_admin_pages(): array {
 		return [
 			'dashboard' => [ 'selector' => '#wpbody #wpbody-content .wrap h1' ],
-			'update-core' => [ 'selector' => '.wrap h1, .wrap h2' ],
-			'edit-post' => [ 'selector' => '.wrap h1, .wrap h2' ],
-			'edit-category' => [ 'selector' => '.wrap h1, .wrap h2' ],
-			'edit-post_tag' => [ 'selector' => '.wrap h1, .wrap h2' ],
-			'upload' => [ 'selector' => '.wrap h1, .wrap h2' ],
-			'media' => [ 'selector' => '.wrap h1, .wrap h2' ],
-			'edit-page' => [ 'selector' => '.wrap h1, .wrap h2' ],
-			'elementor_page_elementor-settings' => [ 'selector' => '.wrap h1, .wrap h2' ],
+			'update-core' => [ 'selector' => self::DEFAULT_SELECTOR ],
+			'edit-post' => [ 'selector' => self::DEFAULT_SELECTOR ],
+			'edit-category' => [ 'selector' => self::DEFAULT_SELECTOR ],
+			'edit-post_tag' => [ 'selector' => self::DEFAULT_SELECTOR ],
+			'upload' => [ 'selector' => self::DEFAULT_SELECTOR ],
+			'media' => [ 'selector' => self::DEFAULT_SELECTOR ],
+			'edit-page' => [ 'selector' => self::DEFAULT_SELECTOR ],
+			'elementor_page_elementor-settings' => [ 'selector' => self::DEFAULT_SELECTOR ],
 			'edit-elementor_library' => [
-				'selector' => '.wrap h1, .wrap h2',
+				'selector' => self::DEFAULT_SELECTOR,
 				'before' => true,
 			],
 			'elementor_page_elementor-tools' => [
-				'selector' => '.wrap h1, .wrap h2',
+				'selector' => self::DEFAULT_SELECTOR,
 			],
 			'elementor_page_elementor-role-manager' => [
-				'selector' => '.wrap h1, .wrap h2',
+				'selector' => self::DEFAULT_SELECTOR,
 			],
 			'elementor_page_elementor-element-manager' => [
 				'selector' => '.wrap h1, .wrap h3.wp-heading-inline',
@@ -51,79 +58,79 @@ class Conversion_Banner {
 				'before' => true,
 			],
 			'edit-e-floating-buttons' => [
-				'selector' => '.wrap h1, .wrap h2',
+				'selector' => self::DEFAULT_SELECTOR,
 			],
 			'edit-elementor_library_category' => [
-				'selector' => '.wrap h1, .wrap h2',
+				'selector' => self::DEFAULT_SELECTOR,
 			],
 			'themes' => [
-				'selector' => '.wrap h1, .wrap h2',
+				'selector' => self::DEFAULT_SELECTOR,
 			],
 			'nav-menus' => [
-				'selector' => '.wrap h1, .wrap h2',
+				'selector' => self::DEFAULT_SELECTOR,
 			],
 			'theme-editor' => [
-				'selector' => '.wrap h1, .wrap h2',
+				'selector' => self::DEFAULT_SELECTOR,
 			],
 			'plugins' => [
-				'selector' => '.wrap h1, .wrap h2',
+				'selector' => self::DEFAULT_SELECTOR,
 			],
 			'plugin-install' => [
-				'selector' => '.wrap h1, .wrap h2',
+				'selector' => self::DEFAULT_SELECTOR,
 			],
 			'plugin-editor' => [
-				'selector' => '.wrap h1, .wrap h2',
+				'selector' => self::DEFAULT_SELECTOR,
 			],
 			'users' => [
-				'selector' => '.wrap h1, .wrap h2',
+				'selector' => self::DEFAULT_SELECTOR,
 			],
 			'user' => [
-				'selector' => '.wrap h1, .wrap h2',
+				'selector' => self::DEFAULT_SELECTOR,
 			],
 			'profile' => [
-				'selector' => '.wrap h1, .wrap h2',
+				'selector' => self::DEFAULT_SELECTOR,
 			],
 			'tools' => [
-				'selector' => '.wrap h1, .wrap h2',
+				'selector' => self::DEFAULT_SELECTOR,
 			],
 			'import' => [
-				'selector' => '.wrap h1, .wrap h2',
+				'selector' => self::DEFAULT_SELECTOR,
 			],
 			'export' => [
-				'selector' => '.wrap h1, .wrap h2',
+				'selector' => self::DEFAULT_SELECTOR,
 			],
 			'site-health' => [
-				'selector' => '.wrap h1, .wrap h2',
+				'selector' => self::DEFAULT_SELECTOR,
 			],
 			'export-personal-data' => [
-				'selector' => '.wrap h1, .wrap h2',
+				'selector' => self::DEFAULT_SELECTOR,
 			],
 			'erase-personal-data' => [
-				'selector' => '.wrap h1, .wrap h2',
+				'selector' => self::DEFAULT_SELECTOR,
 			],
 			'options-general' => [
-				'selector' => '.wrap h1, .wrap h2',
+				'selector' => self::DEFAULT_SELECTOR,
 			],
 			'options-writing' => [
-				'selector' => '.wrap h1, .wrap h2',
+				'selector' => self::DEFAULT_SELECTOR,
 			],
 			'options-reading' => [
-				'selector' => '.wrap h1, .wrap h2',
+				'selector' => self::DEFAULT_SELECTOR,
 			],
 			'options-discussion' => [
-				'selector' => '.wrap h1, .wrap h2',
+				'selector' => self::DEFAULT_SELECTOR,
 			],
 			'options-media' => [
-				'selector' => '.wrap h1, .wrap h2',
+				'selector' => self::DEFAULT_SELECTOR,
 			],
 			'options-permalink' => [
-				'selector' => '.wrap h1, .wrap h2',
+				'selector' => self::DEFAULT_SELECTOR,
 			],
 			'options-privacy' => [
-				'selector' => '.wrap h1, .wrap h2',
+				'selector' => self::DEFAULT_SELECTOR,
 			],
 			'privacy-policy-guide' => [
-				'selector' => '.wrap h1, .wrap h2',
+				'selector' => self::DEFAULT_SELECTOR,
 			],
 		];
 	}
@@ -142,7 +149,7 @@ class Conversion_Banner {
 	}
 
 	private function is_conversion_banner_active(): array {
-		if ( get_user_meta( get_current_user_id(), '_hello_elementor_install_notice', true ) ) {
+		if ( get_user_meta( get_current_user_id(), self::USER_META_KEY, true ) ) {
 			return [];
 		}
 
@@ -155,7 +162,7 @@ class Conversion_Banner {
 
 	private function enqueue_scripts( array $conversion_banner_active ) {
 		$script = new Script(
-			'hello-conversion-banner',
+			self::SCRIPT_HANDLE,
 			[ 'wp-util' ]
 		);
 
@@ -164,10 +171,10 @@ class Conversion_Banner {
 		$is_installing_plugin_with_uploader = 'upload-plugin' === filter_input( INPUT_GET, 'action', FILTER_UNSAFE_RAW );
 
 		wp_localize_script(
-			'hello-conversion-banner',
-			'ehe_cb',
+			self::SCRIPT_HANDLE,
+			self::OBJECT_NAME,
 			[
-				'nonce' => wp_create_nonce( 'ehe_cb_nonce' ),
+				'nonce' => wp_create_nonce( self::NONCE_ACTION ),
 				'beforeWrap' => $is_installing_plugin_with_uploader,
 				'data' => $conversion_banner_active,
 			]
@@ -175,16 +182,16 @@ class Conversion_Banner {
 	}
 
 	public function dismiss_theme_notice() {
-		check_ajax_referer( 'ehe_cb_nonce', 'nonce' );
+		check_ajax_referer( self::NONCE_ACTION, 'nonce' );
 
-		update_user_meta( get_current_user_id(), '_hello_elementor_install_notice', true );
+		update_user_meta( get_current_user_id(), self::USER_META_KEY, true );
 
 		wp_send_json_success( [ 'message' => __( 'Notice dismissed.', 'hello-elementor' ) ] );
 	}
 
 	public function __construct() {
 
-		add_action( 'wp_ajax_ehe_dismiss_theme_notice', [ $this, 'dismiss_theme_notice' ] );
+		add_action( 'wp_ajax_' . self::AJAX_ACTION, [ $this, 'dismiss_theme_notice' ] );
 
 		add_action( 'current_screen', function () {
 			$conversion_banner_active = $this->is_conversion_banner_active();
