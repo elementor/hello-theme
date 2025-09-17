@@ -65,8 +65,8 @@ if (!defined('WP_ADMIN')) {
 
 do_action('plugins_loaded');
 
-function initialize_elementor_plugin($plugin_class)
-{
+function initialize_elementor_plugin($plugin_class){
+
 	if (!class_exists($plugin_class)) {
 		return null;
 	}
@@ -75,8 +75,6 @@ function initialize_elementor_plugin($plugin_class)
 }
 
 $plugin_instance = initialize_elementor_plugin('Elementor\Plugin');
-
-$plugin_instance->initialize_container();
 
 do_action('init');
 do_action('wp_loaded');
