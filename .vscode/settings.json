@@ -1,0 +1,8 @@
+{
+  "phpcs.standard": "./phpcs.xml",
+  "phpcs.executablePath": "vendor/bin/phpcs",
+  "phpcbf.executablePath": "vendor/bin/phpcbf",
+  "phpcs.enable": true,
+  "phpcbf.enable": true,
+  "phpcs.showSources": true
+}
