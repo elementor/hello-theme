@@ -35,6 +35,7 @@ class Module extends Module_Base {
 			'Admin_Top_Bar',
 			'Settings_Controller',
 			'Notificator',
+			'Finder',
 		];
 	}
 }
