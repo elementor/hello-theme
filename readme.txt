@@ -3,8 +3,8 @@
 Contributors: elemntor, KingYes, ariel.k, bainternet
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 3.4.4
-Version: 3.4.4
+Stable tag: 3.4.5
+Version: 3.4.5
 Requires PHP: 7.4
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -35,6 +35,15 @@ License: CC0 1.0 Universal (CC0 1.0)
 Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
+
+= 3.4.5 - 2025-09-30
+* Fix: Load styles correctly in Gutenberg pages
+* Fix: Do not change menu name after Elementor activation
+* Fix: Ensure quicklinks works correctly from home page
+* Tweak: Improve banner behavior after clicking on action button
+* Tweak: Improve changelog appeareance
+* Tweak: Only show Elementor pro upsell on relevant pages
+* New: Add theme home to Finder
 
 = 3.4.4 - 2025-06-08 =
 * Tweak: Improve Header/Footer edit access from theme Home
