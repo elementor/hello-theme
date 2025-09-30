@@ -48,6 +48,8 @@ export const Welcome = ( { sx, dismissable = false } ) => {
 						await wp.ajax.post( 'ehe_dismiss_theme_notice', { nonce: window.ehe_cb.nonce } );
 						setVisible( false );
 					} catch ( e ) {
+						// eslint-disable-next-line no-console
+						console.error( e );
 					}
 				} }>
 					<Box component="span" className="screen-reader-text">{ __( 'Dismiss this notice.', 'hello-elementor' ) }</Box>
