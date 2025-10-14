@@ -4,27 +4,27 @@ on:
   workflow_dispatch:
     inputs:
       core_branch:
-        description: 'Elementor Core Branch'
+        description: "Elementor Core Branch"
         required: true
       hello_theme_version:
-        description: 'Hello Theme version to test (e.g., 3.4.4 or main)'
+        description: "Hello Theme version to test (e.g., 3.4.4 or main)"
         required: false
-        default: 'main'
+        default: "main"
       tag:
-        description: 'Provide @tag or a keyword'
+        description: "Provide @tag or a keyword"
         required: false
   workflow_call:
     inputs:
       core_branch:
-        description: 'Elementor Core Branch'
+        description: "Elementor Core Branch"
         required: true
         type: string
       hello_theme_version:
-        description: 'Hello Theme version to test (e.g., 3.4.4 or main)'
+        description: "Hello Theme version to test (e.g., 3.4.4 or main)"
         required: false
         type: string
       tag:
-        description: 'Provide @tag or a keyword'
+        description: "Provide @tag or a keyword"
         required: false
         type: string
     secrets:
@@ -61,13 +61,13 @@ jobs:
         run: |
           # Set Elementor Core branch from input (can be branch name or version)
           ELEMENTOR_CORE_BRANCH="${{ inputs.core_branch }}"
-          
+
           # Hello Theme version from current repo (like Hello Commerce pattern)
           HT_VERSION=$(node -p "require('./package.json').version")
-          
+
           # Input version for reference (main, etc.)
           HELLO_THEME_INPUT="${{ inputs.hello_theme_version || 'main' }}"
-          
+
           # Determine source type for reporting - Hello Theme always builds from GitHub
           # Unlike Hello Commerce/Biz, Hello Theme doesn't download from WordPress.org
           if [[ "$HELLO_THEME_INPUT" == "main" ]]; then
@@ -82,23 +82,23 @@ jobs:
             HELLO_THEME_SOURCE_TYPE="git-branch"
             HELLO_THEME_SOURCE="github"
           fi
-          
+
           echo "hello-theme-version=${HT_VERSION}" >> $GITHUB_OUTPUT
           echo "hello-theme-input=${HELLO_THEME_INPUT}" >> $GITHUB_OUTPUT
           echo "hello-theme-source-type=${HELLO_THEME_SOURCE_TYPE}" >> $GITHUB_OUTPUT
           echo "hello-theme-source=${HELLO_THEME_SOURCE}" >> $GITHUB_OUTPUT
           echo "elementor-core-branch=${ELEMENTOR_CORE_BRANCH}" >> $GITHUB_OUTPUT
           echo "elementor-version=${ELEMENTOR_CORE_BRANCH}" >> $GITHUB_OUTPUT
-          
+
           # Set environment variables for later steps
           echo "HELLO_THEME_VERSION=${HT_VERSION}" >> $GITHUB_ENV
           echo "HELLO_THEME_INPUT=${HELLO_THEME_INPUT}" >> $GITHUB_ENV
           echo "HELLO_THEME_SOURCE_TYPE=${HELLO_THEME_SOURCE_TYPE}" >> $GITHUB_ENV
-          
+
           # Generate artifact name using input version for readability
           ARTIFACT_NAME="core-ht${HELLO_THEME_INPUT}-el${ELEMENTOR_CORE_BRANCH}-${{ github.run_id }}"
           echo "artifact-name=${ARTIFACT_NAME}" >> $GITHUB_OUTPUT
-          
+
           echo "✅ Set versions: Hello Theme=${HT_VERSION} (${HELLO_THEME_INPUT}), Elementor=${ELEMENTOR_CORE_BRANCH}"
 
       - name: Build Hello Theme
@@ -107,16 +107,14 @@ jobs:
           PACKAGE_VERSION: ${{ steps.set-versions.outputs.hello-theme-version }}
           BUILD_SCRIPT_PATH: "npm run build:prod"
 
-
-
       - name: Download Elementor Core
         run: |
           ELEMENTOR_CORE_BRANCH="${{ steps.set-versions.outputs.elementor-core-branch }}"
           echo "Downloading Elementor Core branch: ${ELEMENTOR_CORE_BRANCH}"
-          
+
           # Create Elementor build directory
           mkdir -p ./tmp
-          
+
           if [[ "$ELEMENTOR_CORE_BRANCH" == "latest-stable" ]]; then
             # Download latest stable from WordPress.org
             curl --location -o ./elementor-core.zip https://downloads.wordpress.org/plugin/elementor.latest-stable.zip
@@ -181,17 +179,17 @@ jobs:
           ls -la ./
           echo "Creating tmp directory if it doesn't exist:"
           mkdir -p ./tmp
-          
+
       - name: Hybrid Test Setup - Extract tests from target version
         id: extract-version-tests
         run: |
           echo "🎯 HYBRID APPROACH: Always latest workflows + version-specific tests"
           echo "📋 Workflow infrastructure: main branch (latest build-wp-env.js, scripts, etc.)"
           echo "🧪 Test content: ${{ inputs.hello_theme_version || 'main' }} (matches theme functionality)"
-          
+
           # Determine the target version for test extraction
           TARGET_VERSION="${{ inputs.hello_theme_version || 'main' }}"
-          
+
           if [ "$TARGET_VERSION" = "main" ]; then
             echo "✅ Using main branch tests (already available)"
             TEST_VERSION="main"
@@ -247,12 +245,12 @@ jobs:
               TEST_SOURCE_TYPE="not-available"
             fi
           fi
-          
+
           # Set outputs for workflow control
           echo "test-version=$TEST_VERSION" >> $GITHUB_OUTPUT
           echo "test-source-type=$TEST_SOURCE_TYPE" >> $GITHUB_OUTPUT
           echo "tests-available=$TESTS_AVAILABLE" >> $GITHUB_OUTPUT
-          
+
           echo "✅ Hybrid setup complete:"
           echo "  🏗️ Workflow infrastructure: main branch"
           echo "  🧪 Test content: $TEST_VERSION ($TEST_SOURCE_TYPE)"
@@ -262,12 +260,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20.x
-          cache: 'npm'
+          cache: "npm"
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: "8.1"
           tools: composer
           coverage: none
 
@@ -290,10 +288,10 @@ jobs:
           echo "Current directory contents:"
           ls -la ./
           echo ""
-          
+
           # Ensure tmp directory exists
           mkdir -p ./tmp
-          
+
           echo "Checking for Elementor artifacts:"
           if [ -d "./tmp/elementor" ]; then
             echo "✅ Elementor directory found in tmp"
@@ -331,7 +329,7 @@ jobs:
               echo "✅ Elementor fallback installed"
             fi
           fi
-          
+
           echo ""
           echo "Final verification:"
           echo "tmp directory contents:"
@@ -347,7 +345,7 @@ jobs:
         run: |
           echo "Extracting Hello Theme build..."
           HT_ZIP=$(find . -name "hello-elementor-*.zip" -type f | head -1)
-          
+
           if [ -n "$HT_ZIP" ]; then
             echo "Found Hello Theme build: $HT_ZIP"
             mkdir -p ./tmp
@@ -373,16 +371,33 @@ jobs:
 
       - name: Update wp-env.json file
         env:
-          PHP_VERSION: '8.1'
-          WP_CORE_VERSION: 'latest'
+          PHP_VERSION: "8.1"
+          WP_CORE_VERSION: "latest"
           HELLO_THEME_VERSION: ${{ env.HELLO_THEME_VERSION }}
           ELEMENTOR_VERSION: ${{ env.ELEMENTOR_VERSION }}
         run: node ./.github/scripts/build-wp-env.js
 
       - name: Install WordPress environment
         run: |
-          npx wp-env start
-          
+          echo "Starting WordPress environment with retry logic..."
+          for i in {1..5}; do
+            echo "Attempt $i/5: Starting wp-env..."
+            if npx wp-env start; then
+              echo "✅ WordPress environment started successfully"
+              break
+            else
+              echo "❌ Attempt $i failed"
+              if [ $i -eq 5 ]; then
+                echo "🚨 All attempts failed, exiting..."
+                exit 1
+              else
+                echo "⏳ Waiting 30 seconds before retry..."
+                npx wp-env stop || true
+                sleep 30
+              fi
+            fi
+          done
+
       - name: Setup WordPress environment (activate plugins and themes)
         run: |
           npx wp-env run cli bash hello-elementor-config/setup.sh
@@ -403,7 +418,7 @@ jobs:
           echo "🧪 Running tests from: ${{ steps.extract-version-tests.outputs.test-source-type }}"
           # Only run Hello Theme tests, not Elementor or other plugin tests
           npm run test:playwright -- tests/playwright/tests/
-          
+
       - name: Skip tests - version incompatible
         if: steps.extract-version-tests.outputs.tests-available != 'true'
         run: |
@@ -453,10 +468,10 @@ jobs:
           echo "🎯 HYBRID APPROACH: Always latest workflows + version-specific tests"
           echo "📋 Workflow infrastructure: main branch (latest build-wp-env.js, scripts, etc.)"
           echo "🧪 Test content: ${{ inputs.hello_theme_version || 'main' }} (matches theme functionality)"
-          
+
           # Determine the target version for test extraction
           TARGET_VERSION="${{ inputs.hello_theme_version || 'main' }}"
-          
+
           if [ "$TARGET_VERSION" = "main" ]; then
             echo "✅ Using main branch tests (already available)"
             TEST_VERSION="main"
@@ -512,12 +527,12 @@ jobs:
               TEST_SOURCE_TYPE="not-available"
             fi
           fi
-          
+
           # Set outputs for workflow control
           echo "test-version=$TEST_VERSION" >> $GITHUB_OUTPUT
           echo "test-source-type=$TEST_SOURCE_TYPE" >> $GITHUB_OUTPUT
           echo "tests-available=$TESTS_AVAILABLE" >> $GITHUB_OUTPUT
-          
+
           echo "✅ Hybrid setup complete:"
           echo "  🏗️ Workflow infrastructure: main branch"
           echo "  🧪 Test content: $TEST_VERSION ($TEST_SOURCE_TYPE)"
@@ -527,12 +542,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20.x
-          cache: 'npm'
+          cache: "npm"
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: "8.1"
           tools: composer
           coverage: none
 
@@ -555,10 +570,10 @@ jobs:
           echo "Current directory contents:"
           ls -la ./
           echo ""
-          
+
           # Ensure tmp directory exists
           mkdir -p ./tmp
-          
+
           echo "Checking for Elementor artifacts:"
           if [ -d "./tmp/elementor" ]; then
             echo "✅ Elementor directory found in tmp"
@@ -596,7 +611,7 @@ jobs:
               echo "✅ Elementor fallback installed"
             fi
           fi
-          
+
           echo ""
           echo "Final verification:"
           echo "tmp directory contents:"
@@ -612,7 +627,7 @@ jobs:
         run: |
           echo "Extracting Hello Theme build..."
           HT_ZIP=$(find . -name "hello-elementor-*.zip" -type f | head -1)
-          
+
           if [ -n "$HT_ZIP" ]; then
             echo "Found Hello Theme build: $HT_ZIP"
             mkdir -p ./tmp
@@ -638,16 +653,33 @@ jobs:
 
       - name: Update wp-env.json file
         env:
-          PHP_VERSION: '8.1'
-          WP_CORE_VERSION: 'latest'
+          PHP_VERSION: "8.1"
+          WP_CORE_VERSION: "latest"
           HELLO_THEME_VERSION: ${{ env.HELLO_THEME_VERSION }}
           ELEMENTOR_VERSION: ${{ env.ELEMENTOR_VERSION }}
         run: node ./.github/scripts/build-wp-env.js
 
       - name: Install WordPress environment
         run: |
-          npx wp-env start
-          
+          echo "Starting WordPress environment with retry logic..."
+          for i in {1..5}; do
+            echo "Attempt $i/5: Starting wp-env..."
+            if npx wp-env start; then
+              echo "✅ WordPress environment started successfully"
+              break
+            else
+              echo "❌ Attempt $i failed"
+              if [ $i -eq 5 ]; then
+                echo "🚨 All attempts failed, exiting..."
+                exit 1
+              else
+                echo "⏳ Waiting 30 seconds before retry..."
+                npx wp-env stop || true
+                sleep 30
+              fi
+            fi
+          done
+
       - name: Setup WordPress environment (activate plugins and themes)
         run: |
           npx wp-env run cli bash hello-elementor-config/setup.sh
@@ -663,7 +695,7 @@ jobs:
           echo "🧪 Running tagged tests from: ${{ steps.extract-version-tests.outputs.test-source-type }}"
           # Only run Hello Theme tests with the specified tag
           npm run test:playwright -- tests/playwright/tests/ --grep="${{ github.event.inputs.tag }}"
-          
+
       - name: Skip tagged tests - version incompatible
         if: steps.extract-version-tests.outputs.tests-available != 'true'
         run: |
