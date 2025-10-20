@@ -36,7 +36,7 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
 
-= 3.4.5 - 2025-09-30
+= 3.4.5 - 2025-10-20
 * Fix: Load styles correctly in Gutenberg pages
 * Fix: Do not change menu name after Elementor activation
 * Fix: Ensure quicklinks works correctly from home page
