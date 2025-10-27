@@ -36,14 +36,12 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
 
-= 3.4.5 - 2025-10-20
+= 3.4.5 - 2025-10-27
+* New: Add theme home to Finder
+* Tweak: Improve banner behavior after clicking on action button
 * Fix: Load styles correctly in Gutenberg pages
 * Fix: Do not change menu name after Elementor activation
 * Fix: Ensure quicklinks works correctly from home page
-* Tweak: Improve banner behavior after clicking on action button
-* Tweak: Improve changelog appeareance
-* Tweak: Only show Elementor pro upsell on relevant pages
-* New: Add theme home to Finder
 
 = 3.4.4 - 2025-06-08 =
 * Tweak: Improve Header/Footer edit access from theme Home
