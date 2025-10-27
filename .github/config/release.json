@@ -12,7 +12,7 @@
   "release": {
     "changelog_file": "readme.txt",
     "changelog_section": "## Changelog",
-    "build_artifacts": ["hello-elementor.zip"],
+    "build_artifacts": ["hello-theme.zip"],
     "wordpress_org": {
       "manual_upload": true,
       "theme_slug": "hello-elementor"
