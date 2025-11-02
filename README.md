@@ -17,3 +17,5 @@ The theme supports common WordPress features which can be extended using a child
 - Join our [Facebook Group](https://www.facebook.com/groups/Elementors/).
 - Learn from our tutorials on [YouTube Channel](https://www.youtube.com/c/elementor).
 - Or rate the theme on [WordPress.org](https://wordpress.org/support/theme/hello-elementor/reviews/?filter=5) :)
+
+
