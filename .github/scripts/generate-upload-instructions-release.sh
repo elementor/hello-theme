@@ -6,8 +6,8 @@ set -e
 
 # Get current version
 PACKAGE_VERSION=$(node -p "require('./package.json').version")
-THEME_SLUG=$(node -p "require('./package.json').name")
-BUILD_ZIP="${THEME_SLUG}-${PACKAGE_VERSION}.zip"
+# Use hardcoded hello-theme prefix for GitHub releases (different from package.json name)
+BUILD_ZIP="hello-theme-${PACKAGE_VERSION}.zip"
 
 echo "📋 **Hello Elementor v${PACKAGE_VERSION} - Manual Upload Instructions**"
 echo ""
@@ -19,7 +19,7 @@ echo "📦 **Package Details:**"
 echo "   - Theme: Hello Elementor"
 echo "   - Version: v${PACKAGE_VERSION}"
 echo "   - Build File: ${BUILD_ZIP}"
-echo "   - Theme Slug: ${THEME_SLUG}"
+echo "   - GitHub Package: ${BUILD_ZIP}"
 echo ""
 echo "📋 **Manual Upload Steps:**"
 echo ""
