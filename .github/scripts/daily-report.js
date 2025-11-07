@@ -105,6 +105,10 @@ function generateDailyMarkdownReport( results ) {
 	report += `  - \`X.Y.Z (GA)\` = General availability release version\n`;
 	report += `  - \`latest-stable\` = Latest published version from WordPress.org\n\n`;
 
+	report += `## 🔄 Reliability Features\n\n`;
+	report += `- **WordPress Environment**: Automatic retry logic (5 attempts, 30s intervals)\n`;
+	report += `- **Failure Recovery**: Automatic cleanup and restart on wp-env failures\n\n`;
+
 	report += `*Generated at ${ new Date().toISOString() }*`;
 
 	return report;

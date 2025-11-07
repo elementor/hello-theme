@@ -4,27 +4,27 @@ on:
   workflow_dispatch:
     inputs:
       hello_plus_version:
-        description: 'Hello Plus version to test (e.g., 1.7.2 or latest-stable)'
+        description: "Hello Plus version to test (e.g., 1.7.2 or latest-stable)"
         required: true
       hello_theme_version:
-        description: 'Hello Theme version to test (e.g., 3.4.4 or main)'
+        description: "Hello Theme version to test (e.g., 3.4.4 or main)"
         required: false
-        default: 'main'
+        default: "main"
       tag:
-        description: 'Provide @tag or a keyword'
+        description: "Provide @tag or a keyword"
         required: false
   workflow_call:
     inputs:
       hello_plus_version:
-        description: 'Hello Plus version to test (e.g., 1.7.2 or latest-stable)'
+        description: "Hello Plus version to test (e.g., 1.7.2 or latest-stable)"
         required: true
         type: string
       hello_theme_version:
-        description: 'Hello Theme version to test (e.g., 3.4.4 or main)'
+        description: "Hello Theme version to test (e.g., 3.4.4 or main)"
         required: false
         type: string
       tag:
-        description: 'Provide @tag or a keyword'
+        description: "Provide @tag or a keyword"
         required: false
         type: string
 
@@ -51,66 +51,136 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set version outputs
+      - name: Set version variables and Hello Plus version
         id: set-versions
         run: |
           # Set Hello Plus version from input (released versions only)
           HELLO_PLUS_VERSION="${{ inputs.hello_plus_version }}"
-          
-          # Hello Theme version from current repo (like Hello Commerce pattern)
-          HT_VERSION=$(node -p "require('./package.json').version")
-          
-          # Input version for reference (main, etc.)
-          HELLO_THEME_INPUT="${{ inputs.hello_theme_version || 'main' }}"
-          
-          # Determine source type for reporting - Hello Theme always builds from GitHub
-          # Unlike Hello Commerce/Biz, Hello Theme doesn't download from WordPress.org
-          if [[ "$HELLO_THEME_INPUT" == "main" ]]; then
-            HELLO_THEME_SOURCE_TYPE="git-branch"
-            HELLO_THEME_SOURCE="github"
-          elif [[ "$HELLO_THEME_INPUT" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            # Released version input, but still built from GitHub source
-            HELLO_THEME_SOURCE_TYPE="git-tag"
-            HELLO_THEME_SOURCE="github"
+
+          # Hello Theme source ref (main or specific GA version) - always use main actions
+          # Always use main actions regardless of source version - this is the key principle
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            HELLO_THEME_SOURCE="${{ inputs.hello_theme_version || 'main' }}"
           else
-            # Other cases (branches, etc.)
-            HELLO_THEME_SOURCE_TYPE="git-branch"
-            HELLO_THEME_SOURCE="github"
+            HELLO_THEME_SOURCE="main"
           fi
-          
-          echo "hello-theme-version=${HT_VERSION}" >> $GITHUB_OUTPUT
-          echo "hello-theme-input=${HELLO_THEME_INPUT}" >> $GITHUB_OUTPUT
-          echo "hello-theme-source-type=${HELLO_THEME_SOURCE_TYPE}" >> $GITHUB_OUTPUT
-          echo "hello-plus-version=${HELLO_PLUS_VERSION}" >> $GITHUB_OUTPUT
-          echo "hello-theme-source=${HELLO_THEME_SOURCE}" >> $GITHUB_OUTPUT
-          
-          # Set environment variables for later steps
+
+          # Current Hello Theme version from package.json (actual version string)
+          HT_VERSION=$(node -p "require('./package.json').version")
+
+          echo "HELLO_PLUS_VERSION=${HELLO_PLUS_VERSION}" >> $GITHUB_ENV
+          echo "HELLO_THEME_SOURCE=${HELLO_THEME_SOURCE}" >> $GITHUB_ENV
           echo "HELLO_THEME_VERSION=${HT_VERSION}" >> $GITHUB_ENV
-          echo "HELLO_THEME_INPUT=${HELLO_THEME_INPUT}" >> $GITHUB_ENV
-          echo "HELLO_THEME_SOURCE_TYPE=${HELLO_THEME_SOURCE_TYPE}" >> $GITHUB_ENV
-          
-          # Generate artifact name using input version for readability
-          ARTIFACT_NAME="plus-ht${HELLO_THEME_INPUT}-hp${HELLO_PLUS_VERSION}-${{ github.run_id }}"
+
+          echo "hello-theme-version=${HT_VERSION}" >> $GITHUB_OUTPUT
+          echo "hello-plus-version=${HELLO_PLUS_VERSION}" >> $GITHUB_OUTPUT
+
+          # Create artifact name
+          ARTIFACT_NAME="plus-ht${HELLO_THEME_SOURCE}-hp${HELLO_PLUS_VERSION}-$(date +%Y%m%d-%H%M)"
           echo "artifact-name=${ARTIFACT_NAME}" >> $GITHUB_OUTPUT
-          
-          echo "✅ Set versions: Hello Theme=${HT_VERSION} (${HELLO_THEME_INPUT}), Hello Plus=${HELLO_PLUS_VERSION}"
+
+          echo "✅ Hello Theme version: ${HT_VERSION}"
+          echo "✅ Hello Theme source: ${HELLO_THEME_SOURCE}"
+          echo "✅ Hello Plus Version: ${HELLO_PLUS_VERSION}"
+
+      - name: Validate and preserve workflow infrastructure
+        run: |
+          set -e  # Exit on any error
+
+          echo "🔍 DEBUG: Validating version $HELLO_THEME_SOURCE"
+
+          # Validate version exists (if not main)
+          if [[ "$HELLO_THEME_SOURCE" != "main" ]]; then
+            git fetch --all --tags
+            if ! git rev-parse --verify "v$HELLO_THEME_SOURCE" >/dev/null 2>&1 && ! git rev-parse --verify "$HELLO_THEME_SOURCE" >/dev/null 2>&1; then
+              echo "❌ ERROR: Version $HELLO_THEME_SOURCE not found"
+              exit 1
+            fi
+            echo "✅ Version $HELLO_THEME_SOURCE exists"
+          fi
+
+          # Preserve entire .github directory
+          echo "📦 DEBUG: Preserving .github directory from main branch"
+          if ! cp -r .github .github-main-backup; then
+            echo "❌ ERROR: Failed to preserve .github directory"
+            exit 1
+          fi
+          echo "✅ .github directory preserved"
+
+      - name: Checkout specific Hello Theme version
+        run: |
+          set -e  # Exit on any error
+
+          if [[ "$HELLO_THEME_SOURCE" != "main" ]]; then
+            echo "🔄 DEBUG: Checking out Hello Theme version: $HELLO_THEME_SOURCE"
+            
+            # Attempt checkout with proper error handling
+            if git checkout "v$HELLO_THEME_SOURCE" 2>/dev/null || git checkout "$HELLO_THEME_SOURCE" 2>/dev/null; then
+              echo "✅ Successfully checked out $HELLO_THEME_SOURCE"
+            else
+              echo "❌ ERROR: Failed to checkout $HELLO_THEME_SOURCE"
+              exit 1
+            fi
+            
+            # Validate package.json version matches
+            ACTUAL_VERSION=$(node -p "require('./package.json').version")
+            if [[ "$ACTUAL_VERSION" != "$HELLO_THEME_SOURCE" ]]; then
+              echo "❌ ERROR: Version mismatch - Expected: $HELLO_THEME_SOURCE, Got: $ACTUAL_VERSION"
+              exit 1
+            fi
+            echo "✅ Version validated: $ACTUAL_VERSION"
+            
+            echo "HELLO_THEME_SOURCE_TYPE=git-tag" >> $GITHUB_ENV
+          else
+            echo "✅ DEBUG: Using main branch"
+            echo "HELLO_THEME_SOURCE_TYPE=git-branch" >> $GITHUB_ENV
+          fi
+
+      - name: Restore main branch workflow infrastructure
+        run: |
+          set -e  # Exit on any error
+
+          if [[ "$HELLO_THEME_SOURCE" != "main" ]]; then
+            echo "🔄 DEBUG: Restoring .github directory from main branch"
+            
+            # Remove old .github and restore main version
+            if ! rm -rf .github; then
+              echo "❌ ERROR: Failed to remove old .github directory"
+              exit 1
+            fi
+            
+            if ! mv .github-main-backup .github; then
+              echo "❌ ERROR: Failed to restore .github directory"
+              exit 1
+            fi
+            
+            echo "✅ Main branch actions restored"
+            echo "🎯 DEBUG: Using $HELLO_THEME_SOURCE source code with main branch actions"
+          else
+            # Clean up backup if we didn't need it
+            rm -rf .github-main-backup 2>/dev/null || true
+            echo "✅ DEBUG: Using main branch (no restore needed)"
+          fi
+
+          # Set final version for build
+          FINAL_VERSION=$(node -p "require('./package.json').version")
+          echo "HELLO_THEME_VERSION=$FINAL_VERSION" >> $GITHUB_ENV
+          echo "📋 DEBUG: Final state - Version: $FINAL_VERSION, Actions: main branch"
 
       - name: Build Hello Theme
         uses: ./.github/workflows/build-theme
         with:
-          PACKAGE_VERSION: ${{ steps.set-versions.outputs.hello-theme-version }}
+          PACKAGE_VERSION: ${{ env.HELLO_THEME_VERSION }}
           BUILD_SCRIPT_PATH: "npm run build:prod"
-
-
 
       - name: Download Hello Plus
         run: |
           HELLO_PLUS_VERSION="${{ steps.set-versions.outputs.hello-plus-version }}"
           echo "Downloading Hello Plus version: ${HELLO_PLUS_VERSION}"
-          
+
           # Create Hello Plus build directory
           mkdir -p ./tmp
-          
+
           if [[ "$HELLO_PLUS_VERSION" == "latest-stable" ]]; then
             # Download latest stable from WordPress.org
             curl --location -o ./hello-plus.zip https://downloads.wordpress.org/plugin/hello-plus.latest-stable.zip
@@ -137,6 +207,13 @@ jobs:
             ./hello-elementor-*.zip
             ./tmp/hello-plus
           retention-days: 3
+
+      - name: Cleanup backup files
+        if: always()
+        run: |
+          echo "🧹 DEBUG: Cleaning up backup files"
+          rm -rf .github-main-backup 2>/dev/null || true
+          echo "✅ Cleanup complete"
 
       - name: Generate build summary
         run: |
@@ -170,10 +247,10 @@ jobs:
           echo "🎯 HYBRID APPROACH: Always latest workflows + version-specific tests"
           echo "📋 Workflow infrastructure: main branch (latest build-wp-env.js, scripts, etc.)"
           echo "🧪 Test content: ${{ inputs.hello_theme_version || 'main' }} (matches theme functionality)"
-          
+
           # Determine the target version for test extraction
           TARGET_VERSION="${{ inputs.hello_theme_version || 'main' }}"
-          
+
           if [ "$TARGET_VERSION" = "main" ]; then
             echo "✅ Using main branch tests (already available)"
             TEST_VERSION="main"
@@ -229,12 +306,12 @@ jobs:
               TEST_SOURCE_TYPE="not-available"
             fi
           fi
-          
+
           # Set outputs for workflow control
           echo "test-version=$TEST_VERSION" >> $GITHUB_OUTPUT
           echo "test-source-type=$TEST_SOURCE_TYPE" >> $GITHUB_OUTPUT
           echo "tests-available=$TESTS_AVAILABLE" >> $GITHUB_OUTPUT
-          
+
           echo "✅ Hybrid setup complete:"
           echo "  🏗️ Workflow infrastructure: main branch"
           echo "  🧪 Test content: $TEST_VERSION ($TEST_SOURCE_TYPE)"
@@ -244,12 +321,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20.x
-          cache: 'npm'
+          cache: "npm"
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: "8.1"
           tools: composer
           coverage: none
 
@@ -270,7 +347,7 @@ jobs:
         run: |
           echo "Extracting Hello Theme build..."
           HT_ZIP=$(find . -name "hello-elementor-*.zip" -type f | head -1)
-          
+
           if [ -n "$HT_ZIP" ]; then
             echo "Found Hello Theme build: $HT_ZIP"
             mkdir -p ./tmp
@@ -296,17 +373,34 @@ jobs:
 
       - name: Update wp-env.json file
         env:
-          PHP_VERSION: '8.1'
-          WP_CORE_VERSION: 'latest'
+          PHP_VERSION: "8.1"
+          WP_CORE_VERSION: "latest"
           HELLO_THEME_VERSION: ${{ env.HELLO_THEME_VERSION }}
           HELLO_PLUS_VERSION: ${{ env.HELLO_PLUS_VERSION }}
-          ELEMENTOR_VERSION: 'latest-stable'
+          ELEMENTOR_VERSION: "latest-stable"
         run: node ./.github/scripts/build-wp-env.js
 
       - name: Install WordPress environment
         run: |
-          npx wp-env start
-          
+          echo "Starting WordPress environment with retry logic..."
+          for i in {1..5}; do
+            echo "Attempt $i/5: Starting wp-env..."
+            if npx wp-env start; then
+              echo "✅ WordPress environment started successfully"
+              break
+            else
+              echo "❌ Attempt $i failed"
+              if [ $i -eq 5 ]; then
+                echo "🚨 All attempts failed, exiting..."
+                exit 1
+              else
+                echo "⏳ Waiting 30 seconds before retry..."
+                npx wp-env stop || true
+                sleep 30
+              fi
+            fi
+          done
+
       - name: Setup WordPress environment (activate plugins and themes)
         run: |
           npx wp-env run cli bash hello-elementor-config/setup.sh
@@ -327,7 +421,7 @@ jobs:
           echo "🧪 Running tests from: ${{ steps.extract-version-tests.outputs.test-source-type }}"
           # Only run Hello Theme tests, not Hello Plus or other plugin tests
           npm run test:playwright -- tests/playwright/tests/
-          
+
       - name: Skip tests - version incompatible
         if: steps.extract-version-tests.outputs.tests-available != 'true'
         run: |
@@ -377,10 +471,10 @@ jobs:
           echo "🎯 HYBRID APPROACH: Always latest workflows + version-specific tests"
           echo "📋 Workflow infrastructure: main branch (latest build-wp-env.js, scripts, etc.)"
           echo "🧪 Test content: ${{ inputs.hello_theme_version || 'main' }} (matches theme functionality)"
-          
+
           # Determine the target version for test extraction
           TARGET_VERSION="${{ inputs.hello_theme_version || 'main' }}"
-          
+
           if [ "$TARGET_VERSION" = "main" ]; then
             echo "✅ Using main branch tests (already available)"
             TEST_VERSION="main"
@@ -436,12 +530,12 @@ jobs:
               TEST_SOURCE_TYPE="not-available"
             fi
           fi
-          
+
           # Set outputs for workflow control
           echo "test-version=$TEST_VERSION" >> $GITHUB_OUTPUT
           echo "test-source-type=$TEST_SOURCE_TYPE" >> $GITHUB_OUTPUT
           echo "tests-available=$TESTS_AVAILABLE" >> $GITHUB_OUTPUT
-          
+
           echo "✅ Hybrid setup complete:"
           echo "  🏗️ Workflow infrastructure: main branch"
           echo "  🧪 Test content: $TEST_VERSION ($TEST_SOURCE_TYPE)"
@@ -451,12 +545,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20.x
-          cache: 'npm'
+          cache: "npm"
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: "8.1"
           tools: composer
           coverage: none
 
@@ -477,7 +571,7 @@ jobs:
         run: |
           echo "Extracting Hello Theme build..."
           HT_ZIP=$(find . -name "hello-elementor-*.zip" -type f | head -1)
-          
+
           if [ -n "$HT_ZIP" ]; then
             echo "Found Hello Theme build: $HT_ZIP"
             mkdir -p ./tmp
@@ -503,17 +597,34 @@ jobs:
 
       - name: Update wp-env.json file
         env:
-          PHP_VERSION: '8.1'
-          WP_CORE_VERSION: 'latest'
+          PHP_VERSION: "8.1"
+          WP_CORE_VERSION: "latest"
           HELLO_THEME_VERSION: ${{ env.HELLO_THEME_VERSION }}
           HELLO_PLUS_VERSION: ${{ env.HELLO_PLUS_VERSION }}
-          ELEMENTOR_VERSION: 'latest-stable'
+          ELEMENTOR_VERSION: "latest-stable"
         run: node ./.github/scripts/build-wp-env.js
 
       - name: Install WordPress environment
         run: |
-          npx wp-env start
-          
+          echo "Starting WordPress environment with retry logic..."
+          for i in {1..5}; do
+            echo "Attempt $i/5: Starting wp-env..."
+            if npx wp-env start; then
+              echo "✅ WordPress environment started successfully"
+              break
+            else
+              echo "❌ Attempt $i failed"
+              if [ $i -eq 5 ]; then
+                echo "🚨 All attempts failed, exiting..."
+                exit 1
+              else
+                echo "⏳ Waiting 30 seconds before retry..."
+                npx wp-env stop || true
+                sleep 30
+              fi
+            fi
+          done
+
       - name: Setup WordPress environment (activate plugins and themes)
         run: |
           npx wp-env run cli bash hello-elementor-config/setup.sh
@@ -528,7 +639,7 @@ jobs:
           echo "🧪 Running tagged tests from: ${{ steps.extract-version-tests.outputs.test-source-type }}"
           # Only run Hello Theme tests with the specified tag
           npm run test:playwright -- tests/playwright/tests/ --grep="${{ github.event.inputs.tag }}"
-          
+
       - name: Skip tagged tests - version incompatible
         if: steps.extract-version-tests.outputs.tests-available != 'true'
         run: |
@@ -570,3 +681,10 @@ jobs:
       - name: Check Plus Matrix status
         if: ${{ needs.plus-playwright-tests.result != 'success' && needs.plus-playwright-tests.result != 'skipped' }}
         run: exit 1
+
+      - name: Cleanup backup files (final)
+        if: always()
+        run: |
+          echo "🧹 DEBUG: Final cleanup of any remaining backup files"
+          rm -rf .github-main-backup 2>/dev/null || true
+          echo "✅ Final cleanup complete"
