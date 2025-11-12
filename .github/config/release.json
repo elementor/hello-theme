@@ -14,8 +14,11 @@
     "changelog_section": "## Changelog",
     "build_artifacts": ["hello-theme.zip"],
     "wordpress_org": {
-      "manual_upload": true,
-      "theme_slug": "hello-elementor"
+      "auto_deploy": true,
+      "theme_slug": "hello-elementor",
+      "svn_url": "https://themes.svn.wordpress.org/hello-elementor/",
+      "skip_pre_releases": true,
+      "validation_required": true
     }
   },
   "notifications": {
