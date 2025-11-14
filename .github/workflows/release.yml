@@ -277,6 +277,8 @@ jobs:
           dry-run: true
         env:
           SVN_URL: https://themes.svn.wordpress.org/${{ env.CONFIG_THEME_SLUG }}
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
           SLUG: ${{ env.CONFIG_THEME_SLUG }}
           VERSION: ${{ env.PACKAGE_VERSION }}
           BUILD_DIR: ./${{ env.CONFIG_THEME_SLUG }}
