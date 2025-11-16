@@ -283,6 +283,110 @@ jobs:
           VERSION: ${{ env.PACKAGE_VERSION }}
           BUILD_DIR: ./${{ env.CONFIG_THEME_SLUG }}
       
+      - name: Show SVN Status (Dry Run)
+        if: ${{ inputs.dry_run == true && inputs.deploy_to_wporg == true && env.AUTO_DEPLOY_ENABLED == 'true' }}
+        run: |
+          echo "📊 **SVN Status Check - Dry Run**"
+          echo ""
+          
+          SVN_TEMP_DIR="./svn-checkout-temp"
+          SVN_URL="https://themes.svn.wordpress.org/${{ env.CONFIG_THEME_SLUG }}"
+          BUILD_DIR="./${{ env.CONFIG_THEME_SLUG }}"
+          VERSION="${{ env.PACKAGE_VERSION }}"
+          
+          echo "🔍 Checking out SVN repository (read-only)..."
+          echo "   - SVN URL: $SVN_URL"
+          echo "   - Version: $VERSION"
+          echo ""
+          
+          if ! command -v svn &> /dev/null; then
+            echo "⚠️  SVN not installed - installing..."
+            sudo apt-get update && sudo apt-get install -y subversion
+          fi
+          
+          rm -rf "$SVN_TEMP_DIR"
+          svn checkout --depth immediates "$SVN_URL" "$SVN_TEMP_DIR" > /dev/null 2>&1 || {
+            echo "⚠️  Could not checkout full repository (may require auth for some operations)"
+            echo "   Attempting trunk-only checkout..."
+            svn checkout --depth infinity "$SVN_URL/trunk" "$SVN_TEMP_DIR/trunk" > /dev/null 2>&1 || {
+              echo "❌ Could not checkout SVN repository"
+              echo "   This is normal for private repositories - skipping SVN status check"
+              exit 0
+            }
+          }
+          
+          echo "✅ SVN repository checked out"
+          echo ""
+          
+          if [ -d "$SVN_TEMP_DIR/trunk" ]; then
+            echo "📂 **Simulating deployment to SVN trunk...**"
+            echo ""
+            
+            cd "$SVN_TEMP_DIR/trunk"
+            echo "   Current trunk status:"
+            svn status || echo "     (Clean working copy)"
+            echo ""
+            
+            if [ -d "$BUILD_DIR" ]; then
+              echo "   Copying build files to trunk (simulation)..."
+              cp -r "$BUILD_DIR"/* . 2>/dev/null || cp -r "$BUILD_DIR"/. . 2>/dev/null || true
+              
+              echo ""
+              echo "📊 **SVN Status After File Copy (what would be committed):**"
+              SVN_STATUS=$(svn status 2>/dev/null || echo "")
+              if [ -n "$SVN_STATUS" ]; then
+                echo "$SVN_STATUS" | head -50
+                TOTAL_CHANGES=$(echo "$SVN_STATUS" | wc -l)
+                if [ "$TOTAL_CHANGES" -gt 50 ]; then
+                  echo ""
+                  echo "     ... and $((TOTAL_CHANGES - 50)) more changes"
+                fi
+                echo ""
+                echo "   Summary:"
+                echo "$SVN_STATUS" | grep "^A" | wc -l | xargs -I {} echo "     Added (A): {} files"
+                echo "$SVN_STATUS" | grep "^M" | wc -l | xargs -I {} echo "     Modified (M): {} files"
+                echo "$SVN_STATUS" | grep "^D" | wc -l | xargs -I {} echo "     Deleted (D): {} files"
+                echo "$SVN_STATUS" | grep "^?" | wc -l | xargs -I {} echo "     Untracked (?): {} files"
+              else
+                echo "     (No changes detected)"
+              fi
+            fi
+            cd - > /dev/null
+            echo ""
+          fi
+          
+          if [ -d "$SVN_TEMP_DIR/tags/$VERSION" ]; then
+            echo "🏷️  **Tag $VERSION already exists in SVN:**"
+            ls -la "$SVN_TEMP_DIR/tags/$VERSION" | head -20
+            echo ""
+            echo "⚠️  Warning: Tag v$VERSION already exists in SVN!"
+          else
+            echo "🏷️  **Tag $VERSION would be created**"
+            echo ""
+          fi
+          
+          echo "📋 **Build Files Summary:**"
+          echo "   Build directory: $BUILD_DIR"
+          if [ -d "$BUILD_DIR" ]; then
+            FILE_COUNT=$(find "$BUILD_DIR" -type f | wc -l)
+            DIR_COUNT=$(find "$BUILD_DIR" -type d | wc -l)
+            echo "   Total files: $FILE_COUNT"
+            echo "   Total directories: $DIR_COUNT"
+            echo ""
+            echo "   File structure (first 30 files):"
+            find "$BUILD_DIR" -type f | head -30 | sed 's|^|     |'
+            if [ "$FILE_COUNT" -gt 30 ]; then
+              echo "     ... and $((FILE_COUNT - 30)) more files"
+            fi
+          else
+            echo "   ❌ Build directory not found!"
+          fi
+          
+          echo ""
+          echo "🧹 Cleaning up temporary SVN checkout..."
+          rm -rf "$SVN_TEMP_DIR"
+          echo "✅ SVN status check complete"
+      
       - name: Deploy to WordPress.org Theme Repository
         if: ${{ inputs.dry_run == false && inputs.deploy_to_wporg == true && env.AUTO_DEPLOY_ENABLED == 'true' }}
         uses: 10up/action-wordpress-plugin-deploy@stable
