@@ -47,14 +47,21 @@ runs:
       env:
         PACKAGE_VERSION: ${{ inputs.PACKAGE_VERSION }}
       run: |
+        set -e
         THEME_NAME=$(node -p "require('./package.json').name")
         BUILD_DIR="${THEME_NAME}"
         BUILD_ZIP_PATH="${THEME_NAME}.${PACKAGE_VERSION}.zip"
         
+        echo "Setting build paths:"
+        echo "  THEME_NAME: ${THEME_NAME}"
+        echo "  BUILD_DIR: ${BUILD_DIR}"
+        echo "  BUILD_ZIP_PATH: ${BUILD_ZIP_PATH}"
+        echo "  PACKAGE_VERSION: ${PACKAGE_VERSION}"
+        
         if [ ! -d "$BUILD_DIR" ]; then
           echo "❌ Build directory not found: $BUILD_DIR"
           echo "Available directories:"
-          ls -la
+          ls -la | head -20
           exit 1
         fi
         
@@ -63,3 +70,5 @@ runs:
         
         echo "BUILD_DIR=${BUILD_DIR}" >> $GITHUB_ENV
         echo "BUILD_ZIP_PATH=${BUILD_ZIP_PATH}" >> $GITHUB_ENV
+        
+        echo "✅ Environment variables set in GITHUB_ENV"
