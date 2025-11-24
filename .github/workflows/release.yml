@@ -217,25 +217,20 @@ jobs:
           PACKAGE_VERSION: ${{ env.PACKAGE_VERSION }}
           BUILD_SCRIPT_PATH: "npm run package:zip"
       
-      - name: Verify Build Output
+      - name: Set Build Directory
         if: ${{ inputs.deploy_to_wporg == true && env.AUTO_DEPLOY_ENABLED == 'true' }}
         run: |
-          echo "🔍 Verifying build output..."
-          echo "   BUILD_DIR: ${{ env.BUILD_DIR }}"
-          echo "   BUILD_ZIP_PATH: ${{ env.BUILD_ZIP_PATH }}"
-          if [ -z "${{ env.BUILD_DIR }}" ]; then
-            echo "❌ BUILD_DIR is not set - build may have failed"
-            echo "   Checking workspace:"
+          BUILD_DIR="hello-elementor"
+          
+          if [ ! -d "$BUILD_DIR" ]; then
+            echo "❌ Build directory not found: $BUILD_DIR"
+            echo "Available directories:"
             ls -la
             exit 1
           fi
-          if [ ! -d "${{ env.BUILD_DIR }}" ]; then
-            echo "❌ Build directory does not exist: ${{ env.BUILD_DIR }}"
-            echo "   Available directories:"
-            ls -la
-            exit 1
-          fi
-          echo "✅ Build directory verified: ${{ env.BUILD_DIR }}"
+          
+          echo "BUILD_DIR=${BUILD_DIR}" >> $GITHUB_ENV
+          echo "✅ Build directory set: ${BUILD_DIR}"
 
       - name: Create GitHub Release (Dry Run)
         if: ${{ inputs.dry_run == true }}
