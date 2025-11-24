@@ -216,6 +216,26 @@ jobs:
         with:
           PACKAGE_VERSION: ${{ env.PACKAGE_VERSION }}
           BUILD_SCRIPT_PATH: "npm run package:zip"
+      
+      - name: Verify Build Output
+        if: ${{ inputs.deploy_to_wporg == true && env.AUTO_DEPLOY_ENABLED == 'true' }}
+        run: |
+          echo "🔍 Verifying build output..."
+          echo "   BUILD_DIR: ${{ env.BUILD_DIR }}"
+          echo "   BUILD_ZIP_PATH: ${{ env.BUILD_ZIP_PATH }}"
+          if [ -z "${{ env.BUILD_DIR }}" ]; then
+            echo "❌ BUILD_DIR is not set - build may have failed"
+            echo "   Checking workspace:"
+            ls -la
+            exit 1
+          fi
+          if [ ! -d "${{ env.BUILD_DIR }}" ]; then
+            echo "❌ Build directory does not exist: ${{ env.BUILD_DIR }}"
+            echo "   Available directories:"
+            ls -la
+            exit 1
+          fi
+          echo "✅ Build directory verified: ${{ env.BUILD_DIR }}"
 
       - name: Create GitHub Release (Dry Run)
         if: ${{ inputs.dry_run == true }}
@@ -251,12 +271,26 @@ jobs:
           echo "   - Theme: Hello Elementor"
           echo "   - Version: ${{ env.PACKAGE_VERSION }}"
           echo "   - SVN URL: https://themes.svn.wordpress.org/${{ env.CONFIG_THEME_SLUG }}"
-          echo "   - Build directory: ${{ env.BUILD_DIR }}"
           echo "   - Dry run: ${{ inputs.dry_run }}"
+          
+          # Check if BUILD_DIR is set
+          if [ -z "${{ env.BUILD_DIR }}" ]; then
+            echo "❌ BUILD_DIR environment variable is not set"
+            echo "   This means the build step may have failed or BUILD_DIR was not set correctly"
+            echo "   Checking available directories:"
+            ls -la
+            echo ""
+            echo "   Expected build directory name: hello-elementor (from package.json name)"
+            exit 1
+          fi
+          
+          echo "   - Build directory: ${{ env.BUILD_DIR }}"
           
           # Validate build directory exists
           if [ ! -d "${{ env.BUILD_DIR }}" ]; then
             echo "❌ Build directory not found: ${{ env.BUILD_DIR }}"
+            echo "   Available directories:"
+            ls -la
             exit 1
           fi
           
