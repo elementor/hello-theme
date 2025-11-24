@@ -42,31 +42,24 @@ runs:
           bash "${{ inputs.BUILD_SCRIPT_PATH }}"
         fi
 
-    - name: Create theme build directory
-      shell: bash
-      run: |
-        mkdir -p /tmp/hello-theme-builds
-        
-    - name: Package theme
+    - name: Set build directory and zip paths
       shell: bash
       env:
         PACKAGE_VERSION: ${{ inputs.PACKAGE_VERSION }}
       run: |
-        # Create zip file with hello-theme naming (hardcoded, not from package.json)
-        zip -r "/tmp/hello-theme-builds/hello-theme-${PACKAGE_VERSION}.zip" . \
-          -x "node_modules/*" "test-results/*" "tests/*" ".git/*" "*.zip" \
-             "playwright-report/*" ".wp-env.json.*" ".wp-env"
-
-    - name: Move build to workspace
-      shell: bash
-      env:
-        PACKAGE_VERSION: ${{ inputs.PACKAGE_VERSION }}
-      run: |
-        mv "/tmp/hello-theme-builds/hello-theme-${PACKAGE_VERSION}.zip" \
-           "./hello-theme-${PACKAGE_VERSION}.zip"
+        THEME_NAME=$(node -p "require('./package.json').name")
+        BUILD_DIR="${THEME_NAME}"
+        BUILD_ZIP_PATH="${THEME_NAME}.${PACKAGE_VERSION}.zip"
         
-        echo "✅ Hello Elementor theme build complete: hello-theme-${PACKAGE_VERSION}.zip"
-        ls -la hello-theme-*.zip
+        if [ ! -d "$BUILD_DIR" ]; then
+          echo "❌ Build directory not found: $BUILD_DIR"
+          echo "Available directories:"
+          ls -la
+          exit 1
+        fi
         
-        # Set build path for downstream actions
-        echo "BUILD_ZIP_PATH=hello-theme-${PACKAGE_VERSION}.zip" >> $GITHUB_ENV
+        echo "✅ Build directory found: $BUILD_DIR"
+        echo "✅ Zip file: $BUILD_ZIP_PATH"
+        
+        echo "BUILD_DIR=${BUILD_DIR}" >> $GITHUB_ENV
+        echo "BUILD_ZIP_PATH=${BUILD_ZIP_PATH}" >> $GITHUB_ENV
