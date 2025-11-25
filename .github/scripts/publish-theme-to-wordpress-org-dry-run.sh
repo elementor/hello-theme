@@ -29,7 +29,6 @@ echo "Build directory: ${BUILD_DIR}"
 
 THEME_PATH="$GITHUB_WORKSPACE"
 SVN_PATH="$GITHUB_WORKSPACE/svn"
-SVN_URL="https://themes.svn.wordpress.org/${THEME_SLUG}"
 VERSION_DIR="${THEME_VERSION}"
 
 cd $THEME_PATH
@@ -38,7 +37,7 @@ mkdir -p $SVN_PATH
 cd $SVN_PATH
 
 echo "🧪 DRY RUN: Checking out SVN repository (read-only)"
-svn co --depth immediates "$SVN_URL" . 2>&1 | head -20 || {
+svn co --depth immediates "https://themes.svn.wordpress.org/${THEME_SLUG}" . 2>&1 | head -20 || {
 	echo "⚠️  Could not checkout repository (may require auth for some operations)"
 	echo "   This is normal - simulating checkout for dry-run"
 	mkdir -p "$VERSION_DIR"
@@ -47,38 +46,26 @@ svn co --depth immediates "$SVN_URL" . 2>&1 | head -20 || {
 
 echo "Check if version folder already exists"
 VERSION_EXISTS=false
-if svn list "$SVN_URL/$VERSION_DIR" > /dev/null 2>&1; then
+if svn list "https://themes.svn.wordpress.org/${THEME_SLUG}/${VERSION_DIR}" > /dev/null 2>&1; then
 	VERSION_EXISTS=true
 fi
 
 if [[ "$VERSION_EXISTS" == "true" ]]; then
-	echo "❌ ERROR: Version folder $VERSION_DIR already exists in SVN!"
-	echo "   SVN URL: $SVN_URL/$VERSION_DIR"
-	echo ""
-	echo "   WordPress.org theme versions are immutable - you cannot update an existing version."
-	echo "   If you need to make changes, create a new version (e.g., increment patch/minor/major)."
-	echo ""
-	echo "🧪 DRY RUN: Would fail here (version already exists)"
+	echo "❌ ERROR: Version folder $VERSION_DIR already exists in SVN!
+   SVN URL: https://themes.svn.wordpress.org/${THEME_SLUG}/${VERSION_DIR}
+
+   WordPress.org theme versions are immutable - you cannot update an existing version.
+   If you need to make changes, create a new version (e.g., increment patch/minor/major).
+
+🧪 DRY RUN: Would fail here (version already exists)"
 	exit 0
 fi
 
-echo "Version folder $VERSION_DIR does not exist - would create it"
 mkdir -p "$VERSION_DIR"
 cd "$VERSION_DIR"
 
 echo "Copy files from build directory"
-if [[ "$BUILD_DIR" == /* ]]; then
-	BUILD_SOURCE="$BUILD_DIR"
-else
-	BUILD_SOURCE="$THEME_PATH/$BUILD_DIR"
-fi
-
-if [ ! -d "$BUILD_SOURCE" ]; then
-	echo "❌ Build directory not found: $BUILD_SOURCE"
-	exit 1
-fi
-
-rsync -ah --progress "$BUILD_SOURCE/"* . || rsync -ah --progress "$BUILD_SOURCE/." . || true
+rsync -ah --progress "$THEME_PATH/$BUILD_DIR/"* . || rsync -ah --progress "$THEME_PATH/$BUILD_DIR/." . || true
 
 echo "Preparing files for SVN"
 svn status 2>/dev/null || echo ""

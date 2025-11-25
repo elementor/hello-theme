@@ -35,7 +35,6 @@ echo "Publish theme version: ${THEME_VERSION}"
 
 THEME_PATH="$GITHUB_WORKSPACE"
 SVN_PATH="$GITHUB_WORKSPACE/svn"
-SVN_URL="https://themes.svn.wordpress.org/${THEME_SLUG}"
 VERSION_DIR="${THEME_VERSION}"
 
 cd $THEME_PATH
@@ -44,19 +43,18 @@ mkdir -p $SVN_PATH
 cd $SVN_PATH
 
 echo "Checkout from SVN"
-svn co --depth immediates "$SVN_URL" .
+svn co --depth immediates "https://themes.svn.wordpress.org/${THEME_SLUG}" .
 
 echo "Check if version folder already exists"
-if svn list "$SVN_URL/$VERSION_DIR" > /dev/null 2>&1; then
-	echo "❌ ERROR: Version folder $VERSION_DIR already exists in SVN!"
-	echo "   SVN URL: $SVN_URL/$VERSION_DIR"
-	echo ""
-	echo "   WordPress.org theme versions are immutable - you cannot update an existing version."
-	echo "   If you need to make changes, create a new version (e.g., increment patch/minor/major)."
+if svn list "https://themes.svn.wordpress.org/${THEME_SLUG}/${VERSION_DIR}" > /dev/null 2>&1; then
+	echo "❌ ERROR: Version folder $VERSION_DIR already exists in SVN!
+   SVN URL: https://themes.svn.wordpress.org/${THEME_SLUG}/${VERSION_DIR}
+
+   WordPress.org theme versions are immutable - you cannot update an existing version.
+   If you need to make changes, create a new version (e.g., increment patch/minor/major)."
 	exit 1
 fi
 
-echo "Version folder $VERSION_DIR does not exist - will create it"
 mkdir -p "$VERSION_DIR"
 cd "$VERSION_DIR"
 cd ..
@@ -64,18 +62,7 @@ svn add "$VERSION_DIR"
 cd "$VERSION_DIR"
 
 echo "Copy files"
-if [[ "$BUILD_DIR" == /* ]]; then
-	BUILD_SOURCE="$BUILD_DIR"
-else
-	BUILD_SOURCE="$THEME_PATH/$BUILD_DIR"
-fi
-
-if [ ! -d "$BUILD_SOURCE" ]; then
-	echo "❌ Build directory not found: $BUILD_SOURCE"
-	exit 1
-fi
-
-rsync -ah --progress "$BUILD_SOURCE/"* . || rsync -ah --progress "$BUILD_SOURCE/." . || true
+rsync -ah --progress "$THEME_PATH/$BUILD_DIR/"* . || rsync -ah --progress "$THEME_PATH/$BUILD_DIR/." . || true
 
 echo "Preparing files"
 cd "$VERSION_DIR"
