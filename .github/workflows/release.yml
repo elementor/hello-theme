@@ -313,13 +313,7 @@ jobs:
           THEME_SLUG: ${{ env.CONFIG_THEME_SLUG }}
           BUILD_DIR: ${{ env.BUILD_DIR }}
         run: |
-          echo "🧪 DRY RUN: Executing deployment script in dry-run mode"
-          echo "   - Theme slug: ${{ env.CONFIG_THEME_SLUG }}"
-          echo "   - Version: ${{ env.PACKAGE_VERSION }}"
-          echo "   - Build directory: ${{ env.BUILD_DIR }}"
-          echo "   - SVN URL: https://themes.svn.wordpress.org/${{ env.CONFIG_THEME_SLUG }}"
-          echo ""
-          bash .github/scripts/publish-theme-to-wordpress-org.sh --dry-run
+          bash .github/scripts/publish-theme-to-wordpress-org-dry-run.sh
       
       - name: Show SVN Status (Dry Run)
         if: ${{ inputs.dry_run == true && inputs.deploy_to_wporg == true && env.AUTO_DEPLOY_ENABLED == 'true' }}
