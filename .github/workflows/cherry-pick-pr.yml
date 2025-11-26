@@ -12,62 +12,9 @@ permissions:
   pull-requests: write
 
 jobs:
-  load-config:
-    runs-on: ubuntu-latest
-    outputs:
-      ubuntu_version: ${{ steps.config.outputs.ubuntu_version }}
-      theme_name: ${{ steps.config.outputs.theme_name }}
-      main_branch: ${{ steps.config.outputs.main_branch }}
-      allowed_repos: ${{ steps.config.outputs.allowed_repos }}
-      blocked_actors: ${{ steps.config.outputs.blocked_actors }}
-      release_branches: ${{ steps.config.outputs.release_branches }}
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      
-      - name: Load Release Configuration
-        id: config
-        run: |
-          echo "📋 Loading release configuration..."
-          CONFIG_FILE=".github/config/release.json"
-          
-          if [ ! -f "$CONFIG_FILE" ]; then
-            echo "❌ Error: Release configuration file not found: $CONFIG_FILE"
-            exit 1
-          fi
-          
-          # Validate JSON syntax
-          if ! jq empty "$CONFIG_FILE" 2>/dev/null; then
-            echo "❌ Error: Invalid JSON in release configuration"
-            exit 1
-          fi
-          
-          # Load configuration values (only what's needed for cherry-pick)
-          UBUNTU_VERSION=$(jq -r '.environment.ubuntu_version' "$CONFIG_FILE")
-          THEME_NAME=$(jq -r '.repository.name' "$CONFIG_FILE")
-          MAIN_BRANCH=$(jq -r '.repository.main_branch' "$CONFIG_FILE")
-          ALLOWED_REPOS=$(jq -r '.security.allowed_repositories[]' "$CONFIG_FILE" | tr '\n' ' ')
-          BLOCKED_ACTORS=$(jq -r '.security.blocked_actors[]' "$CONFIG_FILE" | tr '\n' ' ')
-          RELEASE_BRANCHES=$(jq -r '.repository.release_branches[]' "$CONFIG_FILE" | tr '\n' ' ')
-          
-          # Set outputs
-          echo "ubuntu_version=$UBUNTU_VERSION" >> "$GITHUB_OUTPUT"
-          echo "theme_name=$THEME_NAME" >> "$GITHUB_OUTPUT"
-          echo "main_branch=$MAIN_BRANCH" >> "$GITHUB_OUTPUT"
-          echo "allowed_repos=$ALLOWED_REPOS" >> "$GITHUB_OUTPUT"
-          echo "blocked_actors=$BLOCKED_ACTORS" >> "$GITHUB_OUTPUT"
-          echo "release_branches=$RELEASE_BRANCHES" >> "$GITHUB_OUTPUT"
-          
-          echo "✅ Release configuration loaded successfully"
-          echo "Theme: $THEME_NAME"
-          echo "Ubuntu: $UBUNTU_VERSION"
-          echo "Main branch: $MAIN_BRANCH"
-          echo "Release branches: $RELEASE_BRANCHES"
-
   cherry-pick:
-    needs: load-config
     if: ${{ github.event.pull_request.merged == true && (github.event.action == 'closed' || (github.event.action == 'labeled' && startsWith(github.event.label.name, 'cp_'))) }}
-    runs-on: ${{ needs.load-config.outputs.ubuntu_version }}
+    runs-on: ubuntu-latest
 
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -82,32 +29,13 @@ jobs:
           fetch-depth: 0
           persist-credentials: true
 
-      - name: Set Configuration Variables
-        run: |
-          echo "📋 Setting configuration variables from load-config job..."
-          echo "UBUNTU_VERSION=${{ needs.load-config.outputs.ubuntu_version }}" >> $GITHUB_ENV
-          echo "THEME_NAME=${{ needs.load-config.outputs.theme_name }}" >> $GITHUB_ENV
-          echo "MAIN_BRANCH=${{ needs.load-config.outputs.main_branch }}" >> $GITHUB_ENV
-          echo "ALLOWED_REPOS=${{ needs.load-config.outputs.allowed_repos }}" >> $GITHUB_ENV
-          echo "BLOCKED_ACTORS=${{ needs.load-config.outputs.blocked_actors }}" >> $GITHUB_ENV
-          echo "RELEASE_BRANCHES=${{ needs.load-config.outputs.release_branches }}" >> $GITHUB_ENV
-          
-          echo "✅ Configuration variables set successfully"
-          echo "Theme: ${{ needs.load-config.outputs.theme_name }}"
-          echo "Ubuntu: ${{ needs.load-config.outputs.ubuntu_version }}"
-          echo "Main branch: ${{ needs.load-config.outputs.main_branch }}"
-
       - name: Security and Pre-flight Checks
         run: |
-          echo "🔍 Security and pre-flight checks..."
-          echo "Repository: ${{ github.repository }}"
-          echo "Actor: ${{ github.actor }}"
-          echo "Base branch: ${{ github.event.pull_request.base.ref }}"
-          echo "Head branch: $HEAD_REF"
+          ALLOWED_REPOS="elementor/hello-theme"
+          BLOCKED_ACTORS="dependabot[bot]"
           
-          # Repository permissions validation
           REPO_ALLOWED=false
-          IFS=' ' read -ra ALLOWED_REPOS_ARRAY <<< "${{ env.ALLOWED_REPOS }}"
+          IFS=' ' read -ra ALLOWED_REPOS_ARRAY <<< "$ALLOWED_REPOS"
           for allowed_repo in "${ALLOWED_REPOS_ARRAY[@]}"; do
             if [ "${{ github.repository }}" = "$allowed_repo" ]; then
               REPO_ALLOWED=true
@@ -116,15 +44,14 @@ jobs:
           done
           
           if [ "$REPO_ALLOWED" != "true" ]; then
-            echo "⚠️  Warning: Cherry-pick attempted on unauthorized repository: ${{ github.repository }}"
-            echo "Allowed repositories: ${{ env.ALLOWED_REPOS }}"
+            echo "Warning: Cherry-pick attempted on unauthorized repository: ${{ github.repository }}"
+            echo "Allowed repositories: $ALLOWED_REPOS"
           fi
           
-          # Check actor permissions (basic validation)
-          IFS=' ' read -ra BLOCKED_ACTORS_ARRAY <<< "${{ env.BLOCKED_ACTORS }}"
+          IFS=' ' read -ra BLOCKED_ACTORS_ARRAY <<< "$BLOCKED_ACTORS"
           for blocked_actor in "${BLOCKED_ACTORS_ARRAY[@]}"; do
             if [ "${{ github.actor }}" = "$blocked_actor" ]; then
-              echo "❌ Error: Blocked actor cannot create cherry-pick: ${{ github.actor }}"
+              echo "Error: Blocked actor cannot create cherry-pick: ${{ github.actor }}"
               exit 1
             fi
           done
@@ -325,7 +252,7 @@ jobs:
                 --body "Automatic cherry-pick of [#${PR_NUMBER}](${ORIG_URL}) to \`${TARGET}\` branch.
 
                 **Theme Information:**
-                - **Theme:** ${THEME_NAME}
+                - **Theme:** hello-elementor
                 - **Source:** ${{ github.event.pull_request.head.repo.full_name }}
                 - **Original Author:** @${PR_USER_LOGIN}${TRIGGER_INFO}
 
