@@ -22,8 +22,6 @@ runs:
         WORKFLOW_URL: ${{ inputs.WORKFLOW_URL }}
         SLACK_CHANNEL: ${{ inputs.SLACK_CHANNEL }}
       run: |
-        export CLOUD_SLACK_BOT_TOKEN WORKFLOW_URL SLACK_CHANNEL
-        
         node << 'NODE_SCRIPT'
         const workflowUrl = process.env.WORKFLOW_URL || '';
         const slackChannel = process.env.SLACK_CHANNEL || '#tmz-alerts';

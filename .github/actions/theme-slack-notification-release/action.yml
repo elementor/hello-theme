@@ -66,8 +66,6 @@ runs:
         GITHUB_RELEASE_URL: ${{ inputs.GITHUB_RELEASE_URL }}
         BUILD_ZIP_PATH: ${{ inputs.BUILD_ZIP_PATH }}
       run: |
-        export CLOUD_SLACK_BOT_TOKEN SLACK_CHANNEL PACKAGE_VERSION FILE_SIZE_MB DEPLOYMENT_MESSAGE GITHUB_RELEASE_URL BUILD_ZIP_PATH
-        
         node << 'NODE_SCRIPT'
         const slackChannel = process.env.SLACK_CHANNEL || '#tmz-hello-delivery';
         const packageVersion = process.env.PACKAGE_VERSION || '';
