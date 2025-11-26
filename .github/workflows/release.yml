@@ -526,7 +526,7 @@ jobs:
         if: ${{ inputs.dry_run == false && inputs.deploy_to_wporg == true }}
         uses: ./.github/actions/theme-slack-notification-release
         with:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          CLOUD_SLACK_BOT_TOKEN: ${{ secrets.CLOUD_SLACK_BOT_TOKEN }}
           PACKAGE_VERSION: ${{ env.PACKAGE_VERSION }}
           BUILD_ZIP_PATH: ${{ env.BUILD_ZIP_PATH }}
           GITHUB_RELEASE_URL: ${{ env.RELEASE_URL }}
