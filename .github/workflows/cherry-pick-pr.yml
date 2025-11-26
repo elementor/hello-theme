@@ -29,41 +29,6 @@ jobs:
           fetch-depth: 0
           persist-credentials: true
 
-      - name: Security and Pre-flight Checks
-        run: |
-          ALLOWED_REPOS="elementor/hello-theme"
-          BLOCKED_ACTORS="dependabot[bot]"
-          
-          REPO_ALLOWED=false
-          IFS=' ' read -ra ALLOWED_REPOS_ARRAY <<< "$ALLOWED_REPOS"
-          for allowed_repo in "${ALLOWED_REPOS_ARRAY[@]}"; do
-            if [ "${{ github.repository }}" = "$allowed_repo" ]; then
-              REPO_ALLOWED=true
-              break
-            fi
-          done
-          
-          if [ "$REPO_ALLOWED" != "true" ]; then
-            echo "Warning: Cherry-pick attempted on unauthorized repository: ${{ github.repository }}"
-            echo "Allowed repositories: $ALLOWED_REPOS"
-          fi
-          
-          IFS=' ' read -ra BLOCKED_ACTORS_ARRAY <<< "$BLOCKED_ACTORS"
-          for blocked_actor in "${BLOCKED_ACTORS_ARRAY[@]}"; do
-            if [ "${{ github.actor }}" = "$blocked_actor" ]; then
-              echo "Error: Blocked actor cannot create cherry-pick: ${{ github.actor }}"
-              exit 1
-            fi
-          done
-          
-          # Validate that this is a legitimate cherry-pick operation
-          if [ "${{ github.event.pull_request.merged }}" != "true" ]; then
-            echo "❌ Error: Cherry-pick can only be performed on merged PRs"
-            exit 1
-          fi
-          
-          echo "✅ Security and pre-flight checks passed"
-
       - name: Check if PR is from fork
         id: check_fork
         run: |
