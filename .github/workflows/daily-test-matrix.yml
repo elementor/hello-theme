@@ -89,6 +89,41 @@ jobs:
       targeted-tests: ${{ steps.matrix.outputs.targeted-tests }}
       hello-theme-version-for-display: ${{ steps.matrix.outputs.hello-theme-version-for-display }}
     steps:
+      - name: Checkout for scripts
+        uses: actions/checkout@v4
+
+      - name: Test Slack notification
+        continue-on-error: true
+        env:
+          CLOUD_SLACK_BOT_TOKEN: ${{ secrets.CLOUD_SLACK_BOT_TOKEN }}
+          SLACK_CHANNEL: '#tmz-hello-delivery'
+        run: |
+          export CLOUD_SLACK_BOT_TOKEN SLACK_CHANNEL
+          
+          node << 'NODE_SCRIPT'
+          const slackChannel = process.env.SLACK_CHANNEL || '#tmz-hello-delivery';
+          
+          const payload = {
+            text: 'Test by Hein: Slack notification inside the Daily Test Matrix is working for the Hello Theme',
+            blocks: [
+              {
+                type: 'section',
+                text: {
+                  type: 'mrkdwn',
+                  text: 'Test by Hein: Slack notification inside the Daily Test Matrix is working for the Hello Theme'
+                }
+              }
+            ]
+          };
+          
+          process.env.SLACK_PAYLOAD = JSON.stringify(payload);
+          
+          const { execSync } = require('child_process');
+          const path = require('path');
+          const scriptPath = path.join(process.env.GITHUB_WORKSPACE, '.github/scripts/send-slack-message.js');
+          execSync(`node "${scriptPath}"`, { stdio: 'inherit', env: process.env });
+          NODE_SCRIPT
+
       - name: Calculate version matrix
         id: matrix
         run: |
