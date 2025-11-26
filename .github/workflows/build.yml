@@ -5,7 +5,6 @@ on:
   pull_request:
   workflow_call:
 
-
 jobs:
   build_plugin:
     name: Build theme
@@ -52,16 +51,7 @@ jobs:
       - name: Install Composer dependencies
         run:
           composer install --no-dev
-      - name: Bump version on push to release or develop
-        if: github.event_name != 'workflow_call' && github.event_name == 'push' && (startsWith(github.ref, 'refs/heads/release/') || github.ref == 'refs/heads/develop')
-        run: |
-          npm config set git-tag-version false
-          if [ "${GITHUB_REF:11}" == "develop" ];
-            then npm version patch
-          fi
-          if [[ "${GITHUB_REF:11:7}" == "release" ]];
-            then npm version minor
-          fi
+
       - name: Build
         run: npm run zip
       - name: Upload zip file to GitHub actions artifact
