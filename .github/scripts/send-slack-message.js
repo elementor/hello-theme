@@ -1,7 +1,7 @@
 const https = require('https');
 
 const slackToken = process.env.CLOUD_SLACK_BOT_TOKEN || '';
-const slackChannel = process.env.SLACK_CHANNEL || '#general';
+const slackChannel = process.env.SLACK_CHANNEL || '#tmz-alerts';
 const payloadJson = process.env.SLACK_PAYLOAD || '{}';
 
 if (!slackToken) {

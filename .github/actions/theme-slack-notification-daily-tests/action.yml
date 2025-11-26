@@ -9,7 +9,7 @@ inputs:
     description: 'GitHub workflow run URL'
   SLACK_CHANNEL:
     required: false
-    default: '#tmz-hello-delivery'
+    default: '#tmz-alerts'
     description: 'Slack channel to send notification to'
 
 runs:
@@ -26,7 +26,7 @@ runs:
         
         node << 'NODE_SCRIPT'
         const workflowUrl = process.env.WORKFLOW_URL || '';
-        const slackChannel = process.env.SLACK_CHANNEL || '#tmz-hello-delivery';
+        const slackChannel = process.env.SLACK_CHANNEL || '#tmz-alerts';
         
         const payload = {
           text: 'Failing test alert',

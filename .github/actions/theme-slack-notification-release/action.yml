@@ -15,7 +15,7 @@ inputs:
     description: 'GitHub release URL'
   SLACK_CHANNEL:
     required: false
-    default: '#general'
+    default: '#tmz-hello-delivery'
     description: 'Slack channel to send notification to'
   WPORG_DEPLOYMENT_STATUS:
     required: false
@@ -69,7 +69,7 @@ runs:
         export CLOUD_SLACK_BOT_TOKEN SLACK_CHANNEL PACKAGE_VERSION FILE_SIZE_MB DEPLOYMENT_MESSAGE GITHUB_RELEASE_URL BUILD_ZIP_PATH
         
         node << 'NODE_SCRIPT'
-        const slackChannel = process.env.SLACK_CHANNEL || '#general';
+        const slackChannel = process.env.SLACK_CHANNEL || '#tmz-hello-delivery';
         const packageVersion = process.env.PACKAGE_VERSION || '';
         const fileSizeMb = process.env.FILE_SIZE_MB || 'Unknown';
         const deploymentMessage = (process.env.DEPLOYMENT_MESSAGE || '').replace(/\\n/g, '\n');
