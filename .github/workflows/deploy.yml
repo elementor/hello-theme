@@ -1,0 +1,90 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        type: string
+        description: 'Version number to deploy (e.g., 3.4.5)'
+        required: true
+      dry_run:
+        type: boolean
+        description: 'Dry run mode (test without deploying)'
+        required: false
+        default: false
+
+jobs:
+  build:
+    if: ( github.actor == 'TzviRabinovitch' || github.actor == 'hein-obox' || github.actor == 'KingYes' || github.actor == 'bainternet' || github.actor == 'arielk' || github.actor == 'nuritsha' || github.actor == 'nicoladj77' ) && startsWith( github.repository, 'elementor/' )
+    uses: ./.github/workflows/build.yml
+    secrets: inherit
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Preparing envs
+        run: |
+          echo "THEME_VERSION=${{ inputs.version }}" >> $GITHUB_ENV
+          echo "THEME_SLUG=hello-elementor" >> $GITHUB_ENV
+
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: hello-elementor
+
+      - name: Validate changelog
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          bash "${GITHUB_WORKSPACE}/.github/scripts/validate-changelog.sh"
+
+      - name: Install SVN
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y subversion
+
+      - name: Deploy to WordPress.org (Dry Run)
+        if: ${{ inputs.dry_run == true }}
+        env:
+          THEME_VERSION: ${{ inputs.version }}
+          THEME_SLUG: hello-elementor
+          BUILD_DIR: hello-elementor
+        run: |
+          bash "${GITHUB_WORKSPACE}/.github/scripts/publish-theme-to-wordpress-org-dry-run.sh"
+
+      - name: Deploy to WordPress.org
+        if: ${{ inputs.dry_run == false }}
+        env:
+          THEME_VERSION: ${{ inputs.version }}
+          THEME_SLUG: hello-elementor
+          BUILD_DIR: hello-elementor
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+        run: |
+          bash "${GITHUB_WORKSPACE}/.github/scripts/publish-theme-to-wordpress-org.sh"
+
+      - name: Load Slack Channel
+        id: slack-config
+        run: |
+          if [ -f ".github/config/release.json" ]; then
+            SLACK_CHANNEL=$(jq -r '.notifications.slack.default_channel // "#release"' .github/config/release.json)
+          else
+            SLACK_CHANNEL="#release"
+          fi
+          echo "SLACK_CHANNEL=${SLACK_CHANNEL}" >> $GITHUB_ENV
+
+      - name: Send Slack Notification
+        if: ${{ inputs.dry_run == false }}
+        uses: ./.github/actions/theme-slack-notification-release
+        with:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          PACKAGE_VERSION: ${{ inputs.version }}
+          BUILD_ZIP_PATH: ""
+          GITHUB_RELEASE_URL: ""
+          SLACK_CHANNEL: ${{ env.SLACK_CHANNEL }}
+          WPORG_DEPLOYMENT_STATUS: deployed
+
