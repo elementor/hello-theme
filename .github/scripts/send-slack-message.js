@@ -54,8 +54,8 @@ const req = https.request(options, (res) => {
 });
 
 req.on('error', (error) => {
-  // Remove newline characters from error message before logging
-  const sanitizedMessage = typeof error.message === "string" ? error.message.replace(/[\r\n]+/g, "") : String(error.message);
+  // Remove control characters from error message before logging
+  const sanitizedMessage = String(error.message).replace(/[\r\n\t\v\f]+/g, "");
   console.error('Request error:', sanitizedMessage);
   process.exit(0);
 });
