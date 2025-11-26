@@ -89,6 +89,73 @@ jobs:
       targeted-tests: ${{ steps.matrix.outputs.targeted-tests }}
       hello-theme-version-for-display: ${{ steps.matrix.outputs.hello-theme-version-for-display }}
     steps:
+      - name: Test Slack notification
+        continue-on-error: true
+        env:
+          SLACK_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        run: |
+          node << 'NODE_SCRIPT'
+          const slackToken = process.env.SLACK_TOKEN || '';
+          
+          const payload = {
+            channel: 'C081F86TPFS',
+            text: 'Test by Hein: Slack notification iniside the Daily Test Matrix is working for the Hello Theme',
+            blocks: [
+              {
+                type: 'section',
+                text: {
+                  type: 'mrkdwn',
+                  text: 'Test by Hein: Slack notification iniside the Daily Test Matrix is working for the Hello Theme'
+                }
+              }
+            ]
+          };
+          
+          const https = require('https');
+          const payloadStr = JSON.stringify(payload);
+          const data = Buffer.from(payloadStr, 'utf8');
+          
+          const options = {
+            hostname: 'slack.com',
+            port: 443,
+            path: '/api/chat.postMessage',
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${slackToken}`,
+              'Content-Type': 'application/json',
+              'Content-Length': data.length
+            }
+          };
+          
+          const req = https.request(options, (res) => {
+            let responseData = '';
+            res.on('data', (chunk) => {
+              responseData += chunk;
+            });
+            res.on('end', () => {
+              if (res.statusCode === 200) {
+                const response = JSON.parse(responseData);
+                if (response.ok) {
+                  console.log('✅ Test Slack notification sent successfully');
+                } else {
+                  console.error('Slack API error:', response.error);
+                }
+              } else {
+                console.error(`Slack API returned status ${res.statusCode}`);
+              }
+              process.exit(0);
+            });
+          });
+          
+          req.on('error', (error) => {
+            console.error('Request error:', error.message);
+            process.exit(0);
+          });
+          
+          req.write(data);
+          req.end();
+          NODE_SCRIPT
+
       - name: Calculate version matrix
         id: matrix
         run: |
@@ -728,3 +795,185 @@ jobs:
             } else {
               console.log(`✅ Daily test matrix completed successfully: ${summary.success} passed out of ${summary.total} tests`);
             }
+
+      - name: Send Slack notification on failure
+        if: failure()
+        continue-on-error: true
+        env:
+          WORKFLOW_DATA: ${{ needs.collect-matrix-results.outputs.all-workflow-data }}
+          TEST_SUMMARY: ${{ steps.aggregate-status.outputs.test-summary }}
+          OVERALL_STATUS: ${{ steps.aggregate-status.outputs.overall-status }}
+          TARGETED_TESTS: ${{ needs.calculate-test-matrix.outputs.targeted-tests }}
+          WORKFLOW_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          ACTOR: ${{ github.actor }}
+          EVENT_NAME: ${{ github.event_name }}
+          SLACK_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        run: |
+          if [ -z "$WORKFLOW_DATA" ] || [ "$WORKFLOW_DATA" == "null" ] || [ "$WORKFLOW_DATA" == "" ]; then
+            exit 0
+          fi
+          
+          export WORKFLOW_DATA TEST_SUMMARY OVERALL_STATUS TARGETED_TESTS WORKFLOW_URL ACTOR EVENT_NAME SLACK_TOKEN
+          
+          node << 'NODE_SCRIPT'
+          const workflowData = JSON.parse(process.env.WORKFLOW_DATA || '[]');
+          const testSummary = JSON.parse(process.env.TEST_SUMMARY || '{}');
+          const overallStatus = process.env.OVERALL_STATUS || 'unknown';
+          const targetedTests = process.env.TARGETED_TESTS || '[]';
+          const workflowUrl = process.env.WORKFLOW_URL || '';
+          const actor = process.env.ACTOR || 'unknown';
+          const eventName = process.env.EVENT_NAME || 'unknown';
+          const slackToken = process.env.SLACK_TOKEN || '';
+          
+          const total = testSummary.total || 0;
+          const failed = testSummary.failed || 0;
+          const success = testSummary.success || 0;
+          const cancelled = testSummary.cancelled || 0;
+          const inProgress = testSummary.in_progress || 0;
+          
+          let matrixSize = 0;
+          try {
+            const targetedTestsArray = JSON.parse(targetedTests);
+            matrixSize = Array.isArray(targetedTestsArray) ? targetedTestsArray.length : 0;
+          } catch (error) {
+            matrixSize = 0;
+          }
+          
+          const hasStatusData = workflowData.length > 0 && workflowData.some(r => r.status !== undefined);
+          const error = hasStatusData ? workflowData.filter(r => r.status === 'error').length : 0;
+          
+          if (overallStatus !== 'failure' && failed === 0 && error === 0) {
+            process.exit(0);
+          }
+          
+          const fields = [
+            {
+              type: 'mrkdwn',
+              text: `*Total Tests:*\n${total}`
+            }
+          ];
+          
+          if (matrixSize > 0) {
+            fields.push({
+              type: 'mrkdwn',
+              text: `*Matrix Size:*\n${matrixSize}`
+            });
+          }
+          
+          if (hasStatusData) {
+            fields.push(
+              {
+                type: 'mrkdwn',
+                text: `*✅ Success:*\n${success}`
+              },
+              {
+                type: 'mrkdwn',
+                text: `*❌ Failed:*\n${failed}`
+              }
+            );
+            
+            if (error > 0) {
+              fields.push({
+                type: 'mrkdwn',
+                text: `*⚠️ Errors:*\n${error}`
+              });
+            }
+            
+            if (cancelled > 0) {
+              fields.push({
+                type: 'mrkdwn',
+                text: `*🚫 Cancelled:*\n${cancelled}`
+              });
+            }
+            
+            if (inProgress > 0) {
+              fields.push({
+                type: 'mrkdwn',
+                text: `*⏳ In Progress:*\n${inProgress}`
+              });
+            }
+          } else {
+            fields.push({
+              type: 'mrkdwn',
+              text: `*Status:*\nPending (workflow in progress)`
+            });
+          }
+          
+          const failureText = hasStatusData && failed > 0 
+            ? `${failed} test(s) failed` 
+            : 'Test failures detected';
+          
+          const payload = {
+            channel: 'C081F86TPFS',
+            text: `Hello Theme Daily Test Matrix: ${failureText}`,
+            blocks: [
+              {
+                type: 'section',
+                text: {
+                  type: 'mrkdwn',
+                  text: `*❌ Hello Theme Daily Test Matrix Failed*\n\n<${workflowUrl}|View Workflow Run>`
+                }
+              },
+              {
+                type: 'divider'
+              },
+              {
+                type: 'section',
+                fields: fields
+              },
+              {
+                type: 'context',
+                elements: [
+                  {
+                    type: 'mrkdwn',
+                    text: `Triggered by: ${actor} | Event: ${eventName}`
+                  }
+                ]
+              }
+            ]
+          };
+          
+          const https = require('https');
+          const payloadStr = JSON.stringify(payload);
+          const data = Buffer.from(payloadStr, 'utf8');
+          
+          const options = {
+            hostname: 'slack.com',
+            port: 443,
+            path: '/api/chat.postMessage',
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${slackToken}`,
+              'Content-Type': 'application/json',
+              'Content-Length': data.length
+            }
+          };
+          
+          const req = https.request(options, (res) => {
+            let responseData = '';
+            res.on('data', (chunk) => {
+              responseData += chunk;
+            });
+            res.on('end', () => {
+              if (res.statusCode === 200) {
+                const response = JSON.parse(responseData);
+                if (response.ok) {
+                  console.log('✅ Slack notification sent');
+                } else {
+                  console.error('Slack API error:', response.error);
+                }
+              } else {
+                console.error(`Slack API returned status ${res.statusCode}`);
+              }
+              process.exit(0);
+            });
+          });
+          
+          req.on('error', (error) => {
+            console.error('Request error:', error.message);
+            process.exit(0);
+          });
+          
+          req.write(data);
+          req.end();
+          NODE_SCRIPT
