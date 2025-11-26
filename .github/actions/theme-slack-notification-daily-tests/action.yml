@@ -1,0 +1,56 @@
+name: 'Theme Slack Notification (Daily Tests)'
+description: 'Send Slack notification for Hello Elementor daily test failures'
+inputs:
+  CLOUD_SLACK_BOT_TOKEN:
+    required: true
+    description: 'Slack bot token'
+  WORKFLOW_URL:
+    required: true
+    description: 'GitHub workflow run URL'
+  SLACK_CHANNEL:
+    required: false
+    default: '#tmz-alerts'
+    description: 'Slack channel to send notification to'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Post to Slack
+      shell: bash
+      env:
+        CLOUD_SLACK_BOT_TOKEN: ${{ inputs.CLOUD_SLACK_BOT_TOKEN }}
+        WORKFLOW_URL: ${{ inputs.WORKFLOW_URL }}
+        SLACK_CHANNEL: ${{ inputs.SLACK_CHANNEL }}
+      run: |
+        node << 'NODE_SCRIPT'
+        const workflowUrl = process.env.WORKFLOW_URL || '';
+        const slackChannel = process.env.SLACK_CHANNEL || '#tmz-alerts';
+        
+        const payload = {
+          text: 'Failing test alert',
+          blocks: [
+            {
+              type: 'section',
+              text: {
+                type: 'mrkdwn',
+                text: '*Failing test alert*\n\n*Theme:* Hello Elementor\n*Test report:* <' + workflowUrl + '|View Workflow Run>'
+              }
+            }
+          ]
+        };
+        
+        process.env.SLACK_PAYLOAD = JSON.stringify(payload);
+        
+        const { execSync } = require('child_process');
+        const path = require('path');
+        const scriptPath = path.join(process.env.GITHUB_WORKSPACE, '.github/scripts/send-slack-message.js');
+        execSync(`node "${scriptPath}"`, { stdio: 'inherit', env: process.env });
+        NODE_SCRIPT
+
+    - name: Notification summary
+      shell: bash
+      run: |
+        echo "📢 Slack notification sent!"
+        echo "   - Channel: ${{ inputs.SLACK_CHANNEL }}"
+        echo "   - Workflow: ${{ inputs.WORKFLOW_URL }}"
+

@@ -728,3 +728,12 @@ jobs:
             } else {
               console.log(`✅ Daily test matrix completed successfully: ${summary.success} passed out of ${summary.total} tests`);
             }
+
+      - name: Send Slack notification on failure
+        if: failure()
+        continue-on-error: true
+        uses: ./.github/actions/theme-slack-notification-daily-tests
+        with:
+          CLOUD_SLACK_BOT_TOKEN: ${{ secrets.CLOUD_SLACK_BOT_TOKEN }}
+          WORKFLOW_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          SLACK_CHANNEL: '#tmz-alerts'
