@@ -92,8 +92,8 @@ jobs:
       - name: Test Slack notification
         continue-on-error: true
         env:
-          SLACK_TOKEN: ${{ secrets.CLOUD_SLACK_BOT_TOKEN || secrets.SLACK_BOT_TOKEN }}
-          SLACK_TOKEN_SOURCE: ${{ secrets.CLOUD_SLACK_BOT_TOKEN && 'CLOUD_SLACK_BOT_TOKEN' || (secrets.SLACK_BOT_TOKEN && 'SLACK_BOT_TOKEN' || 'none') }}
+          SLACK_TOKEN: ${{ secrets.CLOUD_SLACK_BOT_TOKEN }}
+          SLACK_TOKEN_SOURCE: ${{ secrets.CLOUD_SLACK_BOT_TOKEN && 'CLOUD_SLACK_BOT_TOKEN' || 'none' }}
         run: |
           echo "🔍 Debugging Slack notification..."
           echo "Token source: $SLACK_TOKEN_SOURCE"
@@ -114,13 +114,11 @@ jobs:
           
           if (!slackToken) {
             console.error('❌ SLACK_TOKEN is empty or not set');
-            console.error('Please check that one of these secrets is configured:');
-            console.error('   - secrets.CLOUD_SLACK_BOT_TOKEN (organization secret, preferred - used by Hello Plus workflows)');
-            console.error('   - secrets.SLACK_BOT_TOKEN (repository secret - used by Hello Theme release workflow)');
+            console.error('Please check that secrets.CLOUD_SLACK_BOT_TOKEN is configured:');
             console.error('');
             console.error('For organization secrets:');
             console.error('   1. Go to organization settings > Secrets and variables > Actions');
-            console.error('   2. Ensure CLOUD_SLACK_BOT_TOKEN is available to this repository');
+            console.error('   2. Ensure CLOUD_SLACK_BOT_TOKEN exists and is available to this repository');
             process.exit(0);
           }
           
@@ -857,8 +855,8 @@ jobs:
           WORKFLOW_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           ACTOR: ${{ github.actor }}
           EVENT_NAME: ${{ github.event_name }}
-          SLACK_TOKEN: ${{ secrets.CLOUD_SLACK_BOT_TOKEN || secrets.SLACK_BOT_TOKEN }}
-          SLACK_TOKEN_SOURCE: ${{ secrets.CLOUD_SLACK_BOT_TOKEN && 'CLOUD_SLACK_BOT_TOKEN' || (secrets.SLACK_BOT_TOKEN && 'SLACK_BOT_TOKEN' || 'none') }}
+          SLACK_TOKEN: ${{ secrets.CLOUD_SLACK_BOT_TOKEN }}
+          SLACK_TOKEN_SOURCE: ${{ secrets.CLOUD_SLACK_BOT_TOKEN && 'CLOUD_SLACK_BOT_TOKEN' || 'none' }}
         run: |
           if [ -z "$WORKFLOW_DATA" ] || [ "$WORKFLOW_DATA" == "null" ] || [ "$WORKFLOW_DATA" == "" ]; then
             exit 0
@@ -880,13 +878,11 @@ jobs:
           if (!slackToken) {
             console.error('❌ SLACK_TOKEN is empty or not set');
             console.error(`Token source: ${tokenSource}`);
-            console.error('Please check that one of these secrets is configured:');
-            console.error('   - secrets.CLOUD_SLACK_BOT_TOKEN (organization secret, preferred - used by Hello Plus workflows)');
-            console.error('   - secrets.SLACK_BOT_TOKEN (repository secret - used by Hello Theme release workflow)');
+            console.error('Please check that secrets.CLOUD_SLACK_BOT_TOKEN is configured:');
             console.error('');
             console.error('For organization secrets:');
             console.error('   1. Go to organization settings > Secrets and variables > Actions');
-            console.error('   2. Ensure CLOUD_SLACK_BOT_TOKEN is available to this repository');
+            console.error('   2. Ensure CLOUD_SLACK_BOT_TOKEN exists and is available to this repository');
             process.exit(0);
           }
           
