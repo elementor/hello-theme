@@ -39,24 +39,13 @@ const req = https.request(options, (res) => {
     responseData += chunk;
   });
   res.on('end', () => {
-    if (res.statusCode === 200) {
-      const response = JSON.parse(responseData);
-      if (response.ok) {
-        console.log('✅ Slack notification sent');
-      } else {
-        console.error('Slack API error:', response.error);
-      }
-    } else {
-      console.error(`Slack API returned status ${res.statusCode}`);
-    }
+    const response = JSON.parse(responseData);
+    if (res.statusCode === 200 && response.ok) console.log('✅ Slack notification sent');
     process.exit(0);
   });
 });
 
-req.on('error', (error) => {
-  // Remove control characters from error message before logging
-  const sanitizedMessage = String(error.message).replace(/[\r\n\t\v\f]+/g, "");
-  console.error('Request error:', sanitizedMessage);
+req.on('error', () => {
   process.exit(0);
 });
 
