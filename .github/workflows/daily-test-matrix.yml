@@ -92,18 +92,18 @@ jobs:
       - name: Test Slack notification
         continue-on-error: true
         env:
-          SLACK_TOKEN: ${{ secrets.CLOUD_SLACK_BOT_TOKEN }}
-          SLACK_TOKEN_SOURCE: ${{ secrets.CLOUD_SLACK_BOT_TOKEN && 'CLOUD_SLACK_BOT_TOKEN' || 'none' }}
+          CLOUD_SLACK_BOT_TOKEN: ${{ secrets.CLOUD_SLACK_BOT_TOKEN }}
+          CLOUD_SLACK_BOT_TOKEN_SOURCE: ${{ secrets.CLOUD_SLACK_BOT_TOKEN && 'CLOUD_SLACK_BOT_TOKEN' || 'none' }}
         run: |
           echo "🔍 Debugging Slack notification..."
-          echo "Token source: $SLACK_TOKEN_SOURCE"
-          echo "Token present: $([ -n "$SLACK_TOKEN" ] && echo 'yes' || echo 'no')"
-          echo "Token length: ${#SLACK_TOKEN}"
-          echo "Token starts with: ${SLACK_TOKEN:0:10}..."
+          echo "Token source: $CLOUD_SLACK_BOT_TOKEN_SOURCE"
+          echo "Token present: $([ -n "$CLOUD_SLACK_BOT_TOKEN" ] && echo 'yes' || echo 'no')"
+          echo "Token length: ${#CLOUD_SLACK_BOT_TOKEN}"
+          echo "Token starts with: ${CLOUD_SLACK_BOT_TOKEN:0:10}..."
           
           node << 'NODE_SCRIPT'
-          const slackToken = process.env.SLACK_TOKEN || '';
-          const tokenSource = process.env.SLACK_TOKEN_SOURCE || 'unknown';
+          const slackToken = process.env.CLOUD_SLACK_BOT_TOKEN || '';
+          const tokenSource = process.env.CLOUD_SLACK_BOT_TOKEN_SOURCE || 'unknown';
           
           console.log('🔍 Debug Information:');
           console.log(`Token source: ${tokenSource}`);
@@ -113,7 +113,7 @@ jobs:
           console.log(`Token format check: ${slackToken.startsWith('xoxb-') ? 'Bot token format ✓' : 'Not a bot token format (should start with xoxb-)'}`);
           
           if (!slackToken) {
-            console.error('❌ SLACK_TOKEN is empty or not set');
+            console.error('❌ CLOUD_SLACK_BOT_TOKEN is empty or not set');
             console.error('Please check that secrets.CLOUD_SLACK_BOT_TOKEN is configured:');
             console.error('');
             console.error('For organization secrets:');
@@ -855,14 +855,14 @@ jobs:
           WORKFLOW_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           ACTOR: ${{ github.actor }}
           EVENT_NAME: ${{ github.event_name }}
-          SLACK_TOKEN: ${{ secrets.CLOUD_SLACK_BOT_TOKEN }}
-          SLACK_TOKEN_SOURCE: ${{ secrets.CLOUD_SLACK_BOT_TOKEN && 'CLOUD_SLACK_BOT_TOKEN' || 'none' }}
+          CLOUD_SLACK_BOT_TOKEN: ${{ secrets.CLOUD_SLACK_BOT_TOKEN }}
+          CLOUD_SLACK_BOT_TOKEN_SOURCE: ${{ secrets.CLOUD_SLACK_BOT_TOKEN && 'CLOUD_SLACK_BOT_TOKEN' || 'none' }}
         run: |
           if [ -z "$WORKFLOW_DATA" ] || [ "$WORKFLOW_DATA" == "null" ] || [ "$WORKFLOW_DATA" == "" ]; then
             exit 0
           fi
           
-          export WORKFLOW_DATA TEST_SUMMARY OVERALL_STATUS TARGETED_TESTS WORKFLOW_URL ACTOR EVENT_NAME SLACK_TOKEN
+          export WORKFLOW_DATA TEST_SUMMARY OVERALL_STATUS TARGETED_TESTS WORKFLOW_URL ACTOR EVENT_NAME CLOUD_SLACK_BOT_TOKEN
           
           node << 'NODE_SCRIPT'
           const workflowData = JSON.parse(process.env.WORKFLOW_DATA || '[]');
@@ -872,11 +872,11 @@ jobs:
           const workflowUrl = process.env.WORKFLOW_URL || '';
           const actor = process.env.ACTOR || 'unknown';
           const eventName = process.env.EVENT_NAME || 'unknown';
-          const slackToken = process.env.SLACK_TOKEN || '';
-          const tokenSource = process.env.SLACK_TOKEN_SOURCE || 'unknown';
+          const slackToken = process.env.CLOUD_SLACK_BOT_TOKEN || '';
+          const tokenSource = process.env.CLOUD_SLACK_BOT_TOKEN_SOURCE || 'unknown';
           
           if (!slackToken) {
-            console.error('❌ SLACK_TOKEN is empty or not set');
+            console.error('❌ CLOUD_SLACK_BOT_TOKEN is empty or not set');
             console.error(`Token source: ${tokenSource}`);
             console.error('Please check that secrets.CLOUD_SLACK_BOT_TOKEN is configured:');
             console.error('');
