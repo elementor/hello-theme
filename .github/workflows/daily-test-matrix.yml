@@ -92,10 +92,33 @@ jobs:
       - name: Test Slack notification
         continue-on-error: true
         env:
-          SLACK_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_TOKEN: ${{ secrets.SLACK_BOT_TOKEN || secrets.CLOUD_SLACK_BOT_TOKEN }}
+          SLACK_TOKEN_SOURCE: ${{ secrets.SLACK_BOT_TOKEN && 'SLACK_BOT_TOKEN' || (secrets.CLOUD_SLACK_BOT_TOKEN && 'CLOUD_SLACK_BOT_TOKEN' || 'none') }}
         run: |
+          echo "🔍 Debugging Slack notification..."
+          echo "Token source: $SLACK_TOKEN_SOURCE"
+          echo "Token present: $([ -n "$SLACK_TOKEN" ] && echo 'yes' || echo 'no')"
+          echo "Token length: ${#SLACK_TOKEN}"
+          echo "Token starts with: ${SLACK_TOKEN:0:10}..."
+          
           node << 'NODE_SCRIPT'
           const slackToken = process.env.SLACK_TOKEN || '';
+          const tokenSource = process.env.SLACK_TOKEN_SOURCE || 'unknown';
+          
+          console.log('🔍 Debug Information:');
+          console.log(`Token source: ${tokenSource}`);
+          console.log(`Token present: ${slackToken ? 'yes' : 'no'}`);
+          console.log(`Token length: ${slackToken.length}`);
+          console.log(`Token starts with: ${slackToken.substring(0, 10)}...`);
+          console.log(`Token format check: ${slackToken.startsWith('xoxb-') ? 'Bot token format ✓' : 'Not a bot token format (should start with xoxb-)'}`);
+          
+          if (!slackToken) {
+            console.error('❌ SLACK_TOKEN is empty or not set');
+            console.error('Please check that one of these secrets is configured in repository settings:');
+            console.error('   - secrets.SLACK_BOT_TOKEN (used by Hello Theme release workflow)');
+            console.error('   - secrets.CLOUD_SLACK_BOT_TOKEN (used by Hello Plus workflows)');
+            process.exit(0);
+          }
           
           const payload = {
             channel: 'C081F86TPFS',
@@ -115,6 +138,10 @@ jobs:
           const payloadStr = JSON.stringify(payload);
           const data = Buffer.from(payloadStr, 'utf8');
           
+          console.log('📤 Sending request to Slack API...');
+          console.log(`Channel: C081F86TPFS`);
+          console.log(`Payload size: ${data.length} bytes`);
+          
           const options = {
             hostname: 'slack.com',
             port: 443,
@@ -133,22 +160,41 @@ jobs:
               responseData += chunk;
             });
             res.on('end', () => {
+              console.log(`📥 Response status: ${res.statusCode}`);
+              console.log(`📥 Response headers:`, JSON.stringify(res.headers, null, 2));
+              
               if (res.statusCode === 200) {
                 const response = JSON.parse(responseData);
+                console.log(`📥 Full response:`, JSON.stringify(response, null, 2));
+                
                 if (response.ok) {
                   console.log('✅ Test Slack notification sent successfully');
                 } else {
-                  console.error('Slack API error:', response.error);
+                  console.error('❌ Slack API error:', response.error);
+                  if (response.error === 'not_authed') {
+                    console.error('💡 This usually means:');
+                    console.error('   1. The token is invalid or expired');
+                    console.error('   2. The token does not have the required scopes (chat:write)');
+                    console.error(`   3. The secret ${tokenSource} is not set or incorrect in repository settings`);
+                    console.error('   4. The bot needs to be invited to the channel C081F86TPFS');
+                  }
                 }
               } else {
-                console.error(`Slack API returned status ${res.statusCode}`);
+                console.error(`❌ Slack API returned status ${res.statusCode}`);
+                try {
+                  const errorResponse = JSON.parse(responseData);
+                  console.error(`📥 Error response:`, JSON.stringify(errorResponse, null, 2));
+                } catch (e) {
+                  console.error(`📥 Raw response:`, responseData);
+                }
               }
               process.exit(0);
             });
           });
           
           req.on('error', (error) => {
-            console.error('Request error:', error.message);
+            console.error('❌ Request error:', error.message);
+            console.error('Stack:', error.stack);
             process.exit(0);
           });
           
@@ -807,7 +853,8 @@ jobs:
           WORKFLOW_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           ACTOR: ${{ github.actor }}
           EVENT_NAME: ${{ github.event_name }}
-          SLACK_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_TOKEN: ${{ secrets.SLACK_BOT_TOKEN || secrets.CLOUD_SLACK_BOT_TOKEN }}
+          SLACK_TOKEN_SOURCE: ${{ secrets.SLACK_BOT_TOKEN && 'SLACK_BOT_TOKEN' || (secrets.CLOUD_SLACK_BOT_TOKEN && 'CLOUD_SLACK_BOT_TOKEN' || 'none') }}
         run: |
           if [ -z "$WORKFLOW_DATA" ] || [ "$WORKFLOW_DATA" == "null" ] || [ "$WORKFLOW_DATA" == "" ]; then
             exit 0
@@ -824,6 +871,16 @@ jobs:
           const actor = process.env.ACTOR || 'unknown';
           const eventName = process.env.EVENT_NAME || 'unknown';
           const slackToken = process.env.SLACK_TOKEN || '';
+          const tokenSource = process.env.SLACK_TOKEN_SOURCE || 'unknown';
+          
+          if (!slackToken) {
+            console.error('❌ SLACK_TOKEN is empty or not set');
+            console.error(`Token source: ${tokenSource}`);
+            console.error('Please check that one of these secrets is configured in repository settings:');
+            console.error('   - secrets.SLACK_BOT_TOKEN (used by Hello Theme release workflow)');
+            console.error('   - secrets.CLOUD_SLACK_BOT_TOKEN (used by Hello Plus workflows)');
+            process.exit(0);
+          }
           
           const total = testSummary.total || 0;
           const failed = testSummary.failed || 0;
