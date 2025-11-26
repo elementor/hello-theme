@@ -123,7 +123,7 @@ jobs:
           }
           
           const payload = {
-            channel: 'C081F86TPFS',
+            channel: '#tmz-alerts',
             text: 'Test by Hein: Slack notification iniside the Daily Test Matrix is working for the Hello Theme',
             blocks: [
               {
@@ -141,7 +141,7 @@ jobs:
           const data = Buffer.from(payloadStr, 'utf8');
           
           console.log('📤 Sending request to Slack API...');
-          console.log(`Channel: C081F86TPFS`);
+          console.log(`Channel: #tmz-alerts`);
           console.log(`Payload size: ${data.length} bytes`);
           
           const options = {
@@ -178,7 +178,7 @@ jobs:
                     console.error('   1. The token is invalid or expired');
                     console.error('   2. The token does not have the required scopes (chat:write)');
                     console.error(`   3. The secret ${tokenSource} is not set or incorrect in repository settings`);
-                    console.error('   4. The bot needs to be invited to the channel C081F86TPFS');
+                    console.error('   4. The bot needs to be invited to the channel #tmz-alerts');
                   }
                 }
               } else {
@@ -965,7 +965,7 @@ jobs:
             : 'Test failures detected';
           
           const payload = {
-            channel: 'C081F86TPFS',
+            channel: '#tmz-alerts',
             text: `Hello Theme Daily Test Matrix: ${failureText}`,
             blocks: [
               {
