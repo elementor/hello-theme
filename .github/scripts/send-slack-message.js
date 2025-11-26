@@ -46,7 +46,7 @@ const req = https.request(options, (res) => {
 });
 
 req.on('error', (error) => {
-  console.error('Failed to send Slack notification:', error.message || error);
+  console.error('Failed to send Slack notification');
   process.exit(0);
 });
 
