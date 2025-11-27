@@ -37,7 +37,7 @@ svn co --depth immediates "https://themes.svn.wordpress.org/hello-elementor" .
 
 echo "Check if version folder already exists"
 if svn list "https://themes.svn.wordpress.org/hello-elementor/${VERSION_DIR}" > /dev/null 2>&1; then
-	echo "❌ ERROR: Version folder $VERSION_DIR already exists in SVN!
+	echo "ERROR: Version folder $VERSION_DIR already exists in SVN!
    SVN URL: https://themes.svn.wordpress.org/hello-elementor/${VERSION_DIR}
 
    WordPress.org theme versions are immutable - you cannot update an existing version.

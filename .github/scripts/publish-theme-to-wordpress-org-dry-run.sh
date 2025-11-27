@@ -26,7 +26,7 @@ cd $SVN_PATH
 
 echo "🧪 DRY RUN: Checking out SVN repository (read-only)"
 svn co --depth immediates "https://themes.svn.wordpress.org/hello-elementor" . 2>&1 | head -20 || {
-	echo "⚠️  Could not checkout repository (may require auth for some operations)"
+	echo "Could not checkout repository (may require auth for some operations)"
 	echo "   This is normal - simulating checkout for dry-run"
 	mkdir -p "$VERSION_DIR"
 	cd "$VERSION_DIR"
@@ -39,7 +39,7 @@ if svn list "https://themes.svn.wordpress.org/hello-elementor/${VERSION_DIR}" > 
 fi
 
 if [[ "$VERSION_EXISTS" == "true" ]]; then
-	echo "❌ ERROR: Version folder $VERSION_DIR already exists in SVN!
+	echo "ERROR: Version folder $VERSION_DIR already exists in SVN!
    SVN URL: https://themes.svn.wordpress.org/hello-elementor/${VERSION_DIR}
 
    WordPress.org theme versions are immutable - you cannot update an existing version.
@@ -80,7 +80,7 @@ if [ -n "$SVN_STATUS" ]; then
 		echo "   Modified (M): $MODIFIED_COUNT files"
 	fi
 	if [ "$UNTRACKED_COUNT" -gt 0 ]; then
-		echo "   ⚠️  Untracked (?): $UNTRACKED_COUNT files (would be added)"
+		echo "   Untracked (?): $UNTRACKED_COUNT files (would be added)"
 	fi
 	echo ""
 	TOTAL_CHANGES=$((ADDED_COUNT + MODIFIED_COUNT))
@@ -97,7 +97,7 @@ if [ "$TOTAL_CHANGES" -gt 0 ]; then
 else
 	echo "🧪 DRY RUN: No changes to commit (files are up to date)"
 fi
-echo "   🚫 No actual commit performed (dry-run mode)"
+echo "   No actual commit performed (dry-run mode)"
 
 echo "Remove the SVN folder from the workspace"
 rm -rf $SVN_PATH
@@ -105,6 +105,6 @@ rm -rf $SVN_PATH
 echo "Back to the workspace root"
 cd $GITHUB_WORKSPACE
 
-echo "✅ Dry-run complete: v${THEME_VERSION}"
+echo "   Dry-run complete: v${THEME_VERSION}"
 echo "   All checks passed - ready for actual deployment"
 
