@@ -8,24 +8,12 @@ if [[ -z "$THEME_VERSION" ]]; then
 	exit 1
 fi
 
-if [[ -z "$THEME_SLUG" ]]; then
-	echo "Set the THEME_SLUG env var"
-	exit 1
-fi
-
-if [[ -z "$BUILD_DIR" ]]; then
-	echo "Set the BUILD_DIR env var"
-	exit 1
-fi
-
 # Ensure SVN is installed
 svn --version
 
 echo "SVN installed"
 
 echo "Publish theme version: ${THEME_VERSION}"
-echo "Theme slug: ${THEME_SLUG}"
-echo "Build directory: ${BUILD_DIR}"
 
 THEME_PATH="$GITHUB_WORKSPACE"
 SVN_PATH="$GITHUB_WORKSPACE/svn"
@@ -37,7 +25,7 @@ mkdir -p $SVN_PATH
 cd $SVN_PATH
 
 echo "🧪 DRY RUN: Checking out SVN repository (read-only)"
-svn co --depth immediates "https://themes.svn.wordpress.org/${THEME_SLUG}" . 2>&1 | head -20 || {
+svn co --depth immediates "https://themes.svn.wordpress.org/hello-elementor" . 2>&1 | head -20 || {
 	echo "⚠️  Could not checkout repository (may require auth for some operations)"
 	echo "   This is normal - simulating checkout for dry-run"
 	mkdir -p "$VERSION_DIR"
@@ -46,13 +34,13 @@ svn co --depth immediates "https://themes.svn.wordpress.org/${THEME_SLUG}" . 2>&
 
 echo "Check if version folder already exists"
 VERSION_EXISTS=false
-if svn list "https://themes.svn.wordpress.org/${THEME_SLUG}/${VERSION_DIR}" > /dev/null 2>&1; then
+if svn list "https://themes.svn.wordpress.org/hello-elementor/${VERSION_DIR}" > /dev/null 2>&1; then
 	VERSION_EXISTS=true
 fi
 
 if [[ "$VERSION_EXISTS" == "true" ]]; then
 	echo "❌ ERROR: Version folder $VERSION_DIR already exists in SVN!
-   SVN URL: https://themes.svn.wordpress.org/${THEME_SLUG}/${VERSION_DIR}
+   SVN URL: https://themes.svn.wordpress.org/hello-elementor/${VERSION_DIR}
 
    WordPress.org theme versions are immutable - you cannot update an existing version.
    If you need to make changes, create a new version (e.g., increment patch/minor/major).
@@ -65,7 +53,7 @@ mkdir -p "$VERSION_DIR"
 cd "$VERSION_DIR"
 
 echo "Copy files from build directory"
-rsync -ah --progress "$THEME_PATH/$BUILD_DIR/"* . || rsync -ah --progress "$THEME_PATH/$BUILD_DIR/." . || true
+rsync -ah --progress "$THEME_PATH/hello-elementor/"* . || rsync -ah --progress "$THEME_PATH/hello-elementor/." . || true
 
 echo "Preparing files for SVN"
 svn status 2>/dev/null || echo ""

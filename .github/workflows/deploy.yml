@@ -25,8 +25,6 @@ jobs:
       - name: Preparing envs
         run: |
           echo "THEME_VERSION=$(cat package.json | jq -r '.version')" >> $GITHUB_ENV
-          echo "THEME_SLUG=hello-elementor" >> $GITHUB_ENV
-          echo "BUILD_DIR=hello-elementor" >> $GITHUB_ENV
 
       - name: Download Artifact
         uses: actions/download-artifact@v4

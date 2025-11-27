@@ -43,7 +43,7 @@ jobs:
           echo "The Theme version is:"
           echo "${{ env.PACKAGE_VERSION }}"
           echo "The Theme slug is:"
-          echo "${{ env.THEME_SLUG }}"
+          echo "hello-elementor"
           echo "End debug Info"
           echo "exitcode=$?" >> $GITHUB_OUTPUT
       - name: Install Dependencies
