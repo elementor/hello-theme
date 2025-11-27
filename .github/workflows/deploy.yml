@@ -21,48 +21,39 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
       - name: Preparing envs
         run: |
           echo "THEME_VERSION=$(cat package.json | jq -r '.version')" >> $GITHUB_ENV
-
       - name: Download Artifact
         uses: actions/download-artifact@v4
         with:
           name: hello-elementor
-
       - name: Validate changelog
         env:
           VERSION: ${{ env.THEME_VERSION }}
         run: |
           bash "${GITHUB_WORKSPACE}/.github/scripts/validate-changelog.sh"
-
       - name: Install SVN
         run: |
           sudo apt-get update -y
           sudo apt-get install -y subversion
-
-      - name: Deploy to WordPress.org (Dry Run)
+          which svn
+          svn --version
+      - name: Publish to WordPress.org SVN (Dry Run)
         if: ${{ inputs.dry_run == true }}
         run: |
           bash "${GITHUB_WORKSPACE}/.github/scripts/publish-theme-to-wordpress-org-dry-run.sh"
-
-      - name: Deploy to WordPress.org
+      - name: Publish to WordPress.org SVN
         if: ${{ inputs.dry_run == false }}
         env:
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
         run: |
           bash "${GITHUB_WORKSPACE}/.github/scripts/publish-theme-to-wordpress-org.sh"
-
       - name: Send Slack Notification
         if: ${{ inputs.dry_run == false }}
         uses: ./.github/actions/theme-slack-notification-release
         with:
           CLOUD_SLACK_BOT_TOKEN: ${{ secrets.CLOUD_SLACK_BOT_TOKEN }}
           PACKAGE_VERSION: ${{ env.THEME_VERSION }}
-          BUILD_ZIP_PATH: ""
-          GITHUB_RELEASE_URL: ""
           SLACK_CHANNEL: "#tmz-hello-delivery"
-          WPORG_DEPLOYMENT_STATUS: deployed
-
