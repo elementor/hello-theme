@@ -15,7 +15,7 @@ on:
 
 jobs:
   build:
-    if: ( github.actor == 'ManorHazaz' || github.actor == 'hein-obox' || github.actor == 'KingYes' || github.actor == 'bainternet' || github.actor == 'arielk' || github.actor == 'nuritsha' || github.actor == 'nicoladj77' ) && startsWith( github.repository, 'elementor/' )
+    if: ( github.actor == 'ManorHazaz' || github.actor == 'hein-obox' || github.actor == 'KingYes' || github.actor == 'arielk' || github.actor == 'nicoladj77' ) && startsWith( github.repository, 'elementor/' )
     uses: ./.github/workflows/build.yml
     secrets: inherit
 
