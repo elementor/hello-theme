@@ -1,7 +1,7 @@
 #!/bin/bash
 set -eo pipefail
 
-echo "   DRY RUN MODE: Will simulate SVN operations without committing"
+echo "DRY RUN MODE: Will simulate SVN operations without committing"
 
 if [[ -z "$THEME_VERSION" ]]; then
 	echo "Set the THEME_VERSION env var"
@@ -24,10 +24,10 @@ pwd
 mkdir -p $SVN_PATH
 cd $SVN_PATH
 
-echo "   DRY RUN: Checking out SVN repository (read-only)"
+echo "DRY RUN: Checking out SVN repository (read-only)"
 svn co --depth immediates "https://themes.svn.wordpress.org/hello-elementor" . 2>&1 | head -20 || {
-	echo "   Could not checkout repository (may require auth for some operations)"
-	echo "   This is normal - simulating checkout for dry-run"
+	echo "Could not checkout repository (may require auth for some operations)"
+	echo "This is normal - simulating checkout for dry-run"
 	mkdir -p "$VERSION_DIR"
 	cd "$VERSION_DIR"
 }
@@ -59,7 +59,7 @@ echo "Preparing files for SVN"
 svn status 2>/dev/null || echo ""
 
 echo "svn add new files"
-echo "   DRY RUN: Would add new files"
+echo "DRY RUN: Would add new files"
 svn status 2>/dev/null | grep -v '^.[ \t]*\\..*' | { grep '^?' || true; } | awk '{print $2}' | sed 's|^|     Would add: |' || true
 
 echo ""
@@ -75,29 +75,29 @@ if [ -n "$SVN_STATUS" ]; then
 	MODIFIED_COUNT=$(echo "$SVN_STATUS" | grep -c "^M" || echo "0")
 	UNTRACKED_COUNT=$(echo "$SVN_STATUS" | grep -c "^?" || echo "0")
 	
-	echo "   Added (A): $ADDED_COUNT files"
+	echo "Added (A): $ADDED_COUNT files"
 	if [ "$MODIFIED_COUNT" -gt 0 ]; then
-		echo "   Modified (M): $MODIFIED_COUNT files"
+		echo "Modified (M): $MODIFIED_COUNT files"
 	fi
 	if [ "$UNTRACKED_COUNT" -gt 0 ]; then
-		echo "   Untracked (?): $UNTRACKED_COUNT files (would be added)"
+		echo "Untracked (?): $UNTRACKED_COUNT files (would be added)"
 	fi
 	echo ""
 	TOTAL_CHANGES=$((ADDED_COUNT + MODIFIED_COUNT))
-	echo "   Total files that would be committed: $TOTAL_CHANGES files"
+	echo "Total files that would be committed: $TOTAL_CHANGES files"
 else
-	echo "   (No changes detected - files are up to date)"
+	echo "(No changes detected - files are up to date)"
 fi
 echo "=========================================="
 echo ""
 
 if [ "$TOTAL_CHANGES" -gt 0 ]; then
-	echo "   DRY RUN: Would commit $TOTAL_CHANGES files to version folder $VERSION_DIR"
-	echo "   Commit message: Upload v${THEME_VERSION}"
+	echo "DRY RUN: Would commit $TOTAL_CHANGES files to version folder $VERSION_DIR"
+	echo "Commit message: Upload v${THEME_VERSION}"
 else
-	echo "   DRY RUN: No changes to commit (files are up to date)"
+	echo "DRY RUN: No changes to commit (files are up to date)"
 fi
-echo "   No actual commit performed (dry-run mode)"
+echo "No actual commit performed (dry-run mode)"
 
 echo "Remove the SVN folder from the workspace"
 rm -rf $SVN_PATH
@@ -105,6 +105,6 @@ rm -rf $SVN_PATH
 echo "Back to the workspace root"
 cd $GITHUB_WORKSPACE
 
-echo "   Dry-run complete: v${THEME_VERSION}"
-echo "   All checks passed - ready for actual deployment"
+echo "Dry-run complete: v${THEME_VERSION}"
+echo "All checks passed - ready for actual deployment"
 
