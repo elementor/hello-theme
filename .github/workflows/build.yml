@@ -51,7 +51,6 @@ jobs:
       - name: Install Composer dependencies
         run:
           composer install --no-dev
-
       - name: Build
         run: npm run zip
       - name: Upload zip file to GitHub actions artifact
