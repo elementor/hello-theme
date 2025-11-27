@@ -3,10 +3,6 @@ name: Deploy
 on:
   workflow_dispatch:
     inputs:
-      version:
-        type: string
-        description: 'Version number to deploy (e.g., 3.4.5)'
-        required: true
       dry_run:
         type: boolean
         description: 'Dry run mode (test without deploying)'
@@ -28,7 +24,7 @@ jobs:
 
       - name: Preparing envs
         run: |
-          echo "THEME_VERSION=${{ inputs.version }}" >> $GITHUB_ENV
+          echo "THEME_VERSION=$(cat package.json | jq -r '.version')" >> $GITHUB_ENV
           echo "THEME_SLUG=hello-elementor" >> $GITHUB_ENV
           echo "BUILD_DIR=hello-elementor" >> $GITHUB_ENV
 
@@ -39,7 +35,7 @@ jobs:
 
       - name: Validate changelog
         env:
-          VERSION: ${{ inputs.version }}
+          VERSION: ${{ env.THEME_VERSION }}
         run: |
           bash "${GITHUB_WORKSPACE}/.github/scripts/validate-changelog.sh"
 
@@ -66,7 +62,7 @@ jobs:
         uses: ./.github/actions/theme-slack-notification-release
         with:
           CLOUD_SLACK_BOT_TOKEN: ${{ secrets.CLOUD_SLACK_BOT_TOKEN }}
-          PACKAGE_VERSION: ${{ inputs.version }}
+          PACKAGE_VERSION: ${{ env.THEME_VERSION }}
           BUILD_ZIP_PATH: ""
           GITHUB_RELEASE_URL: ""
           SLACK_CHANNEL: "#tmz-hello-delivery"
