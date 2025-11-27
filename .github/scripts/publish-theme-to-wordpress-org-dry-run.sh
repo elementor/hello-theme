@@ -1,7 +1,7 @@
 #!/bin/bash
 set -eo pipefail
 
-echo "🧪 DRY RUN MODE: Will simulate SVN operations without committing"
+echo "   DRY RUN MODE: Will simulate SVN operations without committing"
 
 if [[ -z "$THEME_VERSION" ]]; then
 	echo "Set the THEME_VERSION env var"
@@ -24,9 +24,9 @@ pwd
 mkdir -p $SVN_PATH
 cd $SVN_PATH
 
-echo "🧪 DRY RUN: Checking out SVN repository (read-only)"
+echo "   DRY RUN: Checking out SVN repository (read-only)"
 svn co --depth immediates "https://themes.svn.wordpress.org/hello-elementor" . 2>&1 | head -20 || {
-	echo "Could not checkout repository (may require auth for some operations)"
+	echo "   Could not checkout repository (may require auth for some operations)"
 	echo "   This is normal - simulating checkout for dry-run"
 	mkdir -p "$VERSION_DIR"
 	cd "$VERSION_DIR"
@@ -45,7 +45,7 @@ if [[ "$VERSION_EXISTS" == "true" ]]; then
    WordPress.org theme versions are immutable - you cannot update an existing version.
    If you need to make changes, create a new version (e.g., increment patch/minor/major).
 
-🧪 DRY RUN: Would fail here (version already exists)"
+   DRY RUN: Would fail here (version already exists)"
 	exit 0
 fi
 
@@ -59,7 +59,7 @@ echo "Preparing files for SVN"
 svn status 2>/dev/null || echo ""
 
 echo "svn add new files"
-echo "🧪 DRY RUN: Would add new files"
+echo "   DRY RUN: Would add new files"
 svn status 2>/dev/null | grep -v '^.[ \t]*\\..*' | { grep '^?' || true; } | awk '{print $2}' | sed 's|^|     Would add: |' || true
 
 echo ""
@@ -92,10 +92,10 @@ echo "=========================================="
 echo ""
 
 if [ "$TOTAL_CHANGES" -gt 0 ]; then
-	echo "🧪 DRY RUN: Would commit $TOTAL_CHANGES files to version folder $VERSION_DIR"
+	echo "   DRY RUN: Would commit $TOTAL_CHANGES files to version folder $VERSION_DIR"
 	echo "   Commit message: Upload v${THEME_VERSION}"
 else
-	echo "🧪 DRY RUN: No changes to commit (files are up to date)"
+	echo "   DRY RUN: No changes to commit (files are up to date)"
 fi
 echo "   No actual commit performed (dry-run mode)"
 
