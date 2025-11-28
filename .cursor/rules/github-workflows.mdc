@@ -1,0 +1,77 @@
+---
+description: GitHub Workflows and Actions YAML Rules for Hello Theme
+globs: ["**/*.yml", "**/*.yaml"]
+alwaysApply: true
+---
+
+# GitHub Workflows and Actions YAML Rules for Hello Theme
+
+## Core Principles
+
+### Assume Happy Path
+- Remove defensive checks that add little value
+- Assume branches exist, labels are correct, and operations succeed
+- Let failures fail naturally rather than adding extensive error handling
+- Focus on core functionality, not edge case handling
+
+### Keep Workflows Concise
+- Target 50-100 lines per workflow file
+- Extract complex logic to reusable scripts in `.github/scripts/`
+- Inline simple logic (templates, simple string operations)
+- Remove debugging and verbose logging
+
+### No Emojis
+- Never use emojis in workflow files, PR titles, or messages
+- Use plain text for all output and notifications
+
+## Script Extraction Guidelines
+
+### Extract to Scripts When:
+- Logic is complex (5+ lines of bash)
+- Logic is reused in multiple places
+- Logic benefits from testing independently
+
+### Keep Inline When:
+- Simple template strings
+- Single-line operations
+- Direct GitHub Actions expressions
+
+## Workflow Structure
+
+### Essential Steps Only
+- Checkout repository
+- Core workflow logic
+- Error handling only for critical failures
+
+### Remove These Steps:
+- Debugging/logging steps
+- Redundant validation steps
+- Conflict marker detection (redundant)
+
+## Code Style
+
+### YAML Formatting
+- Use consistent indentation (2 spaces)
+- Keep line length reasonable (max 120 characters)
+- Use multi-line strings for readability when needed
+- Empty line at end of file
+
+## Examples
+
+### Bad: Debugging Clutter
+```yaml
+- name: Log trigger and PR information
+  run: |
+    echo "Trigger: ${{ github.event.action }}"
+    echo "PR #${{ github.event.pull_request.number }}"
+    # ... more debugging output
+```
+
+### Bad: Unnecessary Validation
+```yaml
+if [ ! -f "style.css" ]; then
+  echo "::error:: Missing style.css"
+  continue
+fi
+# Assume happy path - these checks add little value
+```

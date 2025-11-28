@@ -7,72 +7,24 @@ inputs:
   PACKAGE_VERSION:
     required: true
     description: 'Release version'
-  BUILD_ZIP_PATH:
-    required: true
-    description: 'Path to theme zip file'
-  GITHUB_RELEASE_URL:
-    required: true
-    description: 'GitHub release URL'
   SLACK_CHANNEL:
     required: false
     default: '#tmz-hello-delivery'
     description: 'Slack channel to send notification to'
-  WPORG_DEPLOYMENT_STATUS:
-    required: false
-    default: 'skipped'
-    description: 'WordPress.org deployment status (deployed|skipped|disabled)'
 
 runs:
   using: 'composite'
   steps:
-    - name: Prepare deployment message
-      id: deployment-message
-      shell: bash
-      run: |
-        case "${{ inputs.WPORG_DEPLOYMENT_STATUS }}" in
-          "deployed")
-            MESSAGE="📦 *WordPress.org Deployment*\\n• ✅ Automatically deployed to WordPress.org\\n• Theme available at: https://wordpress.org/themes/hello-elementor/\\n• No manual upload required! 🎉"
-            ;;
-          "disabled")
-            MESSAGE="📦 *WordPress.org Deployment*\\n• ⚠️ Disabled in configuration\\n• Manual upload required to WordPress.org\\n• Download zip from GitHub release below"
-            ;;
-          *)
-            MESSAGE="📦 *WordPress.org Deployment*\\n• ⚠️ Skipped (deploy_to_wporg: false)\\n• Manual upload required to WordPress.org\\n• Download zip from GitHub release below"
-            ;;
-        esac
-        echo "DEPLOYMENT_MESSAGE=$MESSAGE" >> $GITHUB_ENV
-    
-    - name: Get file info
-      id: file-info
-      shell: bash
-      run: |
-        if [ -f "${{ inputs.BUILD_ZIP_PATH }}" ]; then
-          FILE_SIZE=$(stat -c%s "${{ inputs.BUILD_ZIP_PATH }}" 2>/dev/null || stat -f%z "${{ inputs.BUILD_ZIP_PATH }}")
-          FILE_SIZE_MB=$(echo "scale=2; $FILE_SIZE / 1024 / 1024" | bc -l 2>/dev/null || echo "$((FILE_SIZE / 1024 / 1024)).0")
-          echo "FILE_SIZE=$FILE_SIZE" >> $GITHUB_ENV
-          echo "FILE_SIZE_MB=${FILE_SIZE_MB}MB" >> $GITHUB_ENV
-        else
-          echo "FILE_SIZE_MB=Unknown" >> $GITHUB_ENV
-        fi
-
     - name: Post to Slack
       shell: bash
       env:
         CLOUD_SLACK_BOT_TOKEN: ${{ inputs.CLOUD_SLACK_BOT_TOKEN }}
         SLACK_CHANNEL: ${{ inputs.SLACK_CHANNEL }}
         PACKAGE_VERSION: ${{ inputs.PACKAGE_VERSION }}
-        FILE_SIZE_MB: ${{ env.FILE_SIZE_MB }}
-        DEPLOYMENT_MESSAGE: ${{ env.DEPLOYMENT_MESSAGE }}
-        GITHUB_RELEASE_URL: ${{ inputs.GITHUB_RELEASE_URL }}
-        BUILD_ZIP_PATH: ${{ inputs.BUILD_ZIP_PATH }}
       run: |
         node << 'NODE_SCRIPT'
         const slackChannel = process.env.SLACK_CHANNEL || '#tmz-hello-delivery';
         const packageVersion = process.env.PACKAGE_VERSION || '';
-        const fileSizeMb = process.env.FILE_SIZE_MB || 'Unknown';
-        const deploymentMessage = (process.env.DEPLOYMENT_MESSAGE || '').replace(/\\n/g, '\n');
-        const githubReleaseUrl = process.env.GITHUB_RELEASE_URL || '';
-        const buildZipPath = process.env.BUILD_ZIP_PATH || '';
         
         const payload = {
           text: `Hello Elementor v${packageVersion} Released!`,
@@ -81,7 +33,7 @@ runs:
               type: 'header',
               text: {
                 type: 'plain_text',
-                text: `🚀 Hello Elementor v${packageVersion} Released!`
+                text: `Hello Elementor v${packageVersion} Released!`
               }
             },
             {
@@ -97,40 +49,6 @@ runs:
                 {
                   type: 'mrkdwn',
                   text: `*Version:*\nv${packageVersion}`
-                },
-                {
-                  type: 'mrkdwn',
-                  text: `*Package Size:*\n${fileSizeMb}`
-                }
-              ]
-            },
-            {
-              type: 'section',
-              text: {
-                type: 'mrkdwn',
-                text: deploymentMessage
-              }
-            },
-            {
-              type: 'actions',
-              elements: [
-                {
-                  type: 'button',
-                  text: {
-                    type: 'plain_text',
-                    text: '📥 Download Release'
-                  },
-                  url: githubReleaseUrl,
-                  style: 'primary'
-                }
-              ]
-            },
-            {
-              type: 'context',
-              elements: [
-                {
-                  type: 'mrkdwn',
-                  text: `Build: ${buildZipPath}`
                 }
               ]
             }
@@ -151,15 +69,3 @@ runs:
         echo "📢 Slack notification sent!"
         echo "   - Channel: ${{ inputs.SLACK_CHANNEL }}"
         echo "   - Version: v${{ inputs.PACKAGE_VERSION }}"
-        echo "   - Release: ${{ inputs.GITHUB_RELEASE_URL }}"
-        case "${{ inputs.WPORG_DEPLOYMENT_STATUS }}" in
-          "deployed")
-            echo "   - WordPress.org: ✅ Automatically deployed"
-            ;;
-          "disabled")
-            echo "   - WordPress.org: ⚠️ Disabled in configuration"
-            ;;
-          *)
-            echo "   - WordPress.org: ⚠️ Skipped (deploy_to_wporg: false)"
-            ;;
-        esac
