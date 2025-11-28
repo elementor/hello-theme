@@ -57,7 +57,8 @@ jobs:
           for lbl in "${BRANCHES[@]}"; do
             TARGET=${lbl#cp_}
             
-            BRANCH=$(bash "${GITHUB_WORKSPACE}/.github/scripts/cherry-picking/generate-branch-name.sh" "$PR_NUMBER" "$TARGET")
+            TARGET_SAFE=$(echo "$TARGET" | sed 's/\./_/g')
+            BRANCH="cherry-pick-pr${PR_NUMBER}_to_${TARGET_SAFE}"
             CONFLICT_BRANCH="${BRANCH}_conflicts"
 
             if ! git cherry-pick -m 1 "$MERGE_SHA"; then
@@ -68,8 +69,12 @@ jobs:
 
               if git push --force-with-lease origin "$BRANCH:$CONFLICT_BRANCH"; then
                 if ! gh pr list --head "$CONFLICT_BRANCH" --base "$TARGET" --state open | grep -q .; then
-                  CONFLICT_TITLE=$(bash "${GITHUB_WORKSPACE}/.github/scripts/cherry-picking/generate-pr-title.sh" "$PR_TITLE" "$PR_NUMBER" "$TARGET")
-                  CONFLICT_TITLE="${CONFLICT_TITLE} with conflicts"
+                  TYPE=$(echo "$PR_TITLE" | grep -oE '^[A-Za-z]+:' | head -1)
+                  if [ -z "$TYPE" ]; then
+                    TYPE="Internal:"
+                  fi
+                  DESCRIPTION=$(echo "$PR_TITLE" | sed 's/^[A-Za-z]*: *//')
+                  CONFLICT_TITLE="${TYPE} Cherry-pick PR ${PR_NUMBER} to ${TARGET} with conflicts ${DESCRIPTION}"
                   
                   CONFLICT_TRIGGER_INFO=""
                   if [ "${{ github.event.action }}" = "labeled" ]; then
@@ -100,7 +105,11 @@ jobs:
             if gh pr list --head "$BRANCH" --base "$TARGET" --state open | grep -q .; then
               echo "PR already exists for branch $BRANCH -> $TARGET, skipping creation"
             else
-              PR_TITLE_GENERATED=$(bash "${GITHUB_WORKSPACE}/.github/scripts/cherry-picking/generate-pr-title.sh" "$PR_TITLE" "$PR_NUMBER" "$TARGET")
+              TYPE=$(echo "$PR_TITLE" | grep -oE '^[A-Za-z]+:' | head -1)
+              if [ -z "$TYPE" ]; then
+                TYPE="Internal:"
+              fi
+              DESCRIPTION=$(echo "$PR_TITLE" | sed 's/^[A-Za-z]*: *//')
               
               TRIGGER_INFO=""
               if [ "${{ github.event.action }}" = "labeled" ]; then
@@ -108,13 +117,14 @@ jobs:
                 **Trigger:** Label \`${LABEL_NAME}\` added to closed PR"
               fi
 
-              PR_BODY=$(bash "${GITHUB_WORKSPACE}/.github/scripts/cherry-picking/generate-pr-body.sh" "$PR_NUMBER" "$ORIG_URL" "$TARGET" "$SOURCE_REPO" "$PR_USER_LOGIN" "$TRIGGER_INFO")
-
               gh pr create \
                 --base "$TARGET" \
                 --head "$BRANCH" \
-                --title "$PR_TITLE_GENERATED" \
-                --body "$PR_BODY"
+                --title "${TYPE} Cherry-pick PR ${PR_NUMBER} to ${TARGET} ${DESCRIPTION}" \
+                --body "Automatic cherry-pick of [#${PR_NUMBER}](${ORIG_URL}) to \`${TARGET}\` branch.
+
+                **Source:** ${SOURCE_REPO}
+                **Original Author:** @${PR_USER_LOGIN}${TRIGGER_INFO}"
             fi
           done
         shell: bash
