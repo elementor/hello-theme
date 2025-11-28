@@ -120,8 +120,8 @@ jobs:
                   gh pr create \
                     --base "$TARGET" \
                     --head "$CONFLICT_BRANCH" \
-                    --title "🔧 [CONFLICTS] Cherry-pick PR #${PR_NUMBER} → ${TARGET}: ${PR_TITLE}" \
-                    --body "⚠️ **Manual Resolution Required**
+                    --title "[CONFLICTS] Cherry-pick PR #${PR_NUMBER} → ${TARGET}: ${PR_TITLE}" \
+                    --body "**Manual Resolution Required**
 
                   This cherry-pick of [#${PR_NUMBER}](${ORIG_URL}) to \`${TARGET}\` branch has conflicts that need manual resolution.
 
@@ -158,11 +158,11 @@ jobs:
               fi
               continue
             else
-              echo "✅ Cherry-pick successful for $TARGET"
+              echo "Cherry-pick successful for $TARGET"
             fi
 
             # Basic theme structure validation (quick checks only)
-            echo "🔍 Basic theme structure validation..."
+            echo "Basic theme structure validation..."
             if [ ! -f "style.css" ]; then
               echo "::error:: Missing style.css after cherry-pick"
               continue
@@ -205,9 +205,9 @@ jobs:
               if [ -n "$PR_TICKETS" ]; then
                 # Remove existing tickets from title to avoid duplication
                 TITLE_WITHOUT_TICKETS=$(echo "$PR_TITLE" | sed 's/\[[A-Z]\{2,\}-[0-9]\+\]//g' | sed 's/[[:space:]]*$//')
-                CHERRY_PICK_TITLE="$TITLE_WITHOUT_TICKETS (🍒 CP #${PR_NUMBER}→${TARGET}) ${PR_TICKETS}"
+                CHERRY_PICK_TITLE="$TITLE_WITHOUT_TICKETS (CP #${PR_NUMBER}→${TARGET}) ${PR_TICKETS}"
               else
-                CHERRY_PICK_TITLE="$PR_TITLE (🍒 CP #${PR_NUMBER}→${TARGET})"
+                CHERRY_PICK_TITLE="$PR_TITLE (CP #${PR_NUMBER}→${TARGET})"
               fi
 
               gh pr create \
@@ -223,10 +223,10 @@ jobs:
 
                 **Automatic Validation:**
                 The following workflows will run automatically to validate this cherry-pick:
-                - 🏗️ **Build validation** (\`build.yml\`) - Theme compilation and asset building
-                - 🧹 **JavaScript linting** (\`lint.yml\`) - Code quality checks  
-                - ✅ **Cherry-pick validation** (\`cherry-pick-validation.yml\`) - Theme-specific validation
-                - 🔍 **Additional CI workflows** - As configured for the repository
+                - **Build validation** (\`build.yml\`) - Theme compilation and asset building
+                - **JavaScript linting** (\`lint.yml\`) - Code quality checks  
+                - **Cherry-pick validation** (\`cherry-pick-validation.yml\`) - Theme-specific validation
+                - **Additional CI workflows** - As configured for the repository
 
                 **Next Steps:**
                 - Wait for validation workflows to complete
@@ -237,6 +237,6 @@ jobs:
                 **Note:** Build and validation happen automatically via PR workflows, following the same process as regular PRs."
             fi
             
-            echo "✅ Successfully created cherry-pick PR for $TARGET"
+            echo "Successfully created cherry-pick PR for $TARGET"
           done
         shell: bash 
