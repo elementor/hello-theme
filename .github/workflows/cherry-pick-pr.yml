@@ -63,6 +63,11 @@ jobs:
             
             echo "Processing cherry-pick for branch: $TARGET"
 
+            if ! git checkout -b "$BRANCH" "origin/$TARGET"; then
+              echo "::warning:: Branch $TARGET does not exist - skipping"
+              continue
+            fi
+
             if ! git cherry-pick -m 1 "$MERGE_SHA"; then
               echo "::error:: Cherry-pick conflicts detected for PR #${PR_NUMBER} on branch ${TARGET}"
 
