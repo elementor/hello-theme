@@ -57,9 +57,11 @@ jobs:
           for lbl in "${BRANCHES[@]}"; do
             TARGET=${lbl#cp_}
             
-            TARGET_SAFE=$(echo "$TARGET" | sed 's/\./_/g')
-            BRANCH="cherry-pick-pr${PR_NUMBER}_to_${TARGET_SAFE}"
+            ORIGINAL_BRANCH="${{ github.event.pull_request.head.ref }}"
+            BRANCH=$(bash "${GITHUB_WORKSPACE}/.github/scripts/cherry-picking/generate-branch-name.sh" "$PR_NUMBER" "$TARGET" "$ORIGINAL_BRANCH")
             CONFLICT_BRANCH="${BRANCH}_conflicts"
+            
+            echo "Processing cherry-pick for branch: $TARGET"
 
             if ! git cherry-pick -m 1 "$MERGE_SHA"; then
               echo "::error:: Cherry-pick conflicts detected for PR #${PR_NUMBER} on branch ${TARGET}"
@@ -69,12 +71,8 @@ jobs:
 
               if git push --force-with-lease origin "$BRANCH:$CONFLICT_BRANCH"; then
                 if ! gh pr list --head "$CONFLICT_BRANCH" --base "$TARGET" --state open | grep -q .; then
-                  TYPE=$(echo "$PR_TITLE" | grep -oE '^[A-Za-z]+:' | head -1)
-                  if [ -z "$TYPE" ]; then
-                    TYPE="Internal:"
-                  fi
-                  DESCRIPTION=$(echo "$PR_TITLE" | sed 's/^[A-Za-z]*: *//')
-                  CONFLICT_TITLE="${TYPE} Cherry-pick PR ${PR_NUMBER} to ${TARGET} with conflicts ${DESCRIPTION}"
+                  CONFLICT_TITLE=$(bash "${GITHUB_WORKSPACE}/.github/scripts/cherry-picking/generate-pr-title.sh" "$PR_TITLE" "$PR_NUMBER" "$TARGET")
+                  CONFLICT_TITLE="${CONFLICT_TITLE} with conflicts"
                   
                   CONFLICT_TRIGGER_INFO=""
                   if [ "${{ github.event.action }}" = "labeled" ]; then
@@ -82,13 +80,35 @@ jobs:
                   **Trigger:** Label \`${LABEL_NAME}\` added to closed PR"
                   fi
 
-                  CONFLICT_BODY=$(bash "${GITHUB_WORKSPACE}/.github/scripts/cherry-pick-generate-conflict-pr-body.sh" "$PR_NUMBER" "$ORIG_URL" "$TARGET" "$CONFLICT_BRANCH" "$CONFLICT_TRIGGER_INFO")
-
                   gh pr create \
                     --base "$TARGET" \
                     --head "$CONFLICT_BRANCH" \
                     --title "$CONFLICT_TITLE" \
-                    --body "$CONFLICT_BODY" \
+                    --body "**Manual Resolution Required**
+
+                  This cherry-pick of [#${PR_NUMBER}](${ORIG_URL}) to \`${TARGET}\` branch has conflicts that need manual resolution.
+
+                  **Theme-Specific Conflict Resolution:**
+                  - **Version Conflicts**: Check \`style.css\` header for version mismatches
+                  - **Schema Conflicts**: Validate \`theme.json\` structure changes
+                  - **Function Conflicts**: Resolve \`functions.php\` function name collisions
+
+                  **Resolution Steps:**
+                  1. Check out this branch: \`git checkout $CONFLICT_BRANCH\`
+                  2. Resolve conflicts in the marked files
+                  3. Stage resolved files: \`git add <resolved-files>\`
+                  4. Amend the commit: \`git commit --amend\`
+                  5. Push changes: \`git push --force-with-lease\`
+                  6. Mark this PR as ready for review
+
+                  **Automatic Validation:**
+                  Once you push resolved changes, the following workflows will run automatically:
+                  - Build validation (\`build.yml\`)
+                  - JavaScript linting (\`lint.yml\`)
+                  - Cherry-pick validation (\`cherry-pick-validation.yml\`)
+                  - Additional CI workflows as configured
+
+                  **Original PR:** [#${PR_NUMBER}](${ORIG_URL})${CONFLICT_TRIGGER_INFO}" \
                     --draft
                 fi
               else
@@ -105,11 +125,7 @@ jobs:
             if gh pr list --head "$BRANCH" --base "$TARGET" --state open | grep -q .; then
               echo "PR already exists for branch $BRANCH -> $TARGET, skipping creation"
             else
-              TYPE=$(echo "$PR_TITLE" | grep -oE '^[A-Za-z]+:' | head -1)
-              if [ -z "$TYPE" ]; then
-                TYPE="Internal:"
-              fi
-              DESCRIPTION=$(echo "$PR_TITLE" | sed 's/^[A-Za-z]*: *//')
+              PR_TITLE_GENERATED=$(bash "${GITHUB_WORKSPACE}/.github/scripts/cherry-picking/generate-pr-title.sh" "$PR_TITLE" "$PR_NUMBER" "$TARGET")
               
               TRIGGER_INFO=""
               if [ "${{ github.event.action }}" = "labeled" ]; then
@@ -120,7 +136,7 @@ jobs:
               gh pr create \
                 --base "$TARGET" \
                 --head "$BRANCH" \
-                --title "${TYPE} Cherry-pick PR ${PR_NUMBER} to ${TARGET} ${DESCRIPTION}" \
+                --title "$PR_TITLE_GENERATED" \
                 --body "Automatic cherry-pick of [#${PR_NUMBER}](${ORIG_URL}) to \`${TARGET}\` branch.
 
                 **Source:** ${SOURCE_REPO}
