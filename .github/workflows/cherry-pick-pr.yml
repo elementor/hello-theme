@@ -69,12 +69,6 @@ jobs:
             fi
 
             if ! git cherry-pick -m 1 "$MERGE_SHA"; then
-              if git diff --staged --quiet && git diff --quiet; then
-                echo "::notice:: Cherry-pick is empty (all changes already in ${TARGET}), skipping"
-                git cherry-pick --skip
-                continue
-              fi
-
               echo "::error:: Cherry-pick conflicts detected for PR #${PR_NUMBER} on branch ${TARGET}"
 
               git add .
