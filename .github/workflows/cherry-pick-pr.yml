@@ -60,11 +60,6 @@ jobs:
             BRANCH=$(bash "${GITHUB_WORKSPACE}/.github/scripts/cherry-picking/generate-branch-name.sh" "$PR_NUMBER" "$TARGET")
             CONFLICT_BRANCH="${BRANCH}_conflicts"
 
-            if ! git checkout -b "$BRANCH" "origin/$TARGET"; then
-              echo "::warning:: Branch $TARGET does not exist - skipping"
-              continue
-            fi
-
             if ! git cherry-pick -m 1 "$MERGE_SHA"; then
               echo "::error:: Cherry-pick conflicts detected for PR #${PR_NUMBER} on branch ${TARGET}"
 
