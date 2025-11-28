@@ -1,5 +1,4 @@
 name: Cherry Pick Merged PR
-# Add a test comment.
 
 on:
   pull_request_target:
@@ -18,7 +17,6 @@ jobs:
 
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      HEAD_REF: ${{ github.event.pull_request.head.ref }}
 
     steps:
       - name: Checkout repository
@@ -28,26 +26,6 @@ jobs:
           ref: ${{ github.event.pull_request.base.ref }}
           fetch-depth: 0
           persist-credentials: true
-
-      - name: Check if PR is from fork
-        id: check_fork
-        run: |
-          IS_FORK="${{ github.event.pull_request.head.repo.full_name != github.repository }}"
-          echo "is_fork=$IS_FORK" >> "$GITHUB_OUTPUT"
-          echo "Fork status: $IS_FORK"
-        shell: bash
-
-      - name: Log trigger and PR information
-        run: |
-          echo "Trigger: ${{ github.event.action }}"
-          if [ "${{ github.event.action }}" = "labeled" ]; then
-            echo "Added label: ${{ github.event.label.name }}"
-          fi
-          echo "PR #${{ github.event.pull_request.number }} from: ${{ github.event.pull_request.head.repo.full_name }}"
-          echo "Target repository: ${{ github.repository }}"
-          echo "Is fork PR: ${{ steps.check_fork.outputs.is_fork }}"
-          echo "PR merged: ${{ github.event.pull_request.merged }}"
-        shell: bash
 
       - name: Get branch labels
         id: get_labels
@@ -66,6 +44,7 @@ jobs:
           PR_TITLE: ${{ github.event.pull_request.title }}
           PR_USER_LOGIN: ${{ github.event.pull_request.user.login }}
           LABEL_NAME: ${{ github.event.label.name }}
+          SOURCE_REPO: ${{ github.event.pull_request.head.repo.full_name }}
         run: |
           PR_NUMBER="${{ github.event.pull_request.number }}"
           MERGE_SHA="${{ github.event.pull_request.merge_commit_sha }}"
@@ -78,165 +57,69 @@ jobs:
           for lbl in "${BRANCHES[@]}"; do
             TARGET=${lbl#cp_}
             
-            # Create sanitized branch name from original branch name with timestamp for uniqueness
-            ORIGINAL_BRANCH="${{ github.event.pull_request.head.ref }}"
-            # Strip any word followed by '/' to ensure ticket numbers appear at the beginning
-            CLEAN_BRANCH=$(echo "$ORIGINAL_BRANCH" | sed 's|^[^/]*/||g')
-            SANITIZED_BRANCH=$(echo "$CLEAN_BRANCH" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g' | sed 's/--*/-/g' | sed 's/^-\|-$//g')
-            # Limit length to 35 chars to leave room for PR number and timestamp suffix
-            SANITIZED_BRANCH=${SANITIZED_BRANCH:0:35}
-            TIMESTAMP=$(date +%s)
-            BRANCH="${SANITIZED_BRANCH}-cherry-pick-pr${PR_NUMBER}-${TIMESTAMP}"
+            BRANCH=$(bash "${GITHUB_WORKSPACE}/.github/scripts/cherry-picking/generate-branch-name.sh" "$PR_NUMBER" "$TARGET")
+            CONFLICT_BRANCH="${BRANCH}_conflicts"
 
-            echo "Processing cherry-pick for branch: $TARGET"
-
-            # Create branch
             if ! git checkout -b "$BRANCH" "origin/$TARGET"; then
               echo "::warning:: Branch $TARGET does not exist - skipping"
               continue
             fi
 
-            # Cherry-pick
             if ! git cherry-pick -m 1 "$MERGE_SHA"; then
               echo "::error:: Cherry-pick conflicts detected for PR #${PR_NUMBER} on branch ${TARGET}"
 
-              # Create a conflict resolution branch
-              CONFLICT_BRANCH="${BRANCH}-conflicts"
-
-              # Add conflict markers and create a commit for manual resolution
               git add .
               git commit -m "Cherry-pick PR #${PR_NUMBER} with conflicts - manual resolution needed"
 
-              # Push the conflict branch
               if git push --force-with-lease origin "$BRANCH:$CONFLICT_BRANCH"; then
-                # Create draft PR with conflict information
                 if ! gh pr list --head "$CONFLICT_BRANCH" --base "$TARGET" --state open | grep -q .; then
+                  CONFLICT_TITLE=$(bash "${GITHUB_WORKSPACE}/.github/scripts/cherry-picking/generate-pr-title.sh" "$PR_TITLE" "$PR_NUMBER" "$TARGET")
+                  CONFLICT_TITLE="${CONFLICT_TITLE} with conflicts"
+                  
                   CONFLICT_TRIGGER_INFO=""
                   if [ "${{ github.event.action }}" = "labeled" ]; then
                     CONFLICT_TRIGGER_INFO="
                   **Trigger:** Label \`${LABEL_NAME}\` added to closed PR"
                   fi
-                  
+
+                  CONFLICT_BODY=$(bash "${GITHUB_WORKSPACE}/.github/scripts/cherry-picking/generate-conflict-pr-body.sh" "$PR_NUMBER" "$ORIG_URL" "$TARGET" "$CONFLICT_BRANCH" "$CONFLICT_TRIGGER_INFO")
+
                   gh pr create \
                     --base "$TARGET" \
                     --head "$CONFLICT_BRANCH" \
-                    --title "[CONFLICTS] Cherry-pick PR #${PR_NUMBER} → ${TARGET}: ${PR_TITLE}" \
-                    --body "**Manual Resolution Required**
-
-                  This cherry-pick of [#${PR_NUMBER}](${ORIG_URL}) to \`${TARGET}\` branch has conflicts that need manual resolution.
-
-                  **Theme-Specific Conflict Resolution:**
-                  - **Version Conflicts**: Check \`style.css\` header for version mismatches
-                  - **Schema Conflicts**: Validate \`theme.json\` structure changes
-                  - **Function Conflicts**: Resolve \`functions.php\` function name collisions
-
-                  **Resolution Steps:**
-                  1. Check out this branch: \`git checkout $CONFLICT_BRANCH\`
-                  2. Resolve conflicts in the marked files
-                  3. Stage resolved files: \`git add <resolved-files>\`
-                  4. Amend the commit: \`git commit --amend\`
-                  5. Push changes: \`git push --force-with-lease\`
-                  6. Mark this PR as ready for review
-
-                  **Automatic Validation:**
-                  Once you push resolved changes, the following workflows will run automatically:
-                  - Build validation (\`build.yml\`)
-                  - JavaScript linting (\`lint.yml\`)
-                  - Cherry-pick validation (\`cherry-pick-validation.yml\`)
-                  - Additional CI workflows as configured
-
-                  **Original PR:** [#${PR_NUMBER}](${ORIG_URL})${CONFLICT_TRIGGER_INFO}" \
+                    --title "$CONFLICT_TITLE" \
+                    --body "$CONFLICT_BODY" \
                     --draft
-
-                  echo "::notice:: Created draft PR for manual conflict resolution: $CONFLICT_BRANCH"
-                else
-                  echo "::notice:: Draft PR already exists for conflict resolution: $CONFLICT_BRANCH"
                 fi
               else
-                echo "::warning:: Failed to push conflict branch $CONFLICT_BRANCH"
                 git cherry-pick --abort
               fi
               continue
-            else
-              echo "Cherry-pick successful for $TARGET"
             fi
 
-            # Basic theme structure validation (quick checks only)
-            echo "Basic theme structure validation..."
-            if [ ! -f "style.css" ]; then
-              echo "::error:: Missing style.css after cherry-pick"
-              continue
-            fi
-            if [ ! -f "functions.php" ]; then
-              echo "::error:: Missing functions.php after cherry-pick"
-              continue
-            fi
-            if [ ! -f "theme.json" ]; then
-              echo "::error:: Missing theme.json after cherry-pick"
-              continue
-            fi
-
-            # Check for obvious conflict markers
-            if grep -q "<<<<<<< HEAD" style.css functions.php theme.json 2>/dev/null; then
-              echo "::warning:: Conflict markers detected - this should not happen in successful cherry-pick"
-            fi
-
-            # Push (force push to handle existing branches)
             if ! git push --force-with-lease origin "$BRANCH"; then
               echo "::error:: Failed to push branch $BRANCH"
               exit 1
             fi
 
-            # Create PR via gh CLI (token already in env: GH_TOKEN)
-            # Check if PR already exists
             if gh pr list --head "$BRANCH" --base "$TARGET" --state open | grep -q .; then
               echo "PR already exists for branch $BRANCH -> $TARGET, skipping creation"
             else
+              PR_TITLE_GENERATED=$(bash "${GITHUB_WORKSPACE}/.github/scripts/cherry-picking/generate-pr-title.sh" "$PR_TITLE" "$PR_NUMBER" "$TARGET")
+              
               TRIGGER_INFO=""
               if [ "${{ github.event.action }}" = "labeled" ]; then
                 TRIGGER_INFO="
                 **Trigger:** Label \`${LABEL_NAME}\` added to closed PR"
               fi
 
-              # Extract tickets and add to title for Jira compatibility
-              PR_TICKETS=$(echo "$PR_TITLE" | grep -o '\[[A-Z]\{2,\}-[0-9]\+\]' | tr '\n' ' ' | sed 's/[[:space:]]*$//')
-              
-              # Create title with tickets at the end (remove duplicates if already present)
-              if [ -n "$PR_TICKETS" ]; then
-                # Remove existing tickets from title to avoid duplication
-                TITLE_WITHOUT_TICKETS=$(echo "$PR_TITLE" | sed 's/\[[A-Z]\{2,\}-[0-9]\+\]//g' | sed 's/[[:space:]]*$//')
-                CHERRY_PICK_TITLE="$TITLE_WITHOUT_TICKETS (CP #${PR_NUMBER}→${TARGET}) ${PR_TICKETS}"
-              else
-                CHERRY_PICK_TITLE="$PR_TITLE (CP #${PR_NUMBER}→${TARGET})"
-              fi
+              PR_BODY=$(bash "${GITHUB_WORKSPACE}/.github/scripts/cherry-picking/generate-pr-body.sh" "$PR_NUMBER" "$ORIG_URL" "$TARGET" "$SOURCE_REPO" "$PR_USER_LOGIN" "$TRIGGER_INFO")
 
               gh pr create \
                 --base "$TARGET" \
                 --head "$BRANCH" \
-                --title "$CHERRY_PICK_TITLE" \
-                --body "Automatic cherry-pick of [#${PR_NUMBER}](${ORIG_URL}) to \`${TARGET}\` branch.
-
-                **Theme Information:**
-                - **Theme:** hello-elementor
-                - **Source:** ${{ github.event.pull_request.head.repo.full_name }}
-                - **Original Author:** @${PR_USER_LOGIN}${TRIGGER_INFO}
-
-                **Automatic Validation:**
-                The following workflows will run automatically to validate this cherry-pick:
-                - **Build validation** (\`build.yml\`) - Theme compilation and asset building
-                - **JavaScript linting** (\`lint.yml\`) - Code quality checks  
-                - **Cherry-pick validation** (\`cherry-pick-validation.yml\`) - Theme-specific validation
-                - **Additional CI workflows** - As configured for the repository
-
-                **Next Steps:**
-                - Wait for validation workflows to complete
-                - Review automated validation results
-                - Test theme functionality if needed
-                - Merge when all checks pass
-
-                **Note:** Build and validation happen automatically via PR workflows, following the same process as regular PRs."
+                --title "$PR_TITLE_GENERATED" \
+                --body "$PR_BODY"
             fi
-            
-            echo "Successfully created cherry-pick PR for $TARGET"
           done
-        shell: bash 
+        shell: bash
