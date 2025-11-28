@@ -82,7 +82,7 @@ jobs:
                   **Trigger:** Label \`${LABEL_NAME}\` added to closed PR"
                   fi
 
-                  CONFLICT_BODY=$(bash "${GITHUB_WORKSPACE}/.github/scripts/cherry-picking/generate-conflict-pr-body.sh" "$PR_NUMBER" "$ORIG_URL" "$TARGET" "$CONFLICT_BRANCH" "$CONFLICT_TRIGGER_INFO")
+                  CONFLICT_BODY=$(bash "${GITHUB_WORKSPACE}/.github/scripts/cherry-pick-generate-conflict-pr-body.sh" "$PR_NUMBER" "$ORIG_URL" "$TARGET" "$CONFLICT_BRANCH" "$CONFLICT_TRIGGER_INFO")
 
                   gh pr create \
                     --base "$TARGET" \
