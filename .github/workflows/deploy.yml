@@ -26,57 +26,27 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Check build job status
-        run: |
-          echo "Build job result: ${{ needs.build.result }}"
-          if [ "${{ needs.build.result }}" != "success" ]; then
-            echo "ERROR: Build job did not complete successfully. Result: ${{ needs.build.result }}"
-            echo "Build job may have been skipped due to conditional check."
-            exit 1
-          fi
       - name: Preparing envs
         run: |
           echo "THEME_VERSION=$(cat package.json | jq -r '.version')" >> $GITHUB_ENV
       - name: Download Artifact
-        id: download-artifact
         uses: actions/download-artifact@v4
         with:
           name: hello-elementor
-        continue-on-error: true
-      - name: Extract artifact
+      - name: Extract Hello Theme build
         run: |
-          echo "Artifact download outcome: ${{ steps.download-artifact.outcome }}"
-          if [ "${{ steps.download-artifact.outcome }}" != "success" ]; then
-            echo "ERROR: Artifact download failed"
-            echo "Check the build job logs to verify the artifact was uploaded"
-            exit 1
-          fi
-          echo "Current directory: $(pwd)"
-          echo "Workspace contents after download:"
-          ls -la
-          echo ""
-          echo "Searching for zip file:"
-          HT_ZIP=$(find . -maxdepth 2 -name "hello-elementor.*.zip" -type f | head -1)
-          if [ -z "$HT_ZIP" ]; then
-            echo "ERROR: Zip file not found after artifact download"
-            echo "Available files:"
-            find . -maxdepth 2 -type f | head -20
-            exit 1
-          fi
-          echo "Found zip file: $HT_ZIP"
-          echo "Extracting zip file..."
-          unzip -q "$HT_ZIP" -d .
-          echo "Extraction complete"
-          echo ""
-          echo "Verifying hello-elementor directory:"
-          if [ -d "hello-elementor" ]; then
-            echo "SUCCESS: hello-elementor directory found"
-            ls -la hello-elementor | head -10
-          else
-            echo "ERROR: hello-elementor directory not found after extraction"
-            echo "Zip file contents:"
-            unzip -l "$HT_ZIP" | head -20
-            exit 1
+          HT_ZIP=$(find . -name "hello-elementor-*.zip" -o -name "hello-elementor.*.zip" -type f | head -1)
+          if [ -n "$HT_ZIP" ]; then
+            mkdir -p ./tmp
+            unzip -q "$HT_ZIP" -d ./tmp/
+            if [ -d "./tmp/hello-elementor" ]; then
+              mv ./tmp/hello-elementor ./hello-elementor
+            elif [ -d "./tmp" ] && [ "$(ls -A ./tmp/)" ]; then
+              mkdir -p ./hello-elementor-temp
+              mv ./tmp/* ./hello-elementor-temp/ 2>/dev/null || true
+              mv ./hello-elementor-temp ./hello-elementor
+            fi
+            rm -rf ./tmp
           fi
       - name: Validate changelog
         env:
