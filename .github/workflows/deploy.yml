@@ -21,10 +21,19 @@ jobs:
 
   deploy:
     needs: build
+    if: needs.build.result == 'success'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+      - name: Check build job status
+        run: |
+          echo "Build job result: ${{ needs.build.result }}"
+          if [ "${{ needs.build.result }}" != "success" ]; then
+            echo "ERROR: Build job did not complete successfully. Result: ${{ needs.build.result }}"
+            echo "Build job may have been skipped due to conditional check."
+            exit 1
+          fi
       - name: Preparing envs
         run: |
           echo "THEME_VERSION=$(cat package.json | jq -r '.version')" >> $GITHUB_ENV
