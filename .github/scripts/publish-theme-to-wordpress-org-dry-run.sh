@@ -53,6 +53,17 @@ mkdir -p "$VERSION_DIR"
 cd "$VERSION_DIR"
 
 echo "Copy files from build directory"
+if [ ! -d "$THEME_PATH/hello-elementor" ]; then
+	echo "ERROR: Build directory not found: $THEME_PATH/hello-elementor"
+	echo "Current directory: $(pwd)"
+	echo "THEME_PATH: $THEME_PATH"
+	echo "Available files and directories:"
+	ls -la "$THEME_PATH" | head -30
+	echo ""
+	echo "Checking for zip files that might need extraction:"
+	find "$THEME_PATH" -maxdepth 1 -name "hello-elementor*.zip" -type f || echo "No zip files found"
+	exit 1
+fi
 rsync -ah --progress "$THEME_PATH/hello-elementor/"* . || rsync -ah --progress "$THEME_PATH/hello-elementor/." . || true
 
 echo "Preparing files for SVN"
@@ -71,9 +82,13 @@ if [ -n "$SVN_STATUS" ]; then
 	echo "$SVN_STATUS"
 	echo ""
 	echo "Summary:"
-	ADDED_COUNT=$(echo "$SVN_STATUS" | grep -c "^A" || echo "0")
-	MODIFIED_COUNT=$(echo "$SVN_STATUS" | grep -c "^M" || echo "0")
-	UNTRACKED_COUNT=$(echo "$SVN_STATUS" | grep -c "^?" || echo "0")
+	ADDED_COUNT=$(echo "$SVN_STATUS" | grep -c "^A" 2>/dev/null || echo "0")
+	MODIFIED_COUNT=$(echo "$SVN_STATUS" | grep -c "^M" 2>/dev/null || echo "0")
+	UNTRACKED_COUNT=$(echo "$SVN_STATUS" | grep -c "^?" 2>/dev/null || echo "0")
+	
+	ADDED_COUNT=${ADDED_COUNT:-0}
+	MODIFIED_COUNT=${MODIFIED_COUNT:-0}
+	UNTRACKED_COUNT=${UNTRACKED_COUNT:-0}
 	
 	echo "Added (A): $ADDED_COUNT files"
 	if [ "$MODIFIED_COUNT" -gt 0 ]; then
