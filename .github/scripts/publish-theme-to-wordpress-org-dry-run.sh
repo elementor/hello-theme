@@ -66,36 +66,24 @@ echo ""
 echo "SVN Status Summary (what would be committed):"
 echo "=========================================="
 SVN_STATUS=$(svn status 2>/dev/null || echo "")
-TOTAL_CHANGES=0
 if [ -n "$SVN_STATUS" ]; then
 	echo "$SVN_STATUS"
 	echo ""
-	echo "Summary:"
-	ADDED_COUNT=$(echo "$SVN_STATUS" | grep -c "^A" || echo "0")
-	MODIFIED_COUNT=$(echo "$SVN_STATUS" | grep -c "^M" || echo "0")
-	UNTRACKED_COUNT=$(echo "$SVN_STATUS" | grep -c "^?" || echo "0")
-	
-	echo "Added (A): $ADDED_COUNT files"
-	if [ "$MODIFIED_COUNT" -gt 0 ]; then
-		echo "Modified (M): $MODIFIED_COUNT files"
-	fi
-	if [ "$UNTRACKED_COUNT" -gt 0 ]; then
-		echo "Untracked (?): $UNTRACKED_COUNT files (would be added)"
-	fi
-	echo ""
-	TOTAL_CHANGES=$((ADDED_COUNT + MODIFIED_COUNT))
-	echo "Total files that would be committed: $TOTAL_CHANGES files"
+	TOTAL_FILES=$(echo "$SVN_STATUS" | grep -v '^.[ \t]*\\..*' | wc -l)
+	TOTAL_FILES=$(echo "$TOTAL_FILES" | tr -d '[:space:]')
+	TOTAL_FILES=${TOTAL_FILES:-0}
+	echo "Total files to upload: $TOTAL_FILES"
 else
-	echo "(No changes detected - files are up to date)"
+	echo "(No files detected)"
 fi
 echo "=========================================="
 echo ""
 
-if [ "$TOTAL_CHANGES" -gt 0 ]; then
-	echo "DRY RUN: Would commit $TOTAL_CHANGES files to version folder $VERSION_DIR"
+if [ -n "$SVN_STATUS" ]; then
+	echo "DRY RUN: Would commit all files to version folder $VERSION_DIR"
 	echo "Commit message: Upload v${THEME_VERSION}"
 else
-	echo "DRY RUN: No changes to commit (files are up to date)"
+	echo "DRY RUN: No files to commit"
 fi
 echo "No actual commit performed (dry-run mode)"
 
