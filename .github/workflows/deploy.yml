@@ -21,6 +21,7 @@ jobs:
 
   deploy:
     needs: build
+    if: needs.build.result == 'success'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -32,6 +33,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: hello-elementor
+      - name: Extract Hello Theme build
+        run: |
+          HT_ZIP=$(find . -name "hello-elementor-*.zip" -o -name "hello-elementor.*.zip" -type f | head -1)
+          unzip -q "$HT_ZIP" -d ./tmp/
+          mv ./tmp/hello-elementor ./hello-elementor
+          rm -rf ./tmp
       - name: Validate changelog
         env:
           VERSION: ${{ env.THEME_VERSION }}

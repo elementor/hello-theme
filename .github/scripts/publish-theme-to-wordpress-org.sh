@@ -52,17 +52,6 @@ svn add "$VERSION_DIR"
 cd "$VERSION_DIR"
 
 echo "Copy files"
-if [ ! -d "$THEME_PATH/hello-elementor" ]; then
-	echo "ERROR: Build directory not found: $THEME_PATH/hello-elementor"
-	echo "Current directory: $(pwd)"
-	echo "THEME_PATH: $THEME_PATH"
-	echo "Available files and directories:"
-	ls -la "$THEME_PATH" | head -30
-	echo ""
-	echo "Checking for zip files that might need extraction:"
-	find "$THEME_PATH" -maxdepth 1 -name "hello-elementor*.zip" -type f || echo "No zip files found"
-	exit 1
-fi
 rsync -ah --progress "$THEME_PATH/hello-elementor/"* . || rsync -ah --progress "$THEME_PATH/hello-elementor/." . || true
 
 echo "Preparing files"
