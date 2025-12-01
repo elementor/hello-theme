@@ -56,7 +56,7 @@ jobs:
           ls -la
           echo ""
           echo "Searching for zip file:"
-          HT_ZIP=$(find . -maxdepth 2 -name "hello-elementor-*.zip" -type f | head -1)
+          HT_ZIP=$(find . -maxdepth 2 -name "hello-elementor.*.zip" -type f | head -1)
           if [ -z "$HT_ZIP" ]; then
             echo "ERROR: Zip file not found after artifact download"
             echo "Available files:"
