@@ -43,39 +43,41 @@ jobs:
         with:
           name: hello-elementor
         continue-on-error: true
-      - name: Verify artifact download
+      - name: Extract artifact
         run: |
           echo "Artifact download outcome: ${{ steps.download-artifact.outcome }}"
-          echo "Current directory: $(pwd)"
-          echo "Workspace contents after download:"
-          ls -la | head -30
-          echo ""
-          echo "Searching for hello-elementor directory:"
-          find . -maxdepth 2 -type d -name "hello-elementor" 2>/dev/null || echo "Not found"
-          echo ""
-          echo "Searching for zip files:"
-          find . -maxdepth 2 -name "hello-elementor*.zip" 2>/dev/null || echo "No zip files found"
-          echo ""
           if [ "${{ steps.download-artifact.outcome }}" != "success" ]; then
-            echo "ERROR: Artifact download step failed"
-            echo "This usually means the artifact doesn't exist or wasn't created by the build job"
+            echo "ERROR: Artifact download failed"
             echo "Check the build job logs to verify the artifact was uploaded"
             exit 1
           fi
-          if [ ! -d "hello-elementor" ] && [ ! -d "$GITHUB_WORKSPACE/hello-elementor" ]; then
-            echo "ERROR: Artifact download succeeded but hello-elementor directory not found"
-            echo "This means:"
-            echo "  1. Artifact was downloaded but is empty"
-            echo "  2. Artifact structure is different than expected"
-            echo "  3. Artifact was created but directory structure doesn't match"
-            echo ""
-            echo "Check build job logs to verify:"
-            echo "  - npm run zip created hello-elementor directory"
-            echo "  - Artifact upload step succeeded"
-            echo "  - Artifact name matches: hello-elementor"
+          echo "Current directory: $(pwd)"
+          echo "Workspace contents after download:"
+          ls -la
+          echo ""
+          echo "Searching for zip file:"
+          HT_ZIP=$(find . -maxdepth 2 -name "hello-elementor-*.zip" -type f | head -1)
+          if [ -z "$HT_ZIP" ]; then
+            echo "ERROR: Zip file not found after artifact download"
+            echo "Available files:"
+            find . -maxdepth 2 -type f | head -20
             exit 1
           fi
-          echo "SUCCESS: hello-elementor directory found"
+          echo "Found zip file: $HT_ZIP"
+          echo "Extracting zip file..."
+          unzip -q "$HT_ZIP" -d .
+          echo "Extraction complete"
+          echo ""
+          echo "Verifying hello-elementor directory:"
+          if [ -d "hello-elementor" ]; then
+            echo "SUCCESS: hello-elementor directory found"
+            ls -la hello-elementor | head -10
+          else
+            echo "ERROR: hello-elementor directory not found after extraction"
+            echo "Zip file contents:"
+            unzip -l "$HT_ZIP" | head -20
+            exit 1
+          fi
       - name: Validate changelog
         env:
           VERSION: ${{ env.THEME_VERSION }}
