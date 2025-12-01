@@ -59,12 +59,25 @@ if [ -d "$THEME_PATH/hello-elementor" ]; then
 elif [ -d "hello-elementor" ]; then
 	BUILD_DIR="hello-elementor"
 else
-	ZIP_FILE=$(find "$THEME_PATH" -maxdepth 1 -name "hello-elementor*.zip" -type f | head -1)
+	ZIP_FILE=$(find "$THEME_PATH" -maxdepth 2 -name "hello-elementor*.zip" -type f | head -1)
 	if [ -n "$ZIP_FILE" ]; then
 		echo "Found zip file, extracting: $ZIP_FILE"
-		unzip -q "$ZIP_FILE" -d "$THEME_PATH"
-		if [ -d "$THEME_PATH/hello-elementor" ]; then
+		TEMP_DIR=$(mktemp -d)
+		unzip -q "$ZIP_FILE" -d "$TEMP_DIR"
+		if [ -d "$TEMP_DIR/hello-elementor" ]; then
+			mv "$TEMP_DIR/hello-elementor" "$THEME_PATH/hello-elementor"
 			BUILD_DIR="$THEME_PATH/hello-elementor"
+		elif [ -f "$TEMP_DIR/style.css" ] && [ -f "$TEMP_DIR/functions.php" ]; then
+			mkdir -p "$THEME_PATH/hello-elementor"
+			mv "$TEMP_DIR"/* "$THEME_PATH/hello-elementor/" 2>/dev/null || true
+			BUILD_DIR="$THEME_PATH/hello-elementor"
+		fi
+		rm -rf "$TEMP_DIR"
+	fi
+	if [ -z "$BUILD_DIR" ]; then
+		ARTIFACT_DIR=$(find "$THEME_PATH" -type d -name "hello-elementor" 2>/dev/null | head -1)
+		if [ -n "$ARTIFACT_DIR" ] && [ -f "$ARTIFACT_DIR/style.css" ]; then
+			BUILD_DIR="$ARTIFACT_DIR"
 		fi
 	fi
 fi

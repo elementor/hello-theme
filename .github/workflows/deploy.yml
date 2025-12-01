@@ -32,7 +32,6 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: hello-elementor
-          path: .
       - name: Validate changelog
         env:
           VERSION: ${{ env.THEME_VERSION }}
