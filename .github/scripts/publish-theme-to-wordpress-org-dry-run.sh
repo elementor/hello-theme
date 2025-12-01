@@ -56,35 +56,35 @@ echo "Copy files from build directory"
 rsync -ah --progress "$THEME_PATH/hello-elementor/"* . || rsync -ah --progress "$THEME_PATH/hello-elementor/." . || true
 
 echo "Preparing files for SVN"
-svn status 2>/dev/null || echo ""
+SVN_STATUS=$(svn status 2>/dev/null | grep -v '^\?[ \t]*\.$' || echo "")
 
+echo ""
 echo "svn add new files"
 echo "DRY RUN: Would add new files"
-svn status 2>/dev/null | grep -v '^.[ \t]*\\..*' | { grep '^?' || true; } | awk '{print $2}' | sed 's|^|     Would add: |' || true
+if [ -n "$SVN_STATUS" ]; then
+	echo "$SVN_STATUS" | grep '^?' | awk '{print "     Would add: " $2}' || true
+fi
 
 echo ""
 echo "SVN Status Summary (what would be committed):"
 echo "=========================================="
-SVN_STATUS=$(svn status 2>/dev/null || echo "")
 if [ -n "$SVN_STATUS" ]; then
 	echo "$SVN_STATUS"
 	echo ""
-	TOTAL_FILES=$(echo "$SVN_STATUS" | grep -v '^.[ \t]*\\..*' | wc -l)
-	TOTAL_FILES=$(echo "$TOTAL_FILES" | tr -d '[:space:]')
-	TOTAL_FILES=${TOTAL_FILES:-0}
+	TOTAL_FILES=$(echo "$SVN_STATUS" | wc -l | tr -d '[:space:]')
 	echo "Total files to upload: $TOTAL_FILES"
-else
-	echo "(No files detected)"
-fi
-echo "=========================================="
-echo ""
-
-if [ -n "$SVN_STATUS" ]; then
+	echo ""
 	echo "DRY RUN: Would commit all files to version folder $VERSION_DIR"
 	echo "Commit message: Upload v${THEME_VERSION}"
 else
-	echo "DRY RUN: No files to commit"
+	TOTAL_FILES=$(find . -type f ! -name '.svn' ! -path '*/.svn/*' | wc -l | tr -d '[:space:]')
+	echo "Total files to upload: $TOTAL_FILES"
+	echo ""
+	echo "DRY RUN: Would commit all files to version folder $VERSION_DIR"
+	echo "Commit message: Upload v${THEME_VERSION}"
 fi
+echo "=========================================="
+echo ""
 echo "No actual commit performed (dry-run mode)"
 
 echo "Remove the SVN folder from the workspace"
