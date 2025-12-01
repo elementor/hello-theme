@@ -38,9 +38,31 @@ jobs:
         run: |
           echo "THEME_VERSION=$(cat package.json | jq -r '.version')" >> $GITHUB_ENV
       - name: Download Artifact
+        id: download-artifact
         uses: actions/download-artifact@v4
         with:
           name: hello-elementor
+        continue-on-error: true
+      - name: Verify artifact download
+        run: |
+          echo "Artifact download exit code: ${{ steps.download-artifact.outcome }}"
+          echo "Current directory: $(pwd)"
+          echo "Workspace contents after download:"
+          ls -la | head -30
+          echo ""
+          echo "Searching for hello-elementor:"
+          find . -maxdepth 2 -type d -name "hello-elementor" 2>/dev/null || echo "Not found"
+          echo ""
+          echo "Searching for zip files:"
+          find . -maxdepth 2 -name "hello-elementor*.zip" 2>/dev/null || echo "No zip files found"
+          if [ "${{ steps.download-artifact.outcome }}" != "success" ]; then
+            echo "ERROR: Artifact download failed or artifact not found"
+            echo "This usually means:"
+            echo "  1. Build job didn't run (check conditional)"
+            echo "  2. Build job ran but didn't create artifact"
+            echo "  3. Artifact name mismatch"
+            exit 1
+          fi
       - name: Validate changelog
         env:
           VERSION: ${{ env.THEME_VERSION }}
