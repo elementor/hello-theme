@@ -36,6 +36,9 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
 
+= 3.4.6 - 2025-12-1
+* Tweak: Test 3.4.6 deployment
+
 = 3.4.5 - 2025-10-27
 * New: Add theme home to Finder
 * Tweak: Improve banner behavior after clicking on action button
