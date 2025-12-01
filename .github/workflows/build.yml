@@ -57,5 +57,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: hello-elementor
-          path: hello-elementor
+          path: hello-elementor.*.zip
           retention-days: 7
