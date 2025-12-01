@@ -32,6 +32,22 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: hello-elementor
+      - name: Verify artifact structure
+        run: |
+          echo "Verifying artifact download..."
+          echo "Current directory: $(pwd)"
+          echo "Workspace contents:"
+          ls -la | head -20
+          echo ""
+          if [ -d "hello-elementor" ]; then
+            echo "✅ hello-elementor directory found in workspace root"
+            ls -la hello-elementor | head -10
+          elif [ -d "$GITHUB_WORKSPACE/hello-elementor" ]; then
+            echo "✅ hello-elementor directory found at workspace path"
+          else
+            echo "⚠️ hello-elementor directory not found, checking for zip files..."
+            find . -maxdepth 1 -name "hello-elementor*.zip" -type f || echo "No zip files found"
+          fi
       - name: Validate changelog
         env:
           VERSION: ${{ env.THEME_VERSION }}
