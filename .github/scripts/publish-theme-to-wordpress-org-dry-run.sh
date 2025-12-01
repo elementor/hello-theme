@@ -63,7 +63,7 @@ echo "DRY RUN: Would add new files"
 svn status 2>/dev/null | grep -v '^.[ \t]*\\..*' | { grep '^?' || true; } | awk '{print $2}' | sed 's|^|     Would add: |' || true
 
 echo ""
-echo "📊 **SVN Status Summary (what would be committed):**"
+echo "SVN Status Summary (what would be committed):"
 echo "=========================================="
 SVN_STATUS=$(svn status 2>/dev/null || echo "")
 TOTAL_CHANGES=0
