@@ -45,24 +45,37 @@ jobs:
         continue-on-error: true
       - name: Verify artifact download
         run: |
-          echo "Artifact download exit code: ${{ steps.download-artifact.outcome }}"
+          echo "Artifact download outcome: ${{ steps.download-artifact.outcome }}"
           echo "Current directory: $(pwd)"
           echo "Workspace contents after download:"
           ls -la | head -30
           echo ""
-          echo "Searching for hello-elementor:"
+          echo "Searching for hello-elementor directory:"
           find . -maxdepth 2 -type d -name "hello-elementor" 2>/dev/null || echo "Not found"
           echo ""
           echo "Searching for zip files:"
           find . -maxdepth 2 -name "hello-elementor*.zip" 2>/dev/null || echo "No zip files found"
+          echo ""
           if [ "${{ steps.download-artifact.outcome }}" != "success" ]; then
-            echo "ERROR: Artifact download failed or artifact not found"
-            echo "This usually means:"
-            echo "  1. Build job didn't run (check conditional)"
-            echo "  2. Build job ran but didn't create artifact"
-            echo "  3. Artifact name mismatch"
+            echo "ERROR: Artifact download step failed"
+            echo "This usually means the artifact doesn't exist or wasn't created by the build job"
+            echo "Check the build job logs to verify the artifact was uploaded"
             exit 1
           fi
+          if [ ! -d "hello-elementor" ] && [ ! -d "$GITHUB_WORKSPACE/hello-elementor" ]; then
+            echo "ERROR: Artifact download succeeded but hello-elementor directory not found"
+            echo "This means:"
+            echo "  1. Artifact was downloaded but is empty"
+            echo "  2. Artifact structure is different than expected"
+            echo "  3. Artifact was created but directory structure doesn't match"
+            echo ""
+            echo "Check build job logs to verify:"
+            echo "  - npm run zip created hello-elementor directory"
+            echo "  - Artifact upload step succeeded"
+            echo "  - Artifact name matches: hello-elementor"
+            exit 1
+          fi
+          echo "SUCCESS: hello-elementor directory found"
       - name: Validate changelog
         env:
           VERSION: ${{ env.THEME_VERSION }}
