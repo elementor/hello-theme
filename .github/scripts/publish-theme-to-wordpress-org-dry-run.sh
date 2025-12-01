@@ -53,48 +53,106 @@ mkdir -p "$VERSION_DIR"
 cd "$VERSION_DIR"
 
 echo "Copy files from build directory"
+echo "DEBUG: Current directory: $(pwd)"
+echo "DEBUG: THEME_PATH: $THEME_PATH"
+echo "DEBUG: GITHUB_WORKSPACE: ${GITHUB_WORKSPACE:-not set}"
+echo ""
+echo "DEBUG: Checking workspace root structure:"
+ls -la "$THEME_PATH" | head -20
+echo ""
+echo "DEBUG: Searching for hello-elementor directory:"
+find "$THEME_PATH" -maxdepth 3 -type d -name "hello-elementor" 2>/dev/null | head -10 || echo "No hello-elementor directories found"
+echo ""
+echo "DEBUG: Searching for zip files:"
+find "$THEME_PATH" -maxdepth 3 -name "hello-elementor*.zip" -type f 2>/dev/null | head -10 || echo "No zip files found"
+echo ""
+echo "DEBUG: Checking for style.css files (theme indicator):"
+find "$THEME_PATH" -maxdepth 3 -name "style.css" -type f 2>/dev/null | head -10 || echo "No style.css files found"
+echo ""
+echo "DEBUG: Checking artifact download location (if exists):"
+if [ -d "$THEME_PATH/hello-elementor" ]; then
+	echo "Found: $THEME_PATH/hello-elementor"
+	ls -la "$THEME_PATH/hello-elementor" | head -10
+elif [ -d "hello-elementor" ]; then
+	echo "Found: hello-elementor (relative)"
+	ls -la "hello-elementor" | head -10
+else
+	echo "hello-elementor directory not found in expected locations"
+fi
+echo ""
+
 BUILD_DIR=""
 if [ -d "$THEME_PATH/hello-elementor" ]; then
 	BUILD_DIR="$THEME_PATH/hello-elementor"
+	echo "DEBUG: Using BUILD_DIR=$BUILD_DIR (absolute path)"
 elif [ -d "hello-elementor" ]; then
 	BUILD_DIR="hello-elementor"
+	echo "DEBUG: Using BUILD_DIR=$BUILD_DIR (relative path)"
 else
-	ZIP_FILE=$(find "$THEME_PATH" -maxdepth 2 -name "hello-elementor*.zip" -type f | head -1)
+	echo "DEBUG: hello-elementor not found in standard locations, searching for zip files..."
+	ZIP_FILE=$(find "$THEME_PATH" -maxdepth 3 -name "hello-elementor*.zip" -type f 2>/dev/null | head -1)
 	if [ -n "$ZIP_FILE" ]; then
-		echo "Found zip file, extracting: $ZIP_FILE"
+		echo "DEBUG: Found zip file: $ZIP_FILE"
 		TEMP_DIR=$(mktemp -d)
+		echo "DEBUG: Extracting to temp directory: $TEMP_DIR"
 		unzip -q "$ZIP_FILE" -d "$TEMP_DIR"
+		echo "DEBUG: Temp directory contents after extraction:"
+		ls -la "$TEMP_DIR" | head -10
 		if [ -d "$TEMP_DIR/hello-elementor" ]; then
+			echo "DEBUG: Found hello-elementor directory in zip"
 			mv "$TEMP_DIR/hello-elementor" "$THEME_PATH/hello-elementor"
 			BUILD_DIR="$THEME_PATH/hello-elementor"
 		elif [ -f "$TEMP_DIR/style.css" ] && [ -f "$TEMP_DIR/functions.php" ]; then
+			echo "DEBUG: Found theme files directly in zip root, creating hello-elementor directory"
 			mkdir -p "$THEME_PATH/hello-elementor"
 			mv "$TEMP_DIR"/* "$THEME_PATH/hello-elementor/" 2>/dev/null || true
 			BUILD_DIR="$THEME_PATH/hello-elementor"
+		else
+			echo "DEBUG: Zip contents don't match expected structure"
 		fi
 		rm -rf "$TEMP_DIR"
 	fi
 	if [ -z "$BUILD_DIR" ]; then
+		echo "DEBUG: Searching recursively for hello-elementor directory..."
 		ARTIFACT_DIR=$(find "$THEME_PATH" -type d -name "hello-elementor" 2>/dev/null | head -1)
 		if [ -n "$ARTIFACT_DIR" ] && [ -f "$ARTIFACT_DIR/style.css" ]; then
+			echo "DEBUG: Found hello-elementor directory at: $ARTIFACT_DIR"
 			BUILD_DIR="$ARTIFACT_DIR"
+		else
+			echo "DEBUG: No valid hello-elementor directory found recursively"
 		fi
 	fi
 fi
 
 if [ -z "$BUILD_DIR" ] || [ ! -d "$BUILD_DIR" ]; then
+	echo ""
 	echo "ERROR: Build directory not found"
 	echo "Current directory: $(pwd)"
 	echo "THEME_PATH: $THEME_PATH"
+	echo "BUILD_DIR: ${BUILD_DIR:-not set}"
+	echo ""
 	echo "Searched locations:"
 	echo "  - $THEME_PATH/hello-elementor"
 	echo "  - hello-elementor"
+	echo "  - Recursive search in $THEME_PATH"
 	echo ""
-	echo "Available files and directories:"
-	ls -la "$THEME_PATH" | head -30
+	echo "DEBUG: Full workspace structure (first 50 items):"
+	find "$THEME_PATH" -maxdepth 2 -type d 2>/dev/null | head -50
 	echo ""
-	echo "Checking for zip files:"
-	find "$THEME_PATH" -maxdepth 1 -name "hello-elementor*.zip" -type f || echo "No zip files found"
+	echo "DEBUG: All files in workspace root:"
+	ls -la "$THEME_PATH"
+	echo ""
+	echo "DEBUG: Checking if artifact was downloaded at all:"
+	if [ -f "$THEME_PATH/.github/workflows/deploy.yml" ]; then
+		echo "Repository files present (checkout successful)"
+	else
+		echo "WARNING: Repository files not found - checkout may have failed"
+	fi
+	echo ""
+	echo "DEBUG: Environment variables:"
+	echo "  GITHUB_WORKSPACE: ${GITHUB_WORKSPACE:-not set}"
+	echo "  THEME_PATH: $THEME_PATH"
+	echo ""
 	exit 1
 fi
 
