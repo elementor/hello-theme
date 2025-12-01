@@ -52,29 +52,7 @@ svn add "$VERSION_DIR"
 cd "$VERSION_DIR"
 
 echo "Copy files"
-BUILD_DIR=""
-if [ -d "$THEME_PATH/hello-elementor" ]; then
-	BUILD_DIR="$THEME_PATH/hello-elementor"
-elif [ -d "hello-elementor" ]; then
-	BUILD_DIR="hello-elementor"
-else
-	ZIP_FILE=$(find "$THEME_PATH" -maxdepth 2 \( -name "hello-elementor-*.zip" -o -name "hello-elementor.*.zip" \) -type f | head -1)
-	if [ -n "$ZIP_FILE" ]; then
-		TEMP_DIR=$(mktemp -d)
-		unzip -q "$ZIP_FILE" -d "$TEMP_DIR"
-		if [ -d "$TEMP_DIR/hello-elementor" ]; then
-			mv "$TEMP_DIR/hello-elementor" "$THEME_PATH/hello-elementor"
-			BUILD_DIR="$THEME_PATH/hello-elementor"
-		fi
-		rm -rf "$TEMP_DIR"
-	fi
-fi
-
-if [ -z "$BUILD_DIR" ] || [ ! -d "$BUILD_DIR" ]; then
-	echo "ERROR: Build directory not found: $THEME_PATH/hello-elementor"
-	exit 1
-fi
-rsync -ah --progress "$BUILD_DIR/"* . || rsync -ah --progress "$BUILD_DIR/." . || true
+rsync -ah --progress "$THEME_PATH/hello-elementor/"* . || rsync -ah --progress "$THEME_PATH/hello-elementor/." . || true
 
 echo "Preparing files"
 cd "$VERSION_DIR"

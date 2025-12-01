@@ -53,29 +53,7 @@ mkdir -p "$VERSION_DIR"
 cd "$VERSION_DIR"
 
 echo "Copy files from build directory"
-BUILD_DIR=""
-if [ -d "$THEME_PATH/hello-elementor" ]; then
-	BUILD_DIR="$THEME_PATH/hello-elementor"
-elif [ -d "hello-elementor" ]; then
-	BUILD_DIR="hello-elementor"
-else
-	ZIP_FILE=$(find "$THEME_PATH" -maxdepth 2 \( -name "hello-elementor-*.zip" -o -name "hello-elementor.*.zip" \) -type f | head -1)
-	if [ -n "$ZIP_FILE" ]; then
-		TEMP_DIR=$(mktemp -d)
-		unzip -q "$ZIP_FILE" -d "$TEMP_DIR"
-		if [ -d "$TEMP_DIR/hello-elementor" ]; then
-			mv "$TEMP_DIR/hello-elementor" "$THEME_PATH/hello-elementor"
-			BUILD_DIR="$THEME_PATH/hello-elementor"
-		fi
-		rm -rf "$TEMP_DIR"
-	fi
-fi
-
-if [ -z "$BUILD_DIR" ] || [ ! -d "$BUILD_DIR" ]; then
-	echo "ERROR: Build directory not found: $THEME_PATH/hello-elementor"
-	exit 1
-fi
-rsync -ah --progress "$BUILD_DIR/"* . || rsync -ah --progress "$BUILD_DIR/." . || true
+rsync -ah --progress "$THEME_PATH/hello-elementor/"* . || rsync -ah --progress "$THEME_PATH/hello-elementor/." . || true
 
 echo "Preparing files for SVN"
 svn status 2>/dev/null || echo ""
@@ -93,13 +71,9 @@ if [ -n "$SVN_STATUS" ]; then
 	echo "$SVN_STATUS"
 	echo ""
 	echo "Summary:"
-	ADDED_COUNT=$(echo "$SVN_STATUS" | grep -c "^A" 2>/dev/null || echo "0")
-	MODIFIED_COUNT=$(echo "$SVN_STATUS" | grep -c "^M" 2>/dev/null || echo "0")
-	UNTRACKED_COUNT=$(echo "$SVN_STATUS" | grep -c "^?" 2>/dev/null || echo "0")
-	
-	ADDED_COUNT=${ADDED_COUNT:-0}
-	MODIFIED_COUNT=${MODIFIED_COUNT:-0}
-	UNTRACKED_COUNT=${UNTRACKED_COUNT:-0}
+	ADDED_COUNT=$(echo "$SVN_STATUS" | grep -c "^A" || echo "0")
+	MODIFIED_COUNT=$(echo "$SVN_STATUS" | grep -c "^M" || echo "0")
+	UNTRACKED_COUNT=$(echo "$SVN_STATUS" | grep -c "^?" || echo "0")
 	
 	echo "Added (A): $ADDED_COUNT files"
 	if [ "$MODIFIED_COUNT" -gt 0 ]; then

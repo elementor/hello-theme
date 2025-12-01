@@ -36,18 +36,9 @@ jobs:
       - name: Extract Hello Theme build
         run: |
           HT_ZIP=$(find . -name "hello-elementor-*.zip" -o -name "hello-elementor.*.zip" -type f | head -1)
-          if [ -n "$HT_ZIP" ]; then
-            mkdir -p ./tmp
-            unzip -q "$HT_ZIP" -d ./tmp/
-            if [ -d "./tmp/hello-elementor" ]; then
-              mv ./tmp/hello-elementor ./hello-elementor
-            elif [ -d "./tmp" ] && [ "$(ls -A ./tmp/)" ]; then
-              mkdir -p ./hello-elementor-temp
-              mv ./tmp/* ./hello-elementor-temp/ 2>/dev/null || true
-              mv ./hello-elementor-temp ./hello-elementor
-            fi
-            rm -rf ./tmp
-          fi
+          unzip -q "$HT_ZIP" -d ./tmp/
+          mv ./tmp/hello-elementor ./hello-elementor
+          rm -rf ./tmp
       - name: Validate changelog
         env:
           VERSION: ${{ env.THEME_VERSION }}
