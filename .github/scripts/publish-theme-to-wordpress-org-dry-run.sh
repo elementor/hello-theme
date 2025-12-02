@@ -56,47 +56,35 @@ echo "Copy files from build directory"
 rsync -ah --progress "$THEME_PATH/hello-elementor/"* . || rsync -ah --progress "$THEME_PATH/hello-elementor/." . || true
 
 echo "Preparing files for SVN"
-svn status 2>/dev/null || echo ""
+SVN_STATUS=$(svn status 2>/dev/null | grep -v '^\?[ \t]*\.$' || echo "")
 
+echo ""
 echo "svn add new files"
 echo "DRY RUN: Would add new files"
-svn status 2>/dev/null | grep -v '^.[ \t]*\\..*' | { grep '^?' || true; } | awk '{print $2}' | sed 's|^|     Would add: |' || true
+if [ -n "$SVN_STATUS" ]; then
+	echo "$SVN_STATUS" | grep '^?' | awk '{print "     Would add: " $2}' || true
+fi
 
 echo ""
 echo "SVN Status Summary (what would be committed):"
 echo "=========================================="
-SVN_STATUS=$(svn status 2>/dev/null || echo "")
-TOTAL_CHANGES=0
 if [ -n "$SVN_STATUS" ]; then
 	echo "$SVN_STATUS"
 	echo ""
-	echo "Summary:"
-	ADDED_COUNT=$(echo "$SVN_STATUS" | grep -c "^A" || echo "0")
-	MODIFIED_COUNT=$(echo "$SVN_STATUS" | grep -c "^M" || echo "0")
-	UNTRACKED_COUNT=$(echo "$SVN_STATUS" | grep -c "^?" || echo "0")
-	
-	echo "Added (A): $ADDED_COUNT files"
-	if [ "$MODIFIED_COUNT" -gt 0 ]; then
-		echo "Modified (M): $MODIFIED_COUNT files"
-	fi
-	if [ "$UNTRACKED_COUNT" -gt 0 ]; then
-		echo "Untracked (?): $UNTRACKED_COUNT files (would be added)"
-	fi
+	TOTAL_FILES=$(echo "$SVN_STATUS" | wc -l | tr -d '[:space:]')
+	echo "Total files to upload: $TOTAL_FILES"
 	echo ""
-	TOTAL_CHANGES=$((ADDED_COUNT + MODIFIED_COUNT))
-	echo "Total files that would be committed: $TOTAL_CHANGES files"
+	echo "DRY RUN: Would commit all files to version folder $VERSION_DIR"
+	echo "Commit message: Upload v${THEME_VERSION}"
 else
-	echo "(No changes detected - files are up to date)"
+	TOTAL_FILES=$(find . -type f ! -name '.svn' ! -path '*/.svn/*' | wc -l | tr -d '[:space:]')
+	echo "Total files to upload: $TOTAL_FILES"
+	echo ""
+	echo "DRY RUN: Would commit all files to version folder $VERSION_DIR"
+	echo "Commit message: Upload v${THEME_VERSION}"
 fi
 echo "=========================================="
 echo ""
-
-if [ "$TOTAL_CHANGES" -gt 0 ]; then
-	echo "DRY RUN: Would commit $TOTAL_CHANGES files to version folder $VERSION_DIR"
-	echo "Commit message: Upload v${THEME_VERSION}"
-else
-	echo "DRY RUN: No changes to commit (files are up to date)"
-fi
 echo "No actual commit performed (dry-run mode)"
 
 echo "Remove the SVN folder from the workspace"
