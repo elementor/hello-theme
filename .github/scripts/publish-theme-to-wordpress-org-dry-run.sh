@@ -55,6 +55,9 @@ cd "$VERSION_DIR"
 echo "Copy files from build directory"
 rsync -ah --progress "$THEME_PATH/hello-elementor/"* . || rsync -ah --progress "$THEME_PATH/hello-elementor/." . || true
 
+echo "Print SVN Status changes"
+svn status
+
 echo "Preparing files for SVN"
 SVN_STATUS=$(svn status 2>/dev/null | grep -v '^\?[ \t]*\.$' || echo "")
 
@@ -95,4 +98,3 @@ cd $GITHUB_WORKSPACE
 
 echo "Dry-run complete: v${THEME_VERSION}"
 echo "All checks passed - ready for actual deployment"
-
