@@ -65,8 +65,6 @@ svn status | grep -v '^.[ \t]*\\..*' | { grep '^?' || true; } | awk '{print $2}'
 echo "Print SVN Status changes"
 svn status
 
-pwd
-
 echo "Preparing files for SVN"
 SVN_STATUS=$(svn status 2>/dev/null | grep -v '^\?[ \t]*\.$' || echo "")
 
