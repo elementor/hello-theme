@@ -444,6 +444,20 @@ jobs:
             echo "targeted-tests=[]" >> $GITHUB_OUTPUT
           fi
 
+  notify-on-early-failure:
+    name: Notify on Early Failure
+    needs: calculate-test-matrix
+    runs-on: ubuntu-22.04
+    if: always() && needs.calculate-test-matrix.result != 'success'
+    steps:
+      - name: Send Slack notification on early failure
+        continue-on-error: true
+        uses: ./.github/actions/theme-slack-notification-daily-tests
+        with:
+          CLOUD_SLACK_BOT_TOKEN: ${{ secrets.CLOUD_SLACK_BOT_TOKEN }}
+          WORKFLOW_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          SLACK_CHANNEL: '#tmz-alerts'
+
   trigger-targeted-tests:
     name: Trigger Targeted Tests
     needs: [calculate-test-matrix]
