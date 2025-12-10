@@ -12,21 +12,21 @@ echo ""
 
 echo "Checking for hello-elementor theme specifically:"
 if [ -d "/var/www/html/wp-content/themes/hello-elementor" ]; then
-    echo "✅ hello-elementor directory found"
+    echo "hello-elementor directory found"
     echo "Contents:"
     ls -la /var/www/html/wp-content/themes/hello-elementor/
     echo ""
     
     echo "Checking for style.css:"
     if [ -f "/var/www/html/wp-content/themes/hello-elementor/style.css" ]; then
-        echo "✅ style.css found"
+        echo "style.css found"
         echo "Theme header:"
         head -10 /var/www/html/wp-content/themes/hello-elementor/style.css || true
     else
-        echo "❌ style.css missing"
+        echo "style.css missing"
     fi
 else
-    echo "❌ hello-elementor directory not found"
+    echo "hello-elementor directory not found"
     echo "Available theme directories:"
     ls -la /var/www/html/wp-content/themes/
 fi
@@ -39,13 +39,13 @@ echo ""
 
 echo "Attempting to activate hello-theme theme..."
 wp theme activate hello-theme || {
-    echo "❌ Failed to activate hello-theme, trying hello-elementor..."
+    echo "Failed to activate hello-theme, trying hello-elementor..."
     wp theme activate hello-elementor || {
-        echo "❌ Both activation attempts failed. Final theme list:"
+        echo "Both activation attempts failed. Final theme list:"
         wp theme list
-        echo "❌ Available theme directories in WordPress:"
+        echo "Available theme directories in WordPress:"
         ls -la /var/www/html/wp-content/themes/
-        echo "❌ Theme activation completely failed"
+        echo "Theme activation completely failed"
         exit 1
     }
 }
