@@ -14,14 +14,16 @@ echo "Checking for hello-elementor theme specifically:"
 if [ -d "/var/www/html/wp-content/themes/hello-elementor" ]; then
     echo "✅ hello-elementor directory found"
     echo "Contents:"
-    ls -la /var/www/html/wp-content/themes/hello-elementor/ | head -10
+    set +o pipefail
+    ls -la /var/www/html/wp-content/themes/hello-elementor/ | head -10 || true
+    set -o pipefail
     echo ""
     
     echo "Checking for style.css:"
     if [ -f "/var/www/html/wp-content/themes/hello-elementor/style.css" ]; then
         echo "✅ style.css found"
         echo "Theme header:"
-        head -10 /var/www/html/wp-content/themes/hello-elementor/style.css
+        head -10 /var/www/html/wp-content/themes/hello-elementor/style.css || true
     else
         echo "❌ style.css missing"
     fi
