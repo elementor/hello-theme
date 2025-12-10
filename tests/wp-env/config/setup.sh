@@ -14,9 +14,7 @@ echo "Checking for hello-elementor theme specifically:"
 if [ -d "/var/www/html/wp-content/themes/hello-elementor" ]; then
     echo "✅ hello-elementor directory found"
     echo "Contents:"
-    set +o pipefail
-    ls -la /var/www/html/wp-content/themes/hello-elementor/ | head -10 || true
-    set -o pipefail
+    ls -la /var/www/html/wp-content/themes/hello-elementor/
     echo ""
     
     echo "Checking for style.css:"
