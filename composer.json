@@ -6,7 +6,8 @@
         "wp-coding-standards/wpcs": "^2.3",
         "phpunit/phpunit": "9.5.14",
         "elementor/elementor-editor-testing": "0.0.3",
-        "yoast/phpunit-polyfills": "^1.0.1"
+        "yoast/phpunit-polyfills": "^1.0.1",
+        "thor-juhasz/phpunit-coverage-check": "^0.3.0"
     },
     "require": {
         "elementor/wp-notifications-package": "1.2.*"
@@ -20,6 +21,9 @@
         "lint": "phpcs --extensions=php --standard=./phpcs.xml --ignore=node_modules,vendor,assets,tmp -p .",
         "lint:fix": "vendor/bin/phpcbf --extensions=php --standard=./phpcs.xml --ignore=node_modules,vendor,assets,tmp .",
         "test": "phpunit --testsuite hello-elementor",
-        "test:install": "bash ./bin/install-wp-tests-local.sh"
+        "test:install": "bash ./bin/install-wp-tests-local.sh",
+        "coverage": "composer run coverage:test && composer run coverage:check",
+        "coverage:test": "phpdbg -qrr vendor/phpunit/phpunit/phpunit --testsuite hello-elementor --coverage-clover coverage-report/clover.xml",
+        "coverage:check": "phpunit-coverage-check -t 20 coverage-report/clover.xml"
     }
 }
