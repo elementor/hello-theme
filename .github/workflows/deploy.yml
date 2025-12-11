@@ -6,12 +6,6 @@ permissions:
 
 on:
   workflow_dispatch:
-    inputs:
-      dry_run:
-        type: boolean
-        description: 'Dry run mode (test without deploying)'
-        required: false
-        default: false
 
 jobs:
   build:
@@ -50,19 +44,13 @@ jobs:
           sudo apt-get install -y subversion
           which svn
           svn --version
-      - name: Publish to WordPress.org SVN (Dry Run)
-        if: ${{ inputs.dry_run == true }}
-        run: |
-          bash "${GITHUB_WORKSPACE}/.github/scripts/publish-theme-to-wordpress-org-dry-run.sh"
       - name: Publish to WordPress.org SVN
-        if: ${{ inputs.dry_run == false }}
         env:
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
         run: |
           bash "${GITHUB_WORKSPACE}/.github/scripts/publish-theme-to-wordpress-org.sh"
       - name: Send Slack Notification
-        if: ${{ inputs.dry_run == false }}
         uses: ./.github/actions/theme-slack-notification-release
         with:
           CLOUD_SLACK_BOT_TOKEN: ${{ secrets.CLOUD_SLACK_BOT_TOKEN }}
