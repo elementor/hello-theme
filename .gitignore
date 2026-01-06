@@ -2,10 +2,8 @@
 node_modules/
 .sass-cache/
 build/**
-# Only ignore root-level assets directory (build output), not module assets (source files)
-/assets/
-hello-elementor/
-elementor-hello-theme/
+dist/
+build/
 log/
 vendor/
 .DS_Store
@@ -20,4 +18,3 @@ yarn.lock
 tmp/
 .phpunit.result.cache
 test-results/
-!tests/phpunit/hello-elementor

@@ -1,246 +1,252 @@
 <?php
+/**
+ * Elementor integration and kit settings helpers.
+ *
+ * @package Hello420
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+use Hello420Theme\Includes\Settings\Settings_Footer;
+use Hello420Theme\Includes\Settings\Settings_Header;
+
+add_action( 'elementor/init', 'hello420_settings_init' );
+
 /**
- * Register Site Settings Controls.
+ * Register theme tabs in Elementor Site Settings.
  */
-
-add_action( 'elementor/init', 'hello_elementor_settings_init' );
-
-function hello_elementor_settings_init() {
-	if ( ! hello_header_footer_experiment_active() ) {
+function hello420_settings_init(): void {
+	if ( ! defined( 'ELEMENTOR_VERSION' ) ) {
 		return;
 	}
 
-	require 'settings/settings-header.php';
-	require 'settings/settings-footer.php';
+	// Tabs for header/footer theme styling.
+	add_filter( 'elementor/kit/register_tabs', 'hello420_register_elementor_tabs' );
 
-	add_action( 'elementor/kit/register_tabs', function( \Elementor\Core\Kits\Documents\Kit $kit ) {
-		if ( ! hello_elementor_display_header_footer() ) {
-			return;
-		}
+	// Elementor experiment flag.
+	if ( method_exists( Elementor\Plugin::$instance->experiments, 'add_feature' ) ) {
+		Elementor\Plugin::$instance->experiments->add_feature(
+			[
+				'name'        => 'hello420-header-footer',
+				'title'       => 'Hello 420 – Header & Footer',
+				'description' => 'Enables Hello 420 Header & Footer style controls inside Elementor Site Settings.',
+				'tags'        => [ 'Hello 420' ],
+			]
+		);
+	}
+}
 
-		$kit->register_tab( 'hello-settings-header', HelloElementor\Includes\Settings\Settings_Header::class );
-		$kit->register_tab( 'hello-settings-footer', HelloElementor\Includes\Settings\Settings_Footer::class );
-	}, 1, 40 );
+function hello420_register_elementor_tabs( $tabs ) {
+	if ( ! hello420_display_header_footer() ) {
+		return $tabs;
+	}
+
+	$tabs['hello-settings-header'] = Settings_Header::class;
+	$tabs['hello-settings-footer'] = Settings_Footer::class;
+
+	return $tabs;
 }
 
 /**
- * Helper function to return a setting.
- *
- * Saves 2 lines to get kit, then get setting. Also caches the kit and setting.
- *
- * @param  string $setting_id
- * @return string|array same as the Elementor internal function does.
+ * Cached kit settings.
  */
-function hello_elementor_get_setting( $setting_id ) {
-	global $hello_elementor_settings;
-
+function hello420_get_setting( string $setting_id ) {
+	static $hello420_settings = [];
 	$return = '';
 
-	if ( ! isset( $hello_elementor_settings['kit_settings'] ) ) {
-		$kit = \Elementor\Plugin::$instance->kits_manager->get_active_kit();
-		$hello_elementor_settings['kit_settings'] = $kit->get_settings();
+	if ( ! defined( 'ELEMENTOR_VERSION' ) ) {
+		return '';
 	}
 
-	if ( isset( $hello_elementor_settings['kit_settings'][ $setting_id ] ) ) {
-		$return = $hello_elementor_settings['kit_settings'][ $setting_id ];
+	if ( ! isset( $hello420_settings['kit_settings'] ) ) {
+		$kit = Elementor\Plugin::$instance->kits_manager->get_active_kit();
+		$hello420_settings['kit_settings'] = $kit ? $kit->get_settings() : [];
 	}
 
-	return apply_filters( 'hello_elementor_' . $setting_id, $return );
+	if ( isset( $hello420_settings['kit_settings'][ $setting_id ] ) ) {
+		$return = $hello420_settings['kit_settings'][ $setting_id ];
+	}
+
+	return apply_filters( 'hello420_' . $setting_id, $return );
+}
+
+function hello420_get_show_or_hide_value( string $setting_id ): string {
+	return ( 'yes' === hello420_get_setting( $setting_id ) ? 'show' : 'hide' );
 }
 
 /**
- * Helper function to show/hide elements
- *
- * This works with switches, if the setting ID that has been passed is toggled on, we'll return show, otherwise we'll return hide
- *
- * @param  string $setting_id
- * @return string|array same as the Elementor internal function does.
+ * Convenience wrapper used by template parts.
  */
-function hello_show_or_hide( $setting_id ) {
-	return ( 'yes' === hello_elementor_get_setting( $setting_id ) ? 'show' : 'hide' );
+function hello420_show_or_hide( string $setting_id ): string {
+	return hello420_get_show_or_hide_value( $setting_id );
+}
+
+function hello420_get_header_display(): bool {
+	if ( ! defined( 'ELEMENTOR_VERSION' ) ) {
+		return true;
+	}
+
+	return ( 'yes' === hello420_get_setting( 'hello_header_logo_display' ) )
+		|| ( 'yes' === hello420_get_setting( 'hello_header_tagline_display' ) )
+		|| ( 'yes' === hello420_get_setting( 'hello_header_menu_display' ) );
+}
+
+function hello420_get_footer_display(): bool {
+	if ( ! defined( 'ELEMENTOR_VERSION' ) ) {
+		return true;
+	}
+
+	return ( 'yes' === hello420_get_setting( 'hello_footer_logo_display' ) )
+		|| ( 'yes' === hello420_get_setting( 'hello_footer_tagline_display' ) )
+		|| ( 'yes' === hello420_get_setting( 'hello_footer_menu_display' ) )
+		|| ( 'yes' === hello420_get_setting( 'hello_footer_copyright_display' ) );
+}
+
+function hello420_get_header_layout_class(): string {
+	$header_layout = hello420_get_setting( 'hello_header_layout' );
+
+	if ( ! $header_layout ) {
+		return 'default';
+	}
+
+	return $header_layout;
+}
+
+function hello420_get_header_width_class(): string {
+	$header_width = hello420_get_setting( 'hello_header_width' );
+
+	if ( ! $header_width ) {
+		return 'default';
+	}
+
+	return $header_width;
+}
+
+function hello420_get_menu_dropdown_class(): string {
+	$header_menu_dropdown = hello420_get_setting( 'hello_header_menu_dropdown' );
+
+	if ( ! $header_menu_dropdown ) {
+		return 'default';
+	}
+
+	return $header_menu_dropdown;
+}
+
+function hello420_get_header_menu_layout_class(): string {
+	$hello_header_menu_layout = hello420_get_setting( 'hello_header_menu_layout' );
+
+	if ( ! $hello_header_menu_layout ) {
+		return 'default';
+	}
+
+	return $hello_header_menu_layout;
+}
+
+function hello420_get_header_container_class(): string {
+	$classes = [
+		'site-header',
+		'hello-header',
+		'hello-header-' . hello420_get_header_layout_class(),
+		'hello-header-width-' . hello420_get_header_width_class(),
+		'hello-header-menu-layout-' . hello420_get_header_menu_layout_class(),
+		'hello-header-menu-dropdown-' . hello420_get_menu_dropdown_class(),
+		'hello-header-logo-' . hello420_get_show_or_hide_value( 'hello_header_logo_display' ),
+		'hello-header-tagline-' . hello420_get_show_or_hide_value( 'hello_header_tagline_display' ),
+		'hello-header-menu-' . hello420_get_show_or_hide_value( 'hello_header_menu_display' ),
+	];
+
+	return implode( ' ', array_filter( $classes ) );
+}
+
+function hello420_get_footer_layout_class(): string {
+	$footer_layout = hello420_get_setting( 'hello_footer_layout' );
+
+	if ( ! $footer_layout ) {
+		return 'default';
+	}
+
+	return $footer_layout;
+}
+
+function hello420_get_footer_width_class(): string {
+	$footer_width = hello420_get_setting( 'hello_footer_width' );
+
+	if ( ! $footer_width ) {
+		return 'default';
+	}
+
+	return $footer_width;
+}
+
+function hello420_get_footer_container_class(): string {
+	$classes = [
+		'site-footer',
+		'hello-footer',
+		'hello-footer-' . hello420_get_footer_layout_class(),
+		'hello-footer-width-' . hello420_get_footer_width_class(),
+		'hello-footer-logo-' . hello420_get_show_or_hide_value( 'hello_footer_logo_display' ),
+		'hello-footer-tagline-' . hello420_get_show_or_hide_value( 'hello_footer_tagline_display' ),
+		'hello-footer-menu-' . hello420_get_show_or_hide_value( 'hello_footer_menu_display' ),
+		'hello-footer-copyright-' . hello420_get_show_or_hide_value( 'hello_footer_copyright_display' ),
+	];
+
+	return implode( ' ', array_filter( $classes ) );
+}
+
+function hello420_get_footer_copyright_text(): string {
+	if ( hello420_get_setting( 'hello_footer_copyright_display' ) && '' !== hello420_get_setting( 'hello_footer_copyright_text' ) ) {
+		return (string) hello420_get_setting( 'hello_footer_copyright_text' );
+	}
+
+	return '';
 }
 
 /**
- * Helper function to translate the header layout setting into a class name.
- *
- * @return string
+ * Elementor Editor script.
  */
-function hello_get_header_layout_class() {
-	$layout_classes = [];
-
-	$header_layout = hello_elementor_get_setting( 'hello_header_layout' );
-	if ( 'inverted' === $header_layout ) {
-		$layout_classes[] = 'header-inverted';
-	} elseif ( 'stacked' === $header_layout ) {
-		$layout_classes[] = 'header-stacked';
-	}
-
-	$header_width = hello_elementor_get_setting( 'hello_header_width' );
-	if ( 'full-width' === $header_width ) {
-		$layout_classes[] = 'header-full-width';
-	}
-
-	$header_menu_dropdown = hello_elementor_get_setting( 'hello_header_menu_dropdown' );
-	if ( 'tablet' === $header_menu_dropdown ) {
-		$layout_classes[] = 'menu-dropdown-tablet';
-	} elseif ( 'mobile' === $header_menu_dropdown ) {
-		$layout_classes[] = 'menu-dropdown-mobile';
-	} elseif ( 'none' === $header_menu_dropdown ) {
-		$layout_classes[] = 'menu-dropdown-none';
-	}
-
-	$hello_header_menu_layout = hello_elementor_get_setting( 'hello_header_menu_layout' );
-	if ( 'dropdown' === $hello_header_menu_layout ) {
-		$layout_classes[] = 'menu-layout-dropdown';
-	}
-
-	return implode( ' ', $layout_classes );
-}
-
-/**
- * Helper function to translate the footer layout setting into a class name.
- *
- * @return string
- */
-function hello_get_footer_layout_class() {
-	$footer_layout = hello_elementor_get_setting( 'hello_footer_layout' );
-
-	$layout_classes = [];
-
-	if ( 'inverted' === $footer_layout ) {
-		$layout_classes[] = 'footer-inverted';
-	} elseif ( 'stacked' === $footer_layout ) {
-		$layout_classes[] = 'footer-stacked';
-	}
-
-	$footer_width = hello_elementor_get_setting( 'hello_footer_width' );
-
-	if ( 'full-width' === $footer_width ) {
-		$layout_classes[] = 'footer-full-width';
-	}
-
-	if ( hello_elementor_get_setting( 'hello_footer_copyright_display' ) && '' !== hello_elementor_get_setting( 'hello_footer_copyright_text' ) ) {
-		$layout_classes[] = 'footer-has-copyright';
-	}
-
-	return implode( ' ', $layout_classes );
-}
-
-add_action( 'elementor/editor/after_enqueue_scripts', function() {
-	if ( ! hello_header_footer_experiment_active() ) {
-		return;
-	}
-
-	$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-
+function hello420_elementor_editor_script(): void {
 	wp_enqueue_script(
-		'hello-theme-editor',
-		HELLO_THEME_SCRIPTS_URL . 'hello-editor.js',
-		[ 'jquery', 'elementor-editor' ],
-		HELLO_ELEMENTOR_VERSION,
+		'hello420-editor',
+		HELLO420_SCRIPTS_URL . 'hello-editor.js',
+		[ 'wp-hooks' ],
+		HELLO420_VERSION,
 		true
 	);
 
 	wp_enqueue_style(
-		'hello-editor',
-		HELLO_THEME_STYLE_URL . 'editor.css',
+		'hello420-editor',
+		HELLO420_STYLE_URL . 'editor.css',
 		[],
-		HELLO_ELEMENTOR_VERSION
+		HELLO420_VERSION
 	);
-} );
+}
+add_action( 'elementor/editor/before_enqueue_scripts', 'hello420_elementor_editor_script' );
 
-add_action( 'wp_enqueue_scripts', function() {
-	if ( ! hello_elementor_display_header_footer() ) {
-		return;
-	}
-
-	if ( ! hello_header_footer_experiment_active() ) {
-		return;
-	}
-
+function hello420_elementor_preview_style(): void {
 	wp_enqueue_script(
-		'hello-theme-frontend',
-		HELLO_THEME_SCRIPTS_URL . 'hello-frontend.js',
-		[],
-		HELLO_ELEMENTOR_VERSION,
+		'hello420-frontend',
+		HELLO420_SCRIPTS_URL . 'hello-frontend.js',
+		[ 'wp-hooks' ],
+		HELLO420_VERSION,
 		true
 	);
-
-	\Elementor\Plugin::$instance->kits_manager->frontend_before_enqueue_styles();
-} );
-
-
-/**
- * Helper function to decide whether to output the header template.
- *
- * @return bool
- */
-function hello_get_header_display() {
-	$is_editor = isset( $_GET['elementor-preview'] );
-
-	return (
-		$is_editor
-		|| hello_elementor_get_setting( 'hello_header_logo_display' )
-		|| hello_elementor_get_setting( 'hello_header_tagline_display' )
-		|| hello_elementor_get_setting( 'hello_header_menu_display' )
-	);
 }
+add_action( 'elementor/preview/enqueue_styles', 'hello420_elementor_preview_style' );
 
 /**
- * Helper function to decide whether to output the footer template.
- *
- * @return bool
+ * Whether the Hello 420 Header/Footer experiment is active.
  */
-function hello_get_footer_display() {
-	$is_editor = isset( $_GET['elementor-preview'] );
-
-	return (
-		$is_editor
-		|| hello_elementor_get_setting( 'hello_footer_logo_display' )
-		|| hello_elementor_get_setting( 'hello_footer_tagline_display' )
-		|| hello_elementor_get_setting( 'hello_footer_menu_display' )
-		|| hello_elementor_get_setting( 'hello_footer_copyright_display' )
-	);
-}
-
-/**
- * Add Hello Elementor theme Header & Footer to Experiments.
- */
-add_action( 'elementor/experiments/default-features-registered', function( \Elementor\Core\Experiments\Manager $experiments_manager ) {
-	$experiments_manager->add_feature( [
-		'name' => 'hello-theme-header-footer',
-		'title' => esc_html__( 'Header & Footer', 'hello-elementor' ),
-		'tag' => esc_html__( 'Hello Theme', 'hello-elementor' ),
-		'description' => sprintf(
-			'%1$s <a href="%2$s" target="_blank">%3$s</a>',
-			esc_html__( 'Customize and style the builtin Hello Theme’s cross-site header & footer from the Elementor "Site Settings" panel.', 'hello-elementor' ),
-			'https://go.elementor.com/wp-dash-header-footer',
-			esc_html__( 'Learn More', 'hello-elementor' )
-		),
-		'release_status' => $experiments_manager::RELEASE_STATUS_STABLE,
-		'new_site' => [
-			'minimum_installation_version' => '3.3.0',
-			'default_active' => $experiments_manager::STATE_ACTIVE,
-		],
-	] );
-} );
-
-/**
- * Helper function to check if Header & Footer Experiment is Active/Inactive
- */
-function hello_header_footer_experiment_active() {
-	// If Elementor is not active, return false
-	if ( ! did_action( 'elementor/loaded' ) ) {
-		return false;
-	}
-	// Backwards compat.
-	if ( ! method_exists( \Elementor\Plugin::$instance->experiments, 'is_feature_active' ) ) {
+function hello420_header_footer_experiment_active(): bool {
+	if ( ! defined( 'ELEMENTOR_VERSION' ) ) {
 		return false;
 	}
 
-	return (bool) ( \Elementor\Plugin::$instance->experiments->is_feature_active( 'hello-theme-header-footer' ) );
+	// Backwards compatibility with older Elementor versions.
+	if ( ! method_exists( Elementor\Plugin::$instance->experiments, 'is_feature_active' ) ) {
+		return false;
+	}
+
+	return (bool) Elementor\Plugin::$instance->experiments->is_feature_active( 'hello420-header-footer' );
 }

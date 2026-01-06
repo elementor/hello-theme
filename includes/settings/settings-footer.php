@@ -1,6 +1,6 @@
 <?php
 
-namespace HelloElementor\Includes\Settings;
+namespace Hello420Theme\Includes\Settings;
 
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Background;
@@ -20,7 +20,7 @@ class Settings_Footer extends Tab_Base {
 	}
 
 	public function get_title() {
-		return esc_html__( 'Hello Theme Footer', 'hello-elementor' );
+		return esc_html__( 'Hello Theme Footer', 'hello420' );
 	}
 
 	public function get_icon() {
@@ -43,7 +43,7 @@ class Settings_Footer extends Tab_Base {
 			'hello_footer_section',
 			[
 				'tab' => 'hello-settings-footer',
-				'label' => esc_html__( 'Footer', 'hello-elementor' ),
+				'label' => esc_html__( 'Footer', 'hello420' ),
 			]
 		);
 
@@ -51,10 +51,10 @@ class Settings_Footer extends Tab_Base {
 			'hello_footer_logo_display',
 			[
 				'type' => Controls_Manager::SWITCHER,
-				'label' => esc_html__( 'Site Logo', 'hello-elementor' ),
+				'label' => esc_html__( 'Site Logo', 'hello420' ),
 				'default' => 'yes',
-				'label_on' => esc_html__( 'Show', 'hello-elementor' ),
-				'label_off' => esc_html__( 'Hide', 'hello-elementor' ),
+				'label_on' => esc_html__( 'Show', 'hello420' ),
+				'label_off' => esc_html__( 'Hide', 'hello420' ),
 				'selector' => '.site-footer .site-branding',
 			]
 		);
@@ -63,10 +63,10 @@ class Settings_Footer extends Tab_Base {
 			'hello_footer_tagline_display',
 			[
 				'type' => Controls_Manager::SWITCHER,
-				'label' => esc_html__( 'Tagline', 'hello-elementor' ),
+				'label' => esc_html__( 'Tagline', 'hello420' ),
 				'default' => 'yes',
-				'label_on' => esc_html__( 'Show', 'hello-elementor' ),
-				'label_off' => esc_html__( 'Hide', 'hello-elementor' ),
+				'label_on' => esc_html__( 'Show', 'hello420' ),
+				'label_off' => esc_html__( 'Hide', 'hello420' ),
 				'selector' => '.site-footer .site-description',
 			]
 		);
@@ -75,10 +75,10 @@ class Settings_Footer extends Tab_Base {
 			'hello_footer_menu_display',
 			[
 				'type' => Controls_Manager::SWITCHER,
-				'label' => esc_html__( 'Menu', 'hello-elementor' ),
+				'label' => esc_html__( 'Menu', 'hello420' ),
 				'default' => 'yes',
-				'label_on' => esc_html__( 'Show', 'hello-elementor' ),
-				'label_off' => esc_html__( 'Hide', 'hello-elementor' ),
+				'label_on' => esc_html__( 'Show', 'hello420' ),
+				'label_off' => esc_html__( 'Hide', 'hello420' ),
 				'selector' => '.site-footer .site-navigation',
 			]
 		);
@@ -87,10 +87,10 @@ class Settings_Footer extends Tab_Base {
 			'hello_footer_copyright_display',
 			[
 				'type' => Controls_Manager::SWITCHER,
-				'label' => esc_html__( 'Copyright', 'hello-elementor' ),
+				'label' => esc_html__( 'Copyright', 'hello420' ),
 				'default' => 'yes',
-				'label_on' => esc_html__( 'Show', 'hello-elementor' ),
-				'label_off' => esc_html__( 'Hide', 'hello-elementor' ),
+				'label_on' => esc_html__( 'Show', 'hello420' ),
+				'label_off' => esc_html__( 'Hide', 'hello420' ),
 				'selector' => '.site-footer .copyright',
 			]
 		);
@@ -102,7 +102,7 @@ class Settings_Footer extends Tab_Base {
 				'alert_type' => 'warning',
 				'content' => sprintf(
 					/* translators: %s: Link that opens the theme settings page. */
-					__( 'Note: Hiding all the elements, only hides them visually. To disable them completely go to <a href="%s">Theme Settings</a> .', 'hello-elementor' ),
+					__( 'Note: Hiding all the elements, only hides them visually. To disable them completely go to <a href="%s">Theme Settings</a> .', 'hello420' ),
 					admin_url( 'themes.php?page=hello-theme-settings' )
 				),
 				'render_type' => 'ui',
@@ -119,18 +119,18 @@ class Settings_Footer extends Tab_Base {
 			'hello_footer_layout',
 			[
 				'type' => Controls_Manager::CHOOSE,
-				'label' => esc_html__( 'Layout', 'hello-elementor' ),
+				'label' => esc_html__( 'Layout', 'hello420' ),
 				'options' => [
 					'inverted' => [
-						'title' => esc_html__( 'Inverted', 'hello-elementor' ),
+						'title' => esc_html__( 'Inverted', 'hello420' ),
 						'icon' => "eicon-arrow-$start",
 					],
 					'stacked' => [
-						'title' => esc_html__( 'Centered', 'hello-elementor' ),
+						'title' => esc_html__( 'Centered', 'hello420' ),
 						'icon' => 'eicon-h-align-center',
 					],
 					'default' => [
-						'title' => esc_html__( 'Default', 'hello-elementor' ),
+						'title' => esc_html__( 'Default', 'hello420' ),
 						'icon' => "eicon-arrow-$end",
 					],
 				],
@@ -145,18 +145,18 @@ class Settings_Footer extends Tab_Base {
 			'hello_footer_tagline_position',
 			[
 				'type' => Controls_Manager::CHOOSE,
-				'label' => esc_html__( 'Tagline Position', 'hello-elementor' ),
+				'label' => esc_html__( 'Tagline Position', 'hello420' ),
 				'options' => [
 					'before' => [
-						'title' => esc_html__( 'Before', 'hello-elementor' ),
+						'title' => esc_html__( 'Before', 'hello420' ),
 						'icon' => "eicon-arrow-$start",
 					],
 					'below' => [
-						'title' => esc_html__( 'Below', 'hello-elementor' ),
+						'title' => esc_html__( 'Below', 'hello420' ),
 						'icon' => 'eicon-arrow-down',
 					],
 					'after' => [
-						'title' => esc_html__( 'After', 'hello-elementor' ),
+						'title' => esc_html__( 'After', 'hello420' ),
 						'icon' => "eicon-arrow-$end",
 					],
 				],
@@ -181,7 +181,7 @@ class Settings_Footer extends Tab_Base {
 			'hello_footer_tagline_gap',
 			[
 				'type' => Controls_Manager::SLIDER,
-				'label' => esc_html__( 'Tagline Gap', 'hello-elementor' ),
+				'label' => esc_html__( 'Tagline Gap', 'hello420' ),
 				'size_units' => [ 'px', 'em ', 'rem', 'custom' ],
 				'range' => [
 					'px' => [
@@ -208,10 +208,10 @@ class Settings_Footer extends Tab_Base {
 			'hello_footer_width',
 			[
 				'type' => Controls_Manager::SELECT,
-				'label' => esc_html__( 'Width', 'hello-elementor' ),
+				'label' => esc_html__( 'Width', 'hello420' ),
 				'options' => [
-					'boxed' => esc_html__( 'Boxed', 'hello-elementor' ),
-					'full-width' => esc_html__( 'Full Width', 'hello-elementor' ),
+					'boxed' => esc_html__( 'Boxed', 'hello420' ),
+					'full-width' => esc_html__( 'Full Width', 'hello420' ),
 				],
 				'selector' => '.site-footer',
 				'default' => 'boxed',
@@ -223,7 +223,7 @@ class Settings_Footer extends Tab_Base {
 			'hello_footer_custom_width',
 			[
 				'type' => Controls_Manager::SLIDER,
-				'label' => esc_html__( 'Content Width', 'hello-elementor' ),
+				'label' => esc_html__( 'Content Width', 'hello420' ),
 				'size_units' => [ '%', 'px', 'em', 'rem', 'vw', 'custom' ],
 				'range' => [
 					'px' => [
@@ -249,7 +249,7 @@ class Settings_Footer extends Tab_Base {
 			'hello_footer_gap',
 			[
 				'type' => Controls_Manager::SLIDER,
-				'label' => esc_html__( 'Side Margins', 'hello-elementor' ),
+				'label' => esc_html__( 'Side Margins', 'hello420' ),
 				'size_units' => [ '%', 'px', 'em ', 'rem', 'vw', 'custom' ],
 				'range' => [
 					'px' => [
@@ -275,7 +275,7 @@ class Settings_Footer extends Tab_Base {
 			Group_Control_Background::get_type(),
 			[
 				'name' => 'hello_footer_background',
-				'label' => esc_html__( 'Background', 'hello-elementor' ),
+				'label' => esc_html__( 'Background', 'hello420' ),
 				'types' => [ 'classic', 'gradient' ],
 				'separator' => 'before',
 				'selector' => '.site-footer',
@@ -288,7 +288,7 @@ class Settings_Footer extends Tab_Base {
 			'hello_footer_logo_section',
 			[
 				'tab' => 'hello-settings-footer',
-				'label' => esc_html__( 'Site Logo', 'hello-elementor' ),
+				'label' => esc_html__( 'Site Logo', 'hello420' ),
 				'condition' => [
 					'hello_footer_logo_display!' => '',
 				],
@@ -302,7 +302,7 @@ class Settings_Footer extends Tab_Base {
 				'alert_type' => 'info',
 				'content' => sprintf(
 					/* translators: %s: Link that opens Elementor's "Site Identity" panel. */
-					__( 'Go to <a href="%s">Site Identity</a> to manage your site\'s logo', 'hello-elementor' ),
+					__( 'Go to <a href="%s">Site Identity</a> to manage your site\'s logo', 'hello420' ),
 					"javascript:\$e.route('panel/global/settings-site-identity')"
 				),
 				'render_type' => 'ui',
@@ -320,7 +320,7 @@ class Settings_Footer extends Tab_Base {
 				'alert_type' => 'info',
 				'content' => sprintf(
 					/* translators: %s: Link that opens Elementor's "Site Identity" panel. */
-					__( 'Go to <a href="%s">Site Identity</a> to manage your site\'s title', 'hello-elementor' ),
+					__( 'Go to <a href="%s">Site Identity</a> to manage your site\'s title', 'hello420' ),
 					"javascript:\$e.route('panel/global/settings-site-identity')"
 				),
 				'render_type' => 'ui',
@@ -334,12 +334,12 @@ class Settings_Footer extends Tab_Base {
 		$this->add_control(
 			'hello_footer_logo_type',
 			[
-				'label' => esc_html__( 'Type', 'hello-elementor' ),
+				'label' => esc_html__( 'Type', 'hello420' ),
 				'type' => Controls_Manager::SELECT,
 				'default' => 'logo',
 				'options' => [
-					'logo' => esc_html__( 'Logo', 'hello-elementor' ),
-					'title' => esc_html__( 'Title', 'hello-elementor' ),
+					'logo' => esc_html__( 'Logo', 'hello420' ),
+					'title' => esc_html__( 'Title', 'hello420' ),
 				],
 				'frontend_available' => true,
 			]
@@ -349,7 +349,7 @@ class Settings_Footer extends Tab_Base {
 			'hello_footer_logo_width',
 			[
 				'type' => Controls_Manager::SLIDER,
-				'label' => esc_html__( 'Logo Width', 'hello-elementor' ),
+				'label' => esc_html__( 'Logo Width', 'hello420' ),
 				'size_units' => [ '%', 'px', 'em', 'rem', 'vw', 'custom' ],
 				'range' => [
 					'px' => [
@@ -376,7 +376,7 @@ class Settings_Footer extends Tab_Base {
 			Group_Control_Typography::get_type(),
 			[
 				'name' => 'hello_footer_title_typography',
-				'label' => esc_html__( 'Typography', 'hello-elementor' ),
+				'label' => esc_html__( 'Typography', 'hello420' ),
 				'condition' => [
 					'hello_footer_logo_display' => 'yes',
 					'hello_footer_logo_type' => 'title',
@@ -389,7 +389,7 @@ class Settings_Footer extends Tab_Base {
 			Group_Control_Text_Shadow::get_type(),
 			[
 				'name' => 'hello_footer_title_text_shadow',
-				'label' => esc_html__( 'Text Shadow', 'hello-elementor' ),
+				'label' => esc_html__( 'Text Shadow', 'hello420' ),
 				'condition' => [
 					'hello_footer_logo_display' => 'yes',
 					'hello_footer_logo_type' => 'title',
@@ -402,7 +402,7 @@ class Settings_Footer extends Tab_Base {
 			Group_Control_Text_Stroke::get_type(),
 			[
 				'name' => 'hello_footer_title_text_stroke',
-				'label' => esc_html__( 'Text Stroke', 'hello-elementor' ),
+				'label' => esc_html__( 'Text Stroke', 'hello420' ),
 				'condition' => [
 					'hello_footer_logo_display' => 'yes',
 					'hello_footer_logo_type' => 'title',
@@ -416,7 +416,7 @@ class Settings_Footer extends Tab_Base {
 		$this->start_controls_tab(
 			'hello_footer_title_colors_normal',
 			[
-				'label' => esc_html__( 'Normal', 'hello-elementor' ),
+				'label' => esc_html__( 'Normal', 'hello420' ),
 				'condition' => [
 					'hello_footer_logo_display' => 'yes',
 					'hello_footer_logo_type' => 'title',
@@ -427,7 +427,7 @@ class Settings_Footer extends Tab_Base {
 		$this->add_control(
 			'hello_footer_title_color',
 			[
-				'label' => esc_html__( 'Text Color', 'hello-elementor' ),
+				'label' => esc_html__( 'Text Color', 'hello420' ),
 				'type' => Controls_Manager::COLOR,
 				'condition' => [
 					'hello_footer_logo_display' => 'yes',
@@ -444,7 +444,7 @@ class Settings_Footer extends Tab_Base {
 		$this->start_controls_tab(
 			'hello_footer_title_colors_hover',
 			[
-				'label' => esc_html__( 'Hover', 'hello-elementor' ),
+				'label' => esc_html__( 'Hover', 'hello420' ),
 				'condition' => [
 					'hello_footer_logo_display' => 'yes',
 					'hello_footer_logo_type' => 'title',
@@ -455,7 +455,7 @@ class Settings_Footer extends Tab_Base {
 		$this->add_control(
 			'hello_footer_title_hover_color',
 			[
-				'label' => esc_html__( 'Text Color', 'hello-elementor' ),
+				'label' => esc_html__( 'Text Color', 'hello420' ),
 				'type' => Controls_Manager::COLOR,
 				'condition' => [
 					'hello_footer_logo_display' => 'yes',
@@ -470,7 +470,7 @@ class Settings_Footer extends Tab_Base {
 		$this->add_control(
 			'hello_footer_title_hover_color_transition_duration',
 			[
-				'label' => esc_html__( 'Transition Duration', 'hello-elementor' ),
+				'label' => esc_html__( 'Transition Duration', 'hello420' ),
 				'type' => Controls_Manager::SLIDER,
 				'size_units' => [ 's', 'ms', 'custom' ],
 				'default' => [
@@ -492,7 +492,7 @@ class Settings_Footer extends Tab_Base {
 			'hello_footer_tagline',
 			[
 				'tab' => 'hello-settings-footer',
-				'label' => esc_html__( 'Tagline', 'hello-elementor' ),
+				'label' => esc_html__( 'Tagline', 'hello420' ),
 				'condition' => [
 					'hello_footer_tagline_display' => 'yes',
 				],
@@ -506,7 +506,7 @@ class Settings_Footer extends Tab_Base {
 				'alert_type' => 'info',
 				'content' => sprintf(
 					/* translators: %s: Link that opens Elementor's "Site Identity" panel. */
-					__( 'Go to <a href="%s">Site Identity</a> to manage your site\'s tagline', 'hello-elementor' ),
+					__( 'Go to <a href="%s">Site Identity</a> to manage your site\'s tagline', 'hello420' ),
 					"javascript:\$e.route('panel/global/settings-site-identity')"
 				),
 				'render_type' => 'ui',
@@ -519,7 +519,7 @@ class Settings_Footer extends Tab_Base {
 		$this->add_control(
 			'hello_footer_tagline_color',
 			[
-				'label' => esc_html__( 'Text Color', 'hello-elementor' ),
+				'label' => esc_html__( 'Text Color', 'hello420' ),
 				'type' => Controls_Manager::COLOR,
 				'condition' => [
 					'hello_footer_tagline_display' => 'yes',
@@ -534,7 +534,7 @@ class Settings_Footer extends Tab_Base {
 			Group_Control_Typography::get_type(),
 			[
 				'name' => 'hello_footer_tagline_typography',
-				'label' => esc_html__( 'Typography', 'hello-elementor' ),
+				'label' => esc_html__( 'Typography', 'hello420' ),
 				'condition' => [
 					'hello_footer_tagline_display' => 'yes',
 				],
@@ -546,7 +546,7 @@ class Settings_Footer extends Tab_Base {
 			Group_Control_Text_Shadow::get_type(),
 			[
 				'name' => 'hello_footer_tagline_text_shadow',
-				'label' => esc_html__( 'Text Shadow', 'hello-elementor' ),
+				'label' => esc_html__( 'Text Shadow', 'hello420' ),
 				'condition' => [
 					'hello_footer_tagline_display' => 'yes',
 				],
@@ -560,7 +560,7 @@ class Settings_Footer extends Tab_Base {
 			'hello_footer_menu_tab',
 			[
 				'tab' => 'hello-settings-footer',
-				'label' => esc_html__( 'Menu', 'hello-elementor' ),
+				'label' => esc_html__( 'Menu', 'hello420' ),
 				'condition' => [
 					'hello_footer_menu_display' => 'yes',
 				],
@@ -569,7 +569,7 @@ class Settings_Footer extends Tab_Base {
 
 		$available_menus = wp_get_nav_menus();
 
-		$menus = [ '0' => esc_html__( '— Select a Menu —', 'hello-elementor' ) ];
+		$menus = [ '0' => esc_html__( '— Select a Menu —', 'hello420' ) ];
 		foreach ( $available_menus as $available_menu ) {
 			$menus[ $available_menu->term_id ] = $available_menu->name;
 		}
@@ -580,9 +580,9 @@ class Settings_Footer extends Tab_Base {
 				[
 					'type' => Controls_Manager::ALERT,
 					'alert_type' => 'info',
-					'heading' => esc_html__( 'There are no menus in your site.', 'hello-elementor' ),
+					'heading' => esc_html__( 'There are no menus in your site.', 'hello420' ),
 					'content' => sprintf(
-						__( 'Go to <a href="%s" target="_blank">Menus screen</a> to create one.', 'hello-elementor' ),
+						__( 'Go to <a href="%s" target="_blank">Menus screen</a> to create one.', 'hello420' ),
 						admin_url( 'nav-menus.php?action=edit&menu=0' )
 					),
 					'render_type' => 'ui',
@@ -595,7 +595,7 @@ class Settings_Footer extends Tab_Base {
 					'type' => Controls_Manager::ALERT,
 					'alert_type' => 'info',
 					'content' => sprintf(
-						__( 'Go to the <a href="%s" target="_blank">Menus screen</a> to manage your menus. Changes will be reflected in the preview only after the page reloads.', 'hello-elementor' ),
+						__( 'Go to the <a href="%s" target="_blank">Menus screen</a> to manage your menus. Changes will be reflected in the preview only after the page reloads.', 'hello420' ),
 						admin_url( 'nav-menus.php' )
 					),
 					'render_type' => 'ui',
@@ -605,7 +605,7 @@ class Settings_Footer extends Tab_Base {
 			$this->add_control(
 				'hello_footer_menu',
 				[
-					'label' => esc_html__( 'Menu', 'hello-elementor' ),
+					'label' => esc_html__( 'Menu', 'hello420' ),
 					'type' => Controls_Manager::SELECT,
 					'options' => $menus,
 					'default' => array_keys( $menus )[0],
@@ -615,7 +615,7 @@ class Settings_Footer extends Tab_Base {
 			$this->add_control(
 				'hello_footer_menu_color',
 				[
-					'label' => esc_html__( 'Color', 'hello-elementor' ),
+					'label' => esc_html__( 'Color', 'hello420' ),
 					'type' => Controls_Manager::COLOR,
 					'selectors' => [
 						'footer .footer-inner .site-navigation a' => 'color: {{VALUE}};',
@@ -627,7 +627,7 @@ class Settings_Footer extends Tab_Base {
 				Group_Control_Typography::get_type(),
 				[
 					'name' => 'hello_footer_menu_typography',
-					'label' => esc_html__( 'Typography', 'hello-elementor' ),
+					'label' => esc_html__( 'Typography', 'hello420' ),
 					'selector' => 'footer .footer-inner .site-navigation a',
 				]
 			);
@@ -636,7 +636,7 @@ class Settings_Footer extends Tab_Base {
 				Group_Control_Text_Shadow::get_type(),
 				[
 					'name' => 'hello_footer_menu_text_shadow',
-					'label' => esc_html__( 'Text Shadow', 'hello-elementor' ),
+					'label' => esc_html__( 'Text Shadow', 'hello420' ),
 					'selector' => 'footer .footer-inner .site-navigation a',
 				]
 			);
@@ -648,7 +648,7 @@ class Settings_Footer extends Tab_Base {
 			'hello_footer_copyright_section',
 			[
 				'tab' => 'hello-settings-footer',
-				'label' => esc_html__( 'Copyright', 'hello-elementor' ),
+				'label' => esc_html__( 'Copyright', 'hello420' ),
 				'conditions' => [
 					'relation' => 'and',
 					'terms' => [
@@ -666,15 +666,15 @@ class Settings_Footer extends Tab_Base {
 			'hello_footer_copyright_text',
 			[
 				'type' => Controls_Manager::TEXTAREA,
-				'label' => esc_html__( 'Text', 'hello-elementor' ),
-				'default' => esc_html__( 'All rights reserved', 'hello-elementor' ),
+				'label' => esc_html__( 'Text', 'hello420' ),
+				'default' => esc_html__( 'All rights reserved', 'hello420' ),
 			]
 		);
 
 		$this->add_control(
 			'hello_footer_copyright_color',
 			[
-				'label' => esc_html__( 'Text Color', 'hello-elementor' ),
+				'label' => esc_html__( 'Text Color', 'hello420' ),
 				'type' => Controls_Manager::COLOR,
 				'condition' => [
 					'hello_footer_copyright_display' => 'yes',
@@ -689,7 +689,7 @@ class Settings_Footer extends Tab_Base {
 			Group_Control_Typography::get_type(),
 			[
 				'name' => 'hello_footer_copyright_typography',
-				'label' => esc_html__( 'Typography', 'hello-elementor' ),
+				'label' => esc_html__( 'Typography', 'hello420' ),
 				'condition' => [
 					'hello_footer_copyright_display' => 'yes',
 				],
@@ -701,7 +701,7 @@ class Settings_Footer extends Tab_Base {
 			Group_Control_Text_Shadow::get_type(),
 			[
 				'name' => 'hello_footer_copyright_text_shadow',
-				'label' => esc_html__( 'Text Shadow', 'hello-elementor' ),
+				'label' => esc_html__( 'Text Shadow', 'hello420' ),
 				'condition' => [
 					'hello_footer_copyright_display' => 'yes',
 				],
@@ -723,34 +723,7 @@ class Settings_Footer extends Tab_Base {
 	}
 
 	public function get_additional_tab_content() {
-		$content_template = '
-			<div class="hello-elementor elementor-nerd-box">
-				<img src="%1$s" class="elementor-nerd-box-icon" alt="%2$s">
-				<p class="elementor-nerd-box-title">%3$s</p>
-				<p class="elementor-nerd-box-message">%4$s</p>
-				<a class="elementor-nerd-box-link elementor-button go-pro" target="_blank" href="%5$s">%6$s</a>
-			</div>';
-
-		if ( ! defined( 'ELEMENTOR_PRO_VERSION' ) ) {
-			return sprintf(
-				$content_template,
-				get_template_directory_uri() . '/assets/images/go-pro.svg',
-				esc_attr__( 'Get Elementor Pro', 'hello-elementor' ),
-				esc_html__( 'Create custom footers', 'hello-elementor' ),
-				esc_html__( 'Adjust your footer to include contact forms, sitemaps and more with Elementor Pro.', 'hello-elementor' ),
-				'https://go.elementor.com/hello-theme-footer/',
-				esc_html__( 'Upgrade Now', 'hello-elementor' )
-			);
-		} else {
-			return sprintf(
-				$content_template,
-				get_template_directory_uri() . '/assets/images/go-pro.svg',
-				esc_attr__( 'Elementor Pro', 'hello-elementor' ),
-				esc_html__( 'Create a custom footer with the Theme Builder', 'hello-elementor' ),
-				esc_html__( 'With the Theme Builder you can jump directly into each part of your site', 'hello-elementor' ),
-				get_admin_url( null, 'admin.php?page=elementor-app#/site-editor/templates/footer' ),
-				esc_html__( 'Create Footer', 'hello-elementor' )
-			);
-		}
+		return '';
 	}
+
 }

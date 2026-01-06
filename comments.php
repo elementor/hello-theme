@@ -29,7 +29,7 @@ if ( comments_open() && get_option( 'thread_comments' ) ) {
 			<?php
 			$comments_number = get_comments_number();
 			if ( '1' === $comments_number ) {
-				printf( esc_html_x( 'One Response', 'comments title', 'hello-elementor' ) );
+				printf( esc_html_x( 'One Response', 'comments title', 'hello420' ) );
 			} else {
 				printf(
 					/* translators: %s: Number of comments. */
@@ -39,7 +39,7 @@ if ( comments_open() && get_option( 'thread_comments' ) ) {
 							'%s Responses',
 							$comments_number,
 							'comments title',
-							'hello-elementor'
+							'hello420'
 						)
 					),
 					esc_html( number_format_i18n( $comments_number ) )

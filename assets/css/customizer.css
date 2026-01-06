@@ -1,0 +1,7 @@
+/*
+ * Hello 420 – Customizer action links
+ */
+.hello-action-links{display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.hello-action-links img{width:44px;height:44px}
+.hello-action-links-title{font-weight:600;margin:0}
+.hello-action-links-message{margin:0}

@@ -1,8 +1,8 @@
 <?php
 
-namespace HelloTheme\Modules\AdminHome\Rest;
+namespace Hello420Theme\Modules\AdminHome\Rest;
 
-use HelloTheme\Modules\AdminHome\Module;
+use Hello420Theme\Modules\AdminHome\Module;
 use WP_REST_Server;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 abstract class Rest_Base {
-	const ROUTE_NAMESPACE = 'elementor-hello-elementor/v1';
+	const ROUTE_NAMESPACE = 'hello420/v1';
 
 	abstract public function register_routes();
 

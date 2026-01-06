@@ -1,6 +1,6 @@
 <?php
 
-namespace HelloTheme\Modules\AdminHome\Components;
+namespace Hello420Theme\Modules\AdminHome\Components;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.

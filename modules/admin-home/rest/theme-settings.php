@@ -1,12 +1,12 @@
 <?php
 
-namespace HelloTheme\Modules\AdminHome\Rest;
+namespace Hello420Theme\Modules\AdminHome\Rest;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-use HelloTheme\Modules\AdminHome\Components\Settings_Controller;
+use Hello420Theme\Modules\AdminHome\Components\Settings_Controller;
 use WP_REST_Server;
 
 class Theme_Settings extends Rest_Base {
@@ -47,7 +47,7 @@ class Theme_Settings extends Rest_Base {
 		if ( ! is_array( $settings ) ) {
 			return new \WP_Error(
 				'invalid_settings',
-				esc_html__( 'Settings must be an array', 'hello-elementor' ),
+				esc_html__( 'Settings must be an array', 'hello420' ),
 				[ 'status' => 400 ]
 			);
 		}

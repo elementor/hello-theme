@@ -1,6 +1,6 @@
 <?php
 
-namespace HelloTheme\Includes;
+namespace Hello420Theme\Includes;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -100,7 +100,7 @@ abstract class Module_Base {
 		 *
 		 * @param bool $is_active the filters value
 		 */
-		return apply_filters( 'hello-plus-theme/modules/' . static::get_name() . '/is-active', true );
+		return apply_filters( 'hello420-theme/modules/' . static::get_name() . '/is-active', true );
 	}
 
 	/**
@@ -256,7 +256,7 @@ abstract class Module_Base {
 	 */
 	public function __clone() {
 		// Cloning instances of the class is forbidden
-		_doing_it_wrong( __FUNCTION__, esc_html__( 'Something went wrong.', 'hello-elementor' ), '0.0.1' ); // @codeCoverageIgnore
+		_doing_it_wrong( __FUNCTION__, esc_html__( 'Something went wrong.', 'hello420' ), '0.0.1' ); // @codeCoverageIgnore
 	}
 
 	/**
@@ -267,7 +267,7 @@ abstract class Module_Base {
 	 */
 	public function __wakeup() {
 		// Un-serializing instances of the class is forbidden
-		_doing_it_wrong( __FUNCTION__, esc_html__( 'Something went wrong.', 'hello-elementor' ), '0.0.1' ); // @codeCoverageIgnore
+		_doing_it_wrong( __FUNCTION__, esc_html__( 'Something went wrong.', 'hello420' ), '0.0.1' ); // @codeCoverageIgnore
 	}
 
 	/**

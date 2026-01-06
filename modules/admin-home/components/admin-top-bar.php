@@ -1,32 +1,30 @@
 <?php
 
-namespace HelloTheme\Modules\AdminHome\Components;
+namespace Hello420Theme\Modules\AdminHome\Components;
 
-use HelloTheme\Includes\Script;
-use HelloTheme\Includes\Utils;
+use Hello420Theme\Includes\Script;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
 class Admin_Top_Bar {
-
-	private function render_admin_top_bar() {
+	private function render_admin_top_bar(): void {
 		?>
-		<div id="ehe-admin-top-bar-root" style="height: 50px">
-		</div>
+		<div id="hello420-admin-top-bar-root" style="min-height: 50px"></div>
 		<?php
 	}
 
-	private function is_top_bar_active() {
+	private function is_top_bar_active(): bool {
 		$current_screen = get_current_screen();
 
-		return ( false !== strpos( $current_screen->id ?? '', EHP_THEME_SLUG ) );
+		return ( false !== strpos( $current_screen->id ?? '', HELLO420_THEME_SLUG ) );
 	}
 
-	private function enqueue_scripts() {
+	private function enqueue_scripts(): void {
 		$script = new Script(
-			'hello-elementor-topbar',
+			'hello420-topbar',
+			[ 'wp-element', 'wp-i18n' ]
 		);
 
 		$script->enqueue();
@@ -50,6 +48,7 @@ class Admin_Top_Bar {
 				$this->enqueue_scripts();
 			} );
 
+			// Disable Elementor's top bar for our theme pages to avoid double headers.
 			add_action( 'elementor/admin-top-bar/is-active', '__return_false' );
 		} );
 	}

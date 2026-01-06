@@ -1,0 +1,27 @@
+/*
+ * Hello 420 – Base theme styles
+ */
+:root{
+  --hello420-content-width: 1140px;
+}
+
+body{
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#page{min-height:100vh}
+
+.site-main{display:block}
+
+/* Utility */
+.screen-reader-text{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden}
+
+/* Basic content width alignment for non-Elementor templates */
+.hello420-container{
+  width: 100%;
+  max-width: var(--hello420-content-width);
+  margin: 0 auto;
+  padding: 0 16px;
+}

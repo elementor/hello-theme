@@ -2,7 +2,7 @@
 /**
  * The template for displaying header.
  *
- * @package HelloElementor
+ * @package Hello420
  */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -27,7 +27,7 @@ $header_nav_menu = wp_nav_menu( [
 		} elseif ( $site_name ) {
 			?>
 			<div class="site-title">
-				<a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr__( 'Home', 'hello-elementor' ); ?>" rel="home">
+				<a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr__( 'Home', 'hello420' ); ?>" rel="home">
 					<?php echo esc_html( $site_name ); ?>
 				</a>
 			</div>
@@ -40,7 +40,7 @@ $header_nav_menu = wp_nav_menu( [
 	</div>
 
 	<?php if ( $header_nav_menu ) : ?>
-		<nav class="site-navigation" aria-label="<?php echo esc_attr__( 'Main menu', 'hello-elementor' ); ?>">
+		<nav class="site-navigation" aria-label="<?php echo esc_attr__( 'Main menu', 'hello420' ); ?>">
 			<?php
 			// PHPCS - escaped by WordPress with "wp_nav_menu"
 			echo $header_nav_menu; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
