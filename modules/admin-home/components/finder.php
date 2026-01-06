@@ -1,27 +1,23 @@
 <?php
 
-namespace HelloTheme\Modules\AdminHome\Components;
+namespace Hello420Theme\Modules\AdminHome\Components;
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+	exit; // Exit if accessed directly.
 }
 
 class Finder {
-
-	public function add_hello_theme_finder_entry( $categories_data ) {
-		if ( isset( $categories_data['site'] ) && isset( $categories_data['site']['items'] ) ) {
-			$categories_data['site']['items']['hello-elementor-home'] = [
-				'title' => esc_html__( 'Hello Theme Home', 'hello-elementor' ),
-				'icon' => 'paint-brush',
-				'url' => admin_url( 'admin.php?page=hello-elementor' ),
-				'keywords' => [ 'theme', 'hello', 'home', 'plus', '+' ],
-			];
-		}
-
-		return $categories_data;
+	public function __construct() {
+		add_filter( 'elementor/finder/categories', [ $this, 'register_finder_item' ] );
 	}
 
-	public function __construct() {
-		add_filter( 'elementor/finder/categories', [ $this, 'add_hello_theme_finder_entry' ] );
+	public function register_finder_item( array $categories_data ): array {
+		$categories_data['site']['items']['hello420-home'] = [
+			'title' => esc_html__( 'Hello 420 Home', 'hello420' ),
+			'icon'  => 'eicon-home',
+			'url'   => admin_url( 'admin.php?page=' . HELLO420_THEME_SLUG ),
+		];
+
+		return $categories_data;
 	}
 }

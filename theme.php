@@ -1,12 +1,12 @@
 <?php
 
-namespace HelloTheme;
+namespace Hello420Theme;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-use HelloTheme\Includes\Module_Base;
+use Hello420Theme\Includes\Module_Base;
 
 /**
  * Theme's main class,
@@ -90,7 +90,7 @@ final class Theme {
 					$class_to_load
 				)
 			);
-			$filename = trailingslashit( HELLO_THEME_PATH ) . $filename . '.php';
+			$filename = trailingslashit( HELLO420_THEME_PATH ) . $filename . '.php';
 
 			if ( is_readable( $filename ) ) {
 				include $filename;
@@ -148,7 +148,7 @@ final class Theme {
 	 * @return void
 	 */
 	public function activate() {
-		do_action( 'hello-plus-theme/after_switch_theme' );
+		do_action( 'hello420-theme/after_switch_theme' );
 	}
 
 	/**

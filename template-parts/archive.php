@@ -2,7 +2,7 @@
 /**
  * The template for displaying archive pages.
  *
- * @package HelloElementor
+ * @package Hello420
  */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 <main id="content" class="site-main">
 
-	<?php if ( apply_filters( 'hello_elementor_page_title', true ) ) : ?>
+	<?php if ( apply_filters( 'hello420_page_title', true ) ) : ?>
 		<div class="page-header">
 			<?php
 			the_archive_title( '<h1 class="entry-title">', '</h1>' );
@@ -47,11 +47,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<nav class="pagination">
 			<div class="nav-previous"><?php
 				/* translators: %s: HTML entity for arrow character. */
-				previous_posts_link( sprintf( esc_html__( '%s Previous', 'hello-elementor' ), sprintf( '<span class="meta-nav">%s</span>', $prev_arrow ) ) );
+				previous_posts_link( sprintf( esc_html__( '%s Previous', 'hello420' ), sprintf( '<span class="meta-nav">%s</span>', $prev_arrow ) ) );
 			?></div>
 			<div class="nav-next"><?php
 				/* translators: %s: HTML entity for arrow character. */
-				next_posts_link( sprintf( esc_html__( 'Next %s', 'hello-elementor' ), sprintf( '<span class="meta-nav">%s</span>', $next_arrow ) ) );
+				next_posts_link( sprintf( esc_html__( 'Next %s', 'hello420' ), sprintf( '<span class="meta-nav">%s</span>', $next_arrow ) ) );
 			?></div>
 		</nav>
 	<?php endif; ?>

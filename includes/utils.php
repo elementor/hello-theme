@@ -1,6 +1,6 @@
 <?php
 
-namespace HelloTheme\Includes;
+namespace Hello420Theme\Includes;
 
 use Elementor\App\App;
 
@@ -56,8 +56,17 @@ class Utils {
 	}
 
 	public static function get_theme_builder_url(): string {
+		// Prefer internal Elementor URLs (no external redirects).
 		if ( ! class_exists( 'Elementor\App\App' ) ) {
-			return 'https://go.elementor.com/hello-theme-builder';
+			if ( self::is_elementor_active() ) {
+				return admin_url( 'admin.php?page=elementor' );
+			}
+
+			if ( self::is_elementor_installed() ) {
+				return admin_url( self::get_elementor_activation_link() );
+			}
+
+			return admin_url( 'plugin-install.php?s=elementor&tab=search&type=term' );
 		}
 
 		if ( self::has_pro() ) {
@@ -68,7 +77,7 @@ class Utils {
 			return admin_url( 'admin.php?page=' . App::PAGE_ID . '&ver=' . ELEMENTOR_VERSION ) . '#site-editor/promotion';
 		}
 
-		return 'https://go.elementor.com/hello-theme-builder';
+		return admin_url( 'admin.php?page=elementor' );
 	}
 
 	public static function get_elementor_activation_link(): string {
@@ -79,10 +88,6 @@ class Utils {
 		return add_query_arg( '_wpnonce', wp_create_nonce( 'activate-plugin_' . $plugin ), $url );
 	}
 
-	public static function get_ai_site_planner_url(): string {
-		return 'https://go.elementor.com/hello-site-planner';
-	}
-
 	public static function get_plugin_install_url( $plugin_slug ): string {
 		$action = 'install-plugin';
 
@@ -90,7 +95,7 @@ class Utils {
 			[
 				'action'   => $action,
 				'plugin'   => $plugin_slug,
-				'referrer' => 'hello-elementor',
+				'referrer' => 'hello420',
 			],
 			admin_url( 'update.php' )
 		);
@@ -105,7 +110,7 @@ class Utils {
 			$action_link_type = 'install-elementor';
 		} elseif ( ! defined( 'ELEMENTOR_VERSION' ) ) {
 			$action_link_type = 'activate-elementor';
-		} elseif ( ! hello_header_footer_experiment_active() ) {
+		} elseif ( ! function_exists( 'hello420_header_footer_experiment_active' ) || ! hello420_header_footer_experiment_active() ) {
 			$action_link_type = 'activate-header-footer-experiment';
 		} else {
 			$action_link_type = 'style-header-footer';

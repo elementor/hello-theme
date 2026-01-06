@@ -1,0 +1,9 @@
+/*
+ * Hello 420 – Minimal reset
+ * Keep it tiny: Elementor and site styles should do the heavy lifting.
+ */
+*,*::before,*::after{box-sizing:border-box}
+html:focus-within{scroll-behavior:smooth}
+body{margin:0}
+img,svg,video{max-width:100%;height:auto}
+button,input,select,textarea{font:inherit}

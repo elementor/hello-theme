@@ -1,19 +1,19 @@
 <?php
 
-namespace HelloTheme\Modules\AdminHome\Components;
+namespace Hello420Theme\Modules\AdminHome\Components;
 
-use HelloTheme\Includes\Script;
+use Hello420Theme\Includes\Script;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
 class Settings_Controller {
+	public const SETTINGS_FILTER_NAME = 'hello420-theme/settings';
+	public const SETTINGS_PAGE_SLUG = 'hello420-settings';
+	public const SETTING_PREFIX = 'hello420_settings';
 
-	const SETTINGS_FILTER_NAME = 'hello-plus-theme/settings';
-	const SETTINGS_PAGE_SLUG = 'hello-elementor-settings';
-	const SETTING_PREFIX = 'hello_elementor_settings';
-	const SETTINGS = [
+	public const SETTINGS = [
 		'DESCRIPTION_META_TAG' => '_description_meta_tag',
 		'SKIP_LINK'            => '_skip_link',
 		'HEADER_FOOTER'        => '_header_footer',
@@ -24,7 +24,7 @@ class Settings_Controller {
 
 	public static function get_settings_mapping(): array {
 		return array_map(
-			function ( $key ) {
+			static function ( $key ) {
 				return self::SETTING_PREFIX . $key;
 			},
 			self::SETTINGS
@@ -32,8 +32,7 @@ class Settings_Controller {
 	}
 
 	public static function get_settings(): array {
-
-		$settings = array_map( function ( $key ) {
+		$settings = array_map( static function ( $key ) {
 			return self::get_option( $key ) === 'true';
 		}, self::get_settings_mapping() );
 
@@ -57,50 +56,48 @@ class Settings_Controller {
 		if ( isset( $option ) && ( 'true' === $option ) && is_callable( $tweak_callback ) ) {
 			$tweak_callback();
 		}
-
 	}
 
 	public function apply_settings( $settings_group = self::SETTING_PREFIX, $settings = self::SETTINGS ) {
-
 		$this->apply_setting(
 			$settings_group . $settings['DESCRIPTION_META_TAG'],
-			function () {
-				remove_action( 'wp_head', 'hello_elementor_add_description_meta_tag' );
+			static function () {
+				remove_action( 'wp_head', 'hello420_add_description_meta_tag' );
 			}
 		);
 
 		$this->apply_setting(
 			$settings_group . $settings['SKIP_LINK'],
-			function () {
-				add_filter( 'hello_elementor_enable_skip_link', '__return_false' );
+			static function () {
+				add_filter( 'hello420_enable_skip_link', '__return_false' );
 			}
 		);
 
 		$this->apply_setting(
 			$settings_group . $settings['HEADER_FOOTER'],
-			function () {
-				add_filter( 'hello_elementor_header_footer', '__return_false' );
+			static function () {
+				add_filter( 'hello420_header_footer', '__return_false' );
 			}
 		);
 
 		$this->apply_setting(
 			$settings_group . $settings['PAGE_TITLE'],
-			function () {
-				add_filter( 'hello_elementor_page_title', '__return_false' );
+			static function () {
+				add_filter( 'hello420_page_title', '__return_false' );
 			}
 		);
 
 		$this->apply_setting(
 			$settings_group . $settings['HELLO_STYLE'],
-			function () {
-				add_filter( 'hello_elementor_enqueue_style', '__return_false' );
+			static function () {
+				add_filter( 'hello420_enqueue_style', '__return_false' );
 			}
 		);
 
 		$this->apply_setting(
 			$settings_group . $settings['HELLO_THEME'],
-			function () {
-				add_filter( 'hello_elementor_enqueue_theme_style', '__return_false' );
+			static function () {
+				add_filter( 'hello420_enqueue_theme_style', '__return_false' );
 			}
 		);
 	}
@@ -111,15 +108,15 @@ class Settings_Controller {
 				$settings_group,
 				$settings_group . $setting_value,
 				[
-					'default' => '',
+					'default'      => '',
 					'show_in_rest' => true,
-					'type' => 'string',
+					'type'         => 'string',
 				]
 			);
 		}
 	}
 
-	public function enqueue_hello_plus_settings_scripts() {
+	public function enqueue_settings_scripts() {
 		$screen = get_current_screen();
 
 		if ( ! str_ends_with( $screen->id, '_page_' . self::SETTINGS_PAGE_SLUG ) ) {
@@ -127,8 +124,8 @@ class Settings_Controller {
 		}
 
 		$script = new Script(
-			'hello-elementor-settings',
-			[ 'wp-util' ]
+			'hello420-settings',
+			[ 'wp-element', 'wp-i18n', 'wp-api-fetch' ]
 		);
 
 		$script->enqueue();
@@ -137,8 +134,8 @@ class Settings_Controller {
 	public function register_settings_page( $parent_slug ): void {
 		add_submenu_page(
 			$parent_slug,
-			__( 'Settings', 'hello-elementor' ),
-			__( 'Settings', 'hello-elementor' ),
+			esc_html__( 'Settings', 'hello420' ),
+			esc_html__( 'Settings', 'hello420' ),
 			'manage_options',
 			self::SETTINGS_PAGE_SLUG,
 			[ $this, 'render_settings_page' ]
@@ -146,11 +143,11 @@ class Settings_Controller {
 	}
 
 	public function render_settings_page(): void {
-		echo '<div id="ehe-admin-settings"></div>';
+		echo '<div id="hello420-admin-settings"></div>';
 	}
 
 	public function __construct() {
-		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_hello_plus_settings_scripts' ] );
-		add_action( 'hello-plus-theme/admin-menu', [ $this, 'register_settings_page' ], 10, 1 );
+		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_settings_scripts' ] );
+		add_action( 'hello420/admin-menu', [ $this, 'register_settings_page' ], 10, 1 );
 	}
 }

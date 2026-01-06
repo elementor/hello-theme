@@ -1,0 +1,20 @@
+/*
+ * Hello 420 – Header/Footer layout (minimal)
+ */
+.site-header,.site-footer{width:100%}
+.header-inner,.footer-inner{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.site-branding{display:flex;flex-direction:column;gap:4px}
+.site-title{font-size:1.1rem;font-weight:600}
+.site-title a{text-decoration:none}
+.site-navigation ul{margin:0;padding:0;list-style:none;display:flex;gap:12px;flex-wrap:wrap}
+.site-navigation a{text-decoration:none}
+
+/* Mobile dropdown toggle (minimal) */
+.site-navigation-toggle-holder{display:none}
+@media (max-width: 767px){
+  .site-navigation{display:none}
+  .site-navigation-toggle-holder{display:block}
+  .site-navigation-dropdown[aria-hidden="true"]{display:none}
+  .site-navigation-dropdown{width:100%}
+  .site-navigation-dropdown ul{flex-direction:column}
+}

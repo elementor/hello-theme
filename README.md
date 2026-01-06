@@ -1,19 +1,36 @@
-# Hello Elementor
+# Hello 420
 
-A lightweight and minimalist WordPress theme for Elementor site builder.
+Hello 420 is a lightweight, minimalist WordPress theme built to work seamlessly with **Elementor**.
 
-<p><a href="https://elementor.com/?utm_source=github-repo&utm_medium=link&utm_campaign=readme"><img src="https://i0.wp.com/themes.svn.wordpress.org/hello-elementor/2.7.1/screenshot.png?w=600&strip=all" alt="Hello Elementor"></a></p>
+The 2.2.x series is focused on:
+- Maintaining a clean, stable fork-based codebase
+- Removing marketing/telemetry
+- Improving i18n and documentation for human + AI contributors
 
-## Description
+## Requirements
 
-[Hello Elementor](https://elementor.com/products/hello-theme/?utm_source=github-repo&utm_medium=link&utm_campaign=readme) is a lightweight and minimalist WordPress theme that was built specifically to work seamlessly with the [Elementor site builder](https://elementor.com/?utm_source=github-repo&utm_medium=link&utm_campaign=readme) plugin. The theme is free, open-source, and designed for users who want a flexible, easy-to-use, and customizable website.
+- WordPress: 6.0+
+- PHP: 8.2+
+- Elementor: recommended (required to unlock theme builder and Site Settings integrations)
 
-The theme's main focus is on providing a solid foundation for users to build their own unique designs using the Elementor drag-and-drop site builder. It is optimized for speed and performance, and its simplicity and flexibility make it a great choice for both beginners and experienced website designers.
+## Key features
 
-The theme supports common WordPress features which can be extended using a child-theme. In addition, there are several ways to add custom styles. It can be done from **Elementor**, using a child-theme, or with an external plugin. To customize the theme further, visit [Elementor developers docs](https://developers.elementor.com/docs/hello-elementor-theme/).
+- Minimal front-end styles (Elementor-first)
+- Header & footer controls inside Elementor Site Settings
+- Customizer fallback action-links when Elementor is not active
+- Admin Home (modern WP UI) with internal shortcuts and REST endpoints
 
-## Liked Hello Elementor?
+## Documentation
 
-- Join our [Facebook Group](https://www.facebook.com/groups/Elementors/).
-- Learn from our tutorials on [YouTube Channel](https://www.youtube.com/c/elementor).
-- Or rate the theme on [WordPress.org](https://wordpress.org/support/theme/hello-elementor/reviews/?filter=5) :)
+- AI-oriented docs: `docs/ai/`
+- Changelog: `CHANGELOG.md`
+
+## Development rules (2.2.x)
+
+- Keep the theme functional at every patch version.
+- Avoid re-introducing removed build steps.
+- Always update and review **DOCS** and **CHANGELOG** whenever code changes.
+
+## License
+
+GPL-3.0-or-later
