@@ -15,6 +15,36 @@ use Hello420Theme\Includes\Settings\Settings_Header;
 add_action( 'elementor/init', 'hello420_settings_init' );
 
 /**
+ * Safe accessor for the Elementor plugin instance.
+ *
+ * Returns null when Elementor is not available yet.
+ */
+function hello420_elementor_plugin() {
+	if ( ! class_exists( '\\Elementor\\Plugin' ) ) {
+		return null;
+	}
+
+	// Elementor stores the singleton on a static property in most versions.
+	$plugin = \Elementor\Plugin::$instance ?? null;
+	if ( is_object( $plugin ) ) {
+		return $plugin;
+	}
+
+	// Fallback for versions that rely on ::instance().
+	if ( method_exists( '\\Elementor\\Plugin', 'instance' ) ) {
+		try {
+			$plugin = \Elementor\Plugin::instance();
+			return is_object( $plugin ) ? $plugin : null;
+		} catch ( \Throwable $e ) {
+			return null;
+		}
+	}
+
+	return null;
+}
+
+
+/**
  * Register theme tabs in Elementor Site Settings.
  */
 function hello420_settings_init(): void {
@@ -22,12 +52,18 @@ function hello420_settings_init(): void {
 		return;
 	}
 
+	$plugin = hello420_elementor_plugin();
+	if ( ! $plugin ) {
+		return;
+	}
+
 	// Tabs for header/footer theme styling.
 	add_filter( 'elementor/kit/register_tabs', 'hello420_register_elementor_tabs' );
 
-	// Elementor experiment flag.
-	if ( method_exists( Elementor\Plugin::$instance->experiments, 'add_feature' ) ) {
-		Elementor\Plugin::$instance->experiments->add_feature(
+	// Elementor experiment flag (guarded for version compatibility).
+	$experiments = $plugin->experiments ?? null;
+	if ( is_object( $experiments ) && method_exists( $experiments, 'add_feature' ) ) {
+		$experiments->add_feature(
 			[
 				'name'        => 'hello420-header-footer',
 				'title'       => 'Hello 420 – Header & Footer',
@@ -56,13 +92,19 @@ function hello420_get_setting( string $setting_id ) {
 	static $hello420_settings = [];
 	$return = '';
 
-	if ( ! defined( 'ELEMENTOR_VERSION' ) ) {
+	$plugin = hello420_elementor_plugin();
+	if ( ! $plugin ) {
 		return '';
 	}
 
 	if ( ! isset( $hello420_settings['kit_settings'] ) ) {
-		$kit = Elementor\Plugin::$instance->kits_manager->get_active_kit();
-		$hello420_settings['kit_settings'] = $kit ? $kit->get_settings() : [];
+		$kit_settings = [];
+		$kits_manager = $plugin->kits_manager ?? null;
+		if ( is_object( $kits_manager ) && method_exists( $kits_manager, 'get_active_kit' ) ) {
+			$kit = $kits_manager->get_active_kit();
+			$kit_settings = $kit ? $kit->get_settings() : [];
+		}
+		$hello420_settings['kit_settings'] = is_array( $kit_settings ) ? $kit_settings : [];
 	}
 
 	if ( isset( $hello420_settings['kit_settings'][ $setting_id ] ) ) {
@@ -239,14 +281,19 @@ add_action( 'elementor/preview/enqueue_styles', 'hello420_elementor_preview_styl
  * Whether the Hello 420 Header/Footer experiment is active.
  */
 function hello420_header_footer_experiment_active(): bool {
-	if ( ! defined( 'ELEMENTOR_VERSION' ) ) {
+	$plugin = hello420_elementor_plugin();
+	if ( ! $plugin ) {
 		return false;
 	}
 
-	// Backwards compatibility with older Elementor versions.
-	if ( ! method_exists( Elementor\Plugin::$instance->experiments, 'is_feature_active' ) ) {
+	$experiments = $plugin->experiments ?? null;
+	if ( ! is_object( $experiments ) ) {
 		return false;
 	}
 
-	return (bool) Elementor\Plugin::$instance->experiments->is_feature_active( 'hello420-header-footer' );
+	if ( ! method_exists( $experiments, 'is_feature_active' ) ) {
+		return false;
+	}
+
+	return (bool) $experiments->is_feature_active( 'hello420-header-footer' );
 }

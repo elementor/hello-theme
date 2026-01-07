@@ -244,12 +244,28 @@ add_action( 'init', static function () {
  * Check whether to display the page title.
  */
 function hello420_check_hide_title( bool $val ): bool {
-	if ( defined( 'ELEMENTOR_VERSION' ) ) {
-		$current_doc = Elementor\Plugin::instance()->documents->get( get_the_ID() );
-		if ( $current_doc && 'yes' === $current_doc->get_settings( 'hide_title' ) ) {
+	if ( ! defined( 'ELEMENTOR_VERSION' ) || ! class_exists( '\Elementor\Plugin' ) ) {
+		return $val;
+	}
+
+	try {
+		$plugin = \Elementor\Plugin::$instance ?? null;
+		if ( ! is_object( $plugin ) && method_exists( '\Elementor\Plugin', 'instance' ) ) {
+			$plugin = \Elementor\Plugin::instance();
+		}
+
+		if ( ! is_object( $plugin ) || empty( $plugin->documents ) || ! method_exists( $plugin->documents, 'get' ) ) {
+			return $val;
+		}
+
+		$current_doc = $plugin->documents->get( get_the_ID() );
+		if ( $current_doc && method_exists( $current_doc, 'get_settings' ) && 'yes' === $current_doc->get_settings( 'hide_title' ) ) {
 			$val = false;
 		}
+	} catch ( \Throwable $e ) {
+		// Never break the front-end if Elementor APIs change.
 	}
+
 	return $val;
 }
 add_filter( 'hello420_page_title', 'hello420_check_hide_title' );
