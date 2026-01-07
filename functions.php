@@ -27,6 +27,40 @@ define( 'HELLO420_STYLE_URL', HELLO420_ASSETS_URL . 'css/' );
 define( 'HELLO420_IMAGES_PATH', HELLO420_ASSETS_PATH . 'images/' );
 define( 'HELLO420_IMAGES_URL', HELLO420_ASSETS_URL . 'images/' );
 
+/**
+ * Internal error log file for Hello 420.
+ *
+ * This helps debugging "Critical Error" screens when server logs are not easily accessible.
+ */
+if ( ! defined( 'HELLO420_ERROR_LOG' ) ) {
+	$hello420_wp_content_dir = defined( 'WP_CONTENT_DIR' ) ? WP_CONTENT_DIR : ( rtrim( ABSPATH, '/\\' ) . '/wp-content' );
+	define( 'HELLO420_ERROR_LOG', rtrim( $hello420_wp_content_dir, '/\\' ) . '/hello420-error.log' );
+}
+
+/**
+ * Write a safe, minimal error entry for diagnostics without breaking the site.
+ */
+function hello420_log_error( \Throwable $error, string $context = 'runtime' ): void {
+	$time = gmdate( 'c' );
+	$line = sprintf(
+		"[%s] [%s] %s in %s:%d\n",
+		$time,
+		$context,
+		$error->getMessage(),
+		$error->getFile(),
+		$error->getLine()
+	);
+
+	// Best-effort write: file + PHP error_log fallback.
+	try {
+		@file_put_contents( HELLO420_ERROR_LOG, $line . $error->getTraceAsString() . "\n\n", FILE_APPEND );
+	} catch ( \Throwable $e ) {
+		// ignore
+	}
+
+	@error_log( 'Hello 420 error (' . $context . '): ' . $error->getMessage() . ' in ' . $error->getFile() . ':' . $error->getLine() );
+}
+
 if ( ! isset( $content_width ) ) {
 	$content_width = 800; // Pixels.
 }
@@ -270,6 +304,25 @@ function hello420_check_hide_title( bool $val ): bool {
 }
 add_filter( 'hello420_page_title', 'hello420_check_hide_title' );
 
-require HELLO420_THEME_PATH . '/theme.php';
+$hello420_theme_file = HELLO420_THEME_PATH . '/theme.php';
+if ( file_exists( $hello420_theme_file ) ) {
+	require $hello420_theme_file;
+} else {
+	hello420_log_error( new \RuntimeException( 'Missing required theme bootstrap file: ' . $hello420_theme_file ), 'boot' );
+	return;
+}
 
-Hello420Theme\Theme::instance();
+try {
+	Hello420Theme\Theme::instance();
+} catch ( \Throwable $e ) {
+	hello420_log_error( $e, 'boot' );
+
+	// Show a notice to admins (only in wp-admin).
+	if ( is_admin() && current_user_can( 'manage_options' ) ) {
+		add_action( 'admin_notices', static function () {
+			echo '<div class="notice notice-error"><p>' .
+				esc_html__( 'Hello 420 encountered an internal error during bootstrap. Check wp-content/hello420-error.log for details.', 'hello420' ) .
+				'</p></div>';
+		} );
+	}
+}

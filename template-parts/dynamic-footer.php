@@ -8,6 +8,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+
+if ( function_exists( 'hello420_get_footer_display' ) && ! hello420_get_footer_display() ) {
+	return;
+}
+
 $is_editor = isset( $_GET['elementor-preview'] );
 $site_name = get_bloginfo( 'name' );
 $tagline   = get_bloginfo( 'description', 'display' );

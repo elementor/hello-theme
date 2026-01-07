@@ -12,7 +12,7 @@ use Hello420Theme\Includes\Module_Base;
  * Theme's main class,
  * responsible over initializing the modules & some general definitions.
  *
- * @package HelloTheme
+ * @package Hello420
  */
 final class Theme {
 
@@ -151,15 +151,37 @@ final class Theme {
 		do_action( 'hello420-theme/after_switch_theme' );
 	}
 
-	/**
+
+/**
+ * AdminHome is admin-facing. Avoid loading it on the front-end to prevent critical errors.
+ */
+private static function should_load_admin_home(): bool {
+	if ( is_admin() ) {
+		return true;
+	}
+
+	if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
+		return true;
+	}
+
+	if ( function_exists( 'wp_doing_ajax' ) && wp_doing_ajax() ) {
+		return true;
+	}
+
+	return false;
+}
+
+/**
 	 * Initialize all Modules
 	 *
 	 * @return void
 	 */
 	private function init_modules() {
-		$modules_list = [
-			'AdminHome',
-		];
+		$modules_list = [];
+
+		if ( self::should_load_admin_home() ) {
+			$modules_list[] = 'AdminHome';
+		}
 
 		foreach ( $modules_list as $module_name ) {
 			$class_name = str_replace( '-', ' ', $module_name );
