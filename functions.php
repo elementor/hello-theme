@@ -38,6 +38,21 @@ if ( ! defined( 'HELLO420_ERROR_LOG' ) ) {
 }
 
 /**
+ * Return a list of possible log destinations.
+ *
+ * Some hosts block writing to wp-content. We fall back to theme dir and the system temp dir.
+ */
+function hello420_get_error_log_paths(): array {
+	$paths = [
+		HELLO420_ERROR_LOG,
+		rtrim( HELLO420_THEME_PATH, '/\\' ) . '/hello420-error.log',
+		rtrim( sys_get_temp_dir(), '/\\' ) . '/hello420-error.log',
+	];
+
+	return array_values( array_unique( array_filter( $paths ) ) );
+}
+
+/**
  * Write a safe, minimal error entry for diagnostics without breaking the site.
  */
 function hello420_log_error( \Throwable $error, string $context = 'runtime' ): void {
@@ -51,15 +66,70 @@ function hello420_log_error( \Throwable $error, string $context = 'runtime' ): v
 		$error->getLine()
 	);
 
+	$payload = $line . $error->getTraceAsString() . "\n\n";
+
 	// Best-effort write: file + PHP error_log fallback.
-	try {
-		@file_put_contents( HELLO420_ERROR_LOG, $line . $error->getTraceAsString() . "\n\n", FILE_APPEND );
-	} catch ( \Throwable $e ) {
-		// ignore
+	foreach ( hello420_get_error_log_paths() as $path ) {
+		try {
+			@file_put_contents( $path, $payload, FILE_APPEND );
+		} catch ( \Throwable $e ) {
+			// ignore
+		}
+	}
+
+	// Store a short error snapshot in the DB (works even when filesystem is read-only).
+	if ( function_exists( 'update_option' ) ) {
+		try {
+			update_option(
+				'hello420_last_error',
+				[
+					'time'    => $time,
+					'context' => $context,
+					'message' => $error->getMessage(),
+					'file'    => $error->getFile(),
+					'line'    => $error->getLine(),
+					'paths'   => hello420_get_error_log_paths(),
+				],
+				false
+			);
+		} catch ( \Throwable $e ) {
+			// ignore
+		}
 	}
 
 	@error_log( 'Hello 420 error (' . $context . '): ' . $error->getMessage() . ' in ' . $error->getFile() . ':' . $error->getLine() );
 }
+
+/**
+ * Capture fatal errors at shutdown and log them.
+ */
+function hello420_register_shutdown_logger(): void {
+	register_shutdown_function( static function () {
+		$err = error_get_last();
+		if ( ! $err || empty( $err['type'] ) ) {
+			return;
+		}
+
+		$fatal = [ E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR ];
+		if ( ! in_array( (int) $err['type'], $fatal, true ) ) {
+			return;
+		}
+
+		$exception = new \ErrorException(
+			$err['message'] ?? 'Fatal error',
+			0,
+			(int) $err['type'],
+			$err['file'] ?? __FILE__,
+			(int) ( $err['line'] ?? 0 )
+		);
+
+		if ( function_exists( 'hello420_log_error' ) ) {
+			hello420_log_error( $exception, 'shutdown' );
+		}
+	} );
+}
+
+hello420_register_shutdown_logger();
 
 if ( ! isset( $content_width ) ) {
 	$content_width = 800; // Pixels.
@@ -105,6 +175,47 @@ function hello420_elementor_required_notice(): void {
 	echo '<div class="notice notice-warning"><p>' . esc_html__( 'Hello 420 is optimized for Elementor and requires the Elementor plugin to unlock its full functionality.', 'hello420' ) . '</p></div>';
 }
 add_action( 'admin_notices', 'hello420_elementor_required_notice' );
+
+/**
+ * Display the last recorded Hello 420 error in wp-admin for easier debugging.
+ */
+function hello420_admin_last_error_notice(): void {
+	if ( ! is_admin() || ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+
+	if ( ! function_exists( 'get_option' ) ) {
+		return;
+	}
+
+	$err = get_option( 'hello420_last_error' );
+	if ( ! is_array( $err ) || empty( $err['message'] ) ) {
+		return;
+	}
+
+	$time = isset( $err['time'] ) ? (string) $err['time'] : '';
+	$ts   = $time ? strtotime( $time ) : 0;
+	if ( $ts && $ts < ( time() - ( 12 * HOUR_IN_SECONDS ) ) ) {
+		return;
+	}
+
+	$message = sprintf(
+		'%s (%s:%s)',
+		(string) $err['message'],
+		isset( $err['file'] ) ? (string) $err['file'] : '?',
+		isset( $err['line'] ) ? (string) $err['line'] : '?'
+	);
+
+	$paths = isset( $err['paths'] ) && is_array( $err['paths'] ) ? implode( ', ', array_map( 'strval', $err['paths'] ) ) : '';
+
+	echo '<div class="notice notice-warning"><p>';
+	echo '<strong>' . esc_html__( 'Hello 420 last error:', 'hello420' ) . '</strong> ' . esc_html( $message );
+	if ( $paths ) {
+		echo '<br><small>' . esc_html__( 'Log paths tried:', 'hello420' ) . ' ' . esc_html( $paths ) . '</small>';
+	}
+	echo '</p></div>';
+}
+add_action( 'admin_notices', 'hello420_admin_last_error_notice' );
 
 /**
  * Set up theme support.
@@ -256,10 +367,18 @@ function hello420_add_description_meta_tag(): void {
 add_action( 'wp_head', 'hello420_add_description_meta_tag' );
 
 // Settings page.
-require HELLO420_THEME_PATH . '/includes/settings-functions.php';
+try {
+	require HELLO420_THEME_PATH . '/includes/settings-functions.php';
+} catch ( \Throwable $e ) {
+	hello420_log_error( $e, 'include-settings' );
+}
 
 // Header & footer styling option, inside Elementor.
-require HELLO420_THEME_PATH . '/includes/elementor-functions.php';
+try {
+	require HELLO420_THEME_PATH . '/includes/elementor-functions.php';
+} catch ( \Throwable $e ) {
+	hello420_log_error( $e, 'include-elementor' );
+}
 
 // Customizer controls (only when in Customizer preview).
 add_action( 'init', static function () {
@@ -271,7 +390,11 @@ add_action( 'init', static function () {
 		return;
 	}
 
-	require HELLO420_THEME_PATH . '/includes/customizer-functions.php';
+	try {
+		require HELLO420_THEME_PATH . '/includes/customizer-functions.php';
+	} catch ( \Throwable $e ) {
+		hello420_log_error( $e, 'include-customizer' );
+	}
 } );
 
 /**
@@ -321,7 +444,7 @@ try {
 	if ( is_admin() && current_user_can( 'manage_options' ) ) {
 		add_action( 'admin_notices', static function () {
 			echo '<div class="notice notice-error"><p>' .
-				esc_html__( 'Hello 420 encountered an internal error during bootstrap. Check wp-content/hello420-error.log for details.', 'hello420' ) .
+				esc_html__( 'Hello 420 encountered an internal error during bootstrap. Check the Hello 420 error log (wp-content/hello420-error.log). If your host blocks writing to wp-content, also check hello420-error.log inside the theme folder or in the server temp directory.', 'hello420' ) .
 				'</p></div>';
 		} );
 	}

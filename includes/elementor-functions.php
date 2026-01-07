@@ -58,7 +58,7 @@ function hello420_settings_init(): void {
 	}
 
 	// Tabs for header/footer theme styling.
-	add_filter( 'elementor/kit/register_tabs', 'hello420_register_elementor_tabs' );
+	add_filter( 'elementor/kit/register_tabs', 'hello420_register_elementor_tabs', 10, 2 );
 
 	// Elementor experiment flag (guarded for version compatibility).
 	$experiments = $plugin->experiments ?? null;
@@ -74,15 +74,28 @@ function hello420_settings_init(): void {
 	}
 }
 
-function hello420_register_elementor_tabs( $tabs ) {
+function hello420_register_elementor_tabs( $document_or_tabs, $tabs = null ) {
 	if ( ! hello420_display_header_footer() ) {
-		return $tabs;
+		return $tabs ?? $document_or_tabs;
 	}
 
-	$tabs['hello-settings-header'] = Settings_Header::class;
-	$tabs['hello-settings-footer'] = Settings_Footer::class;
+	// Elementor may pass the Kit document as the first argument (action) and tabs manager/array as second.
+	if ( is_object( $document_or_tabs ) && method_exists( $document_or_tabs, 'register_tab' ) ) {
+		$document_or_tabs->register_tab( 'hello-settings-header', Settings_Header::class );
+		$document_or_tabs->register_tab( 'hello-settings-footer', Settings_Footer::class );
+		return;
+	}
 
-	return $tabs;
+	// Back-compat: support filter-style signature where the first argument is the tabs array.
+	$tabs_array = is_array( $tabs ) ? $tabs : ( is_array( $document_or_tabs ) ? $document_or_tabs : null );
+	if ( ! is_array( $tabs_array ) ) {
+		return $tabs ?? $document_or_tabs;
+	}
+
+	$tabs_array['hello-settings-header'] = Settings_Header::class;
+	$tabs_array['hello-settings-footer'] = Settings_Footer::class;
+
+	return $tabs_array;
 }
 
 /**

@@ -14,7 +14,23 @@ if ( ! defined( 'ABSPATH' ) ) {
  * The module also applies feature toggles based on saved options.
  */
 function hello420_bootstrap_settings(): void {
-	$theme = Theme::instance();
+	// AdminHome settings are admin-facing. Avoid running on the front-end.
+	if ( ! is_admin() && ! ( defined( 'REST_REQUEST' ) && REST_REQUEST ) && ! ( function_exists( 'wp_doing_ajax' ) && wp_doing_ajax() ) ) {
+		return;
+	}
+
+	if ( ! class_exists( Theme::class ) ) {
+		return;
+	}
+
+	try {
+		$theme = Theme::instance();
+	} catch ( \Throwable $e ) {
+		if ( function_exists( 'hello420_log_error' ) ) {
+			hello420_log_error( $e, 'settings-bootstrap' );
+		}
+		return;
+	}
 
 	$module = $theme->get_module( 'AdminHome' );
 	if ( ! $module ) {
