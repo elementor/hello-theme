@@ -4,16 +4,8 @@ import SvgIcon from '@elementor/ui/SvgIcon';
 
 const BrandElementorIcon = React.forwardRef< SVGSVGElement, React.ComponentProps<typeof SvgIcon> >( ( props, ref ) => {
 	return (
-		<SvgIcon viewBox="0 0 24 24" { ...props } ref={ ref }>
-			<path
-				fillRule="evenodd"
-				clipRule="evenodd"
-				d="M12 21C6.47715 21 2 16.5228 2 11C2 5.47715 6.47715 1 12 1C17.5228 1 22 5.47715 22 11C22 16.5228 17.5228 21 12 21ZM12 3C7.58172 3 4 6.58172 4 11C4 15.4183 7.58172 19 12 19C16.4183 19 20 15.4183 20 11C20 6.58172 16.4183 3 12 3Z"
-			/>
-			<path d="M8.5 7H10V15H8.5V7Z" />
-			<path d="M11.5 7H16V9H11.5V7Z" />
-			<path d="M11.5 10H16V12H11.5V10Z" />
-			<path d="M11.5 13H16V15H11.5V13Z" />
+		<SvgIcon viewBox="0 0 21 20" { ...props } ref={ ref }>
+			<path d="M10.0429 0C4.49418 0 0 4.475 0 10C0 15.525 4.49418 20 10.0429 20C15.5915 20 20.0857 15.525 20.0857 10C20.0857 4.475 15.5915 0 10.0429 0ZM7.03 15H5.02143V5H7.03V15ZM15.0643 15H9.03857V13H15.0643V15ZM15.0643 11H9.03857V9H15.0643V11ZM15.0643 7H9.03857V5H15.0643V7Z" fill="black"/>
 		</SvgIcon>
 	);
 } );
