@@ -50,10 +50,20 @@ if [[ "$VERSION_EXISTS" == "true" ]]; then
 fi
 
 mkdir -p "$VERSION_DIR"
-cd "$VERSION_DIR"
 
 echo "Copy files from build directory"
-rsync -ah --progress "$THEME_PATH/hello-elementor/"* . || rsync -ah --progress "$THEME_PATH/hello-elementor/." . || true
+rsync -ah --progress "$THEME_PATH/hello-elementor/"* $VERSION_DIR
+
+cd "$VERSION_DIR"
+
+echo "svn delete"
+svn status | grep -v '^.[ \t]*\\..*' | { grep '^!' || true; } | awk '{print $2}' | xargs -r svn delete;
+
+echo "svn add"
+svn status | grep -v '^.[ \t]*\\..*' | { grep '^?' || true; } | awk '{print $2}' | xargs -r svn add;
+
+echo "Print SVN Status changes"
+svn status
 
 echo "Preparing files for SVN"
 SVN_STATUS=$(svn status 2>/dev/null | grep -v '^\?[ \t]*\.$' || echo "")
