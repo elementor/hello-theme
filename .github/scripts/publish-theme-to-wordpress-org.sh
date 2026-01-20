@@ -1,16 +1,6 @@
 #!/bin/bash
 set -eo pipefail
 
-if [[ -z "$SVN_USERNAME" ]]; then
-	echo "Set the SVN_USERNAME secret"
-	exit 1
-fi
-
-if [[ -z "$SVN_PASSWORD" ]]; then
-	echo "Set the SVN_PASSWORD secret"
-	exit 1
-fi
-
 if [[ -z "$THEME_VERSION" ]]; then
 	echo "Set the THEME_VERSION env var"
 	exit 1
@@ -46,26 +36,35 @@ if svn list "https://themes.svn.wordpress.org/hello-elementor/${VERSION_DIR}" > 
 fi
 
 mkdir -p "$VERSION_DIR"
-cd "$VERSION_DIR"
-cd ..
-svn add "$VERSION_DIR"
+
+echo "Copy files from build directory"
+rsync -ah --progress "$THEME_PATH/hello-elementor/"* "$VERSION_DIR"
+
 cd "$VERSION_DIR"
 
-echo "Copy files"
-rsync -ah --progress "$THEME_PATH/hello-elementor/"* . || rsync -ah --progress "$THEME_PATH/hello-elementor/." . || true
-
-echo "Preparing files"
-cd "$VERSION_DIR"
+echo "svn delete"
+svn status | grep -v '^.[ \t]*\\..*' | { grep '^!' || true; } | awk '{print $2}' | xargs -r svn delete
 
 echo "svn add"
-svn status | grep -v '^.[ \t]*\\..*' | { grep '^?' || true; } | awk '{print $2}' | xargs -r svn add || true
+svn status | grep -v '^.[ \t]*\\..*' | { grep '^?' || true; } | awk '{print $2}' | xargs -r svn add
 
+echo "Print SVN Status changes"
 svn status
+
+cd $SVN_PATH
+
+if [[ -z "$SVN_USERNAME" ]]; then
+	echo "Set the SVN_USERNAME secret"
+	exit 1
+fi
+
+if [[ -z "$SVN_PASSWORD" ]]; then
+	echo "Set the SVN_PASSWORD secret"
+	exit 1
+fi
 
 echo "Commit files to version folder $VERSION_DIR"
 svn ci -m "Upload v${THEME_VERSION}" --no-auth-cache --non-interactive --username "$SVN_USERNAME" --password "$SVN_PASSWORD"
-
-cd $SVN_PATH
 svn update
 
 echo "Remove the SVN folder from the workspace"
