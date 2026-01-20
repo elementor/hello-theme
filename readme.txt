@@ -3,8 +3,8 @@
 Contributors: elemntor, KingYes, ariel.k, bainternet
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 3.4.5
-Version: 3.4.5
+Stable tag: 3.4.6
+Version: 3.4.6
 Requires PHP: 7.4
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -35,6 +35,9 @@ License: CC0 1.0 Universal (CC0 1.0)
 Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
+
+= 3.4.6 - 2026-01-20
+* Tweak: Updated Elementor assets
 
 = 3.4.5 - 2025-10-27
 * New: Add theme home to Finder
