@@ -2,6 +2,7 @@
     "$schema": "https://json.schemastore.org/tsconfig",
     "display": "Node 18 + ESM + Strictest",
     "compilerOptions": {
+		"jsx": "react",
         "lib": [
             "es2022"
         ],
