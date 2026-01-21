@@ -40,8 +40,6 @@ mkdir -p "$VERSION_DIR"
 echo "Copy files from build directory"
 rsync -ah --progress "$THEME_PATH/hello-elementor/"* "$VERSION_DIR"
 
-cd "$VERSION_DIR"
-
 echo "svn delete"
 svn status | grep -v '^.[ \t]*\\..*' | { grep '^!' || true; } | awk '{print $2}' | xargs -r svn delete
 
