@@ -6,16 +6,43 @@ permissions:
 
 on:
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Write the Theme version that sis about to get released to Production WordPress.org SVN'
+        required: true
+        type: string
 
 jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Validate branch name
+        run: |
+          BRANCH_NAME="${{ github.ref_name }}"
+          if [[ ! "$BRANCH_NAME" =~ ^[0-9]+\.[0-9]+ ]]; then
+            echo "::error::Branch name must match pattern (e.g., 3.4, 3.5). Current branch: $BRANCH_NAME"
+            exit 1
+          fi
+      - name: Validate version input
+        run: |
+          PACKAGE_VERSION=$(cat package.json | jq -r '.version')
+          INPUT_VERSION="${{ inputs.version }}"
+          if [ "$INPUT_VERSION" != "$PACKAGE_VERSION" ]; then
+            echo "::error::Input version ($INPUT_VERSION) does not match package.json version ($PACKAGE_VERSION)"
+            exit 1
+          fi
+
   build:
+    needs: validate
     if: ( github.actor == 'ManorHazaz' || github.actor == 'hein-obox' || github.actor == 'KingYes' || github.actor == 'arielk' || github.actor == 'nicoladj77' ) && startsWith( github.repository, 'elementor/' )
     uses: ./.github/workflows/build.yml
     secrets: inherit
 
   deploy:
-    needs: build
-    if: needs.build.result == 'success'
+    needs: [validate, build]
+    if: needs.validate.result == 'success' && needs.build.result == 'success'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
