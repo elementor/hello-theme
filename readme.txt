@@ -36,7 +36,7 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
 
-= 3.4.6 - 2026-01-20
+= 3.4.6 - 2026-01-21
 * Tweak: Updated Elementor assets
 
 = 3.4.5 - 2025-10-27
