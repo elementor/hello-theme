@@ -4,7 +4,7 @@
         "squizlabs/php_codesniffer": "^3.6",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
         "wp-coding-standards/wpcs": "^2.3",
-        "phpunit/phpunit": "9.5.14",
+        "phpunit/phpunit": "^9.6.33",
         "elementor/elementor-editor-testing": "0.0.3",
         "yoast/phpunit-polyfills": "^1.0.1",
         "thor-juhasz/phpunit-coverage-check": "^0.3.0"
