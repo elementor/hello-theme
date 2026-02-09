@@ -50,7 +50,9 @@ class Admin_Top_Bar {
 				$this->enqueue_scripts();
 			} );
 
-			add_action( 'elementor/admin-top-bar/is-active', '__return_false' );
+			if ( defined( 'ELEMENTOR_VERSION' ) && version_compare( ELEMENTOR_VERSION, '3.34.2', '<' ) ) {
+				add_action( 'elementor/admin-top-bar/is-active', '__return_false' );
+			}
 		} );
 	}
 }
