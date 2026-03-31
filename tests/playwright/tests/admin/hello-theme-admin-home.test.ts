@@ -30,35 +30,36 @@ test.describe( 'Hello Theme Admin Home Page', () => {
 		}
 	} );
 
-	test( 'should navigate to correct pages from Quick Links', async ( { page } ) => {
-		const quickLinksTests = [
-			{
-				linkText: 'Site Name',
-				expectedUrlPattern: /post\.php\?post=\d+&action=elementor.*active-tab=settings-site-identity/,
-				expectedPageSection: '.elementor-control-section_settings-site-identity',
-			},
-			{
-				linkText: 'Site Logo',
-				expectedUrlPattern: /post\.php\?post=\d+&action=elementor.*active-tab=settings-site-identity/,
-				expectedPageSection: '.elementor-control-section_settings-site-identity',
-			},
-			{
-				linkText: 'Site Favicon',
-				expectedUrlPattern: /post\.php\?post=\d+&action=elementor.*active-tab=settings-site-identity/,
-				expectedPageSection: '.elementor-control-section_settings-site-identity',
-			},
-			{
-				linkText: 'Site Colors',
-				expectedUrlPattern: /post\.php\?post=\d+&action=elementor.*active-tab=global-colors/,
-				expectedPageSection: '.elementor-control-section_global_colors',
-			},
-			{
-				linkText: 'Site Fonts',
-				expectedUrlPattern: /post\.php\?post=\d+&action=elementor.*active-tab=global-typography/,
-				expectedPageSection: '.elementor-control-section_text_style',
-			},
-		];
-		for ( const linkTest of quickLinksTests ) {
+	const quickLinksTests = [
+		{
+			linkText: 'Site Name',
+			expectedUrlPattern: /post\.php\?post=\d+&action=elementor.*active-tab=settings-site-identity/,
+			expectedPageSection: '.elementor-control-section_settings-site-identity',
+		},
+		{
+			linkText: 'Site Logo',
+			expectedUrlPattern: /post\.php\?post=\d+&action=elementor.*active-tab=settings-site-identity/,
+			expectedPageSection: '.elementor-control-section_settings-site-identity',
+		},
+		{
+			linkText: 'Site Favicon',
+			expectedUrlPattern: /post\.php\?post=\d+&action=elementor.*active-tab=settings-site-identity/,
+			expectedPageSection: '.elementor-control-section_settings-site-identity',
+		},
+		{
+			linkText: 'Site Colors',
+			expectedUrlPattern: /post\.php\?post=\d+&action=elementor.*active-tab=global-colors/,
+			expectedPageSection: '.elementor-control-section_global_colors',
+		},
+		{
+			linkText: 'Site Fonts',
+			expectedUrlPattern: /post\.php\?post=\d+&action=elementor.*active-tab=global-typography/,
+			expectedPageSection: '.elementor-control-section_text_style',
+		},
+	];
+
+	for ( const linkTest of quickLinksTests ) {
+		test( `should navigate to correct pages from Quick Links: ${ linkTest.linkText }`, async ( { page } ) => {
 			await page.goto( '/wp-admin/admin.php?page=hello-elementor' );
 			const linkElement = page.locator( `h6:has-text("${ linkTest.linkText }") a` );
 			await expect( linkElement ).toBeVisible();
@@ -70,9 +71,10 @@ test.describe( 'Hello Theme Admin Home Page', () => {
 
 			expect( page.url() ).toMatch( linkTest.expectedUrlPattern );
 
+			await page.waitForLoadState( 'networkidle' );
 			await page.waitForSelector( '#elementor-kit-panel' );
 			const location = page.locator( linkTest.expectedPageSection );
 			await expect( location ).toBeVisible();
-		}
-	} );
+		} );
+	}
 } );
