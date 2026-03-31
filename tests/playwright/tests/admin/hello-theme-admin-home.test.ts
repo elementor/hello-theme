@@ -71,8 +71,8 @@ test.describe( 'Hello Theme Admin Home Page', () => {
 
 			expect( page.url() ).toMatch( linkTest.expectedUrlPattern );
 
-			await page.waitForLoadState( 'networkidle' );
-			await page.waitForSelector( '#elementor-kit-panel' );
+			await page.waitForSelector( '.elementor-panel-loading', { state: 'detached' } );
+			await page.waitForSelector( '#elementor-loading', { state: 'hidden' } );
 			const location = page.locator( linkTest.expectedPageSection );
 			await expect( location ).toBeVisible();
 		} );
