@@ -34,47 +34,47 @@ test.describe( 'Hello Theme Admin Home Page', () => {
 		const quickLinksTests = [
 			{
 				linkText: 'Site Name',
-				expectedUrlPattern: /post\.php\?post=\d+&action=elementor.*active-tab=settings-site-identity/,
+				expectedUrlPattern: /post\.php\?post=\d+&action=elementor.*active-tab=settings-site-identity.*active-document=\d+/,
 				expectedPageSection: '.elementor-control-section_settings-site-identity',
 			},
 			{
 				linkText: 'Site Logo',
-				expectedUrlPattern: /post\.php\?post=\d+&action=elementor.*active-tab=settings-site-identity/,
+				expectedUrlPattern: /post\.php\?post=\d+&action=elementor.*active-tab=settings-site-identity.*active-document=\d+/,
 				expectedPageSection: '.elementor-control-section_settings-site-identity',
 			},
 			{
 				linkText: 'Site Favicon',
-				expectedUrlPattern: /post\.php\?post=\d+&action=elementor.*active-tab=settings-site-identity/,
+				expectedUrlPattern: /post\.php\?post=\d+&action=elementor.*active-tab=settings-site-identity.*active-document=\d+/,
 				expectedPageSection: '.elementor-control-section_settings-site-identity',
 			},
 			{
 				linkText: 'Site Colors',
-				expectedUrlPattern: /post\.php\?post=\d+&action=elementor.*active-tab=global-colors/,
+				expectedUrlPattern: /post\.php\?post=\d+&action=elementor.*active-tab=global-colors.*active-document=\d+/,
 				expectedPageSection: '.elementor-control-section_global_colors',
 			},
 			{
 				linkText: 'Site Fonts',
-				expectedUrlPattern: /post\.php\?post=\d+&action=elementor.*active-tab=global-typography/,
+				expectedUrlPattern: /post\.php\?post=\d+&action=elementor.*active-tab=global-typography.*active-document=\d+/,
 				expectedPageSection: '.elementor-control-section_text_style',
 			},
 		];
 
 		for ( const linkTest of quickLinksTests ) {
-			await page.goto( '/wp-admin/admin.php?page=hello-elementor' );
-			const linkElement = page.locator( `h6:has-text("${ linkTest.linkText }") a` );
-			await expect( linkElement ).toBeVisible();
+			await test.step( linkTest.linkText, async () => {
+				await page.goto( '/wp-admin/admin.php?page=hello-elementor' );
+				const linkElement = page.locator( `h6:has-text("${ linkTest.linkText }") a` );
+				await expect( linkElement ).toBeVisible();
 
-			await Promise.all( [
-				page.waitForURL( linkTest.expectedUrlPattern ),
-				linkElement.click(),
-			] );
+				await Promise.all( [
+					page.waitForURL( linkTest.expectedUrlPattern ),
+					linkElement.click(),
+				] );
 
-			expect( page.url() ).toMatch( linkTest.expectedUrlPattern );
-			// eslint-disable-next-line no-console
-			console.log( `Navigated to ${ linkTest.linkText } page` );
-			await page.waitForSelector( '#elementor-kit-panel' );
-			const location = page.locator( linkTest.expectedPageSection );
-			await expect( location ).toBeVisible();
+				expect( page.url() ).toMatch( linkTest.expectedUrlPattern );
+				await page.waitForSelector( '#elementor-kit-panel' );
+				const location = page.locator( linkTest.expectedPageSection );
+				await expect( location ).toBeVisible();
+			} );
 		}
 	} );
 } );
