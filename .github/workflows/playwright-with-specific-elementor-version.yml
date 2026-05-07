@@ -152,12 +152,12 @@ jobs:
 
       - name: Generate build summary
         run: |
-          echo "##  Build Summary" >> $GITHUB_STEP_SUMMARY
+          echo "## Build Summary" >> $GITHUB_STEP_SUMMARY
           echo "|-----------------|----------------------------|-----------------------|" >> $GITHUB_STEP_SUMMARY
           echo "| Component       | Version                    | Source               |" >> $GITHUB_STEP_SUMMARY
           echo "|-----------------|----------------------------|-----------------------|" >> $GITHUB_STEP_SUMMARY
           echo "| Hello Theme     | ${{ env.HELLO_THEME_VERSION }} (${{ env.HELLO_THEME_INPUT }}) | ${{ env.HELLO_THEME_SOURCE_TYPE }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Elementor Core  | ${{ steps.set-versions.outputs.elementor-version }} | WordPress.org/GitHub |" >> $GITHUB_STEP_SUMMARY
+          echo "| Elementor Core  | ${{ steps.download-elementor.outputs.effective-version }} | WordPress.org/GitHub |" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Strategy:** GitHub source for Hello Theme (always built), WordPress.org for Elementor versions" >> $GITHUB_STEP_SUMMARY
 
