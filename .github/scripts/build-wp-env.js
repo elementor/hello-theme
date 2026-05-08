@@ -80,6 +80,10 @@ if ( ELEMENTOR_VERSION ) {
 		wpEnv.plugins.push( './tmp/elementor' );
 		// eslint-disable-next-line no-console
 		console.log( 'Using local Elementor artifact from ./tmp/elementor (pinned from build job)' );
+	} else if ( ELEMENTOR_VERSION === 'latest-stable' ) {
+		wpEnv.plugins.push( 'https://downloads.wordpress.org/plugin/elementor.latest-stable.zip' );
+		// eslint-disable-next-line no-console
+		console.log( 'Using Elementor latest-stable from WordPress.org' );
 	} else if ( ELEMENTOR_VERSION.match( /^v?[0-9]+\.[0-9]+\.[0-9]+$/ ) ) {
 		const cleanVersion = ELEMENTOR_VERSION.replace( /^v/, '' );
 		wpEnv.plugins.push( `https://downloads.wordpress.org/plugin/elementor.${ cleanVersion }.zip` );
