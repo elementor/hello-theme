@@ -37,7 +37,7 @@ wpEnv.core = wpCore;
 if ( fs.existsSync( './tmp/hello-elementor' ) ) {
 	wpEnv.themes = [ './tmp/hello-elementor' ];
 	// eslint-disable-next-line no-console
-	console.log( '✅ Using built Hello Theme from ./tmp/hello-elementor' );
+	console.log( 'Using built Hello Theme from ./tmp/hello-elementor' );
 } else {
 	// eslint-disable-next-line no-console
 	console.error( 'Built Hello Theme not found at ./tmp/hello-elementor' );
@@ -67,7 +67,7 @@ wpEnv.plugins = [];
 // Add Elementor plugin
 if ( ELEMENTOR_VERSION ) {
 	// eslint-disable-next-line no-console
-	console.log( `🎯 ELEMENTOR_VERSION: "${ ELEMENTOR_VERSION }"` );
+	console.log( `ELEMENTOR_VERSION: "${ ELEMENTOR_VERSION }"` );
 
 	const isValidLocalElementor = fs.existsSync( './tmp/elementor/elementor.php' ) &&
 		fs.existsSync( './tmp/elementor/includes' ) &&
@@ -79,16 +79,23 @@ if ( ELEMENTOR_VERSION ) {
 		// 'latest-stable' is updated between the build and test steps.
 		wpEnv.plugins.push( './tmp/elementor' );
 		// eslint-disable-next-line no-console
-		console.log( '✅ Using local Elementor artifact from ./tmp/elementor (pinned from build job)' );
+		console.log( 'Using local Elementor artifact from ./tmp/elementor (pinned from build job)' );
 	} else if ( ELEMENTOR_VERSION.match( /^v?[0-9]+\.[0-9]+\.[0-9]+$/ ) ) {
 		const cleanVersion = ELEMENTOR_VERSION.replace( /^v/, '' );
 		wpEnv.plugins.push( `https://downloads.wordpress.org/plugin/elementor.${ cleanVersion }.zip` );
 		// eslint-disable-next-line no-console
-		console.log( `✅ Using WordPress.org Elementor ${ cleanVersion } (direct)` );
+		console.log( `Using WordPress.org Elementor ${ cleanVersion } (direct)` );
 	} else {
+		if ( fs.existsSync( './tmp/elementor' ) ) {
+			// eslint-disable-next-line no-console
+			console.error( `Elementor artifact at ./tmp/elementor is incomplete for ${ ELEMENTOR_VERSION } (missing elementor.php, includes, or assets)` );
+		} else {
+			// eslint-disable-next-line no-console
+			console.error( `Elementor directory not found at ./tmp/elementor for ${ ELEMENTOR_VERSION }` );
+		}
 		wpEnv.plugins.push( 'https://downloads.wordpress.org/plugin/elementor.latest-stable.zip' );
 		// eslint-disable-next-line no-console
-		console.log( `⚠️  No local artifact found, using Elementor latest-stable from WordPress.org` );
+		console.log( `Falling back to Elementor latest-stable from WordPress.org for ${ ELEMENTOR_VERSION }` );
 	}
 }
 
@@ -129,4 +136,4 @@ console.log( `- Plugins: ${ wpEnv.plugins.join( ', ' ) }` );
 
 fs.writeFileSync( '.wp-env.json', JSON.stringify( wpEnv, null, 4 ) );
 // eslint-disable-next-line no-console
-console.log( '✅ wp-env.json updated successfully' );
+console.log( 'wp-env.json updated successfully' );
