@@ -66,40 +66,16 @@ wpEnv.plugins = [];
 
 // Add Elementor plugin
 if ( ELEMENTOR_VERSION ) {
-	// eslint-disable-next-line no-console
-	console.log( `ELEMENTOR_VERSION: "${ ELEMENTOR_VERSION }"` );
-
 	const isValidLocalElementor = fs.existsSync( './tmp/elementor/elementor.php' ) &&
 		fs.existsSync( './tmp/elementor/includes' ) &&
 		fs.existsSync( './tmp/elementor/assets' );
 
 	if ( isValidLocalElementor ) {
-		// Prefer the artifact downloaded during the build job. This pins the exact
-		// Elementor binary across both jobs and prevents version drift when
-		// 'latest-stable' is updated between the build and test steps.
 		wpEnv.plugins.push( './tmp/elementor' );
-		// eslint-disable-next-line no-console
-		console.log( 'Using local Elementor artifact from ./tmp/elementor (pinned from build job)' );
-	} else if ( ELEMENTOR_VERSION === 'latest-stable' ) {
-		wpEnv.plugins.push( 'https://downloads.wordpress.org/plugin/elementor.latest-stable.zip' );
-		// eslint-disable-next-line no-console
-		console.log( 'Using Elementor latest-stable from WordPress.org' );
-	} else if ( ELEMENTOR_VERSION.match( /^v?[0-9]+\.[0-9]+\.[0-9]+$/ ) ) {
-		const cleanVersion = ELEMENTOR_VERSION.replace( /^v/, '' );
-		wpEnv.plugins.push( `https://downloads.wordpress.org/plugin/elementor.${ cleanVersion }.zip` );
-		// eslint-disable-next-line no-console
-		console.log( `Using WordPress.org Elementor ${ cleanVersion } (direct)` );
 	} else {
-		if ( fs.existsSync( './tmp/elementor' ) ) {
-			// eslint-disable-next-line no-console
-			console.error( `Elementor artifact at ./tmp/elementor is incomplete for ${ ELEMENTOR_VERSION } (missing elementor.php, includes, or assets)` );
-		} else {
-			// eslint-disable-next-line no-console
-			console.error( `Elementor directory not found at ./tmp/elementor for ${ ELEMENTOR_VERSION }` );
-		}
-		wpEnv.plugins.push( 'https://downloads.wordpress.org/plugin/elementor.latest-stable.zip' );
-		// eslint-disable-next-line no-console
-		console.log( `Falling back to Elementor latest-stable from WordPress.org for ${ ELEMENTOR_VERSION }` );
+		const versionMatch = ELEMENTOR_VERSION.match( /^v?([0-9]+\.[0-9]+\.[0-9]+)$/ );
+		const wpOrgVersion = versionMatch ? versionMatch[ 1 ] : 'latest-stable';
+		wpEnv.plugins.push( `https://downloads.wordpress.org/plugin/elementor.${ wpOrgVersion }.zip` );
 	}
 }
 
