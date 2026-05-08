@@ -64,19 +64,19 @@ if ( HELLO_PLUS_VERSION && fs.existsSync( './tmp/hello-plus' ) ) {
 // Configure plugins
 wpEnv.plugins = [];
 
-// Add Elementor plugin
-if ( ELEMENTOR_VERSION ) {
-	const isValidLocalElementor = fs.existsSync( './tmp/elementor/elementor.php' ) &&
-		fs.existsSync( './tmp/elementor/includes' ) &&
-		fs.existsSync( './tmp/elementor/assets' );
+const isValidLocalElementor = fs.existsSync( './tmp/elementor/elementor.php' ) &&
+	fs.existsSync( './tmp/elementor/includes' ) &&
+	fs.existsSync( './tmp/elementor/assets' );
 
-	if ( isValidLocalElementor ) {
-		wpEnv.plugins.push( './tmp/elementor' );
-	} else {
-		const versionMatch = ELEMENTOR_VERSION.match( /^v?([0-9]+\.[0-9]+\.[0-9]+)$/ );
-		const wpOrgVersion = versionMatch ? versionMatch[ 1 ] : 'latest-stable';
-		wpEnv.plugins.push( `https://downloads.wordpress.org/plugin/elementor.${ wpOrgVersion }.zip` );
-	}
+let elementorSource;
+if ( isValidLocalElementor ) {
+	wpEnv.plugins.push( './tmp/elementor' );
+	elementorSource = './tmp/elementor';
+} else {
+	const versionMatch = ( ELEMENTOR_VERSION || '' ).match( /^v?([0-9]+\.[0-9]+\.[0-9]+)$/ );
+	const wpOrgVersion = versionMatch ? versionMatch[ 1 ] : 'latest-stable';
+	wpEnv.plugins.push( `https://downloads.wordpress.org/plugin/elementor.${ wpOrgVersion }.zip` );
+	elementorSource = `WordPress.org ${ wpOrgVersion }`;
 }
 
 // Test configuration
@@ -108,7 +108,7 @@ console.log( `- Hello Theme: ${ HELLO_THEME_VERSION || 'current' }` );
 // eslint-disable-next-line no-console
 console.log( `- Hello Plus: ${ HELLO_PLUS_VERSION || 'not included' }` );
 // eslint-disable-next-line no-console
-console.log( `- Elementor: ${ ELEMENTOR_VERSION || 'latest-stable' }` );
+console.log( `- Elementor: ${ elementorSource }` );
 // eslint-disable-next-line no-console
 console.log( `- Themes: ${ wpEnv.themes.join( ', ' ) }` );
 // eslint-disable-next-line no-console
