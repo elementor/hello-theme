@@ -75,6 +75,7 @@ permissions:
 
 env:
   CORE_WORKFLOW: 'playwright-with-specific-elementor-version.yml'
+  CORE_WORKFLOW_CANDIDATE: 'playwright-with-specific-elementor-version-candidate.yml'
   PLUS_WORKFLOW: 'playwright-with-specific-hello-plus-version.yml'
 
 jobs:
@@ -364,6 +365,8 @@ jobs:
               local el_ver=$4
               local hp_ver=$5
               local delay=$6
+              local workflow=$7
+              local test_source=$8
               
               if [[ "$TARGETED_TESTS" != "[" ]]; then
                 TARGETED_TESTS="${TARGETED_TESTS},"
@@ -371,35 +374,39 @@ jobs:
               
               if [[ -n "$hp_ver" ]]; then
                 # Hello Plus matrix
-                TARGETED_TESTS="${TARGETED_TESTS}{\"combination\":\"${combination}\",\"name\":\"${name}\",\"hello_theme_version\":\"${ht_ver}\",\"hello_plus_version\":\"${hp_ver}\",\"delay\":${delay}}"
+                TARGETED_TESTS="${TARGETED_TESTS}{\"combination\":\"${combination}\",\"name\":\"${name}\",\"hello_theme_version\":\"${ht_ver}\",\"hello_plus_version\":\"${hp_ver}\",\"workflow\":\"${workflow}\",\"test_source\":\"${test_source}\",\"delay\":${delay}}"
               else
                 # Elementor matrix
-                TARGETED_TESTS="${TARGETED_TESTS}{\"combination\":\"${combination}\",\"name\":\"${name}\",\"hello_theme_version\":\"${ht_ver}\",\"elementor_version\":\"${el_ver}\",\"delay\":${delay}}"
+                TARGETED_TESTS="${TARGETED_TESTS}{\"combination\":\"${combination}\",\"name\":\"${name}\",\"hello_theme_version\":\"${ht_ver}\",\"elementor_version\":\"${el_ver}\",\"workflow\":\"${workflow}\",\"test_source\":\"${test_source}\",\"delay\":${delay}}"
               fi
             }
             
             # Core Matrix: Hello Theme × Elementor
             # Main Hello Theme combinations
-            add_test_combination "ht-main-el-main" "Hello Theme main + Elementor main" "main" "main" "" $((DELAY_COUNTER * 15))
+            add_test_combination "ht-main-el-main" "Hello Theme main + Elementor main [legacy]" "main" "main" "" $((DELAY_COUNTER * 15)) "${{ env.CORE_WORKFLOW }}" "legacy"
+            add_test_combination "ht-main-el-main" "Hello Theme main + Elementor main [candidate]" "main" "main" "" $((DELAY_COUNTER * 15)) "${{ env.CORE_WORKFLOW_CANDIDATE }}" "candidate"
             DELAY_COUNTER=$((DELAY_COUNTER + 1))
             
             if [[ -n "$ELEMENTOR_PREVIOUS" ]]; then
               IFS=',' read -ra EL_PREV_ARRAY <<< "$ELEMENTOR_PREVIOUS"
               for el_prev in "${EL_PREV_ARRAY[@]}"; do
-                add_test_combination "ht-main-el-prev" "Hello Theme main + Elementor ${el_prev} (GA)" "main" "$el_prev" "" $((DELAY_COUNTER * 15))
+                add_test_combination "ht-main-el-prev" "Hello Theme main + Elementor ${el_prev} (GA) [legacy]" "main" "$el_prev" "" $((DELAY_COUNTER * 15)) "${{ env.CORE_WORKFLOW }}" "legacy"
+                add_test_combination "ht-main-el-prev" "Hello Theme main + Elementor ${el_prev} (GA) [candidate]" "main" "$el_prev" "" $((DELAY_COUNTER * 15)) "${{ env.CORE_WORKFLOW_CANDIDATE }}" "candidate"
                 DELAY_COUNTER=$((DELAY_COUNTER + 1))
               done
             fi
             
             # GA Hello Theme combinations (if detected)
             if [[ "$HT_VERSION_FOR_MATRIX" != "main" ]]; then
-              add_test_combination "ht-ga-el-main" "Hello Theme ${HT_VERSION_FOR_MATRIX} (GA) + Elementor main" "$HT_VERSION_FOR_MATRIX" "main" "" $((DELAY_COUNTER * 15))
+            add_test_combination "ht-ga-el-main" "Hello Theme ${HT_VERSION_FOR_MATRIX} (GA) + Elementor main [legacy]" "$HT_VERSION_FOR_MATRIX" "main" "" $((DELAY_COUNTER * 15)) "${{ env.CORE_WORKFLOW }}" "legacy"
+            add_test_combination "ht-ga-el-main" "Hello Theme ${HT_VERSION_FOR_MATRIX} (GA) + Elementor main [candidate]" "$HT_VERSION_FOR_MATRIX" "main" "" $((DELAY_COUNTER * 15)) "${{ env.CORE_WORKFLOW_CANDIDATE }}" "candidate"
               DELAY_COUNTER=$((DELAY_COUNTER + 1))
               
               if [[ -n "$ELEMENTOR_PREVIOUS" ]]; then
                 IFS=',' read -ra EL_PREV_ARRAY <<< "$ELEMENTOR_PREVIOUS"
                 for el_prev in "${EL_PREV_ARRAY[@]}"; do
-                  add_test_combination "ht-ga-el-prev" "Hello Theme ${HT_VERSION_FOR_MATRIX} (GA) + Elementor ${el_prev} (GA)" "$HT_VERSION_FOR_MATRIX" "$el_prev" "" $((DELAY_COUNTER * 15))
+                  add_test_combination "ht-ga-el-prev" "Hello Theme ${HT_VERSION_FOR_MATRIX} (GA) + Elementor ${el_prev} (GA) [legacy]" "$HT_VERSION_FOR_MATRIX" "$el_prev" "" $((DELAY_COUNTER * 15)) "${{ env.CORE_WORKFLOW }}" "legacy"
+                  add_test_combination "ht-ga-el-prev" "Hello Theme ${HT_VERSION_FOR_MATRIX} (GA) + Elementor ${el_prev} (GA) [candidate]" "$HT_VERSION_FOR_MATRIX" "$el_prev" "" $((DELAY_COUNTER * 15)) "${{ env.CORE_WORKFLOW_CANDIDATE }}" "candidate"
                   DELAY_COUNTER=$((DELAY_COUNTER + 1))
                 done
               fi
@@ -407,26 +414,26 @@ jobs:
             
             # Plus Matrix: Hello Theme × Hello Plus
             # Main Hello Theme combinations
-            add_test_combination "ht-main-hp-latest" "Hello Theme main + Hello Plus ${HP_VERSION}" "main" "" "$HP_VERSION" $((DELAY_COUNTER * 15))
+            add_test_combination "ht-main-hp-latest" "Hello Theme main + Hello Plus ${HP_VERSION}" "main" "" "$HP_VERSION" $((DELAY_COUNTER * 15)) "${{ env.PLUS_WORKFLOW }}" "legacy"
             DELAY_COUNTER=$((DELAY_COUNTER + 1))
             
             if [[ -n "$HELLO_PLUS_PREVIOUS" ]]; then
               IFS=',' read -ra HP_PREV_ARRAY <<< "$HELLO_PLUS_PREVIOUS"
               for hp_prev in "${HP_PREV_ARRAY[@]}"; do
-                add_test_combination "ht-main-hp-prev" "Hello Theme main + Hello Plus ${hp_prev}" "main" "" "$hp_prev" $((DELAY_COUNTER * 15))
+                add_test_combination "ht-main-hp-prev" "Hello Theme main + Hello Plus ${hp_prev}" "main" "" "$hp_prev" $((DELAY_COUNTER * 15)) "${{ env.PLUS_WORKFLOW }}" "legacy"
                 DELAY_COUNTER=$((DELAY_COUNTER + 1))
               done
             fi
             
             # GA Hello Theme combinations (if detected)
             if [[ "$HT_VERSION_FOR_MATRIX" != "main" ]]; then
-              add_test_combination "ht-ga-hp-latest" "Hello Theme ${HT_VERSION_FOR_MATRIX} (GA) + Hello Plus ${HP_VERSION}" "$HT_VERSION_FOR_MATRIX" "" "$HP_VERSION" $((DELAY_COUNTER * 15))
+            add_test_combination "ht-ga-hp-latest" "Hello Theme ${HT_VERSION_FOR_MATRIX} (GA) + Hello Plus ${HP_VERSION}" "$HT_VERSION_FOR_MATRIX" "" "$HP_VERSION" $((DELAY_COUNTER * 15)) "${{ env.PLUS_WORKFLOW }}" "legacy"
               DELAY_COUNTER=$((DELAY_COUNTER + 1))
               
               if [[ -n "$HELLO_PLUS_PREVIOUS" ]]; then
                 IFS=',' read -ra HP_PREV_ARRAY <<< "$HELLO_PLUS_PREVIOUS"
                 for hp_prev in "${HP_PREV_ARRAY[@]}"; do
-                  add_test_combination "ht-ga-hp-prev" "Hello Theme ${HT_VERSION_FOR_MATRIX} (GA) + Hello Plus ${hp_prev}" "$HT_VERSION_FOR_MATRIX" "" "$hp_prev" $((DELAY_COUNTER * 15))
+                  add_test_combination "ht-ga-hp-prev" "Hello Theme ${HT_VERSION_FOR_MATRIX} (GA) + Hello Plus ${hp_prev}" "$HT_VERSION_FOR_MATRIX" "" "$hp_prev" $((DELAY_COUNTER * 15)) "${{ env.PLUS_WORKFLOW }}" "legacy"
                   DELAY_COUNTER=$((DELAY_COUNTER + 1))
                 done
               fi
@@ -486,17 +493,22 @@ jobs:
               await new Promise(resolve => setTimeout(resolve, delay));
             }
 
-            // Determine which workflow to trigger based on combination type
-            const workflowId = '${{ matrix.combination }}'.includes('hp') ? '${{ env.PLUS_WORKFLOW }}' : '${{ env.CORE_WORKFLOW }}';
+            // Determine which workflow to trigger based on matrix metadata
+            const workflowId = '${{ matrix.workflow }}' ||
+              ('${{ matrix.combination }}'.includes('hp') ? '${{ env.PLUS_WORKFLOW }}' : '${{ env.CORE_WORKFLOW }}');
             
             // Build inputs based on target workflow
             let inputs;
-            if (workflowId === '${{ env.CORE_WORKFLOW }}') {
+            if (workflowId === '${{ env.CORE_WORKFLOW }}' || workflowId === '${{ env.CORE_WORKFLOW_CANDIDATE }}') {
               // Core workflow: needs core_branch and hello_theme_version
               inputs = {
                 core_branch: '${{ matrix.elementor_version || 'main' }}',
                 hello_theme_version: '${{ matrix.hello_theme_version || 'main' }}'
               };
+
+              if (workflowId === '${{ env.CORE_WORKFLOW_CANDIDATE }}') {
+                inputs.test_source = '${{ matrix.test_source || 'candidate' }}';
+              }
             } else {
               // Plus workflow: needs hello_plus_version and hello_theme_version
               inputs = {
@@ -534,10 +546,11 @@ jobs:
               hello_plus_version: '${{ matrix.hello_plus_version || '' }}',
               type: '${{ matrix.combination }}'.includes('hp') ? 'plus-matrix' : 'core-matrix',
               source: 'current-execution',
+              test_source: '${{ matrix.test_source || 'legacy' }}',
               timestamp: timestamp
             };
 
-            const metadataFileName = `run-metadata-${{ matrix.combination }}-${timestamp}.json`;
+            const metadataFileName = `run-metadata-${{ matrix.combination }}-${{ matrix.test_source || 'legacy' }}-${timestamp}.json`;
             fs.writeFileSync(metadataFileName, JSON.stringify(runMetadata, null, 2));
             
             // Set output for the upload step
@@ -546,7 +559,7 @@ jobs:
       - name: Upload run metadata
         uses: actions/upload-artifact@v4
         with:
-          name: run-metadata-${{ matrix.combination }}-${{ github.run_id }}-${{ strategy.job-index }}
+          name: run-metadata-${{ matrix.combination }}-${{ matrix.test_source || 'legacy' }}-${{ github.run_id }}-${{ strategy.job-index }}
           path: ${{ steps.trigger.outputs.metadata-filename }}
           retention-days: 1
 
