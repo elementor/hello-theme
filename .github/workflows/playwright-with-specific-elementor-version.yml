@@ -345,32 +345,7 @@ jobs:
           fi
 
       - name: Extract Hello Theme build
-        run: |
-          echo "Extracting Hello Theme build..."
-          HT_ZIP=$(find . -name "hello-elementor-*.zip" -type f | head -1)
-
-          if [ -n "$HT_ZIP" ]; then
-            echo "Found Hello Theme build: $HT_ZIP"
-            mkdir -p ./tmp
-            unzip -q "$HT_ZIP" -d ./tmp/
-            
-            if [ -d "./tmp/hello-elementor" ]; then
-              echo "Hello Theme extracted to ./tmp/hello-elementor/"
-            elif [ -d "./tmp" ] && [ "$(ls -A ./tmp/)" ]; then
-              mkdir -p ./tmp/hello-elementor-temp
-              mv ./tmp/* ./tmp/hello-elementor-temp/ 2>/dev/null || true
-              mv ./tmp/hello-elementor-temp ./tmp/hello-elementor
-              echo "Hello Theme organized at ./tmp/hello-elementor/"
-            else
-              echo "Theme content not found in expected location"
-              exit 1
-            fi
-          else
-            echo "No Hello Theme build ZIP found"
-            echo "Available files:"
-            ls -la ./
-            exit 1
-          fi
+        uses: ./.github/actions/extract-hello-theme-zip
 
       - name: Update wp-env.json file
         env:
@@ -627,32 +602,7 @@ jobs:
           fi
 
       - name: Extract Hello Theme build
-        run: |
-          echo "Extracting Hello Theme build..."
-          HT_ZIP=$(find . -name "hello-elementor-*.zip" -type f | head -1)
-
-          if [ -n "$HT_ZIP" ]; then
-            echo "Found Hello Theme build: $HT_ZIP"
-            mkdir -p ./tmp
-            unzip -q "$HT_ZIP" -d ./tmp/
-            
-            if [ -d "./tmp/hello-elementor" ]; then
-              echo "Hello Theme extracted to ./tmp/hello-elementor/"
-            elif [ -d "./tmp" ] && [ "$(ls -A ./tmp/)" ]; then
-              mkdir -p ./tmp/hello-elementor-temp
-              mv ./tmp/* ./tmp/hello-elementor-temp/ 2>/dev/null || true
-              mv ./tmp/hello-elementor-temp ./tmp/hello-elementor
-              echo "Hello Theme organized at ./tmp/hello-elementor/"
-            else
-              echo "Theme content not found in expected location"
-              exit 1
-            fi
-          else
-            echo "No Hello Theme build ZIP found"
-            echo "Available files:"
-            ls -la ./
-            exit 1
-          fi
+        uses: ./.github/actions/extract-hello-theme-zip
 
       - name: Update wp-env.json file
         env:
