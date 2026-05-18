@@ -6,17 +6,21 @@ on:
       hello_plus_version:
         description: "Hello Plus version to test (e.g., 1.7.2 or latest-stable)"
         required: true
+        type: string
       hello_theme_version:
         description: "Hello Theme version to test (e.g., 3.4.4 or main)"
         required: false
         default: "main"
+        type: string
       elementor_core_branch:
         description: "Elementor version (same as Core matrix core_branch: latest-stable, x.y.z, or main)"
         required: false
         default: "latest-stable"
+        type: string
       tag:
         description: "Provide @tag or a keyword"
         required: false
+        type: string
   workflow_call:
     inputs:
       hello_plus_version:
