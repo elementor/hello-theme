@@ -370,10 +370,8 @@ jobs:
               fi
               
               if [[ -n "$hp_ver" ]]; then
-                # Hello Plus matrix
-                TARGETED_TESTS="${TARGETED_TESTS}{\"combination\":\"${combination}\",\"name\":\"${name}\",\"hello_theme_version\":\"${ht_ver}\",\"hello_plus_version\":\"${hp_ver}\",\"delay\":${delay}}"
+                TARGETED_TESTS="${TARGETED_TESTS}{\"combination\":\"${combination}\",\"name\":\"${name}\",\"hello_theme_version\":\"${ht_ver}\",\"hello_plus_version\":\"${hp_ver}\",\"elementor_version\":\"${el_ver}\",\"delay\":${delay}}"
               else
-                # Elementor matrix
                 TARGETED_TESTS="${TARGETED_TESTS}{\"combination\":\"${combination}\",\"name\":\"${name}\",\"hello_theme_version\":\"${ht_ver}\",\"elementor_version\":\"${el_ver}\",\"delay\":${delay}}"
               fi
             }
@@ -407,26 +405,26 @@ jobs:
             
             # Plus Matrix: Hello Theme × Hello Plus
             # Main Hello Theme combinations
-            add_test_combination "ht-main-hp-latest" "Hello Theme main + Hello Plus ${HP_VERSION}" "main" "" "$HP_VERSION" $((DELAY_COUNTER * 15))
+            add_test_combination "ht-main-hp-latest" "Hello Theme main + Hello Plus ${HP_VERSION}" "main" "$EL_VERSION" "$HP_VERSION" $((DELAY_COUNTER * 15))
             DELAY_COUNTER=$((DELAY_COUNTER + 1))
             
             if [[ -n "$HELLO_PLUS_PREVIOUS" ]]; then
               IFS=',' read -ra HP_PREV_ARRAY <<< "$HELLO_PLUS_PREVIOUS"
               for hp_prev in "${HP_PREV_ARRAY[@]}"; do
-                add_test_combination "ht-main-hp-prev" "Hello Theme main + Hello Plus ${hp_prev}" "main" "" "$hp_prev" $((DELAY_COUNTER * 15))
+                add_test_combination "ht-main-hp-prev" "Hello Theme main + Hello Plus ${hp_prev}" "main" "$EL_VERSION" "$hp_prev" $((DELAY_COUNTER * 15))
                 DELAY_COUNTER=$((DELAY_COUNTER + 1))
               done
             fi
             
             # GA Hello Theme combinations (if detected)
             if [[ "$HT_VERSION_FOR_MATRIX" != "main" ]]; then
-              add_test_combination "ht-ga-hp-latest" "Hello Theme ${HT_VERSION_FOR_MATRIX} (GA) + Hello Plus ${HP_VERSION}" "$HT_VERSION_FOR_MATRIX" "" "$HP_VERSION" $((DELAY_COUNTER * 15))
+              add_test_combination "ht-ga-hp-latest" "Hello Theme ${HT_VERSION_FOR_MATRIX} (GA) + Hello Plus ${HP_VERSION}" "$HT_VERSION_FOR_MATRIX" "$EL_VERSION" "$HP_VERSION" $((DELAY_COUNTER * 15))
               DELAY_COUNTER=$((DELAY_COUNTER + 1))
               
               if [[ -n "$HELLO_PLUS_PREVIOUS" ]]; then
                 IFS=',' read -ra HP_PREV_ARRAY <<< "$HELLO_PLUS_PREVIOUS"
                 for hp_prev in "${HP_PREV_ARRAY[@]}"; do
-                  add_test_combination "ht-ga-hp-prev" "Hello Theme ${HT_VERSION_FOR_MATRIX} (GA) + Hello Plus ${hp_prev}" "$HT_VERSION_FOR_MATRIX" "" "$hp_prev" $((DELAY_COUNTER * 15))
+                  add_test_combination "ht-ga-hp-prev" "Hello Theme ${HT_VERSION_FOR_MATRIX} (GA) + Hello Plus ${hp_prev}" "$HT_VERSION_FOR_MATRIX" "$EL_VERSION" "$hp_prev" $((DELAY_COUNTER * 15))
                   DELAY_COUNTER=$((DELAY_COUNTER + 1))
                 done
               fi
@@ -498,10 +496,10 @@ jobs:
                 hello_theme_version: '${{ matrix.hello_theme_version || 'main' }}'
               };
             } else {
-              // Plus workflow: needs hello_plus_version and hello_theme_version
               inputs = {
                 hello_plus_version: '${{ matrix.hello_plus_version || 'latest-stable' }}',
-                hello_theme_version: '${{ matrix.hello_theme_version || 'main' }}'
+                hello_theme_version: '${{ matrix.hello_theme_version || 'main' }}',
+                elementor_core_branch: '${{ matrix.elementor_version || 'main' }}'
               };
             }
             

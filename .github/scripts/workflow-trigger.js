@@ -3,6 +3,63 @@
  * Adapted for Hello Theme compatibility testing
  */
 
+function shouldOmitElementorCoreBranchInputOnRetry( error, inputs, workflowId ) {
+	const message = String( error.message || '' );
+	return (
+		/unexpected inputs provided/i.test( message ) &&
+		inputs &&
+		Object.prototype.hasOwnProperty.call( inputs, 'elementor_core_branch' ) &&
+		String( workflowId ).includes( 'hello-plus' )
+	);
+}
+
+function failWorkflowDispatch( workflowId, error ) {
+	// eslint-disable-next-line no-console
+	console.error( 'Failed to trigger workflow:', error.message );
+	throw new Error( `Failed to trigger workflow ${ workflowId }: ${ error.message }` );
+}
+
+async function dispatchWorkflowWithElementorCoreBranchRetry( github, context, workflowId, ref, inputs ) {
+	try {
+		await github.rest.actions.createWorkflowDispatch( {
+			owner: context.repo.owner,
+			repo: context.repo.repo,
+			workflow_id: workflowId,
+			ref,
+			inputs,
+		} );
+		// eslint-disable-next-line no-console
+		console.log( 'Workflow dispatch sent successfully' );
+		return;
+	} catch ( error ) {
+		if ( ! shouldOmitElementorCoreBranchInputOnRetry( error, inputs, workflowId ) ) {
+			failWorkflowDispatch( workflowId, error );
+		}
+	}
+
+	const fallbackInputs = { ...inputs };
+	delete fallbackInputs.elementor_core_branch;
+
+	// eslint-disable-next-line no-console
+	console.log(
+		'Retrying workflow dispatch without elementor_core_branch (target workflow on ref does not declare this input yet).',
+	);
+
+	try {
+		await github.rest.actions.createWorkflowDispatch( {
+			owner: context.repo.owner,
+			repo: context.repo.repo,
+			workflow_id: workflowId,
+			ref,
+			inputs: fallbackInputs,
+		} );
+		// eslint-disable-next-line no-console
+		console.log( 'Workflow dispatch sent successfully' );
+	} catch ( error ) {
+		failWorkflowDispatch( workflowId, error );
+	}
+}
+
 /**
  * Triggers a workflow and waits for it to appear in the runs list
  * @param {Object} github                      - GitHub API client
@@ -43,26 +100,10 @@ async function triggerWorkflowAndWait( github, context, core, config ) {
 	// eslint-disable-next-line no-console
 	console.log( `Inputs:`, JSON.stringify( inputs, null, 2 ) );
 
-	// Trigger the workflow
-	try {
-		await github.rest.actions.createWorkflowDispatch( {
-			owner: context.repo.owner,
-			repo: context.repo.repo,
-			workflow_id: workflowId,
-			ref,
-			inputs,
-		} );
-
-		// eslint-disable-next-line no-console
-		console.log( '✅ Workflow dispatch sent successfully' );
-	} catch ( error ) {
-		// eslint-disable-next-line no-console
-		console.error( '❌ Failed to trigger workflow:', error.message );
-		throw new Error( `Failed to trigger workflow ${ workflowId }: ${ error.message }` );
-	}
+	await dispatchWorkflowWithElementorCoreBranchRetry( github, context, workflowId, ref, inputs );
 
 	// eslint-disable-next-line no-console
-	console.log( '⏳ Waiting for workflow run to appear...' );
+	console.log( 'Waiting for workflow run to appear...' );
 
 	// Wait and find the specific run with better detection
 	let newRun = null;
@@ -93,7 +134,7 @@ async function triggerWorkflowAndWait( github, context, core, config ) {
 			if ( candidateRuns.length > 0 ) {
 				newRun = candidateRuns[ 0 ];
 				// eslint-disable-next-line no-console
-				console.log( `✅ Found ${ candidateRuns.length } candidate runs, selected newest: ${ newRun.id }` );
+				console.log( `Found ${ candidateRuns.length } candidate runs, selected newest: ${ newRun.id }` );
 				// eslint-disable-next-line no-console
 				console.log( `   Created: ${ newRun.created_at }` );
 				// eslint-disable-next-line no-console
@@ -115,9 +156,9 @@ async function triggerWorkflowAndWait( github, context, core, config ) {
 	const runUrl = `https://github.com/${ context.repo.owner }/${ context.repo.repo }/actions/runs/${ newRun.id }`;
 
 	// eslint-disable-next-line no-console
-	console.log( `✅ Successfully captured run ID for ${ combination }: ${ newRun.id }` );
+	console.log( `Successfully captured run ID for ${ combination }: ${ newRun.id }` );
 	// eslint-disable-next-line no-console
-	console.log( `📋 Run URL: ${ runUrl }` );
+	console.log( `Run URL: ${ runUrl }` );
 
 	return {
 		runId: newRun.id,
@@ -140,7 +181,7 @@ async function applyTriggerDelay( combination, timing ) {
 	const delaySeconds = timing.triggerDelays[ combination ];
 	if ( delaySeconds > 0 ) {
 		// eslint-disable-next-line no-console
-		console.log( `⏱️  Applying ${ delaySeconds }s delay to prevent race condition...` );
+		console.log( `Applying ${ delaySeconds }s delay to prevent race condition...` );
 		await new Promise( ( resolve ) => setTimeout( resolve, delaySeconds * 1000 ) );
 	}
 }
@@ -161,7 +202,7 @@ async function waitForWorkflowCompletion( github, context, runId, options = {} )
 	} = options;
 
 	// eslint-disable-next-line no-console
-	console.log( `⏳ Waiting for workflow run ${ runId } to complete...` );
+	console.log( `Waiting for workflow run ${ runId } to complete...` );
 
 	for ( let attempt = 1; attempt <= maxAttempts; attempt++ ) {
 		try {
@@ -175,7 +216,7 @@ async function waitForWorkflowCompletion( github, context, runId, options = {} )
 
 			if ( 'completed' === run.status ) {
 				// eslint-disable-next-line no-console
-				console.log( `✅ Run ${ runId } completed with conclusion: ${ run.conclusion }` );
+				console.log( `Run ${ runId } completed with conclusion: ${ run.conclusion }` );
 				return {
 					runId,
 					status: run.status,
@@ -189,7 +230,7 @@ async function waitForWorkflowCompletion( github, context, runId, options = {} )
 
 			if ( logProgress && ( 0 === attempt % 10 || attempt <= 5 ) ) {
 				// eslint-disable-next-line no-console
-				console.log( `⏳ Run ${ runId } is ${ run.status } (attempt ${ attempt }/${ maxAttempts })` );
+				console.log( `Run ${ runId } is ${ run.status } (attempt ${ attempt }/${ maxAttempts })` );
 			}
 
 			await new Promise( ( resolve ) => setTimeout( resolve, pollInterval ) );

@@ -6,13 +6,21 @@ on:
       hello_plus_version:
         description: "Hello Plus version to test (e.g., 1.7.2 or latest-stable)"
         required: true
+        type: string
       hello_theme_version:
         description: "Hello Theme version to test (e.g., 3.4.4 or main)"
         required: false
         default: "main"
+        type: string
+      elementor_core_branch:
+        description: "Elementor version (same as Core matrix core_branch: latest-stable, x.y.z, or main)"
+        required: false
+        default: "latest-stable"
+        type: string
       tag:
         description: "Provide @tag or a keyword"
         required: false
+        type: string
   workflow_call:
     inputs:
       hello_plus_version:
@@ -23,6 +31,11 @@ on:
         description: "Hello Theme version to test (e.g., 3.4.4 or main)"
         required: false
         type: string
+      elementor_core_branch:
+        description: "Elementor version (same semantics as Core matrix core_branch)"
+        required: false
+        type: string
+        default: "latest-stable"
       tag:
         description: "Provide @tag or a keyword"
         required: false
@@ -43,7 +56,7 @@ jobs:
     outputs:
       hello-theme-version: ${{ steps.set-versions.outputs.hello-theme-version }}
       hello-plus-version: ${{ steps.set-versions.outputs.hello-plus-version }}
-      hello-theme-source: ${{ steps.set-versions.outputs.hello-theme-source }}
+      elementor-version: ${{ steps.download-elementor.outputs.effective-version }}
       artifact-name: ${{ steps.set-versions.outputs.artifact-name }}
     steps:
       - name: Checkout Hello Theme
@@ -54,123 +67,30 @@ jobs:
       - name: Set version variables and Hello Plus version
         id: set-versions
         run: |
-          # Set Hello Plus version from input (released versions only)
           HELLO_PLUS_VERSION="${{ inputs.hello_plus_version }}"
-
-          # Hello Theme source ref (main or specific GA version) - always use main actions
-          # Always use main actions regardless of source version - this is the key principle
-          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            HELLO_THEME_SOURCE="${{ inputs.hello_theme_version || 'main' }}"
-          else
-            HELLO_THEME_SOURCE="main"
-          fi
-
-          # Current Hello Theme version from package.json (actual version string)
+          HELLO_THEME_INPUT="${{ inputs.hello_theme_version || 'main' }}"
+          ELEMENTOR_CORE_BRANCH="${{ inputs.elementor_core_branch || 'latest-stable' }}"
           HT_VERSION=$(node -p "require('./package.json').version")
 
           echo "HELLO_PLUS_VERSION=${HELLO_PLUS_VERSION}" >> $GITHUB_ENV
-          echo "HELLO_THEME_SOURCE=${HELLO_THEME_SOURCE}" >> $GITHUB_ENV
           echo "HELLO_THEME_VERSION=${HT_VERSION}" >> $GITHUB_ENV
 
           echo "hello-theme-version=${HT_VERSION}" >> $GITHUB_OUTPUT
           echo "hello-plus-version=${HELLO_PLUS_VERSION}" >> $GITHUB_OUTPUT
+          echo "hello-theme-input=${HELLO_THEME_INPUT}" >> $GITHUB_OUTPUT
+          echo "elementor-core-branch=${ELEMENTOR_CORE_BRANCH}" >> $GITHUB_OUTPUT
 
-          # Create artifact name
-          ARTIFACT_NAME="plus-ht${HELLO_THEME_SOURCE}-hp${HELLO_PLUS_VERSION}-$(date +%Y%m%d-%H%M)"
+          ARTIFACT_NAME="plus-ht${HELLO_THEME_INPUT}-hp${HELLO_PLUS_VERSION}-el${ELEMENTOR_CORE_BRANCH}-${{ github.run_id }}"
           echo "artifact-name=${ARTIFACT_NAME}" >> $GITHUB_OUTPUT
 
-          echo "Hello Theme version: ${HT_VERSION}"
-          echo "Hello Theme source: ${HELLO_THEME_SOURCE}"
-          echo "Hello Plus Version: ${HELLO_PLUS_VERSION}"
-
-      - name: Validate and preserve workflow infrastructure
-        run: |
-          set -e  # Exit on any error
-
-          echo "DEBUG: Validating version $HELLO_THEME_SOURCE"
-
-          # Validate version exists (if not main)
-          if [[ "$HELLO_THEME_SOURCE" != "main" ]]; then
-            git fetch --all --tags
-            if ! git rev-parse --verify "v$HELLO_THEME_SOURCE" >/dev/null 2>&1 && ! git rev-parse --verify "$HELLO_THEME_SOURCE" >/dev/null 2>&1; then
-              echo "ERROR: Version $HELLO_THEME_SOURCE not found"
-              exit 1
-            fi
-            echo "Version $HELLO_THEME_SOURCE exists"
-          fi
-
-          # Preserve entire .github directory
-          echo "DEBUG: Preserving .github directory from main branch"
-          if ! cp -r .github .github-main-backup; then
-            echo "ERROR: Failed to preserve .github directory"
-            exit 1
-          fi
-          echo ".github directory preserved"
-
-      - name: Checkout specific Hello Theme version
-        run: |
-          set -e  # Exit on any error
-
-          if [[ "$HELLO_THEME_SOURCE" != "main" ]]; then
-            echo "DEBUG: Checking out Hello Theme version: $HELLO_THEME_SOURCE"
-            
-            # Attempt checkout with proper error handling
-            if git checkout "v$HELLO_THEME_SOURCE" 2>/dev/null || git checkout "$HELLO_THEME_SOURCE" 2>/dev/null; then
-              echo "Successfully checked out $HELLO_THEME_SOURCE"
-            else
-              echo "ERROR: Failed to checkout $HELLO_THEME_SOURCE"
-              exit 1
-            fi
-            
-            # Validate package.json version matches
-            ACTUAL_VERSION=$(node -p "require('./package.json').version")
-            if [[ "$ACTUAL_VERSION" != "$HELLO_THEME_SOURCE" ]]; then
-              echo "ERROR: Version mismatch - Expected: $HELLO_THEME_SOURCE, Got: $ACTUAL_VERSION"
-              exit 1
-            fi
-            echo "Version validated: $ACTUAL_VERSION"
-            
-            echo "HELLO_THEME_SOURCE_TYPE=git-tag" >> $GITHUB_ENV
-          else
-            echo "DEBUG: Using main branch"
-            echo "HELLO_THEME_SOURCE_TYPE=git-branch" >> $GITHUB_ENV
-          fi
-
-      - name: Restore main branch workflow infrastructure
-        run: |
-          set -e  # Exit on any error
-
-          if [[ "$HELLO_THEME_SOURCE" != "main" ]]; then
-            echo "DEBUG: Restoring .github directory from main branch"
-            
-            # Remove old .github and restore main version
-            if ! rm -rf .github; then
-              echo "ERROR: Failed to remove old .github directory"
-              exit 1
-            fi
-            
-            if ! mv .github-main-backup .github; then
-              echo "ERROR: Failed to restore .github directory"
-              exit 1
-            fi
-            
-            echo "Main branch actions restored"
-            echo "DEBUG: Using $HELLO_THEME_SOURCE source code with main branch actions"
-          else
-            # Clean up backup if we didn't need it
-            rm -rf .github-main-backup 2>/dev/null || true
-            echo "DEBUG: Using main branch (no restore needed)"
-          fi
-
-          # Set final version for build
-          FINAL_VERSION=$(node -p "require('./package.json').version")
-          echo "HELLO_THEME_VERSION=$FINAL_VERSION" >> $GITHUB_ENV
-          echo "DEBUG: Final state - Version: $FINAL_VERSION, Actions: main branch"
+          echo "Hello Theme version: ${HT_VERSION} (tests ref: ${HELLO_THEME_INPUT})"
+          echo "Hello Plus version: ${HELLO_PLUS_VERSION}"
+          echo "Elementor core branch: ${ELEMENTOR_CORE_BRANCH}"
 
       - name: Build Hello Theme
         uses: ./.github/workflows/build-theme
         with:
-          PACKAGE_VERSION: ${{ env.HELLO_THEME_VERSION }}
+          PACKAGE_VERSION: ${{ steps.set-versions.outputs.hello-theme-version }}
           BUILD_SCRIPT_PATH: "npm run build:prod"
 
       - name: Download Hello Plus
@@ -178,17 +98,14 @@ jobs:
           HELLO_PLUS_VERSION="${{ steps.set-versions.outputs.hello-plus-version }}"
           echo "Downloading Hello Plus version: ${HELLO_PLUS_VERSION}"
 
-          # Create Hello Plus build directory
           mkdir -p ./tmp
 
           if [[ "$HELLO_PLUS_VERSION" == "latest-stable" ]]; then
-            # Download latest stable from WordPress.org
             curl --location -o ./hello-plus.zip https://downloads.wordpress.org/plugin/hello-plus.latest-stable.zip
             unzip -q ./hello-plus.zip
             mv ./hello-plus ./tmp/hello-plus
             echo "Hello Plus latest-stable downloaded and extracted"
           elif [[ "$HELLO_PLUS_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            # Download specific version from WordPress.org
             curl --location -o ./hello-plus.zip "https://downloads.wordpress.org/plugin/hello-plus.${HELLO_PLUS_VERSION}.zip"
             unzip -q ./hello-plus.zip
             mv ./hello-plus ./tmp/hello-plus
@@ -199,6 +116,34 @@ jobs:
             exit 1
           fi
 
+      - name: Download Elementor Core
+        id: download-elementor
+        run: |
+          ELEMENTOR_CORE_BRANCH="${{ steps.set-versions.outputs.elementor-core-branch }}"
+          echo "Downloading Elementor Core: ${ELEMENTOR_CORE_BRANCH}"
+
+          mkdir -p ./tmp
+
+          if [[ "$ELEMENTOR_CORE_BRANCH" == "latest-stable" ]]; then
+            curl --location -o ./elementor-core.zip https://downloads.wordpress.org/plugin/elementor.latest-stable.zip
+            unzip -q ./elementor-core.zip
+            mv ./elementor ./tmp/elementor
+            echo "Elementor latest-stable downloaded and extracted"
+            echo "effective-version=latest-stable" >> $GITHUB_OUTPUT
+          elif [[ "$ELEMENTOR_CORE_BRANCH" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            curl --location -o ./elementor-core.zip "https://downloads.wordpress.org/plugin/elementor.${ELEMENTOR_CORE_BRANCH}.zip"
+            unzip -q ./elementor-core.zip
+            mv ./elementor ./tmp/elementor
+            echo "Elementor ${ELEMENTOR_CORE_BRANCH} downloaded and extracted"
+            echo "effective-version=${ELEMENTOR_CORE_BRANCH}" >> $GITHUB_OUTPUT
+          else
+            echo "GitHub artifacts for Elementor branches not implemented; using latest-stable"
+            curl --location -o ./elementor-core.zip https://downloads.wordpress.org/plugin/elementor.latest-stable.zip
+            unzip -q ./elementor-core.zip
+            mv ./elementor ./tmp/elementor
+            echo "effective-version=latest-stable" >> $GITHUB_OUTPUT
+          fi
+
       - name: Upload plus build artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -206,14 +151,8 @@ jobs:
           path: |
             ./hello-elementor-*.zip
             ./tmp/hello-plus
+            ./tmp/elementor
           retention-days: 3
-
-      - name: Cleanup backup files
-        if: always()
-        run: |
-          echo "DEBUG: Cleaning up backup files"
-          rm -rf .github-main-backup 2>/dev/null || true
-          echo "Cleanup complete"
 
       - name: Generate build summary
         run: |
@@ -221,10 +160,11 @@ jobs:
           echo "|-----------------|----------------------------|-----------------------|" >> $GITHUB_STEP_SUMMARY
           echo "| Component       | Version                    | Source               |" >> $GITHUB_STEP_SUMMARY
           echo "|-----------------|----------------------------|-----------------------|" >> $GITHUB_STEP_SUMMARY
-          echo "| Hello Theme     | ${{ env.HELLO_THEME_VERSION }} (${{ env.HELLO_THEME_INPUT }}) | ${{ env.HELLO_THEME_SOURCE_TYPE }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Hello Theme     | ${{ steps.set-versions.outputs.hello-theme-version }} (${{ steps.set-versions.outputs.hello-theme-input }}) | github (checkout ref) |" >> $GITHUB_STEP_SUMMARY
           echo "| Hello Plus      | ${{ steps.set-versions.outputs.hello-plus-version }} | WordPress.org        |" >> $GITHUB_STEP_SUMMARY
+          echo "| Elementor Core  | ${{ steps.download-elementor.outputs.effective-version }} | WordPress.org        |" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Strategy:** GitHub source for Hello Theme (always built), WordPress.org for Hello Plus" >> $GITHUB_STEP_SUMMARY
+          echo "**Strategy:** Same Hello Theme build ref as Core matrix; WordPress.org for Hello Plus and Elementor" >> $GITHUB_STEP_SUMMARY
 
   plus-playwright-tests:
     name: Hello Theme + Hello Plus Tests
@@ -233,6 +173,7 @@ jobs:
     env:
       HELLO_THEME_VERSION: ${{ needs.build-plus-components.outputs.hello-theme-version }}
       HELLO_PLUS_VERSION: ${{ needs.build-plus-components.outputs.hello-plus-version }}
+      ELEMENTOR_VERSION: ${{ needs.build-plus-components.outputs.elementor-version }}
       RUN_IDENTIFIER: plus-${{ github.event.inputs.hello_theme_version || github.ref }}-${{ github.run_id }}
     runs-on: ubuntu-22.04
     steps:
@@ -344,32 +285,7 @@ jobs:
           path: ./
 
       - name: Extract Hello Theme build
-        run: |
-          echo "Extracting Hello Theme build..."
-          HT_ZIP=$(find . -name "hello-elementor-*.zip" -type f | head -1)
-
-          if [ -n "$HT_ZIP" ]; then
-            echo "Found Hello Theme build: $HT_ZIP"
-            mkdir -p ./tmp
-            unzip -q "$HT_ZIP" -d ./tmp/
-            
-            if [ -d "./tmp/hello-elementor" ]; then
-              echo "Hello Theme extracted to ./tmp/hello-elementor/"
-            elif [ -d "./tmp" ] && [ "$(ls -A ./tmp/)" ]; then
-              mkdir -p ./tmp/hello-elementor-temp
-              mv ./tmp/* ./tmp/hello-elementor-temp/ 2>/dev/null || true
-              mv ./tmp/hello-elementor-temp ./tmp/hello-elementor
-              echo "Hello Theme organized at ./tmp/hello-elementor/"
-            else
-              echo "Theme content not found in expected location"
-              exit 1
-            fi
-          else
-            echo "No Hello Theme build ZIP found"
-            echo "Available files:"
-            ls -la ./
-            exit 1
-          fi
+        uses: ./.github/actions/extract-hello-theme-zip
 
       - name: Update wp-env.json file
         env:
@@ -377,7 +293,7 @@ jobs:
           WP_CORE_VERSION: "latest"
           HELLO_THEME_VERSION: ${{ env.HELLO_THEME_VERSION }}
           HELLO_PLUS_VERSION: ${{ env.HELLO_PLUS_VERSION }}
-          ELEMENTOR_VERSION: "latest-stable"
+          ELEMENTOR_VERSION: ${{ env.ELEMENTOR_VERSION }}
         run: node ./.github/scripts/build-wp-env.js
 
       - name: Install WordPress environment
@@ -464,6 +380,7 @@ jobs:
     env:
       HELLO_THEME_VERSION: ${{ needs.build-plus-components.outputs.hello-theme-version }}
       HELLO_PLUS_VERSION: ${{ needs.build-plus-components.outputs.hello-plus-version }}
+      ELEMENTOR_VERSION: ${{ needs.build-plus-components.outputs.elementor-version }}
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout Hello Theme
@@ -574,32 +491,7 @@ jobs:
           path: ./
 
       - name: Extract Hello Theme build
-        run: |
-          echo "Extracting Hello Theme build..."
-          HT_ZIP=$(find . -name "hello-elementor-*.zip" -type f | head -1)
-
-          if [ -n "$HT_ZIP" ]; then
-            echo "Found Hello Theme build: $HT_ZIP"
-            mkdir -p ./tmp
-            unzip -q "$HT_ZIP" -d ./tmp/
-            
-            if [ -d "./tmp/hello-elementor" ]; then
-              echo "Hello Theme extracted to ./tmp/hello-elementor/"
-            elif [ -d "./tmp" ] && [ "$(ls -A ./tmp/)" ]; then
-              mkdir -p ./tmp/hello-elementor-temp
-              mv ./tmp/* ./tmp/hello-elementor-temp/ 2>/dev/null || true
-              mv ./tmp/hello-elementor-temp ./tmp/hello-elementor
-              echo "Hello Theme organized at ./tmp/hello-elementor/"
-            else
-              echo "Theme content not found in expected location"
-              exit 1
-            fi
-          else
-            echo "No Hello Theme build ZIP found"
-            echo "Available files:"
-            ls -la ./
-            exit 1
-          fi
+        uses: ./.github/actions/extract-hello-theme-zip
 
       - name: Update wp-env.json file
         env:
@@ -607,7 +499,7 @@ jobs:
           WP_CORE_VERSION: "latest"
           HELLO_THEME_VERSION: ${{ env.HELLO_THEME_VERSION }}
           HELLO_PLUS_VERSION: ${{ env.HELLO_PLUS_VERSION }}
-          ELEMENTOR_VERSION: "latest-stable"
+          ELEMENTOR_VERSION: ${{ env.ELEMENTOR_VERSION }}
         run: node ./.github/scripts/build-wp-env.js
 
       - name: Install WordPress environment
@@ -687,10 +579,3 @@ jobs:
       - name: Check Plus Matrix status
         if: ${{ needs.plus-playwright-tests.result != 'success' && needs.plus-playwright-tests.result != 'skipped' }}
         run: exit 1
-
-      - name: Cleanup backup files (final)
-        if: always()
-        run: |
-          echo "DEBUG: Final cleanup of any remaining backup files"
-          rm -rf .github-main-backup 2>/dev/null || true
-          echo "Final cleanup complete"
