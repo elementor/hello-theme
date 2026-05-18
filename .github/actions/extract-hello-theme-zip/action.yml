@@ -1,0 +1,32 @@
+name: Extract Hello theme zip for wp-env
+description: Populates ./tmp/hello-elementor from the theme zip without moving sibling ./tmp trees
+runs:
+  using: composite
+  steps:
+    - name: Extract
+      shell: bash
+      run: |
+        set -euo pipefail
+        HT_ZIP=$(find . -maxdepth 5 -name 'hello-elementor-*.zip' -type f ! -path './.git/*' | head -1)
+        if [[ -z "${HT_ZIP}" ]]; then
+          echo "No Hello Theme build ZIP found"
+          ls -la ./
+          exit 1
+        fi
+        echo "Found Hello Theme build: ${HT_ZIP}"
+        mkdir -p ./tmp/hello-elementor ./tmp/ht-zip-staging
+        unzip -q "${HT_ZIP}" -d ./tmp/ht-zip-staging
+        shopt -s dotglob nullglob
+        if [[ -d ./tmp/ht-zip-staging/hello-elementor ]]; then
+          mv ./tmp/ht-zip-staging/hello-elementor/* ./tmp/hello-elementor/
+        else
+          mv ./tmp/ht-zip-staging/* ./tmp/hello-elementor/
+        fi
+        shopt -u dotglob nullglob
+        rm -rf ./tmp/ht-zip-staging
+        if [[ ! -f ./tmp/hello-elementor/style.css ]]; then
+          echo "Extracted theme missing style.css"
+          ls -la ./tmp/hello-elementor/
+          exit 1
+        fi
+        echo "Hello Theme ready at ./tmp/hello-elementor/"
