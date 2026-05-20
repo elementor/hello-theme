@@ -36,7 +36,10 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
 
-= 3.4.8 - 2026-03-16
+= 3.4.8 - 2026-05-20
+* Fix: CSS improvements for Elementor widgets
+
+= 3.4.7 - 2026-03-16
 * Tweak: Updated theme home page
 
 = 3.4.6 - 2026-01-21
