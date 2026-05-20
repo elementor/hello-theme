@@ -47,7 +47,7 @@ jobs:
     outputs:
       hello-theme-version: ${{ steps.set-versions.outputs.hello-theme-version }}
       elementor-core-branch: ${{ steps.set-versions.outputs.elementor-core-branch }}
-      elementor-version: ${{ steps.set-versions.outputs.elementor-version }}
+      elementor-version: ${{ steps.download-elementor.outputs.effective-version }}
       hello-theme-source: ${{ steps.set-versions.outputs.hello-theme-source }}
       artifact-name: ${{ steps.set-versions.outputs.artifact-name }}
     steps:
@@ -88,7 +88,6 @@ jobs:
           echo "hello-theme-source-type=${HELLO_THEME_SOURCE_TYPE}" >> $GITHUB_OUTPUT
           echo "hello-theme-source=${HELLO_THEME_SOURCE}" >> $GITHUB_OUTPUT
           echo "elementor-core-branch=${ELEMENTOR_CORE_BRANCH}" >> $GITHUB_OUTPUT
-          echo "elementor-version=${ELEMENTOR_CORE_BRANCH}" >> $GITHUB_OUTPUT
 
           # Set environment variables for later steps
           echo "HELLO_THEME_VERSION=${HT_VERSION}" >> $GITHUB_ENV
@@ -99,7 +98,7 @@ jobs:
           ARTIFACT_NAME="core-ht${HELLO_THEME_INPUT}-el${ELEMENTOR_CORE_BRANCH}-${{ github.run_id }}"
           echo "artifact-name=${ARTIFACT_NAME}" >> $GITHUB_OUTPUT
 
-          echo "✅ Set versions: Hello Theme=${HT_VERSION} (${HELLO_THEME_INPUT}), Elementor=${ELEMENTOR_CORE_BRANCH}"
+          echo "Set versions: Hello Theme=${HT_VERSION} (${HELLO_THEME_INPUT}), Elementor=${ELEMENTOR_CORE_BRANCH}"
 
       - name: Build Hello Theme
         uses: ./.github/workflows/build-theme
@@ -108,6 +107,7 @@ jobs:
           BUILD_SCRIPT_PATH: "npm run build:prod"
 
       - name: Download Elementor Core
+        id: download-elementor
         run: |
           ELEMENTOR_CORE_BRANCH="${{ steps.set-versions.outputs.elementor-core-branch }}"
           echo "Downloading Elementor Core branch: ${ELEMENTOR_CORE_BRANCH}"
@@ -120,22 +120,25 @@ jobs:
             curl --location -o ./elementor-core.zip https://downloads.wordpress.org/plugin/elementor.latest-stable.zip
             unzip -q ./elementor-core.zip
             mv ./elementor ./tmp/elementor
-            echo "✅ Elementor latest-stable downloaded and extracted"
+            echo "Elementor latest-stable downloaded and extracted"
+            echo "effective-version=latest-stable" >> $GITHUB_OUTPUT
           elif [[ "$ELEMENTOR_CORE_BRANCH" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             # Download specific version from WordPress.org
             curl --location -o ./elementor-core.zip "https://downloads.wordpress.org/plugin/elementor.${ELEMENTOR_CORE_BRANCH}.zip"
             unzip -q ./elementor-core.zip
             mv ./elementor ./tmp/elementor
-            echo "✅ Elementor ${ELEMENTOR_CORE_BRANCH} downloaded and extracted"
+            echo "Elementor ${ELEMENTOR_CORE_BRANCH} downloaded and extracted"
+            echo "effective-version=${ELEMENTOR_CORE_BRANCH}" >> $GITHUB_OUTPUT
           else
             # For branches like 'main', we need GitHub artifacts
             # This should be provided by the calling workflow
-            echo "❌ GitHub artifacts for Elementor branches not implemented yet"
+            echo "GitHub artifacts for Elementor branches not implemented yet"
             echo "For now, using latest-stable as fallback"
             curl --location -o ./elementor-core.zip https://downloads.wordpress.org/plugin/elementor.latest-stable.zip
             unzip -q ./elementor-core.zip
             mv ./elementor ./tmp/elementor
-            echo "⚠️ Using Elementor latest-stable as fallback for branch: ${ELEMENTOR_CORE_BRANCH}"
+            echo "Using Elementor latest-stable as fallback for branch: ${ELEMENTOR_CORE_BRANCH}"
+            echo "effective-version=latest-stable" >> $GITHUB_OUTPUT
           fi
 
       - name: Upload core build artifacts
@@ -149,12 +152,12 @@ jobs:
 
       - name: Generate build summary
         run: |
-          echo "## 🔧 Build Summary" >> $GITHUB_STEP_SUMMARY
+          echo "## Build Summary" >> $GITHUB_STEP_SUMMARY
           echo "|-----------------|----------------------------|-----------------------|" >> $GITHUB_STEP_SUMMARY
           echo "| Component       | Version                    | Source               |" >> $GITHUB_STEP_SUMMARY
           echo "|-----------------|----------------------------|-----------------------|" >> $GITHUB_STEP_SUMMARY
           echo "| Hello Theme     | ${{ env.HELLO_THEME_VERSION }} (${{ env.HELLO_THEME_INPUT }}) | ${{ env.HELLO_THEME_SOURCE_TYPE }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Elementor Core  | ${{ steps.set-versions.outputs.elementor-version }} | WordPress.org/GitHub |" >> $GITHUB_STEP_SUMMARY
+          echo "| Elementor Core  | ${{ steps.download-elementor.outputs.effective-version }} | WordPress.org/GitHub |" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Strategy:** GitHub source for Hello Theme (always built), WordPress.org for Elementor versions" >> $GITHUB_STEP_SUMMARY
 
@@ -183,20 +186,20 @@ jobs:
       - name: Hybrid Test Setup - Extract tests from target version
         id: extract-version-tests
         run: |
-          echo "🎯 HYBRID APPROACH: Always latest workflows + version-specific tests"
-          echo "📋 Workflow infrastructure: main branch (latest build-wp-env.js, scripts, etc.)"
-          echo "🧪 Test content: ${{ inputs.hello_theme_version || 'main' }} (matches theme functionality)"
+          echo "HYBRID APPROACH: Always latest workflows + version-specific tests"
+          echo "Workflow infrastructure: main branch (latest build-wp-env.js, scripts, etc.)"
+          echo "Test content: ${{ inputs.hello_theme_version || 'main' }} (matches theme functionality)"
 
           # Determine the target version for test extraction
           TARGET_VERSION="${{ inputs.hello_theme_version || 'main' }}"
 
           if [ "$TARGET_VERSION" = "main" ]; then
-            echo "✅ Using main branch tests (already available)"
+            echo "Using main branch tests (already available)"
             TEST_VERSION="main"
             TEST_SOURCE_TYPE="main-branch"
             TESTS_AVAILABLE="true"
           else
-            echo "🔍 Extracting tests from version: $TARGET_VERSION"
+            echo "Extracting tests from version: $TARGET_VERSION"
             
             # Fetch all tags and branches
             git fetch --all --tags
@@ -208,39 +211,39 @@ jobs:
             
             # Try different tag formats
             for TAG_FORMAT in "v$TARGET_VERSION" "$TARGET_VERSION"; do
-              echo "🔍 Checking for tag: $TAG_FORMAT"
+              echo "Checking for tag: $TAG_FORMAT"
               if git rev-parse --verify "$TAG_FORMAT" >/dev/null 2>&1; then
-                echo "✅ Found tag: $TAG_FORMAT"
+                echo "Found tag: $TAG_FORMAT"
                 
                 # Check if this version has playwright tests
                 if git ls-tree -r "$TAG_FORMAT" | grep -q "tests/playwright/"; then
-                  echo "✅ Playwright tests found in $TAG_FORMAT"
+                  echo "Playwright tests found in $TAG_FORMAT"
                   
                   # Extract tests directory from target version
-                  echo "📥 Extracting tests directory from $TAG_FORMAT..."
+                  echo "Extracting tests directory from $TAG_FORMAT..."
                   rm -rf ./tests/playwright/
                   git archive "$TAG_FORMAT" tests/playwright/ | tar -x
                   
                   if [ -d "./tests/playwright/" ]; then
-                    echo "✅ Successfully extracted tests from $TAG_FORMAT"
+                    echo "Successfully extracted tests from $TAG_FORMAT"
                     TESTS_AVAILABLE="true"
                     TEST_VERSION="$TARGET_VERSION"
                     TEST_SOURCE_TYPE="extracted-from-$TAG_FORMAT"
                     break
                   else
-                    echo "⚠️ Failed to extract tests from $TAG_FORMAT"
+                    echo "Failed to extract tests from $TAG_FORMAT"
                   fi
                 else
-                  echo "⚠️ No playwright tests found in $TAG_FORMAT"
+                  echo "No playwright tests found in $TAG_FORMAT"
                 fi
               else
-                echo "⚠️ Tag $TAG_FORMAT not found"
+                echo "Tag $TAG_FORMAT not found"
               fi
             done
             
             if [ "$TESTS_AVAILABLE" = "false" ]; then
-              echo "⚠️ No compatible tests found for version $TARGET_VERSION"
-              echo "📋 Will skip testing for this version (tests don't exist yet)"
+              echo "No compatible tests found for version $TARGET_VERSION"
+              echo "Will skip testing for this version (tests don't exist yet)"
               TEST_VERSION="none"
               TEST_SOURCE_TYPE="not-available"
             fi
@@ -251,10 +254,10 @@ jobs:
           echo "test-source-type=$TEST_SOURCE_TYPE" >> $GITHUB_OUTPUT
           echo "tests-available=$TESTS_AVAILABLE" >> $GITHUB_OUTPUT
 
-          echo "✅ Hybrid setup complete:"
-          echo "  🏗️ Workflow infrastructure: main branch"
-          echo "  🧪 Test content: $TEST_VERSION ($TEST_SOURCE_TYPE)"
-          echo "  ✅ Tests available: $TESTS_AVAILABLE"
+          echo "Hybrid setup complete:"
+          echo "Workflow infrastructure: main branch"
+          echo "Test content: $TEST_VERSION ($TEST_SOURCE_TYPE)"
+          echo "Tests available: $TESTS_AVAILABLE"
 
       - name: Install Node.js 20.x
         uses: actions/setup-node@v4
@@ -294,39 +297,39 @@ jobs:
 
           echo "Checking for Elementor artifacts:"
           if [ -d "./tmp/elementor" ]; then
-            echo "✅ Elementor directory found in tmp"
+            echo "Elementor directory found in tmp"
             echo "Contents of ./tmp/elementor/ (first 10):"
             ls -la ./tmp/elementor/ | head -10
             
             # Verify Elementor plugin file
             if [ -f "./tmp/elementor/elementor.php" ]; then
-              echo "✅ Elementor plugin file verified"
+              echo "Elementor plugin file verified"
             else
-              echo "❌ Missing elementor.php - attempting to fix"
+              echo "Missing elementor.php - attempting to fix"
               # Try to find and move Elementor from other locations
               if [ -d "./elementor" ]; then
-                echo "📦 Found Elementor in root, moving to tmp"
+                echo "Found Elementor in root, moving to tmp"
                 mv "./elementor" "./tmp/elementor"
               else
-                echo "🔄 Downloading Elementor latest-stable as fallback"
+                echo "Downloading Elementor latest-stable as fallback"
                 curl --location -o ./elementor-fallback.zip https://downloads.wordpress.org/plugin/elementor.latest-stable.zip
                 unzip -q ./elementor-fallback.zip
                 mv ./elementor ./tmp/elementor
-                echo "✅ Elementor fallback installed"
+                echo "Elementor fallback installed"
               fi
             fi
           else
-            echo "❌ No Elementor directory - creating fallback"
+            echo "No Elementor directory - creating fallback"
             # Check for loose Elementor files and move them
             if [ -d "./elementor" ]; then
-              echo "📦 Found Elementor in root, moving to tmp"
+              echo "Found Elementor in root, moving to tmp"
               mv "./elementor" "./tmp/elementor"
             else
-              echo "🔄 Downloading Elementor latest-stable as fallback"
+              echo "Downloading Elementor latest-stable as fallback"
               curl --location -o ./elementor-fallback.zip https://downloads.wordpress.org/plugin/elementor.latest-stable.zip
               unzip -q ./elementor-fallback.zip
               mv ./elementor ./tmp/elementor
-              echo "✅ Elementor fallback installed"
+              echo "Elementor fallback installed"
             fi
           fi
 
@@ -335,9 +338,9 @@ jobs:
           echo "tmp directory contents:"
           ls -la ./tmp/
           if [ -f "./tmp/elementor/elementor.php" ]; then
-            echo "✅ Elementor is ready at ./tmp/elementor/"
+            echo "Elementor is ready at ./tmp/elementor/"
           else
-            echo "❌ Elementor setup failed"
+            echo "Elementor setup failed"
             exit 1
           fi
 
@@ -352,18 +355,18 @@ jobs:
             unzip -q "$HT_ZIP" -d ./tmp/
             
             if [ -d "./tmp/hello-elementor" ]; then
-              echo "✅ Hello Theme extracted to ./tmp/hello-elementor/"
+              echo "Hello Theme extracted to ./tmp/hello-elementor/"
             elif [ -d "./tmp" ] && [ "$(ls -A ./tmp/)" ]; then
               mkdir -p ./tmp/hello-elementor-temp
               mv ./tmp/* ./tmp/hello-elementor-temp/ 2>/dev/null || true
               mv ./tmp/hello-elementor-temp ./tmp/hello-elementor
-              echo "✅ Hello Theme organized at ./tmp/hello-elementor/"
+              echo "Hello Theme organized at ./tmp/hello-elementor/"
             else
-              echo "❌ Theme content not found in expected location"
+              echo "Theme content not found in expected location"
               exit 1
             fi
           else
-            echo "❌ No Hello Theme build ZIP found"
+            echo "No Hello Theme build ZIP found"
             echo "Available files:"
             ls -la ./
             exit 1
@@ -383,15 +386,15 @@ jobs:
           for i in {1..5}; do
             echo "Attempt $i/5: Starting wp-env..."
             if npx wp-env start; then
-              echo "✅ WordPress environment started successfully"
+              echo "WordPress environment started successfully"
               break
             else
-              echo "❌ Attempt $i failed"
+              echo "Attempt $i failed"
               if [ $i -eq 5 ]; then
-                echo "🚨 All attempts failed, exiting..."
+                echo "All attempts failed, exiting..."
                 exit 1
               else
-                echo "⏳ Waiting 30 seconds before retry..."
+                echo "Waiting 30 seconds before retry..."
                 npx wp-env stop || true
                 sleep 30
               fi
@@ -415,16 +418,16 @@ jobs:
         run: |
           export TEST_TITLE="Hello Theme Core Test - HT ${HELLO_THEME_VERSION} + EL ${ELEMENTOR_VERSION}"
           export DAILY_MATRIX_WORKFLOW=true
-          echo "🧪 Running tests from: ${{ steps.extract-version-tests.outputs.test-source-type }}"
+          echo "Running tests from: ${{ steps.extract-version-tests.outputs.test-source-type }}"
           # Only run Hello Theme tests, not Elementor or other plugin tests
           npm run test:playwright -- tests/playwright/tests/
 
       - name: Skip tests - version incompatible
         if: steps.extract-version-tests.outputs.tests-available != 'true'
         run: |
-          echo "⏭️ Skipping tests for Hello Theme ${{ inputs.hello_theme_version || 'main' }}"
-          echo "📋 Reason: ${{ steps.extract-version-tests.outputs.test-source-type }}"
-          echo "✅ This is expected for older versions that predate Playwright testing"
+          echo "Skipping tests for Hello Theme ${{ inputs.hello_theme_version || 'main' }}"
+          echo "Reason: ${{ steps.extract-version-tests.outputs.test-source-type }}"
+          echo "This is expected for older versions that predate Playwright testing"
 
       - name: Upload core test results
         uses: actions/upload-artifact@v4
@@ -465,20 +468,20 @@ jobs:
       - name: Hybrid Test Setup - Extract tests from target version
         id: extract-version-tests
         run: |
-          echo "🎯 HYBRID APPROACH: Always latest workflows + version-specific tests"
-          echo "📋 Workflow infrastructure: main branch (latest build-wp-env.js, scripts, etc.)"
-          echo "🧪 Test content: ${{ inputs.hello_theme_version || 'main' }} (matches theme functionality)"
+          echo "HYBRID APPROACH: Always latest workflows + version-specific tests"
+          echo "Workflow infrastructure: main branch (latest build-wp-env.js, scripts, etc.)"
+          echo "Test content: ${{ inputs.hello_theme_version || 'main' }} (matches theme functionality)"
 
           # Determine the target version for test extraction
           TARGET_VERSION="${{ inputs.hello_theme_version || 'main' }}"
 
           if [ "$TARGET_VERSION" = "main" ]; then
-            echo "✅ Using main branch tests (already available)"
+            echo "Using main branch tests (already available)"
             TEST_VERSION="main"
             TEST_SOURCE_TYPE="main-branch"
             TESTS_AVAILABLE="true"
           else
-            echo "🔍 Extracting tests from version: $TARGET_VERSION"
+            echo "Extracting tests from version: $TARGET_VERSION"
             
             # Fetch all tags and branches
             git fetch --all --tags
@@ -490,39 +493,39 @@ jobs:
             
             # Try different tag formats
             for TAG_FORMAT in "v$TARGET_VERSION" "$TARGET_VERSION"; do
-              echo "🔍 Checking for tag: $TAG_FORMAT"
+              echo "Checking for tag: $TAG_FORMAT"
               if git rev-parse --verify "$TAG_FORMAT" >/dev/null 2>&1; then
-                echo "✅ Found tag: $TAG_FORMAT"
+                echo "Found tag: $TAG_FORMAT"
                 
                 # Check if this version has playwright tests
                 if git ls-tree -r "$TAG_FORMAT" | grep -q "tests/playwright/"; then
-                  echo "✅ Playwright tests found in $TAG_FORMAT"
+                  echo "Playwright tests found in $TAG_FORMAT"
                   
                   # Extract tests directory from target version
-                  echo "📥 Extracting tests directory from $TAG_FORMAT..."
+                  echo "Extracting tests directory from $TAG_FORMAT..."
                   rm -rf ./tests/playwright/
                   git archive "$TAG_FORMAT" tests/playwright/ | tar -x
                   
                   if [ -d "./tests/playwright/" ]; then
-                    echo "✅ Successfully extracted tests from $TAG_FORMAT"
+                    echo "Successfully extracted tests from $TAG_FORMAT"
                     TESTS_AVAILABLE="true"
                     TEST_VERSION="$TARGET_VERSION"
                     TEST_SOURCE_TYPE="extracted-from-$TAG_FORMAT"
                     break
                   else
-                    echo "⚠️ Failed to extract tests from $TAG_FORMAT"
+                    echo "Failed to extract tests from $TAG_FORMAT"
                   fi
                 else
-                  echo "⚠️ No playwright tests found in $TAG_FORMAT"
+                  echo "No playwright tests found in $TAG_FORMAT"
                 fi
               else
-                echo "⚠️ Tag $TAG_FORMAT not found"
+                echo "Tag $TAG_FORMAT not found"
               fi
             done
             
             if [ "$TESTS_AVAILABLE" = "false" ]; then
-              echo "⚠️ No compatible tests found for version $TARGET_VERSION"
-              echo "📋 Will skip testing for this version (tests don't exist yet)"
+              echo "No compatible tests found for version $TARGET_VERSION"
+              echo "Will skip testing for this version (tests don't exist yet)"
               TEST_VERSION="none"
               TEST_SOURCE_TYPE="not-available"
             fi
@@ -533,10 +536,10 @@ jobs:
           echo "test-source-type=$TEST_SOURCE_TYPE" >> $GITHUB_OUTPUT
           echo "tests-available=$TESTS_AVAILABLE" >> $GITHUB_OUTPUT
 
-          echo "✅ Hybrid setup complete:"
-          echo "  🏗️ Workflow infrastructure: main branch"
-          echo "  🧪 Test content: $TEST_VERSION ($TEST_SOURCE_TYPE)"
-          echo "  ✅ Tests available: $TESTS_AVAILABLE"
+          echo "Hybrid setup complete:"
+          echo "Workflow infrastructure: main branch"
+          echo "Test content: $TEST_VERSION ($TEST_SOURCE_TYPE)"
+          echo "Tests available: $TESTS_AVAILABLE"
 
       - name: Install Node.js 20.x
         uses: actions/setup-node@v4
@@ -576,39 +579,39 @@ jobs:
 
           echo "Checking for Elementor artifacts:"
           if [ -d "./tmp/elementor" ]; then
-            echo "✅ Elementor directory found in tmp"
+            echo "Elementor directory found in tmp"
             echo "Contents of ./tmp/elementor/ (first 10):"
             ls -la ./tmp/elementor/ | head -10
             
             # Verify Elementor plugin file
             if [ -f "./tmp/elementor/elementor.php" ]; then
-              echo "✅ Elementor plugin file verified"
+              echo "Elementor plugin file verified"
             else
-              echo "❌ Missing elementor.php - attempting to fix"
+              echo "Missing elementor.php - attempting to fix"
               # Try to find and move Elementor from other locations
               if [ -d "./elementor" ]; then
-                echo "📦 Found Elementor in root, moving to tmp"
+                echo "Found Elementor in root, moving to tmp"
                 mv "./elementor" "./tmp/elementor"
               else
-                echo "🔄 Downloading Elementor latest-stable as fallback"
+                echo "Downloading Elementor latest-stable as fallback"
                 curl --location -o ./elementor-fallback.zip https://downloads.wordpress.org/plugin/elementor.latest-stable.zip
                 unzip -q ./elementor-fallback.zip
                 mv ./elementor ./tmp/elementor
-                echo "✅ Elementor fallback installed"
+                echo "Elementor fallback installed"
               fi
             fi
           else
-            echo "❌ No Elementor directory - creating fallback"
+            echo "No Elementor directory - creating fallback"
             # Check for loose Elementor files and move them
             if [ -d "./elementor" ]; then
-              echo "📦 Found Elementor in root, moving to tmp"
+              echo "Found Elementor in root, moving to tmp"
               mv "./elementor" "./tmp/elementor"
             else
-              echo "🔄 Downloading Elementor latest-stable as fallback"
+              echo "Downloading Elementor latest-stable as fallback"
               curl --location -o ./elementor-fallback.zip https://downloads.wordpress.org/plugin/elementor.latest-stable.zip
               unzip -q ./elementor-fallback.zip
               mv ./elementor ./tmp/elementor
-              echo "✅ Elementor fallback installed"
+              echo "Elementor fallback installed"
             fi
           fi
 
@@ -617,9 +620,9 @@ jobs:
           echo "tmp directory contents:"
           ls -la ./tmp/
           if [ -f "./tmp/elementor/elementor.php" ]; then
-            echo "✅ Elementor is ready at ./tmp/elementor/"
+            echo "Elementor is ready at ./tmp/elementor/"
           else
-            echo "❌ Elementor setup failed"
+            echo "Elementor setup failed"
             exit 1
           fi
 
@@ -634,18 +637,18 @@ jobs:
             unzip -q "$HT_ZIP" -d ./tmp/
             
             if [ -d "./tmp/hello-elementor" ]; then
-              echo "✅ Hello Theme extracted to ./tmp/hello-elementor/"
+              echo "Hello Theme extracted to ./tmp/hello-elementor/"
             elif [ -d "./tmp" ] && [ "$(ls -A ./tmp/)" ]; then
               mkdir -p ./tmp/hello-elementor-temp
               mv ./tmp/* ./tmp/hello-elementor-temp/ 2>/dev/null || true
               mv ./tmp/hello-elementor-temp ./tmp/hello-elementor
-              echo "✅ Hello Theme organized at ./tmp/hello-elementor/"
+              echo "Hello Theme organized at ./tmp/hello-elementor/"
             else
-              echo "❌ Theme content not found in expected location"
+              echo "Theme content not found in expected location"
               exit 1
             fi
           else
-            echo "❌ No Hello Theme build ZIP found"
+            echo "No Hello Theme build ZIP found"
             echo "Available files:"
             ls -la ./
             exit 1
@@ -665,15 +668,15 @@ jobs:
           for i in {1..5}; do
             echo "Attempt $i/5: Starting wp-env..."
             if npx wp-env start; then
-              echo "✅ WordPress environment started successfully"
+              echo "WordPress environment started successfully"
               break
             else
-              echo "❌ Attempt $i failed"
+              echo "Attempt $i failed"
               if [ $i -eq 5 ]; then
-                echo "🚨 All attempts failed, exiting..."
+                echo "All attempts failed, exiting..."
                 exit 1
               else
-                echo "⏳ Waiting 30 seconds before retry..."
+                echo "Waiting 30 seconds before retry..."
                 npx wp-env stop || true
                 sleep 30
               fi
@@ -692,16 +695,16 @@ jobs:
         if: steps.extract-version-tests.outputs.tests-available == 'true'
         run: |
           export DAILY_MATRIX_WORKFLOW=true
-          echo "🧪 Running tagged tests from: ${{ steps.extract-version-tests.outputs.test-source-type }}"
+          echo "Running tagged tests from: ${{ steps.extract-version-tests.outputs.test-source-type }}"
           # Only run Hello Theme tests with the specified tag
           npm run test:playwright -- tests/playwright/tests/ --grep="${{ github.event.inputs.tag }}"
 
       - name: Skip tagged tests - version incompatible
         if: steps.extract-version-tests.outputs.tests-available != 'true'
         run: |
-          echo "⏭️ Skipping tagged tests for Hello Theme ${{ inputs.hello_theme_version || 'main' }}"
-          echo "📋 Reason: ${{ steps.extract-version-tests.outputs.test-source-type }}"
-          echo "✅ This is expected for older versions that predate Playwright testing"
+          echo "Skipping tagged tests for Hello Theme ${{ inputs.hello_theme_version || 'main' }}"
+          echo "Reason: ${{ steps.extract-version-tests.outputs.test-source-type }}"
+          echo "This is expected for older versions that predate Playwright testing"
 
       - name: Upload core tagged test results
         uses: actions/upload-artifact@v4
