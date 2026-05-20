@@ -64,7 +64,6 @@ jobs:
       WP_TESTS_ELEMENTOR_DIR: /tmp/elementor/elementor.php
       WP_TESTS_HELLOPLUS_DIR: /tmp/hello-plus/hello-plus.php
       THEME_FILE: functions.php
-      COVERAGE: ${{ matrix.php_versions >= 8.3 && matrix.wordpress_versions == 'latest' && github.event_name == 'push' }}
     services:
       mysql:
         image: mysql:5.7
@@ -92,14 +91,8 @@ jobs:
         run: |
           cp -a $GITHUB_WORKSPACE /tmp/wordpress/wp-content/themes/
           echo "Copied theme folder to /tmp/wordpress/wp-content/themes/$(basename $GITHUB_WORKSPACE)"
-      - name: Run Tests with Coverage (latest PHP & WP)
-        if: ${{ env.COVERAGE != 'false' }}
-        run: |
-          composer run coverage
-      - name: Run Tests without Coverage
-        if: ${{ env.COVERAGE == 'false' }}
-        run: |
-          composer run test
+      - name: Run tests
+        run: composer run test
 
   test-result:
     needs: test
