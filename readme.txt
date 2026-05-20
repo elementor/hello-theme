@@ -3,8 +3,8 @@
 Contributors: elemntor, KingYes, ariel.k, bainternet
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 3.4.7
-Version: 3.4.7
+Stable tag: 3.4.8
+Version: 3.4.8
 Requires PHP: 7.4
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -36,7 +36,7 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
 
-= 3.4.7 - 2026-03-16
+= 3.4.8 - 2026-03-16
 * Tweak: Updated theme home page
 
 = 3.4.6 - 2026-01-21
