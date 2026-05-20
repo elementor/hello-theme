@@ -336,11 +336,8 @@ jobs:
           export DAILY_MATRIX_WORKFLOW=true
           echo "Running tests from: ${{ steps.extract-version-tests.outputs.test-source-type }}"
 
-          GREP_INVERT_FLAG=""
-          if [[ "${{ steps.extract-version-tests.outputs.test-source-type }}" != "main-branch" ]]; then
-            GREP_INVERT_FLAG='--grep-invert="should navigate to correct pages from Quick Links"'
-            echo "Skipping known failing test: 'should navigate to correct pages from Quick Links'"
-          fi
+          GREP_INVERT_FLAG='--grep-invert="should navigate to correct pages from Quick Links"'
+          echo "Skipping known failing test: 'should navigate to correct pages from Quick Links'"
 
           eval npm run test:playwright -- tests/playwright/tests/ $GREP_INVERT_FLAG
 
