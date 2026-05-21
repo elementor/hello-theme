@@ -101,9 +101,8 @@ function generateDailyMarkdownReport( results ) {
 	report += `- **Core Matrix**: Hello Theme × Elementor (main, latest, previous minors)\n`;
 	report += `- **Plus Matrix**: Hello Theme × Hello Plus (latest, previous patch - WordPress.org only)\n`;
 	report += `- **Version Types**: \n`;
-	report += `  - \`main\` = Latest development version from GitHub\n`;
-	report += `  - \`X.Y.Z (GA)\` = General availability release version\n`;
-	report += `  - \`latest-stable\` = Latest published version from WordPress.org\n\n`;
+	report += `  - \`main\` (Elementor) = GitHub \`main\` branch artifact → \`Elementor main (Github)\`\n`;
+	report += `  - \`X.Y.Z\` / \`latest-stable\` (Elementor) = WordPress.org GA → \`Elementor X.Y.Z (WordPress)\`\n\n`;
 
 	report += `## 🔄 Reliability Features\n\n`;
 	report += `- **WordPress Environment**: Automatic retry logic (5 attempts, 30s intervals)\n`;
@@ -112,6 +111,42 @@ function generateDailyMarkdownReport( results ) {
 	report += `*Generated at ${ new Date().toISOString() }*`;
 
 	return report;
+}
+
+function formatElementorReportLabel( elementorVersion ) {
+	if ( 'main' === elementorVersion ) {
+		return 'Elementor main (Github)';
+	}
+
+	if ( 'latest-stable' === elementorVersion ) {
+		return 'Elementor latest-stable (WordPress)';
+	}
+
+	if ( /^\d+\.\d+\.\d+$/.test( elementorVersion || '' ) ) {
+		return `Elementor ${ elementorVersion } (WordPress)`;
+	}
+
+	return `Elementor ${ elementorVersion }`;
+}
+
+function formatTestDisplayName( test ) {
+	const baseName = test.name || test.combination || '';
+	const elementorVersion = test.elementor_version || '';
+
+	if ( ! elementorVersion || ! test.combination?.includes( 'el' ) ) {
+		return baseName;
+	}
+
+	const elementorLabel = formatElementorReportLabel( elementorVersion );
+
+	return baseName
+		.replace( /\s*\+\s*Elementor main\b/i, ` + ${ elementorLabel }` )
+		.replace( /\s*\+\s*Elementor [\d.]+\s*\(GA\)/i, ( match ) => {
+			const versionMatch = match.match( /Elementor ([\d.]+)/ );
+			return versionMatch
+				? ` + Elementor ${ versionMatch[ 1 ] } (WordPress)`
+				: ` + ${ elementorLabel }`;
+		} );
 }
 
 /**
@@ -128,8 +163,9 @@ function generateTestTable( tests ) {
 		const statusText = getStatusText( test.status, test.conclusion );
 		const duration = test.duration ? `${ test.duration }m` : '-';
 		const link = generateResultLink( test );
+		const displayName = formatTestDisplayName( test );
 
-		table += `| ${ emoji } ${ statusText } | ${ test.name || test.combination } | ${ duration } | ${ link } |\n`;
+		table += `| ${ emoji } ${ statusText } | ${ displayName } | ${ duration } | ${ link } |\n`;
 	} );
 
 	return table;
@@ -184,4 +220,6 @@ module.exports = {
 	generateDailyTriggerReport,
 	generateDailyMarkdownReport,
 	sortDailyResults,
+	formatElementorReportLabel,
+	formatTestDisplayName,
 };

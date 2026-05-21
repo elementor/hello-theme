@@ -40,6 +40,9 @@ on:
         description: "Provide @tag or a keyword"
         required: false
         type: string
+    secrets:
+      CLOUD_DEVOPS_TOKEN:
+        required: true
 
 concurrency:
   group: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || format('plus-{0}-{1}', github.run_id, github.event.inputs.hello_plus_version || github.ref) }}
@@ -116,33 +119,35 @@ jobs:
             exit 1
           fi
 
+      - name: Verify CLOUD_DEVOPS_TOKEN
+        env:
+          GITHUB_TOKEN: ${{ secrets.CLOUD_DEVOPS_TOKEN }}
+        run: |
+          echo "=== CLOUD_DEVOPS_TOKEN pre-check (plus build job) ==="
+          if [ -z "${GITHUB_TOKEN:-}" ]; then
+            echo "CLOUD_DEVOPS_TOKEN: NOT AVAILABLE (secrets.CLOUD_DEVOPS_TOKEN is empty or unset)"
+            exit 1
+          fi
+          echo "CLOUD_DEVOPS_TOKEN: secret is set (character length=${#GITHUB_TOKEN})"
+          REPO_HTTP=$(curl -sS -o /dev/null -w "%{http_code}" \
+            -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/elementor/elementor")
+          echo "GitHub API repos/elementor/elementor: HTTP ${REPO_HTTP}"
+          if [ "${REPO_HTTP}" != "200" ]; then
+            echo "CLOUD_DEVOPS_TOKEN: failed repository access check (expected HTTP 200)"
+            exit 1
+          fi
+          echo "CLOUD_DEVOPS_TOKEN: repository access OK"
+
       - name: Download Elementor Core
         id: download-elementor
+        env:
+          GITHUB_TOKEN: ${{ secrets.CLOUD_DEVOPS_TOKEN }}
         run: |
-          ELEMENTOR_CORE_BRANCH="${{ steps.set-versions.outputs.elementor-core-branch }}"
-          echo "Downloading Elementor Core: ${ELEMENTOR_CORE_BRANCH}"
-
-          mkdir -p ./tmp
-
-          if [[ "$ELEMENTOR_CORE_BRANCH" == "latest-stable" ]]; then
-            curl --location -o ./elementor-core.zip https://downloads.wordpress.org/plugin/elementor.latest-stable.zip
-            unzip -q ./elementor-core.zip
-            mv ./elementor ./tmp/elementor
-            echo "Elementor latest-stable downloaded and extracted"
-            echo "effective-version=latest-stable" >> $GITHUB_OUTPUT
-          elif [[ "$ELEMENTOR_CORE_BRANCH" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            curl --location -o ./elementor-core.zip "https://downloads.wordpress.org/plugin/elementor.${ELEMENTOR_CORE_BRANCH}.zip"
-            unzip -q ./elementor-core.zip
-            mv ./elementor ./tmp/elementor
-            echo "Elementor ${ELEMENTOR_CORE_BRANCH} downloaded and extracted"
-            echo "effective-version=${ELEMENTOR_CORE_BRANCH}" >> $GITHUB_OUTPUT
-          else
-            echo "GitHub artifacts for Elementor branches not implemented; using latest-stable"
-            curl --location -o ./elementor-core.zip https://downloads.wordpress.org/plugin/elementor.latest-stable.zip
-            unzip -q ./elementor-core.zip
-            mv ./elementor ./tmp/elementor
-            echo "effective-version=latest-stable" >> $GITHUB_OUTPUT
-          fi
+          bash ./.github/scripts/download-elementor-core.sh \
+            "${{ steps.set-versions.outputs.elementor-core-branch }}" \
+            "./tmp/elementor"
 
       - name: Upload plus build artifacts
         uses: actions/upload-artifact@v4
@@ -162,9 +167,15 @@ jobs:
           echo "|-----------------|----------------------------|-----------------------|" >> $GITHUB_STEP_SUMMARY
           echo "| Hello Theme     | ${{ steps.set-versions.outputs.hello-theme-version }} (${{ steps.set-versions.outputs.hello-theme-input }}) | github (checkout ref) |" >> $GITHUB_STEP_SUMMARY
           echo "| Hello Plus      | ${{ steps.set-versions.outputs.hello-plus-version }} | WordPress.org        |" >> $GITHUB_STEP_SUMMARY
-          echo "| Elementor Core  | ${{ steps.download-elementor.outputs.effective-version }} | WordPress.org        |" >> $GITHUB_STEP_SUMMARY
+          ELEMENTOR_SOURCE="${{ steps.download-elementor.outputs.install-source }}"
+          if [ "${ELEMENTOR_SOURCE}" = "github" ]; then
+            ELEMENTOR_SOURCE_LABEL="GitHub artifact"
+          else
+            ELEMENTOR_SOURCE_LABEL="WordPress.org"
+          fi
+          echo "| Elementor Core  | ${{ steps.download-elementor.outputs.effective-version }} | ${ELEMENTOR_SOURCE_LABEL} |" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Strategy:** Same Hello Theme build ref as Core matrix; WordPress.org for Hello Plus and Elementor" >> $GITHUB_STEP_SUMMARY
+          echo "**Strategy:** Same Hello Theme build ref as Core matrix; Hello Plus from WordPress.org; Elementor from WordPress.org or GitHub artifacts" >> $GITHUB_STEP_SUMMARY
 
   plus-playwright-tests:
     name: Hello Theme + Hello Plus Tests

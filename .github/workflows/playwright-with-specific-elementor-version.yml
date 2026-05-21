@@ -48,6 +48,7 @@ jobs:
       hello-theme-version: ${{ steps.set-versions.outputs.hello-theme-version }}
       elementor-core-branch: ${{ steps.set-versions.outputs.elementor-core-branch }}
       elementor-version: ${{ steps.download-elementor.outputs.effective-version }}
+      elementor-install-source: ${{ steps.download-elementor.outputs.install-source }}
       hello-theme-source: ${{ steps.set-versions.outputs.hello-theme-source }}
       artifact-name: ${{ steps.set-versions.outputs.artifact-name }}
     steps:
@@ -106,40 +107,35 @@ jobs:
           PACKAGE_VERSION: ${{ steps.set-versions.outputs.hello-theme-version }}
           BUILD_SCRIPT_PATH: "npm run build:prod"
 
+      - name: Verify CLOUD_DEVOPS_TOKEN
+        env:
+          GITHUB_TOKEN: ${{ secrets.CLOUD_DEVOPS_TOKEN }}
+        run: |
+          echo "=== CLOUD_DEVOPS_TOKEN pre-check (core build job) ==="
+          if [ -z "${GITHUB_TOKEN:-}" ]; then
+            echo "CLOUD_DEVOPS_TOKEN: NOT AVAILABLE (secrets.CLOUD_DEVOPS_TOKEN is empty or unset)"
+            exit 1
+          fi
+          echo "CLOUD_DEVOPS_TOKEN: secret is set (character length=${#GITHUB_TOKEN})"
+          REPO_HTTP=$(curl -sS -o /dev/null -w "%{http_code}" \
+            -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/elementor/elementor")
+          echo "GitHub API repos/elementor/elementor: HTTP ${REPO_HTTP}"
+          if [ "${REPO_HTTP}" != "200" ]; then
+            echo "CLOUD_DEVOPS_TOKEN: failed repository access check (expected HTTP 200)"
+            exit 1
+          fi
+          echo "CLOUD_DEVOPS_TOKEN: repository access OK"
+
       - name: Download Elementor Core
         id: download-elementor
+        env:
+          GITHUB_TOKEN: ${{ secrets.CLOUD_DEVOPS_TOKEN }}
         run: |
-          ELEMENTOR_CORE_BRANCH="${{ steps.set-versions.outputs.elementor-core-branch }}"
-          echo "Downloading Elementor Core branch: ${ELEMENTOR_CORE_BRANCH}"
-
-          # Create Elementor build directory
-          mkdir -p ./tmp
-
-          if [[ "$ELEMENTOR_CORE_BRANCH" == "latest-stable" ]]; then
-            # Download latest stable from WordPress.org
-            curl --location -o ./elementor-core.zip https://downloads.wordpress.org/plugin/elementor.latest-stable.zip
-            unzip -q ./elementor-core.zip
-            mv ./elementor ./tmp/elementor
-            echo "Elementor latest-stable downloaded and extracted"
-            echo "effective-version=latest-stable" >> $GITHUB_OUTPUT
-          elif [[ "$ELEMENTOR_CORE_BRANCH" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            # Download specific version from WordPress.org
-            curl --location -o ./elementor-core.zip "https://downloads.wordpress.org/plugin/elementor.${ELEMENTOR_CORE_BRANCH}.zip"
-            unzip -q ./elementor-core.zip
-            mv ./elementor ./tmp/elementor
-            echo "Elementor ${ELEMENTOR_CORE_BRANCH} downloaded and extracted"
-            echo "effective-version=${ELEMENTOR_CORE_BRANCH}" >> $GITHUB_OUTPUT
-          else
-            # For branches like 'main', we need GitHub artifacts
-            # This should be provided by the calling workflow
-            echo "GitHub artifacts for Elementor branches not implemented yet"
-            echo "For now, using latest-stable as fallback"
-            curl --location -o ./elementor-core.zip https://downloads.wordpress.org/plugin/elementor.latest-stable.zip
-            unzip -q ./elementor-core.zip
-            mv ./elementor ./tmp/elementor
-            echo "Using Elementor latest-stable as fallback for branch: ${ELEMENTOR_CORE_BRANCH}"
-            echo "effective-version=latest-stable" >> $GITHUB_OUTPUT
-          fi
+          bash ./.github/scripts/download-elementor-core.sh \
+            "${{ steps.set-versions.outputs.elementor-core-branch }}" \
+            "./tmp/elementor"
 
       - name: Upload core build artifacts
         uses: actions/upload-artifact@v4
@@ -157,9 +153,15 @@ jobs:
           echo "| Component       | Version                    | Source               |" >> $GITHUB_STEP_SUMMARY
           echo "|-----------------|----------------------------|-----------------------|" >> $GITHUB_STEP_SUMMARY
           echo "| Hello Theme     | ${{ env.HELLO_THEME_VERSION }} (${{ env.HELLO_THEME_INPUT }}) | ${{ env.HELLO_THEME_SOURCE_TYPE }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Elementor Core  | ${{ steps.download-elementor.outputs.effective-version }} | WordPress.org/GitHub |" >> $GITHUB_STEP_SUMMARY
+          ELEMENTOR_SOURCE="${{ steps.download-elementor.outputs.install-source }}"
+          if [ "${ELEMENTOR_SOURCE}" = "github" ]; then
+            ELEMENTOR_SOURCE_LABEL="GitHub artifact"
+          else
+            ELEMENTOR_SOURCE_LABEL="WordPress.org"
+          fi
+          echo "| Elementor Core  | ${{ steps.download-elementor.outputs.effective-version }} | ${ELEMENTOR_SOURCE_LABEL} |" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Strategy:** GitHub source for Hello Theme (always built), WordPress.org for Elementor versions" >> $GITHUB_STEP_SUMMARY
+          echo "**Strategy:** GitHub source for Hello Theme; Elementor from WordPress.org (GA) or GitHub artifacts (branches)" >> $GITHUB_STEP_SUMMARY
 
   core-playwright-tests:
     name: Hello Theme + Elementor Tests
@@ -285,64 +287,20 @@ jobs:
           name: ${{ needs.build-core-components.outputs.artifact-name }}
           path: ./
 
-      - name: Debug and fix artifacts structure
+      - name: Verify Elementor build artifacts
         run: |
-          echo "=== ARTIFACT DEBUG & FIX ==="
-          echo "Current directory contents:"
-          ls -la ./
-          echo ""
-
-          # Ensure tmp directory exists
-          mkdir -p ./tmp
-
-          echo "Checking for Elementor artifacts:"
-          if [ -d "./tmp/elementor" ]; then
-            echo "Elementor directory found in tmp"
-            echo "Contents of ./tmp/elementor/ (first 10):"
-            ls -la ./tmp/elementor/ | head -10
-            
-            # Verify Elementor plugin file
-            if [ -f "./tmp/elementor/elementor.php" ]; then
-              echo "Elementor plugin file verified"
-            else
-              echo "Missing elementor.php - attempting to fix"
-              # Try to find and move Elementor from other locations
-              if [ -d "./elementor" ]; then
-                echo "Found Elementor in root, moving to tmp"
-                mv "./elementor" "./tmp/elementor"
-              else
-                echo "Downloading Elementor latest-stable as fallback"
-                curl --location -o ./elementor-fallback.zip https://downloads.wordpress.org/plugin/elementor.latest-stable.zip
-                unzip -q ./elementor-fallback.zip
-                mv ./elementor ./tmp/elementor
-                echo "Elementor fallback installed"
-              fi
-            fi
-          else
-            echo "No Elementor directory - creating fallback"
-            # Check for loose Elementor files and move them
-            if [ -d "./elementor" ]; then
-              echo "Found Elementor in root, moving to tmp"
-              mv "./elementor" "./tmp/elementor"
-            else
-              echo "Downloading Elementor latest-stable as fallback"
-              curl --location -o ./elementor-fallback.zip https://downloads.wordpress.org/plugin/elementor.latest-stable.zip
-              unzip -q ./elementor-fallback.zip
-              mv ./elementor ./tmp/elementor
-              echo "Elementor fallback installed"
-            fi
+          echo "=== Elementor artifact verification ==="
+          if [ -d "./elementor" ] && [ ! -d "./tmp/elementor" ]; then
+            mkdir -p ./tmp
+            mv "./elementor" "./tmp/elementor"
+            echo "Moved Elementor from workspace root to ./tmp/elementor"
           fi
-
-          echo ""
-          echo "Final verification:"
-          echo "tmp directory contents:"
-          ls -la ./tmp/
-          if [ -f "./tmp/elementor/elementor.php" ]; then
-            echo "Elementor is ready at ./tmp/elementor/"
-          else
-            echo "Elementor setup failed"
+          if [ ! -f "./tmp/elementor/elementor.php" ]; then
+            echo "Elementor plugin missing at ./tmp/elementor/elementor.php"
+            ls -la ./tmp/ 2>/dev/null || true
             exit 1
           fi
+          echo "Elementor plugin verified at ./tmp/elementor/"
 
       - name: Extract Hello Theme build
         uses: ./.github/actions/extract-hello-theme-zip
@@ -542,64 +500,20 @@ jobs:
           name: ${{ needs.build-core-components.outputs.artifact-name }}
           path: ./
 
-      - name: Debug and fix artifacts structure
+      - name: Verify Elementor build artifacts
         run: |
-          echo "=== ARTIFACT DEBUG & FIX ==="
-          echo "Current directory contents:"
-          ls -la ./
-          echo ""
-
-          # Ensure tmp directory exists
-          mkdir -p ./tmp
-
-          echo "Checking for Elementor artifacts:"
-          if [ -d "./tmp/elementor" ]; then
-            echo "Elementor directory found in tmp"
-            echo "Contents of ./tmp/elementor/ (first 10):"
-            ls -la ./tmp/elementor/ | head -10
-            
-            # Verify Elementor plugin file
-            if [ -f "./tmp/elementor/elementor.php" ]; then
-              echo "Elementor plugin file verified"
-            else
-              echo "Missing elementor.php - attempting to fix"
-              # Try to find and move Elementor from other locations
-              if [ -d "./elementor" ]; then
-                echo "Found Elementor in root, moving to tmp"
-                mv "./elementor" "./tmp/elementor"
-              else
-                echo "Downloading Elementor latest-stable as fallback"
-                curl --location -o ./elementor-fallback.zip https://downloads.wordpress.org/plugin/elementor.latest-stable.zip
-                unzip -q ./elementor-fallback.zip
-                mv ./elementor ./tmp/elementor
-                echo "Elementor fallback installed"
-              fi
-            fi
-          else
-            echo "No Elementor directory - creating fallback"
-            # Check for loose Elementor files and move them
-            if [ -d "./elementor" ]; then
-              echo "Found Elementor in root, moving to tmp"
-              mv "./elementor" "./tmp/elementor"
-            else
-              echo "Downloading Elementor latest-stable as fallback"
-              curl --location -o ./elementor-fallback.zip https://downloads.wordpress.org/plugin/elementor.latest-stable.zip
-              unzip -q ./elementor-fallback.zip
-              mv ./elementor ./tmp/elementor
-              echo "Elementor fallback installed"
-            fi
+          echo "=== Elementor artifact verification ==="
+          if [ -d "./elementor" ] && [ ! -d "./tmp/elementor" ]; then
+            mkdir -p ./tmp
+            mv "./elementor" "./tmp/elementor"
+            echo "Moved Elementor from workspace root to ./tmp/elementor"
           fi
-
-          echo ""
-          echo "Final verification:"
-          echo "tmp directory contents:"
-          ls -la ./tmp/
-          if [ -f "./tmp/elementor/elementor.php" ]; then
-            echo "Elementor is ready at ./tmp/elementor/"
-          else
-            echo "Elementor setup failed"
+          if [ ! -f "./tmp/elementor/elementor.php" ]; then
+            echo "Elementor plugin missing at ./tmp/elementor/elementor.php"
+            ls -la ./tmp/ 2>/dev/null || true
             exit 1
           fi
+          echo "Elementor plugin verified at ./tmp/elementor/"
 
       - name: Extract Hello Theme build
         uses: ./.github/actions/extract-hello-theme-zip
