@@ -121,7 +121,7 @@ jobs:
 
       - name: Verify CLOUD_DEVOPS_TOKEN
         env:
-          GITHUB_TOKEN: ${{ secrets.CLOUD_DEVOPS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.CLOUD_DEVOPS_TOKEN || secrets.DEVOPS_TOKEN }}
         run: |
           echo "=== CLOUD_DEVOPS_TOKEN pre-check (plus build job) ==="
           if [ -z "${GITHUB_TOKEN:-}" ]; then
@@ -143,7 +143,7 @@ jobs:
       - name: Download Elementor Core
         id: download-elementor
         env:
-          GITHUB_TOKEN: ${{ secrets.CLOUD_DEVOPS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.CLOUD_DEVOPS_TOKEN || secrets.DEVOPS_TOKEN }}
         run: |
           bash ./.github/scripts/download-elementor-core.sh \
             "${{ steps.set-versions.outputs.elementor-core-branch }}" \
