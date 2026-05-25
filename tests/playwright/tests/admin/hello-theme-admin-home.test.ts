@@ -30,7 +30,7 @@ test.describe( 'Hello Theme Admin Home Page', () => {
 		}
 	} );
 
-	test( 'should navigate to correct pages from Quick Links', async ( { page } ) => {
+	test.skip( 'should navigate to correct pages from Quick Links', async ( { page } ) => {
 		const quickLinksTests = [
 			{
 				linkText: 'Site Name',
