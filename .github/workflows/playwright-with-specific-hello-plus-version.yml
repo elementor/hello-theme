@@ -12,11 +12,6 @@ on:
         required: false
         default: "main"
         type: string
-      elementor_core_branch:
-        description: "Elementor version (same as Core matrix core_branch: latest-stable, x.y.z, or main)"
-        required: false
-        default: "latest-stable"
-        type: string
       tag:
         description: "Provide @tag or a keyword"
         required: false
@@ -64,85 +59,89 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set version variables and Hello Plus version
+      - name: Install Node.js 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: "npm"
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@9882bed06691b3a085010c1602ce43ef18f15c5b # v2
+        with:
+          php-version: "8.1"
+          tools: composer
+          coverage: none
+
+      - name: Set version variables
         id: set-versions
         run: |
           HELLO_PLUS_VERSION="${{ inputs.hello_plus_version }}"
-          HELLO_THEME_INPUT="${{ inputs.hello_theme_version || 'main' }}"
-          ELEMENTOR_CORE_BRANCH="${{ inputs.elementor_core_branch || 'latest-stable' }}"
+          HELLO_THEME_SOURCE="${{ inputs.hello_theme_version || 'main' }}"
           HT_VERSION=$(node -p "require('./package.json').version")
 
           echo "HELLO_PLUS_VERSION=${HELLO_PLUS_VERSION}" >> $GITHUB_ENV
+          echo "HELLO_THEME_SOURCE=${HELLO_THEME_SOURCE}" >> $GITHUB_ENV
           echo "HELLO_THEME_VERSION=${HT_VERSION}" >> $GITHUB_ENV
 
           echo "hello-theme-version=${HT_VERSION}" >> $GITHUB_OUTPUT
           echo "hello-plus-version=${HELLO_PLUS_VERSION}" >> $GITHUB_OUTPUT
-          echo "hello-theme-input=${HELLO_THEME_INPUT}" >> $GITHUB_OUTPUT
-          echo "elementor-core-branch=${ELEMENTOR_CORE_BRANCH}" >> $GITHUB_OUTPUT
+          echo "hello-theme-input=${HELLO_THEME_SOURCE}" >> $GITHUB_OUTPUT
 
-          ARTIFACT_NAME="plus-ht${HELLO_THEME_INPUT}-hp${HELLO_PLUS_VERSION}-el${ELEMENTOR_CORE_BRANCH}-${{ github.run_id }}"
+          ARTIFACT_NAME="plus-ht${HELLO_THEME_SOURCE}-hp${HELLO_PLUS_VERSION}-${{ github.run_id }}"
           echo "artifact-name=${ARTIFACT_NAME}" >> $GITHUB_OUTPUT
 
-          echo "Hello Theme version: ${HT_VERSION} (tests ref: ${HELLO_THEME_INPUT})"
-          echo "Hello Plus version: ${HELLO_PLUS_VERSION}"
-          echo "Elementor core branch: ${ELEMENTOR_CORE_BRANCH}"
+      - name: Preserve workflow infrastructure
+        run: cp -r .github .github-main-backup
+
+      - name: Checkout specific Hello Theme version
+        run: |
+          if [[ "$HELLO_THEME_SOURCE" != "main" ]]; then
+            bash .github/scripts/resolve-version-ref.sh checkout "$HELLO_THEME_SOURCE" --fetch
+            ACTUAL_VERSION=$(node -p "require('./package.json').version")
+            if [[ "$ACTUAL_VERSION" != "$HELLO_THEME_SOURCE" ]]; then
+              echo "ERROR: Version mismatch - Expected: $HELLO_THEME_SOURCE, Got: $ACTUAL_VERSION"
+              exit 1
+            fi
+          fi
+
+      - name: Restore main branch workflow infrastructure
+        run: |
+          if [[ "$HELLO_THEME_SOURCE" != "main" ]]; then
+            rm -rf .github
+            mv .github-main-backup .github
+          else
+            rm -rf .github-main-backup
+          fi
+          echo "HELLO_THEME_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
 
       - name: Build Hello Theme
         uses: ./.github/workflows/build-theme
         with:
-          PACKAGE_VERSION: ${{ steps.set-versions.outputs.hello-theme-version }}
+          PACKAGE_VERSION: ${{ env.HELLO_THEME_VERSION }}
           BUILD_SCRIPT_PATH: "npm run build:prod"
 
       - name: Download Hello Plus
         run: |
           HELLO_PLUS_VERSION="${{ steps.set-versions.outputs.hello-plus-version }}"
-          echo "Downloading Hello Plus version: ${HELLO_PLUS_VERSION}"
-
           mkdir -p ./tmp
 
           if [[ "$HELLO_PLUS_VERSION" == "latest-stable" ]]; then
             curl --location -o ./hello-plus.zip https://downloads.wordpress.org/plugin/hello-plus.latest-stable.zip
-            unzip -q ./hello-plus.zip
-            mv ./hello-plus ./tmp/hello-plus
-            echo "Hello Plus latest-stable downloaded and extracted"
           elif [[ "$HELLO_PLUS_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             curl --location -o ./hello-plus.zip "https://downloads.wordpress.org/plugin/hello-plus.${HELLO_PLUS_VERSION}.zip"
-            unzip -q ./hello-plus.zip
-            mv ./hello-plus ./tmp/hello-plus
-            echo "Hello Plus ${HELLO_PLUS_VERSION} downloaded and extracted"
           else
             echo "Unsupported Hello Plus version format: ${HELLO_PLUS_VERSION}"
-            echo "Supported formats: latest-stable, x.y.z (semantic version)"
             exit 1
           fi
 
+          unzip -q ./hello-plus.zip
+          mv ./hello-plus ./tmp/hello-plus
+
       - name: Download Elementor Core
         id: download-elementor
-        run: |
-          ELEMENTOR_CORE_BRANCH="${{ steps.set-versions.outputs.elementor-core-branch }}"
-          echo "Downloading Elementor Core: ${ELEMENTOR_CORE_BRANCH}"
-
-          mkdir -p ./tmp
-
-          if [[ "$ELEMENTOR_CORE_BRANCH" == "latest-stable" ]]; then
-            curl --location -o ./elementor-core.zip https://downloads.wordpress.org/plugin/elementor.latest-stable.zip
-            unzip -q ./elementor-core.zip
-            mv ./elementor ./tmp/elementor
-            echo "Elementor latest-stable downloaded and extracted"
-            echo "effective-version=latest-stable" >> $GITHUB_OUTPUT
-          elif [[ "$ELEMENTOR_CORE_BRANCH" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            curl --location -o ./elementor-core.zip "https://downloads.wordpress.org/plugin/elementor.${ELEMENTOR_CORE_BRANCH}.zip"
-            unzip -q ./elementor-core.zip
-            mv ./elementor ./tmp/elementor
-            echo "Elementor ${ELEMENTOR_CORE_BRANCH} downloaded and extracted"
-            echo "effective-version=${ELEMENTOR_CORE_BRANCH}" >> $GITHUB_OUTPUT
-          else
-            echo "GitHub artifacts for Elementor branches not implemented; using latest-stable"
-            curl --location -o ./elementor-core.zip https://downloads.wordpress.org/plugin/elementor.latest-stable.zip
-            unzip -q ./elementor-core.zip
-            mv ./elementor ./tmp/elementor
-            echo "effective-version=latest-stable" >> $GITHUB_OUTPUT
-          fi
+        env:
+          ELEMENTOR_CORE_BRANCH: main
+        run: bash .github/scripts/download-elementor-core.sh
 
       - name: Upload plus build artifacts
         uses: actions/upload-artifact@v4
@@ -157,14 +156,11 @@ jobs:
       - name: Generate build summary
         run: |
           echo "## Build Summary" >> $GITHUB_STEP_SUMMARY
-          echo "|-----------------|----------------------------|-----------------------|" >> $GITHUB_STEP_SUMMARY
-          echo "| Component       | Version                    | Source               |" >> $GITHUB_STEP_SUMMARY
-          echo "|-----------------|----------------------------|-----------------------|" >> $GITHUB_STEP_SUMMARY
-          echo "| Hello Theme     | ${{ steps.set-versions.outputs.hello-theme-version }} (${{ steps.set-versions.outputs.hello-theme-input }}) | github (checkout ref) |" >> $GITHUB_STEP_SUMMARY
-          echo "| Hello Plus      | ${{ steps.set-versions.outputs.hello-plus-version }} | WordPress.org        |" >> $GITHUB_STEP_SUMMARY
-          echo "| Elementor Core  | ${{ steps.download-elementor.outputs.effective-version }} | WordPress.org        |" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Strategy:** Same Hello Theme build ref as Core matrix; WordPress.org for Hello Plus and Elementor" >> $GITHUB_STEP_SUMMARY
+          echo "| Component | Version | Source |" >> $GITHUB_STEP_SUMMARY
+          echo "|-----------|---------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Hello Theme | ${{ env.HELLO_THEME_VERSION }} (${{ env.HELLO_THEME_SOURCE }}) | GitHub |" >> $GITHUB_STEP_SUMMARY
+          echo "| Hello Plus | ${{ steps.set-versions.outputs.hello-plus-version }} | WordPress.org |" >> $GITHUB_STEP_SUMMARY
+          echo "| Elementor Core | ${{ steps.download-elementor.outputs.effective-version }} | GitHub Releases |" >> $GITHUB_STEP_SUMMARY
 
   plus-playwright-tests:
     name: Hello Theme + Hello Plus Tests
@@ -182,76 +178,9 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Hybrid Test Setup - Extract tests from target version
+      - name: Extract tests from target version
         id: extract-version-tests
-        run: |
-          echo "HYBRID APPROACH: Always latest workflows + version-specific tests"
-          echo "Workflow infrastructure: main branch (latest build-wp-env.js, scripts, etc.)"
-          echo "Test content: ${{ inputs.hello_theme_version || 'main' }} (matches theme functionality)"
-
-          # Determine the target version for test extraction
-          TARGET_VERSION="${{ inputs.hello_theme_version || 'main' }}"
-
-          if [ "$TARGET_VERSION" = "main" ]; then
-            echo "Using main branch tests (already available)"
-            TEST_VERSION="main"
-            TEST_SOURCE_TYPE="main-branch"
-            TESTS_AVAILABLE="true"
-          else
-            echo "Extracting tests from version: $TARGET_VERSION"
-            
-            # Fetch all tags and branches
-            git fetch --all --tags
-            
-            # Check if target version exists and has tests
-            TESTS_AVAILABLE="false"
-            TEST_VERSION="$TARGET_VERSION"
-            TEST_SOURCE_TYPE="version-specific"
-            
-            # Try different tag formats
-            for TAG_FORMAT in "v$TARGET_VERSION" "$TARGET_VERSION"; do
-              echo "Checking for tag: $TAG_FORMAT"
-              if git rev-parse --verify "$TAG_FORMAT" >/dev/null 2>&1; then
-                echo "Found tag: $TAG_FORMAT"
-                
-                # Check if this version has playwright tests
-                if git ls-tree -r "$TAG_FORMAT" | grep -q "tests/playwright/"; then
-                  echo "Playwright tests found in $TAG_FORMAT"
-                  
-                  # Extract tests directory from target version
-                  echo "Extracting tests directory from $TAG_FORMAT..."
-                  rm -rf ./tests/playwright/
-                  git archive "$TAG_FORMAT" tests/playwright/ | tar -x
-                  
-                  if [ -d "./tests/playwright/" ]; then
-                    echo "Successfully extracted tests from $TAG_FORMAT"
-                    TESTS_AVAILABLE="true"
-                    TEST_VERSION="$TARGET_VERSION"
-                    TEST_SOURCE_TYPE="extracted-from-$TAG_FORMAT"
-                    break
-                  else
-                    echo "Failed to extract tests from $TAG_FORMAT"
-                  fi
-                else
-                  echo "No playwright tests found in $TAG_FORMAT"
-                fi
-              else
-                echo "Tag $TAG_FORMAT not found"
-              fi
-            done
-            
-            if [ "$TESTS_AVAILABLE" = "false" ]; then
-              echo "No compatible tests found for version $TARGET_VERSION"
-              echo "Will skip testing for this version (tests don't exist yet)"
-              TEST_VERSION="none"
-              TEST_SOURCE_TYPE="not-available"
-            fi
-          fi
-
-          # Set outputs for workflow control
-          echo "test-version=$TEST_VERSION" >> $GITHUB_OUTPUT
-          echo "test-source-type=$TEST_SOURCE_TYPE" >> $GITHUB_OUTPUT
-          echo "tests-available=$TESTS_AVAILABLE" >> $GITHUB_OUTPUT
+        run: bash .github/scripts/resolve-version-ref.sh extract-playwright-tests "${{ inputs.hello_theme_version || 'main' }}" --fetch
 
           echo "Hybrid setup complete:"
           echo "  Workflow infrastructure: main branch"
@@ -265,7 +194,7 @@ jobs:
           cache: "npm"
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@9882bed06691b3a085010c1602ce43ef18f15c5b # v2
         with:
           php-version: "8.1"
           tools: composer
@@ -336,11 +265,8 @@ jobs:
           export DAILY_MATRIX_WORKFLOW=true
           echo "Running tests from: ${{ steps.extract-version-tests.outputs.test-source-type }}"
 
-          GREP_INVERT_FLAG=""
-          if [[ "${{ steps.extract-version-tests.outputs.test-source-type }}" != "main-branch" ]]; then
-            GREP_INVERT_FLAG='--grep-invert="should navigate to correct pages from Quick Links"'
-            echo "Skipping known failing test: 'should navigate to correct pages from Quick Links'"
-          fi
+          GREP_INVERT_FLAG='--grep-invert="should navigate to correct pages from Quick Links"'
+          echo "Skipping known failing test: 'should navigate to correct pages from Quick Links'"
 
           eval npm run test:playwright -- tests/playwright/tests/ $GREP_INVERT_FLAG
 
@@ -388,76 +314,9 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Hybrid Test Setup - Extract tests from target version
+      - name: Extract tests from target version
         id: extract-version-tests
-        run: |
-          echo "HYBRID APPROACH: Always latest workflows + version-specific tests"
-          echo "Workflow infrastructure: main branch (latest build-wp-env.js, scripts, etc.)"
-          echo "Test content: ${{ inputs.hello_theme_version || 'main' }} (matches theme functionality)"
-
-          # Determine the target version for test extraction
-          TARGET_VERSION="${{ inputs.hello_theme_version || 'main' }}"
-
-          if [ "$TARGET_VERSION" = "main" ]; then
-            echo "Using main branch tests (already available)"
-            TEST_VERSION="main"
-            TEST_SOURCE_TYPE="main-branch"
-            TESTS_AVAILABLE="true"
-          else
-            echo "Extracting tests from version: $TARGET_VERSION"
-            
-            # Fetch all tags and branches
-            git fetch --all --tags
-            
-            # Check if target version exists and has tests
-            TESTS_AVAILABLE="false"
-            TEST_VERSION="$TARGET_VERSION"
-            TEST_SOURCE_TYPE="version-specific"
-            
-            # Try different tag formats
-            for TAG_FORMAT in "v$TARGET_VERSION" "$TARGET_VERSION"; do
-              echo "Checking for tag: $TAG_FORMAT"
-              if git rev-parse --verify "$TAG_FORMAT" >/dev/null 2>&1; then
-                echo "Found tag: $TAG_FORMAT"
-                
-                # Check if this version has playwright tests
-                if git ls-tree -r "$TAG_FORMAT" | grep -q "tests/playwright/"; then
-                  echo "Playwright tests found in $TAG_FORMAT"
-                  
-                  # Extract tests directory from target version
-                  echo "Extracting tests directory from $TAG_FORMAT..."
-                  rm -rf ./tests/playwright/
-                  git archive "$TAG_FORMAT" tests/playwright/ | tar -x
-                  
-                  if [ -d "./tests/playwright/" ]; then
-                    echo "Successfully extracted tests from $TAG_FORMAT"
-                    TESTS_AVAILABLE="true"
-                    TEST_VERSION="$TARGET_VERSION"
-                    TEST_SOURCE_TYPE="extracted-from-$TAG_FORMAT"
-                    break
-                  else
-                    echo "Failed to extract tests from $TAG_FORMAT"
-                  fi
-                else
-                  echo "No playwright tests found in $TAG_FORMAT"
-                fi
-              else
-                echo "Tag $TAG_FORMAT not found"
-              fi
-            done
-            
-            if [ "$TESTS_AVAILABLE" = "false" ]; then
-              echo "No compatible tests found for version $TARGET_VERSION"
-              echo "Will skip testing for this version (tests don't exist yet)"
-              TEST_VERSION="none"
-              TEST_SOURCE_TYPE="not-available"
-            fi
-          fi
-
-          # Set outputs for workflow control
-          echo "test-version=$TEST_VERSION" >> $GITHUB_OUTPUT
-          echo "test-source-type=$TEST_SOURCE_TYPE" >> $GITHUB_OUTPUT
-          echo "tests-available=$TESTS_AVAILABLE" >> $GITHUB_OUTPUT
+        run: bash .github/scripts/resolve-version-ref.sh extract-playwright-tests "${{ inputs.hello_theme_version || 'main' }}" --fetch
 
           echo "Hybrid setup complete:"
           echo "  Workflow infrastructure: main branch"
@@ -471,7 +330,7 @@ jobs:
           cache: "npm"
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@9882bed06691b3a085010c1602ce43ef18f15c5b # v2
         with:
           php-version: "8.1"
           tools: composer
