@@ -61,7 +61,7 @@ jobs:
           cache: "npm"
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@9882bed06691b3a085010c1602ce43ef18f15c5b # v2
         with:
           php-version: "8.1"
           tools: composer
@@ -184,7 +184,7 @@ jobs:
           cache: "npm"
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@9882bed06691b3a085010c1602ce43ef18f15c5b # v2
         with:
           php-version: "8.1"
           tools: composer
@@ -315,7 +315,7 @@ jobs:
           cache: "npm"
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@9882bed06691b3a085010c1602ce43ef18f15c5b # v2
         with:
           php-version: "8.1"
           tools: composer
