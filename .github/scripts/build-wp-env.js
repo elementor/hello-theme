@@ -68,16 +68,14 @@ const isValidLocalElementor = fs.existsSync( './tmp/elementor/elementor.php' ) &
 	fs.existsSync( './tmp/elementor/includes' ) &&
 	fs.existsSync( './tmp/elementor/assets' );
 
-let elementorSource;
-if ( isValidLocalElementor ) {
-	wpEnv.plugins.push( './tmp/elementor' );
-	elementorSource = './tmp/elementor';
-} else {
-	const versionMatch = ( ELEMENTOR_VERSION || '' ).match( /^v?([0-9]+\.[0-9]+\.[0-9]+)$/ );
-	const wpOrgVersion = versionMatch ? versionMatch[ 1 ] : 'latest-stable';
-	wpEnv.plugins.push( `https://downloads.wordpress.org/plugin/elementor.${ wpOrgVersion }.zip` );
-	elementorSource = `WordPress.org ${ wpOrgVersion }`;
+if ( ! isValidLocalElementor ) {
+	// eslint-disable-next-line no-console
+	console.error( 'Elementor not found at ./tmp/elementor — run download-elementor-core.sh first' );
+	process.exit( 1 );
 }
+
+wpEnv.plugins.push( './tmp/elementor' );
+const elementorSource = './tmp/elementor';
 
 // Test configuration
 wpEnv.config = {
