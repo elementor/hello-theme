@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "34f09cb5b1b6fe16179f501dbe335b80",
+    "content-hash": "d1ac9b52af409b035ed18679d5876f32",
     "packages": [
         {
             "name": "elementor/wp-notifications-package",
@@ -2977,56 +2977,6 @@
                 }
             ],
             "time": "2025-11-17T20:03:58+00:00"
-        },
-        {
-            "name": "thor-juhasz/phpunit-coverage-check",
-            "version": "v0.3.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/thor-juhasz/phpunit-coverage-check.git",
-                "reference": "51550bd259cd32ebc8e016927f2343d6bc352c60"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/thor-juhasz/phpunit-coverage-check/zipball/51550bd259cd32ebc8e016927f2343d6bc352c60",
-                "reference": "51550bd259cd32ebc8e016927f2343d6bc352c60",
-                "shasum": ""
-            },
-            "require": {
-                "ext-bcmath": "*",
-                "ext-simplexml": "*",
-                "php": ">=7.4",
-                "symfony/console": "4.*|5.*"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^9",
-                "vimeo/psalm": "^4.8"
-            },
-            "bin": [
-                "phpunit-coverage-check"
-            ],
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "PHPUnitCoverageCheck\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Thor Juhasz",
-                    "email": "thor@juhasz.pro"
-                }
-            ],
-            "description": "A PHPUnit test coverage checker",
-            "support": {
-                "issues": "https://github.com/thor-juhasz/phpunit-coverage-check/issues",
-                "source": "https://github.com/thor-juhasz/phpunit-coverage-check/tree/v0.3.0"
-            },
-            "time": "2021-07-04T22:21:33+00:00"
         },
         {
             "name": "wp-coding-standards/wpcs",
