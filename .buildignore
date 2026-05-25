@@ -25,6 +25,7 @@ webpack.config.js
 .eslintignore
 .eslintrc.js
 .npmrc
+.stylelintrc
 
 tests/
 test-results/
