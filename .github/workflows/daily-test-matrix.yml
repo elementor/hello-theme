@@ -99,7 +99,12 @@ jobs:
           HP_VERSION="${{ inputs.hello_plus_version || 'latest-stable' }}"
           EL_VERSION="${{ inputs.elementor_version || 'main' }}"
           DEPTH="${{ inputs.compatibility_depth || '2' }}"
-          RUN_TARGETED_TESTS="${{ inputs.run_targeted_tests == false && 'false' || 'true' }}"
+
+          if [[ "${{ inputs.run_targeted_tests || 'true' }}" == "true" ]]; then
+            RUN_TARGETED_TESTS="true"
+          else
+            RUN_TARGETED_TESTS="false"
+          fi
 
           ./.github/scripts/generate-targeted-matrix.sh "$HT_VERSION" "$HP_VERSION" "$EL_VERSION" "$DEPTH" "$RUN_TARGETED_TESTS"
 
