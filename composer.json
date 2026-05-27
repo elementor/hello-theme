@@ -20,8 +20,8 @@
         }
     },
     "scripts": {
-        "lint": "phpcs --extensions=php --standard=./phpcs.xml --ignore=node_modules,vendor,assets,tmp -p .",
-        "lint:fix": "vendor/bin/phpcbf --extensions=php --standard=./phpcs.xml --ignore=node_modules,vendor,assets,tmp .",
+        "lint:php": "vendor/bin/phpcs --extensions=php --standard=./phpcs.xml --ignore=node_modules,vendor,assets,tmp -p .",
+        "lint:php:fix": "vendor/bin/phpcbf --extensions=php --standard=./phpcs.xml --ignore=node_modules,vendor,assets,tmp .",
         "test": "phpunit --testsuite hello-elementor",
         "test:install": "bash ./bin/install-wp-tests-local.sh"
     }
