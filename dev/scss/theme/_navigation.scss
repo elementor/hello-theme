@@ -262,7 +262,7 @@ footer {
 	}
 }
 
-@media (min-width: variables.$screen-xs) and (max-width: 767px) {
+@media (min-width: variables.$screen-xs) and (max-width: variables.$screen-sm - variables.$screen-diff) {
 	.site-header.menu-dropdown-mobile:not(.menu-layout-dropdown) {
 
         .site-navigation {
