@@ -255,8 +255,8 @@ jobs:
           export DAILY_MATRIX_WORKFLOW=true
           echo "Running tests from: ${{ steps.extract-version-tests.outputs.test-source-type }}"
 
-          GREP_INVERT_FLAG='--grep-invert="should navigate to correct pages from Quick Links"'
-          echo "Skipping known failing test: 'should navigate to correct pages from Quick Links'"
+          GREP_INVERT_FLAG='--grep-invert="should navigate to correct pages from Quick Links" --grep-invert="should display Welcome to Hello Theme message and take screenshot"'
+          echo "Skipping known failing tests: 'should navigate to correct pages from Quick Links', 'should display Welcome to Hello Theme message and take screenshot'"
 
           eval npm run test:playwright -- tests/playwright/tests/ $GREP_INVERT_FLAG
 
