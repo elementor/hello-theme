@@ -6,8 +6,7 @@ test.describe( 'Hello Theme Admin Home Page', () => {
 		await page.goto( '/wp-admin/admin.php?page=hello-elementor' );
 	} );
 
-	// Skipped, because this banner is disabled from the Elementor plugin.
-	test.skip( 'should display Welcome to Hello Theme message and take screenshot', async ( { page } ) => {
+	test( 'should display Welcome to Hello Theme message and take screenshot', async ( { page } ) => {
 		const welcomeSection = page.locator( 'text=Go Pro, Go Limitless' ).locator( '..' ).locator( '..' );
 		await expect.soft( welcomeSection ).toHaveScreenshot( 'welcome-section.png' );
 	} );
