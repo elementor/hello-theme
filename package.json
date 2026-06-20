@@ -10,8 +10,8 @@
         "build:dev": "composer update && composer install && wp-scripts build --env=developemntWithWatch",
         "build:prod": "composer install --no-dev && wp-scripts build --env=production",
         "lint": "npm run lint:css && npm run lint:js && npm run lint:php",
-		"lint:css": "wp-scripts lint-style",
-		"lint:css:fix": "wp-scripts lint-style --fix",
+        "lint:css": "wp-scripts lint-style",
+        "lint:css:fix": "wp-scripts lint-style --fix",
         "lint:js": "wp-scripts lint-js",
         "lint:js:fix": "wp-scripts lint-js --fix",
         "lint:php": "composer lint:php",
@@ -47,6 +47,7 @@
         "eslint-plugin-jsx-a11y": "^6.10.2",
         "eslint-plugin-no-jquery": "^3.1.1",
         "eslint-plugin-react": "^7.37.5",
+        "postcss-custom-media": "^11.0.6",
         "typescript": "^5.8.3",
         "webpack-cli": "^6.0.1",
         "webpack-remove-empty-scripts": "^1.0.4"
@@ -54,6 +55,7 @@
     "dependencies": {
         "@elementor/icons": "1.42.0",
         "@elementor/ui": "1.34.2",
+        "cssnano": "^8.0.2",
         "html-entities": "^2.6.0",
         "react": "^18.3.1",
         "react-dom": "^18.3.1",

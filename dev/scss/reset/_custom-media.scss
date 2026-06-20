@@ -1,0 +1,25 @@
+/**
+ * Custom media queries based on Hello breakpoints.
+ */
+
+@use "variables" as variables;
+
+/* Small screen */
+@custom-media --hello-screen-xs-and-below (width < #{variables.$screen-xs});
+@custom-media --hello-screen-xs-and-above (width >= #{variables.$screen-xs});
+@custom-media --hello-screen-xs-only (0 <= width < #{variables.$screen-xs});
+
+/* Medium screen */
+@custom-media --hello-screen-sm-and-below (width < #{variables.$screen-sm});
+@custom-media --hello-screen-sm-and-above (width >= #{variables.$screen-sm});
+@custom-media --hello-screen-sm-only (#{variables.$screen-xs} <= width < #{variables.$screen-sm});
+
+/* Large screen */
+@custom-media --hello-screen-md-and-below (width < #{variables.$screen-md});
+@custom-media --hello-screen-md-and-above (width >= #{variables.$screen-md});
+@custom-media --hello-screen-md-only (#{variables.$screen-sm} <= width < #{variables.$screen-md});
+
+/* Extra large screen */
+@custom-media --hello-screen-xl-and-below (width < #{variables.$screen-xl});
+@custom-media --hello-screen-xl-and-above (width >= #{variables.$screen-xl});
+@custom-media --hello-screen-xl-only (#{variables.$screen-md} <= width < #{variables.$screen-xl});

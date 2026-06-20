@@ -244,7 +244,7 @@ footer {
 	}
 }
 
-@media (max-width: variables.$screen-xs) {
+@media (--hello-screen-xs-and-below) {
 	.site-header.menu-dropdown-mobile:not(.menu-layout-dropdown) {
 
 		.site-navigation {
@@ -253,7 +253,7 @@ footer {
 	}
 }
 
-@media (min-width: variables.$screen-sm) {
+@media (--hello-screen-sm-and-above) {
 	.site-header.menu-dropdown-mobile:not(.menu-layout-dropdown) {
 
 		.site-navigation-toggle-holder {
@@ -262,7 +262,7 @@ footer {
 	}
 }
 
-@media (min-width: variables.$screen-xs) and (max-width: variables.$screen-sm - variables.$screen-diff) {
+@media (--hello-screen-sm-only) {
 	.site-header.menu-dropdown-mobile:not(.menu-layout-dropdown) {
 
         .site-navigation {
@@ -271,7 +271,7 @@ footer {
     }
 }
 
-@media (min-width: variables.$screen-md) {
+@media (--hello-screen-md-and-above) {
 	.site-header.menu-dropdown-tablet:not(.menu-layout-dropdown) {
 
 		.site-navigation-toggle-holder {
@@ -280,7 +280,7 @@ footer {
 	}
 }
 
-@media (max-width: variables.$screen-md) {
+@media (--hello-screen-md-and-below) {
 	.site-header.menu-dropdown-tablet:not(.menu-layout-dropdown) {
 
 		.site-navigation {

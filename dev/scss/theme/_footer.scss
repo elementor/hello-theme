@@ -103,7 +103,7 @@
 	}
 }
 
-@media (max-width: variables.$screen-xs) {
+@media (--hello-screen-xs-and-below) {
 
 	.site-footer {
 

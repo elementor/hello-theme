@@ -92,7 +92,7 @@
 		}
 	}
 
-	@media (min-width: variables.$screen-sm) {
+	@media (--hello-screen-sm-and-above) {
 
 		.comment-author,
 		.comment-metadata {
@@ -100,7 +100,7 @@
 		}
 	}
 
-	@media (max-width: variables.$screen-sm - variables.$screen-diff) {
+	@media (--hello-screen-sm-and-below) {
 
 		.comment .comment-body {
 			padding: 30px 0;
