@@ -7,7 +7,7 @@
 	.accordion-section-title {
 		color: #c36;
 
-		&:after {
+		&::after {
 			color: #c36;
 		}
 	}
@@ -37,7 +37,7 @@
 	margin: 20px 20px 30px;
 	padding: 16px;
 	background-color: #fff;
-	box-shadow: 2px 8px 20px 0px rgba(0, 0, 0, 0.20);
+	box-shadow: 2px 8px 20px 0 rgba(0, 0, 0, 0.20);
 
 	.accordion-section-title::after {
 		display: none;
@@ -53,7 +53,7 @@
 	}
 
 	h3 {
-		font-weight: bold;
+		font-weight: 700;
 	}
 
 	.accordion-section-buttons {

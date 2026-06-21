@@ -12,18 +12,22 @@ $containers: '.site-header .header-inner,.site-header:not(.dynamic-header), .sit
 	width: 100%;
 }
 
+/* Media query sizes for small screens */
 @custom-media --hello-screen-xs-and-below (width < #{variables.$screen-xs});
 @custom-media --hello-screen-xs-and-above (width >= #{variables.$screen-xs});
 @custom-media --hello-screen-xs-only (0 <= width < #{variables.$screen-xs});
 
+/* Media query sizes for Medium screens */
 @custom-media --hello-screen-sm-and-below (width < #{variables.$screen-sm});
 @custom-media --hello-screen-sm-and-above (width >= #{variables.$screen-sm});
 @custom-media --hello-screen-sm-only (#{variables.$screen-xs} <= width < #{variables.$screen-sm});
 
+/* Media query sizes for Large screens */
 @custom-media --hello-screen-md-and-below (width < #{variables.$screen-md});
 @custom-media --hello-screen-md-and-above (width >= #{variables.$screen-md});
 @custom-media --hello-screen-md-only (#{variables.$screen-sm} <= width < #{variables.$screen-md});
 
+/* Media query sizes for Extra large screens */
 @custom-media --hello-screen-xl-and-below (width < #{variables.$screen-xl});
 @custom-media --hello-screen-xl-and-above (width >= #{variables.$screen-xl});
 @custom-media --hello-screen-xl-only (#{variables.$screen-md} <= width < #{variables.$screen-xl});
