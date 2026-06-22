@@ -582,6 +582,7 @@ class Settings_Footer extends Tab_Base {
 					'alert_type' => 'info',
 					'heading' => esc_html__( 'There are no menus in your site.', 'hello-elementor' ),
 					'content' => sprintf(
+						/* translators: %s: Link that opens the menus screen. */
 						__( 'Go to <a href="%s" target="_blank">Menus screen</a> to create one.', 'hello-elementor' ),
 						admin_url( 'nav-menus.php?action=edit&menu=0' )
 					),
@@ -595,6 +596,7 @@ class Settings_Footer extends Tab_Base {
 					'type' => Controls_Manager::ALERT,
 					'alert_type' => 'info',
 					'content' => sprintf(
+						/* translators: %s: Link that opens the menus screen. */
 						__( 'Go to the <a href="%s" target="_blank">Menus screen</a> to manage your menus. Changes will be reflected in the preview only after the page reloads.', 'hello-elementor' ),
 						admin_url( 'nav-menus.php' )
 					),

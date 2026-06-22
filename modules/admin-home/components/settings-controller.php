@@ -57,7 +57,6 @@ class Settings_Controller {
 		if ( isset( $option ) && ( 'true' === $option ) && is_callable( $tweak_callback ) ) {
 			$tweak_callback();
 		}
-
 	}
 
 	public function apply_settings( $settings_group = self::SETTING_PREFIX, $settings = self::SETTINGS ) {
