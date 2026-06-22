@@ -7,9 +7,11 @@
   "overrides": [
     {
       "files": ["**/*.scss"],
+      "customSyntax": "postcss-scss",
       "plugins": ["stylelint-scss"],
       "rules": {
         "at-rule-no-unknown": null,
+        "no-descending-specificity": null,
         "scss/at-rule-no-unknown": true
       }
     }

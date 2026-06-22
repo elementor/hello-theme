@@ -69,11 +69,11 @@
 
 	ol.comment-list .children {
 
-		&:before {
+		&::before {
 			display: inline-block;
 			font-size: 1em;
-			font-weight: normal;
-			line-height: 100%;
+			font-weight: 400;
+			line-height: 1;
 			content: '\21AA';
 			position: absolute;
 			top: 45px;
