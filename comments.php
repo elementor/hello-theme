@@ -32,8 +32,8 @@ if ( comments_open() && get_option( 'thread_comments' ) ) {
 				printf( esc_html_x( 'One Response', 'comments title', 'hello-elementor' ) );
 			} else {
 				printf(
-					/* translators: %s: Number of comments. */
 					esc_html(
+						/* translators: %s: Number of comments. */
 						_nx(
 							'%s Response',
 							'%s Responses',

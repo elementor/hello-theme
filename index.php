@@ -27,7 +27,7 @@ if ( is_singular() ) {
 	if ( ! $is_elementor_theme_exist || ! elementor_theme_do_location( 'archive' ) ) {
 		get_template_part( 'template-parts/search' );
 	}
-} else {
+} else { // phpcs:ignore Universal.ControlStructures.DisallowLonelyIf.Found
 	if ( ! $is_elementor_theme_exist || ! elementor_theme_do_location( 'single' ) ) {
 		get_template_part( 'template-parts/404' );
 	}

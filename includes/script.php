@@ -21,7 +21,7 @@ class Script {
 		$asset_url = HELLO_THEME_SCRIPTS_URL;
 
 		if ( ! file_exists( $asset_path ) ) {
-			throw new \Exception( $asset_path . ' - You need to run `npm run build` for the "hello-elementor" first.' );
+			throw new \Exception( $asset_path . ' - You need to run `npm run build` for the "hello-elementor" first.' ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 		}
 
 		$script_asset = require $asset_path;

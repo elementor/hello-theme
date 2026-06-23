@@ -3,7 +3,7 @@
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.6",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
-        "wp-coding-standards/wpcs": "^2.3",
+        "wp-coding-standards/wpcs": "3.3.0",
         "phpunit/phpunit": "^9.6.33",
         "elementor/elementor-editor-testing": "0.0.3",
         "yoast/phpunit-polyfills": "^1.0.1"
@@ -20,8 +20,9 @@
         }
     },
     "scripts": {
-        "lint:php": "vendor/bin/phpcs --extensions=php --standard=./phpcs.xml --ignore=node_modules,vendor,assets,tmp -p .",
-        "lint:php:fix": "vendor/bin/phpcbf --extensions=php --standard=./phpcs.xml --ignore=node_modules,vendor,assets,tmp .",
+        "lint:php": "vendor/bin/phpcs --standard=./phpcs.xml",
+        "lint:php:fix": "vendor/bin/phpcbf --standard=./phpcs.xml",
+        "lint:php:report": "vendor/bin/phpcs --standard=./phpcs.xml --report=summary",
         "test": "phpunit --testsuite hello-elementor",
         "test:install": "bash ./bin/install-wp-tests-local.sh"
     }
