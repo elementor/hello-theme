@@ -9,7 +9,10 @@ export const AdminProvider = ({ children }) => {
 	const [adminSettings, setAdminSettings] = React.useState({});
 
 	useEffect(() => {
-		Promise.all([apiFetch({ path: '/elementor-hello-elementor/v1/promotions' }), apiFetch({ path: '/elementor-hello-elementor/v1/admin-settings' })])
+		Promise.all([
+			apiFetch({ path: '/elementor-hello-elementor/v1/promotions' }),
+			apiFetch({ path: '/elementor-hello-elementor/v1/admin-settings' }),
+		])
 			.then(([links, settings]) => {
 				setPromotionsLinks(links.links);
 				setAdminSettings(settings.config);

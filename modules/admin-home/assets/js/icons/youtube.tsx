@@ -2,7 +2,10 @@
 import * as React from 'react';
 import SvgIcon from '@elementor/ui/SvgIcon';
 
-const BrandYoutubeIcon = React.forwardRef<SVGSVGElement, React.ComponentProps<typeof SvgIcon>>((props, ref) => {
+const BrandYoutubeIcon = React.forwardRef<
+	SVGSVGElement,
+	React.ComponentProps<typeof SvgIcon>
+>((props, ref) => {
 	return (
 		<SvgIcon viewBox="0 0 24 24" {...props} ref={ref}>
 			<path

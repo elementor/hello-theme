@@ -3,7 +3,10 @@ import { expect } from '@playwright/test';
 import WpAdminPage from '../pages/wp-admin-page.ts';
 
 test.describe('Admin Menu', () => {
-	test('Hello Elementor menu exists in sidebar with correct name', async ({ page, apiRequests }, testInfo) => {
+	test('Hello Elementor menu exists in sidebar with correct name', async ({
+		page,
+		apiRequests,
+	}, testInfo) => {
 		// Arrange
 		const wpAdmin = new WpAdminPage(page, testInfo, apiRequests);
 

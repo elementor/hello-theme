@@ -1,4 +1,9 @@
-import { type APIRequestContext, type Page, Response, type TestInfo } from '@playwright/test';
+import {
+	type APIRequestContext,
+	type Page,
+	Response,
+	type TestInfo,
+} from '@playwright/test';
 import BasePage from './base-page.ts';
 import EditorPage from './editor-page.ts';
 import { ElementorType, WindowType } from '../types/types.ts';
@@ -75,7 +80,10 @@ export default class WpAdminPage extends BasePage {
 	 *
 	 * @return {Promise<EditorPage>} A promise that resolves to the new editor page instance.
 	 */
-	async openNewPage(setWithApi: boolean = true, setPageName: boolean = true): Promise<EditorPage> {
+	async openNewPage(
+		setWithApi: boolean = true,
+		setPageName: boolean = true,
+	): Promise<EditorPage> {
 		if (setWithApi) {
 			await this.createNewPostWithAPI();
 		} else {
@@ -140,11 +148,17 @@ export default class WpAdminPage extends BasePage {
 	async setPageName(): Promise<void> {
 		await this.page.locator('#elementor-panel-footer-settings').click();
 
-		const pageId = await this.page.evaluate(() => elementor.config.initialDocument.id);
-		await this.page.locator('.elementor-control-post_title input').fill(`Playwright Test Page #${pageId}`);
+		const pageId = await this.page.evaluate(
+			() => elementor.config.initialDocument.id,
+		);
+		await this.page
+			.locator('.elementor-control-post_title input')
+			.fill(`Playwright Test Page #${pageId}`);
 
 		await this.page.locator('#elementor-panel-footer-saver-options').click();
-		await this.page.locator('#elementor-panel-footer-sub-menu-item-save-draft').click();
+		await this.page
+			.locator('#elementor-panel-footer-sub-menu-item-save-draft')
+			.click();
 		await this.page.locator('#elementor-panel-header-add-button').click();
 	}
 
@@ -155,7 +169,9 @@ export default class WpAdminPage extends BasePage {
 	 */
 	async convertFromGutenberg(): Promise<EditorPage> {
 		await Promise.all([
-			this.page.waitForResponse(async (response) => await this.blockUrlResponse(response)),
+			this.page.waitForResponse(
+				async (response) => await this.blockUrlResponse(response),
+			),
 			this.page.click('#elementor-switch-mode'),
 		]);
 
@@ -176,7 +192,9 @@ export default class WpAdminPage extends BasePage {
 	 * @return {Promise<boolean>} A promise that resolves to true if the response is a valid REST/JSON request with a 200 status.
 	 */
 	async blockUrlResponse(response: Response): Promise<boolean> {
-		const isRestRequest = response.url().includes('rest_route=%2Fwp%2Fv2%2Fpages%2'); // For local testing
+		const isRestRequest = response
+			.url()
+			.includes('rest_route=%2Fwp%2Fv2%2Fpages%2'); // For local testing
 		const isJsonRequest = response.url().includes('wp-json/wp/v2/pages'); // For CI testing
 		return (isJsonRequest || isRestRequest) && 200 === response.status();
 	}
@@ -203,12 +221,19 @@ export default class WpAdminPage extends BasePage {
 	 *
 	 * @return {Promise<void>}
 	 */
-	async setExperiments(experiments: { [n: string]: boolean | string }, oldUrl: boolean = false): Promise<void> {
+	async setExperiments(
+		experiments: { [n: string]: boolean | string },
+		oldUrl: boolean = false,
+	): Promise<void> {
 		if (oldUrl) {
-			await this.page.goto('/wp-admin/admin.php?page=elementor#tab-experiments');
+			await this.page.goto(
+				'/wp-admin/admin.php?page=elementor#tab-experiments',
+			);
 			await this.page.click('#elementor-settings-tab-experiments');
 		} else {
-			await this.page.goto('/wp-admin/admin.php?page=elementor-settings#tab-experiments');
+			await this.page.goto(
+				'/wp-admin/admin.php?page=elementor-settings#tab-experiments',
+			);
 		}
 
 		const prefix = 'e-experiment';
@@ -241,7 +266,9 @@ export default class WpAdminPage extends BasePage {
 	 * @return {Promise<void>}
 	 */
 	async resetExperiments(): Promise<void> {
-		await this.page.goto('/wp-admin/admin.php?page=elementor-settings#tab-experiments');
+		await this.page.goto(
+			'/wp-admin/admin.php?page=elementor-settings#tab-experiments',
+		);
 		await this.page.getByRole('button', { name: 'default' }).click();
 	}
 
@@ -253,7 +280,10 @@ export default class WpAdminPage extends BasePage {
 	 *
 	 * @return {Promise<void>}
 	 */
-	async setSiteLanguage(language: string, userLanguage: string = null): Promise<void> {
+	async setSiteLanguage(
+		language: string,
+		userLanguage: string = null,
+	): Promise<void> {
 		let languageCheck = language;
 
 		if ('he_IL' === language) {
@@ -264,7 +294,9 @@ export default class WpAdminPage extends BasePage {
 
 		await this.page.goto('/wp-admin/options-general.php');
 
-		const isLanguageActive = await this.page.locator('html[lang=' + languageCheck + ']').isVisible();
+		const isLanguageActive = await this.page
+			.locator('html[lang=' + languageCheck + ']')
+			.isVisible();
 
 		if (!isLanguageActive) {
 			await this.page.selectOption('#WPLANG', language);
@@ -294,7 +326,9 @@ export default class WpAdminPage extends BasePage {
 	 * @return {Promise<void>}
 	 */
 	async confirmExperimentModalIfOpen(): Promise<void> {
-		const dialogButton = this.page.locator('.dialog-type-confirm .dialog-confirm-ok');
+		const dialogButton = this.page.locator(
+			'.dialog-type-confirm .dialog-confirm-ok',
+		);
 
 		if (await dialogButton.isVisible()) {
 			await dialogButton.click();
@@ -326,8 +360,12 @@ export default class WpAdminPage extends BasePage {
 	 * @return {Promise<void>}
 	 */
 	async enableAdvancedUploads(): Promise<void> {
-		await this.page.goto('/wp-admin/admin.php?page=elementor-settings#tab-advanced');
-		await this.page.locator('select[name="elementor_unfiltered_files_upload"]').selectOption('1');
+		await this.page.goto(
+			'/wp-admin/admin.php?page=elementor-settings#tab-advanced',
+		);
+		await this.page
+			.locator('select[name="elementor_unfiltered_files_upload"]')
+			.selectOption('1');
 		await this.page.getByRole('button', { name: 'Save Changes' }).click();
 	}
 
@@ -337,8 +375,12 @@ export default class WpAdminPage extends BasePage {
 	 * @return {Promise<void>}
 	 */
 	async disableAdvancedUploads(): Promise<void> {
-		await this.page.goto('/wp-admin/admin.php?page=elementor-settings#tab-advanced');
-		await this.page.locator('select[name="elementor_unfiltered_files_upload"]').selectOption('');
+		await this.page.goto(
+			'/wp-admin/admin.php?page=elementor-settings#tab-advanced',
+		);
+		await this.page
+			.locator('select[name="elementor_unfiltered_files_upload"]')
+			.selectOption('');
 		await this.page.getByRole('button', { name: 'Save Changes' }).click();
 	}
 
@@ -349,13 +391,19 @@ export default class WpAdminPage extends BasePage {
 	 */
 	async closeAnnouncementsIfVisible(): Promise<void> {
 		if ((await this.page.locator('#e-announcements-root').count()) > 0) {
-			await this.page.evaluate((selector) => document.getElementById(selector).remove(), 'e-announcements-root');
+			await this.page.evaluate(
+				(selector) => document.getElementById(selector).remove(),
+				'e-announcements-root',
+			);
 		}
 		let window: WindowType;
 		await this.page.evaluate(() => {
 			// @ts-ignore editor session is on the window object
 			const editorSessionId = window.EDITOR_SESSION_ID;
-			window.sessionStorage.setItem('ai_promotion_introduction_editor_session_key', editorSessionId);
+			window.sessionStorage.setItem(
+				'ai_promotion_introduction_editor_session_key',
+				editorSessionId,
+			);
 		});
 	}
 
@@ -365,7 +413,9 @@ export default class WpAdminPage extends BasePage {
 	 * @return {Promise<void>}
 	 */
 	async editWithElementor(): Promise<void> {
-		await this.page.getByRole('link', { name: ' Edit with Elementor' }).click();
+		await this.page
+			.getByRole('link', { name: ' Edit with Elementor' })
+			.click();
 	}
 
 	/**

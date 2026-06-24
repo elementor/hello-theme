@@ -19,7 +19,9 @@ export const TopBarContent = ({ sx = {}, iconSize = 'medium' }) => {
 		>
 			<Stack direction="row" spacing={1} alignItems="center">
 				<DynamicIcon componentName="BrandElementorIcon" fontSize={iconSize} />
-				<Typography variant="subtitle1">{__('Hello', 'hello-elementor')}</Typography>
+				<Typography variant="subtitle1">
+					{__('Hello', 'hello-elementor')}
+				</Typography>
 			</Stack>
 		</Stack>
 	);

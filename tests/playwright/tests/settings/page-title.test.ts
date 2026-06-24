@@ -13,9 +13,13 @@ test.describe.serial('Page Title Setting - Behavior Tests', () => {
 		await settingsPage.clickTab('Structure and layout');
 	});
 
-	test('should hide page title when setting is checked', async ({ page, apiRequests }, testInfo) => {
+	test('should hide page title when setting is checked', async ({
+		page,
+		apiRequests,
+	}, testInfo) => {
 		const settingsPage = new SettingsPage(page, testInfo, apiRequests);
-		const pageTitleCheckbox = settingsPage.getCheckboxBySetting('Hide page title');
+		const pageTitleCheckbox =
+			settingsPage.getCheckboxBySetting('Hide page title');
 
 		const isChecked = await pageTitleCheckbox.isChecked();
 		if (!isChecked) {
@@ -30,9 +34,13 @@ test.describe.serial('Page Title Setting - Behavior Tests', () => {
 		await expect(pageHeader).not.toBeAttached();
 	});
 
-	test('should show page title when setting is unchecked', async ({ page, apiRequests }, testInfo) => {
+	test('should show page title when setting is unchecked', async ({
+		page,
+		apiRequests,
+	}, testInfo) => {
 		const settingsPage = new SettingsPage(page, testInfo, apiRequests);
-		const pageTitleCheckbox = settingsPage.getCheckboxBySetting('Hide page title');
+		const pageTitleCheckbox =
+			settingsPage.getCheckboxBySetting('Hide page title');
 		const isChecked = await pageTitleCheckbox.isChecked();
 		if (isChecked) {
 			await settingsPage.toggleSetting('Hide page title');

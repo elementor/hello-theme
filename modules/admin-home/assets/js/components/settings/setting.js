@@ -3,17 +3,35 @@ import Box from '@elementor/ui/Box';
 import Typography from '@elementor/ui/Typography';
 import Switch from '@elementor/ui/Switch';
 
-export const Setting = ({ label, value, onSwitchClick, code, description, tip }) => {
+export const Setting = ({
+	label,
+	value,
+	onSwitchClick,
+	code,
+	description,
+	tip,
+}) => {
 	return (
 		<Stack direction="column" spacing={2}>
 			<Stack direction="row" spacing={2}>
 				<Box sx={{ minWidth: 80, height: 38 }}>
-					<Box display="inline-flex" alignItems="center" justifyContent="center" height="100%">
+					<Box
+						display="inline-flex"
+						alignItems="center"
+						justifyContent="center"
+						height="100%"
+					>
 						<Switch onClick={onSwitchClick} checked={value} />
 					</Box>
 				</Box>
 				<Box sx={{ height: 38, width: '100%' }}>
-					<Box display="flex" alignItems="center" justifyContent="flex-start" height="100%" width="fit-content">
+					<Box
+						display="flex"
+						alignItems="center"
+						justifyContent="flex-start"
+						height="100%"
+						width="fit-content"
+					>
 						<Typography variant="subtitle1" sx={{ fontWeight: 500 }}>
 							{label}
 						</Typography>
@@ -32,7 +50,12 @@ export const Setting = ({ label, value, onSwitchClick, code, description, tip })
 						<Typography variant="body2" sx={{ py: 1, mb: 2, fontWeight: 400 }}>
 							{tip}
 						</Typography>
-						<Typography component="code" color="text.tertiary" variant="body2" sx={{ fontFamily: 'Courier New' }}>
+						<Typography
+							component="code"
+							color="text.tertiary"
+							variant="body2"
+							sx={{ fontFamily: 'Courier New' }}
+						>
 							{code}
 						</Typography>
 					</Box>

@@ -26,29 +26,45 @@ export default class ControlsHook extends $e.modules.hookUI.After {
 			hello_header_logo_display: {
 				selector: '.site-header .site-logo, .site-header .site-title',
 				callback: ($element, args) => {
-					this.toggleShowHideClass($element, args.settings.hello_header_logo_display);
+					this.toggleShowHideClass(
+						$element,
+						args.settings.hello_header_logo_display,
+					);
 				},
 			},
 			hello_header_menu_display: {
-				selector: '.site-header .site-navigation, .site-header .site-navigation-toggle-holder',
+				selector:
+					'.site-header .site-navigation, .site-header .site-navigation-toggle-holder',
 				callback: ($element, args) => {
-					this.toggleShowHideClass($element, args.settings.hello_header_menu_display);
+					this.toggleShowHideClass(
+						$element,
+						args.settings.hello_header_menu_display,
+					);
 				},
 			},
 			hello_header_tagline_display: {
 				selector: '.site-header .site-description',
 				callback: ($element, args) => {
-					this.toggleShowHideClass($element, args.settings.hello_header_tagline_display);
+					this.toggleShowHideClass(
+						$element,
+						args.settings.hello_header_tagline_display,
+					);
 				},
 			},
 			hello_header_logo_type: {
 				selector: '.site-header .site-branding',
 				callback: ($element, args) => {
 					const classPrefix = 'show-',
-						inputOptions = args.container.controls.hello_header_logo_type.options,
+						inputOptions =
+							args.container.controls.hello_header_logo_type.options,
 						inputValue = args.settings.hello_header_logo_type;
 
-					this.toggleLayoutClass($element, classPrefix, inputOptions, inputValue);
+					this.toggleLayoutClass(
+						$element,
+						classPrefix,
+						inputOptions,
+						inputValue,
+					);
 				},
 			},
 			hello_header_layout: {
@@ -58,7 +74,12 @@ export default class ControlsHook extends $e.modules.hookUI.After {
 						inputOptions = args.container.controls.hello_header_layout.options,
 						inputValue = args.settings.hello_header_layout;
 
-					this.toggleLayoutClass($element, classPrefix, inputOptions, inputValue);
+					this.toggleLayoutClass(
+						$element,
+						classPrefix,
+						inputOptions,
+						inputValue,
+					);
 				},
 			},
 			hello_header_width: {
@@ -68,49 +89,77 @@ export default class ControlsHook extends $e.modules.hookUI.After {
 						inputOptions = args.container.controls.hello_header_width.options,
 						inputValue = args.settings.hello_header_width;
 
-					this.toggleLayoutClass($element, classPrefix, inputOptions, inputValue);
+					this.toggleLayoutClass(
+						$element,
+						classPrefix,
+						inputOptions,
+						inputValue,
+					);
 				},
 			},
 			hello_header_menu_layout: {
 				selector: '.site-header',
 				callback: ($element, args) => {
 					const classPrefix = 'menu-layout-',
-						inputOptions = args.container.controls.hello_header_menu_layout.options,
+						inputOptions =
+							args.container.controls.hello_header_menu_layout.options,
 						inputValue = args.settings.hello_header_menu_layout;
 
 					// No matter what, close the mobile menu
-					$element.find('.site-navigation-toggle-holder').removeClass('elementor-active');
+					$element
+						.find('.site-navigation-toggle-holder')
+						.removeClass('elementor-active');
 					$element.find('.site-navigation-dropdown').removeClass('show');
 
-					this.toggleLayoutClass($element, classPrefix, inputOptions, inputValue);
+					this.toggleLayoutClass(
+						$element,
+						classPrefix,
+						inputOptions,
+						inputValue,
+					);
 				},
 			},
 			hello_header_menu_dropdown: {
 				selector: '.site-header',
 				callback: ($element, args) => {
 					const classPrefix = 'menu-dropdown-',
-						inputOptions = args.container.controls.hello_header_menu_dropdown.options,
+						inputOptions =
+							args.container.controls.hello_header_menu_dropdown.options,
 						inputValue = args.settings.hello_header_menu_dropdown;
 
-					this.toggleLayoutClass($element, classPrefix, inputOptions, inputValue);
+					this.toggleLayoutClass(
+						$element,
+						classPrefix,
+						inputOptions,
+						inputValue,
+					);
 				},
 			},
 			hello_footer_logo_display: {
 				selector: '.site-footer .site-logo, .site-footer .site-title',
 				callback: ($element, args) => {
-					this.toggleShowHideClass($element, args.settings.hello_footer_logo_display);
+					this.toggleShowHideClass(
+						$element,
+						args.settings.hello_footer_logo_display,
+					);
 				},
 			},
 			hello_footer_tagline_display: {
 				selector: '.site-footer .site-description',
 				callback: ($element, args) => {
-					this.toggleShowHideClass($element, args.settings.hello_footer_tagline_display);
+					this.toggleShowHideClass(
+						$element,
+						args.settings.hello_footer_tagline_display,
+					);
 				},
 			},
 			hello_footer_menu_display: {
 				selector: '.site-footer .site-navigation',
 				callback: ($element, args) => {
-					this.toggleShowHideClass($element, args.settings.hello_footer_menu_display);
+					this.toggleShowHideClass(
+						$element,
+						args.settings.hello_footer_menu_display,
+					);
 				},
 			},
 			hello_footer_copyright_display: {
@@ -121,17 +170,26 @@ export default class ControlsHook extends $e.modules.hookUI.After {
 
 					this.toggleShowHideClass($element, inputValue);
 
-					$footerContainer.toggleClass('footer-has-copyright', 'yes' === inputValue);
+					$footerContainer.toggleClass(
+						'footer-has-copyright',
+						'yes' === inputValue,
+					);
 				},
 			},
 			hello_footer_logo_type: {
 				selector: '.site-footer .site-branding',
 				callback: ($element, args) => {
 					const classPrefix = 'show-',
-						inputOptions = args.container.controls.hello_footer_logo_type.options,
+						inputOptions =
+							args.container.controls.hello_footer_logo_type.options,
 						inputValue = args.settings.hello_footer_logo_type;
 
-					this.toggleLayoutClass($element, classPrefix, inputOptions, inputValue);
+					this.toggleLayoutClass(
+						$element,
+						classPrefix,
+						inputOptions,
+						inputValue,
+					);
 				},
 			},
 			hello_footer_layout: {
@@ -141,7 +199,12 @@ export default class ControlsHook extends $e.modules.hookUI.After {
 						inputOptions = args.container.controls.hello_footer_layout.options,
 						inputValue = args.settings.hello_footer_layout;
 
-					this.toggleLayoutClass($element, classPrefix, inputOptions, inputValue);
+					this.toggleLayoutClass(
+						$element,
+						classPrefix,
+						inputOptions,
+						inputValue,
+					);
 				},
 			},
 			hello_footer_width: {
@@ -151,7 +214,12 @@ export default class ControlsHook extends $e.modules.hookUI.After {
 						inputOptions = args.container.controls.hello_footer_width.options,
 						inputValue = args.settings.hello_footer_width;
 
-					this.toggleLayoutClass($element, classPrefix, inputOptions, inputValue);
+					this.toggleLayoutClass(
+						$element,
+						classPrefix,
+						inputOptions,
+						inputValue,
+					);
 				},
 			},
 			hello_footer_copyright_text: {
@@ -220,7 +288,9 @@ export default class ControlsHook extends $e.modules.hookUI.After {
 
 		// If the changed control is in the list of theme controls, return true to run the hook.
 		// Otherwise, return false so the hook doesn't run.
-		return !!Object.keys(this.getHelloThemeControls()).includes(changedControls[0]);
+		return !!Object.keys(this.getHelloThemeControls()).includes(
+			changedControls[0],
+		);
 	}
 
 	/**

@@ -16,7 +16,12 @@ export const parallelTest = baseTest.extend<
 	baseURL: ({ workerBaseURL }, use) => use(workerBaseURL),
 	workerBaseURL: [
 		async ({}, use) => {
-			await use(process.env.BASE_URL || (1 === Number(process.env.TEST_PARALLEL_INDEX) ? process.env.TEST_SERVER : process.env.DEV_SERVER));
+			await use(
+				process.env.BASE_URL ||
+					(1 === Number(process.env.TEST_PARALLEL_INDEX)
+						? process.env.TEST_SERVER
+						: process.env.DEV_SERVER),
+			);
 		},
 		{ scope: 'worker' },
 	],
@@ -29,7 +34,10 @@ export const parallelTest = baseTest.extend<
 		async ({ workerBaseURL }, use, testInfo) => {
 			// Use parallelIndex as a unique identifier for each worker.
 			const id = testInfo.workerIndex;
-			const fileName = path.resolve(testInfo.project.outputDir, `.storageState-${id}.json`);
+			const fileName = path.resolve(
+				testInfo.project.outputDir,
+				`.storageState-${id}.json`,
+			);
 
 			if (fs.existsSync(fileName)) {
 				// Reuse existing authentication state if any.
@@ -38,7 +46,12 @@ export const parallelTest = baseTest.extend<
 			}
 
 			// Send authentication request.
-			const context = await login(request, process.env.USERNAME || 'admin', process.env.PASSWORD || 'password', workerBaseURL);
+			const context = await login(
+				request,
+				process.env.USERNAME || 'admin',
+				process.env.PASSWORD || 'password',
+				workerBaseURL,
+			);
 			await context.storageState({ path: fileName });
 			await context.dispose();
 
@@ -58,7 +71,10 @@ export const parallelTest = baseTest.extend<
 				const apiRequests = new ApiRequests(workerBaseURL, nonce);
 				await use(apiRequests);
 			} catch (e) {
-				throw new Error(`Failed to fetch Nonce. Base URL: ${workerBaseURL}, Storage State: ${workerStorageState} `, { cause: e });
+				throw new Error(
+					`Failed to fetch Nonce. Base URL: ${workerBaseURL}, Storage State: ${workerStorageState} `,
+					{ cause: e },
+				);
 			}
 		},
 		{ scope: 'worker' },

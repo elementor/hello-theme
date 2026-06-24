@@ -23,7 +23,8 @@ export default class SettingsPage extends WpAdminPage {
 				title: 'Playwright Test Page - Uninitialized',
 				content: 'This is a test content for the post.',
 				status: 'publish' as const,
-				excerpt: 'This is a test excerpt that should appear in meta description.',
+				excerpt:
+					'This is a test excerpt that should appear in meta description.',
 			},
 			postId = await this.apiRequests.create(request, 'pages', postDataInitial),
 			postDataUpdated = {
@@ -55,7 +56,9 @@ export default class SettingsPage extends WpAdminPage {
 			'Deregister Hello reset.css': 0,
 			'Deregister Hello theme.css': 1,
 		};
-		return this.page.locator(`input[type="checkbox"]`).nth(settingMap[settingName] || 0);
+		return this.page
+			.locator(`input[type="checkbox"]`)
+			.nth(settingMap[settingName] || 0);
 	}
 
 	async toggleSetting(settingName: string): Promise<boolean> {
@@ -73,11 +76,15 @@ export default class SettingsPage extends WpAdminPage {
 	}
 
 	async waitForSaveNotification(): Promise<void> {
-		await expect(this.page.locator('[role="alert"]:has-text("Settings Saved")').first()).toBeVisible({ timeout: 5000 });
+		await expect(
+			this.page.locator('[role="alert"]:has-text("Settings Saved")').first(),
+		).toBeVisible({ timeout: 5000 });
 	}
 
 	async closeSaveNotification(): Promise<void> {
-		const notification = this.page.locator('[role="alert"]:has-text("Settings Saved")');
+		const notification = this.page.locator(
+			'[role="alert"]:has-text("Settings Saved")',
+		);
 		if (await notification.isVisible()) {
 			await notification.getByRole('button', { name: 'Close' }).click();
 		}
@@ -98,33 +105,45 @@ export default class SettingsPage extends WpAdminPage {
 	}
 
 	async closeChangelogByClickingOutside(): Promise<void> {
-		await this.page.locator('[role="dialog"]').click({ position: { x: 5, y: 5 } });
+		await this.page
+			.locator('[role="dialog"]')
+			.click({ position: { x: 5, y: 5 } });
 		await expect(this.page.locator('[role="dialog"]')).not.toBeVisible({
 			timeout: 3000,
 		});
 	}
 
 	async getChangelogVersions(): Promise<string[]> {
-		const versionElements = this.page.locator('h6[class*="MuiTypography"]:regex("\\d+\\.\\d+\\.\\d+ - \\d{4}-\\d{2}-\\d{2}")');
+		const versionElements = this.page.locator(
+			'h6[class*="MuiTypography"]:regex("\\d+\\.\\d+\\.\\d+ - \\d{4}-\\d{2}-\\d{2}")',
+		);
 		return await versionElements.allTextContents();
 	}
 
 	async hasWarningAlert(): Promise<boolean> {
-		return await this.page.locator('[role="alert"]:has-text("Be Careful")').isVisible();
+		return await this.page
+			.locator('[role="alert"]:has-text("Be Careful")')
+			.isVisible();
 	}
 
 	async getSettingDescription(settingName: string): Promise<string> {
-		const descriptionElement = this.page.locator(`h6:has-text("${settingName}") ~ * p:has-text("What it does:")`);
+		const descriptionElement = this.page.locator(
+			`h6:has-text("${settingName}") ~ * p:has-text("What it does:")`,
+		);
 		return (await descriptionElement.textContent()) || '';
 	}
 
 	async getSettingTip(settingName: string): Promise<string> {
-		const tipElement = this.page.locator(`h6:has-text("${settingName}") ~ * p:has-text("Tip:")`);
+		const tipElement = this.page.locator(
+			`h6:has-text("${settingName}") ~ * p:has-text("Tip:")`,
+		);
 		return (await tipElement.textContent()) || '';
 	}
 
 	async getSettingCode(settingName: string): Promise<string> {
-		const codeElement = this.page.locator(`h6:has-text("${settingName}") ~ * code`);
+		const codeElement = this.page.locator(
+			`h6:has-text("${settingName}") ~ * code`,
+		);
 		return (await codeElement.textContent()) || '';
 	}
 
@@ -140,7 +159,11 @@ export default class SettingsPage extends WpAdminPage {
 	}
 
 	async resetToDefaults(): Promise<void> {
-		const tabs = ['SEO and accessibility', 'Structure and layout', 'CSS and styling control'];
+		const tabs = [
+			'SEO and accessibility',
+			'Structure and layout',
+			'CSS and styling control',
+		];
 
 		for (const tabName of tabs) {
 			await this.clickTab(tabName);

@@ -13,18 +13,54 @@ const modulesDir = process.cwd() + '/modules/';
 const entryPoints = {
 	'css/reset': path.resolve(__dirname, './dev/scss', 'reset.scss'),
 	'css/theme': path.resolve(__dirname, './dev/scss', 'theme.scss'),
-	'css/header-footer': path.resolve(__dirname, './dev/scss', 'header-footer.scss'),
-	'css/editor-styles': path.resolve(__dirname, './dev/scss', 'editor-styles.scss'),
+	'css/header-footer': path.resolve(
+		__dirname,
+		'./dev/scss',
+		'header-footer.scss',
+	),
+	'css/editor-styles': path.resolve(
+		__dirname,
+		'./dev/scss',
+		'editor-styles.scss',
+	),
 	'css/editor': path.resolve(__dirname, './dev/scss', 'editor.scss'),
 	'css/customizer': path.resolve(__dirname, './dev/scss', 'customizer.scss'),
 
-	'js/hello-editor': path.resolve(__dirname, './dev/js/editor', 'hello-editor.js'),
-	'js/hello-frontend': path.resolve(__dirname, './dev/js/frontend', 'hello-frontend.js'),
-	'js/hello-home-app': path.resolve(modulesDir, 'admin-home/assets/js', 'hello-elementor-admin.js'),
-	'js/hello-elementor-menu': path.resolve(modulesDir, 'admin-home/assets/js', 'hello-elementor-menu.js'),
-	'js/hello-elementor-settings': path.resolve(modulesDir, 'admin-home/assets/js', 'hello-elementor-settings.js'),
-	'js/hello-elementor-topbar': path.resolve(modulesDir, 'admin-home/assets/js', 'hello-elementor-topbar.js'),
-	'js/hello-conversion-banner': path.resolve(modulesDir, 'admin-home/assets/js', 'hello-elementor-conversion-banner.js'),
+	'js/hello-editor': path.resolve(
+		__dirname,
+		'./dev/js/editor',
+		'hello-editor.js',
+	),
+	'js/hello-frontend': path.resolve(
+		__dirname,
+		'./dev/js/frontend',
+		'hello-frontend.js',
+	),
+	'js/hello-home-app': path.resolve(
+		modulesDir,
+		'admin-home/assets/js',
+		'hello-elementor-admin.js',
+	),
+	'js/hello-elementor-menu': path.resolve(
+		modulesDir,
+		'admin-home/assets/js',
+		'hello-elementor-menu.js',
+	),
+	'js/hello-elementor-settings': path.resolve(
+		modulesDir,
+		'admin-home/assets/js',
+		'hello-elementor-settings.js',
+	),
+	'js/hello-elementor-topbar': path.resolve(
+		modulesDir,
+		'admin-home/assets/js',
+		'hello-elementor-topbar.js',
+	),
+	'js/hello-conversion-banner': path.resolve(
+		modulesDir,
+		'admin-home/assets/js',
+		'hello-elementor-conversion-banner.js',
+	),
 };
 
 module.exports = {

@@ -45,7 +45,13 @@ const Notices = () => {
 		const { content, id, status } = notice;
 
 		return (
-			<Snackbar open={open} key={id} autoHideDuration={3000} onClose={onClose} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
+			<Snackbar
+				open={open}
+				key={id}
+				autoHideDuration={3000}
+				onClose={onClose}
+				anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+			>
 				<Alert onClose={onClose} severity={status} sx={{ width: '100%' }}>
 					{content}
 				</Alert>
@@ -82,11 +88,19 @@ export const SettingsPage = () => {
 		<>
 			<Paper elevation={1} sx={{ px: 4, py: 3, maxWidth: 750 }}>
 				<Box sx={{ width: '100%' }}>
-					<Stack justifyContent={'space-between'} direction={'row'} alignItems={'center'}>
+					<Stack
+						justifyContent={'space-between'}
+						direction={'row'}
+						alignItems={'center'}
+					>
 						<Typography variant="h4" gutterBottom>
 							{__('Advanced theme settings', 'hello-elementor')}
 						</Typography>
-						<Link href="#" onClick={(event) => handleOpen(event)} color={'primary'}>
+						<Link
+							href="#"
+							onClick={(event) => handleOpen(event)}
+							color={'primary'}
+						>
 							{__('Changelog', 'hello-elementor')}
 						</Link>
 					</Stack>
@@ -101,9 +115,18 @@ export const SettingsPage = () => {
 					</Box>
 					<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
 						<StyledTabs {...getTabsProps()} aria-label="basic tabs example">
-							<StyledTab label={__('SEO and accessibility', 'hello-elementor')} {...getTabProps('one')} />
-							<StyledTab label={__('Structure and layout', 'hello-elementor')} {...getTabProps('two')} />
-							<StyledTab label={__('CSS and styling control', 'hello-elementor')} {...getTabProps('three')} />
+							<StyledTab
+								label={__('SEO and accessibility', 'hello-elementor')}
+								{...getTabProps('one')}
+							/>
+							<StyledTab
+								label={__('Structure and layout', 'hello-elementor')}
+								{...getTabProps('two')}
+							/>
+							<StyledTab
+								label={__('CSS and styling control', 'hello-elementor')}
+								{...getTabProps('three')}
+							/>
 						</StyledTabs>
 					</Box>
 					<TabPanel {...getTabPanelProps('one')}>

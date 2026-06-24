@@ -1,13 +1,31 @@
 import { readFile } from 'fs/promises';
 import { addElement, getElementSelector } from '../assets/elements-utils.ts';
-import { expect, type Page, type Frame, type TestInfo, type ElementHandle, Locator } from '@playwright/test';
+import {
+	expect,
+	type Page,
+	type Frame,
+	type TestInfo,
+	type ElementHandle,
+	Locator,
+} from '@playwright/test';
 import BasePage from './base-page.ts';
 import EditorSelectors from '../selectors/editor-selectors.ts';
 import _path, { resolve as pathResolve } from 'path';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { getComparator } from 'playwright-core/lib/utils';
-import { $eType, Device, WindowType, BackboneType, ElementorType, GapControl, ContainerType, ContainerPreset } from '../types/types.ts';
-import TopBarSelectors, { TopBarSelector } from '../selectors/top-bar-selectors.ts';
+import {
+	$eType,
+	Device,
+	WindowType,
+	BackboneType,
+	ElementorType,
+	GapControl,
+	ContainerType,
+	ContainerPreset,
+} from '../types/types.ts';
+import TopBarSelectors, {
+	TopBarSelector,
+} from '../selectors/top-bar-selectors.ts';
 import Breakpoints from '../assets/breakpoints.ts';
 import { timeouts } from '../config/timeouts.ts';
 
@@ -27,7 +45,11 @@ export default class EditorPage extends BasePage {
 	 * @param {TestInfo} testInfo    - Test information.
 	 * @param {number}   cleanPostId - Optional. Post ID.
 	 */
-	constructor(page: Page, testInfo: TestInfo, cleanPostId: null | number = null) {
+	constructor(
+		page: Page,
+		testInfo: TestInfo,
+		cleanPostId: null | number = null,
+	) {
 		super(page, testInfo);
 		this.previewFrame = this.getPreviewFrame();
 		this.postId = cleanPostId;
@@ -57,7 +79,10 @@ export default class EditorPage extends BasePage {
 		const date = new Date();
 		const month = date.toLocaleString('default', { month: '2-digit' });
 		const data = JSON.stringify(templateData);
-		const updatedData = data.replace(/[0-9]{4}\/[0-9]{2}/g, `${date.getFullYear()}/${month}`);
+		const updatedData = data.replace(
+			/[0-9]{4}\/[0-9]{2}/g,
+			`${date.getFullYear()}/${month}`,
+		);
 		return JSON.parse(updatedData) as JSON;
 	}
 
@@ -72,10 +97,14 @@ export default class EditorPage extends BasePage {
 	 * @return {Promise<void>}
 	 */
 	async uploadSVG(svgFileName?: string): Promise<void> {
-		const _svgFileName = svgFileName === undefined ? 'test-svg-wide' : svgFileName;
+		const _svgFileName =
+			svgFileName === undefined ? 'test-svg-wide' : svgFileName;
 		const regex = new RegExp(_svgFileName);
 		const response = this.page.waitForResponse(regex);
-		await this.page.setInputFiles(EditorSelectors.media.imageInp, _path.resolve(__dirname, `../resources/${_svgFileName}.svg`));
+		await this.page.setInputFiles(
+			EditorSelectors.media.imageInp,
+			_path.resolve(__dirname, `../resources/${_svgFileName}.svg`),
+		);
 		await response;
 		await this.page
 			.getByRole('button', { name: 'Insert Media' })
@@ -90,7 +119,10 @@ export default class EditorPage extends BasePage {
 	 * @param {string}  filePath             - Path to the template file.
 	 * @param {boolean} updateDatesForImages - Optional. Whether to update images dates. Default is false.
 	 */
-	async loadTemplate(filePath: string, updateDatesForImages: boolean = false): Promise<void> {
+	async loadTemplate(
+		filePath: string,
+		updateDatesForImages: boolean = false,
+	): Promise<void> {
 		const rawFileData = await readFile(filePath);
 		let templateData = JSON.parse(rawFileData.toString());
 
@@ -147,7 +179,11 @@ export default class EditorPage extends BasePage {
 	 *
 	 * @return {Promise<string>} Element ID
 	 */
-	async addElement(model: unknown, container: null | string = null, isContainerASection = false): Promise<string> {
+	async addElement(
+		model: unknown,
+		container: null | string = null,
+		isContainerASection = false,
+	): Promise<string> {
 		return await this.page.evaluate(addElement, {
 			model,
 			container,
@@ -182,8 +218,16 @@ export default class EditorPage extends BasePage {
 	 *
 	 * @return {Promise<string>} The widget ID.
 	 */
-	async addWidget(widgetType: string, container: string = null, isContainerASection: boolean = false): Promise<string> {
-		const widgetId = await this.addElement({ widgetType, elType: 'widget' }, container, isContainerASection);
+	async addWidget(
+		widgetType: string,
+		container: string = null,
+		isContainerASection: boolean = false,
+	): Promise<string> {
+		const widgetId = await this.addElement(
+			{ widgetType, elType: 'widget' },
+			container,
+			isContainerASection,
+		);
 		await this.getPreviewFrame().waitForSelector(`[data-id='${widgetId}']`);
 
 		return widgetId;
@@ -199,7 +243,12 @@ export default class EditorPage extends BasePage {
 	 *
 	 * @return {Promise<void>}
 	 */
-	async loadJsonPageTemplate(dirName: string, fileName: string, widgetSelector: string, updateDatesForImages: boolean = false): Promise<void> {
+	async loadJsonPageTemplate(
+		dirName: string,
+		fileName: string,
+		widgetSelector: string,
+		updateDatesForImages: boolean = false,
+	): Promise<void> {
 		const filePath = _path.resolve(dirName, `./templates/${fileName}.json`);
 		const rawFileData = await readFile(filePath);
 		const templateData = JSON.parse(rawFileData.toString());
@@ -241,7 +290,9 @@ export default class EditorPage extends BasePage {
 	 *
 	 * @return {Promise<ElementHandle<SVGElement | HTMLElement> | null>} element handle
 	 */
-	async getElementHandle(id: string): Promise<ElementHandle<SVGElement | HTMLElement> | null> {
+	async getElementHandle(
+		id: string,
+	): Promise<ElementHandle<SVGElement | HTMLElement> | null> {
 		return this.getPreviewFrame().$(getElementSelector(id));
 	}
 
@@ -284,7 +335,9 @@ export default class EditorPage extends BasePage {
 			{ id: elementId },
 		);
 
-		await this.getPreviewFrame().waitForSelector('.elementor-element-' + elementId + '.elementor-element-editable');
+		await this.getPreviewFrame().waitForSelector(
+			'.elementor-element-' + elementId + '.elementor-element-editable',
+		);
 		return this.getPreviewFrame().locator('.elementor-element-' + elementId);
 	}
 
@@ -296,7 +349,10 @@ export default class EditorPage extends BasePage {
 	 *
 	 * @return {Promise<void>}
 	 */
-	async addNewContainerPreset(element: ContainerType, preset: ContainerPreset): Promise<void> {
+	async addNewContainerPreset(
+		element: ContainerType,
+		preset: ContainerPreset,
+	): Promise<void> {
 		const frame = this.getPreviewFrame();
 		await frame.locator('.elementor-add-section-button').click();
 		await frame.locator(`.${element}-preset-button`).click();
@@ -311,13 +367,17 @@ export default class EditorPage extends BasePage {
 	 * @return {Promise<void>}
 	 */
 	async openAddElementSection(elementId: string): Promise<void> {
-		const element = this.getPreviewFrame().locator(`.elementor-edit-mode .elementor-element-${elementId}`);
+		const element = this.getPreviewFrame().locator(
+			`.elementor-edit-mode .elementor-element-${elementId}`,
+		);
 		await element.hover();
 		const elementAddButton = this.getPreviewFrame().locator(
 			`.elementor-edit-mode .elementor-element-${elementId} > .elementor-element-overlay > .elementor-editor-element-settings > .elementor-editor-element-add`,
 		);
 		await elementAddButton.click();
-		await this.getPreviewFrame().waitForSelector('.elementor-add-section-inline');
+		await this.getPreviewFrame().waitForSelector(
+			'.elementor-add-section-inline',
+		);
 	}
 
 	async setWidgetTab(tab: 'content' | 'style' | 'advanced'): Promise<void> {
@@ -335,12 +395,16 @@ export default class EditorPage extends BasePage {
 		await this.page.waitForSelector(`.elementor-tab-control-${panelId} span`);
 
 		// Check if panel has been activated already.
-		if (await this.page.$(`.elementor-tab-control-${panelId}.elementor-active`)) {
+		if (
+			await this.page.$(`.elementor-tab-control-${panelId}.elementor-active`)
+		) {
 			return;
 		}
 
 		await this.page.locator(`.elementor-tab-control-${panelId} span`).click();
-		await this.page.waitForSelector(`.elementor-tab-control-${panelId}.elementor-active`);
+		await this.page.waitForSelector(
+			`.elementor-tab-control-${panelId}.elementor-active`,
+		);
 	}
 
 	/**
@@ -358,7 +422,8 @@ export default class EditorPage extends BasePage {
 		const sectionButtonSelector = `#tab-0-${selectorMap[sectionName]}`,
 			sectionContentSelector = `#tabpanel-0-${selectorMap[sectionName]}`,
 			isOpenSection = await this.page.evaluate((selector) => {
-				const sectionContentElement: HTMLElement = document.querySelector(selector);
+				const sectionContentElement: HTMLElement =
+					document.querySelector(selector);
 
 				return !sectionContentElement?.hidden;
 			}, sectionContentSelector);
@@ -383,15 +448,26 @@ export default class EditorPage extends BasePage {
 			isOpenSection = await this.page.evaluate((selector) => {
 				const sectionElement = document.querySelector(selector);
 
-				return sectionElement?.classList.contains('e-open') || sectionElement?.classList.contains('elementor-open');
+				return (
+					sectionElement?.classList.contains('e-open') ||
+					sectionElement?.classList.contains('elementor-open')
+				);
 			}, sectionSelector),
-			section = await this.page.$(sectionSelector + ':not( .e-open ):not( .elementor-open ):visible');
+			section = await this.page.$(
+				sectionSelector + ':not( .e-open ):not( .elementor-open ):visible',
+			);
 
 		if (!section || isOpenSection) {
 			return;
 		}
 
-		await this.page.locator(sectionSelector + ':not( .e-open ):not( .elementor-open ):visible' + ' .elementor-panel-heading').click();
+		await this.page
+			.locator(
+				sectionSelector +
+					':not( .e-open ):not( .elementor-open ):visible' +
+					' .elementor-panel-heading',
+			)
+			.click();
 	}
 
 	/**
@@ -406,7 +482,10 @@ export default class EditorPage extends BasePage {
 			isOpenSection = await this.page.evaluate((selector) => {
 				const sectionElement = document.querySelector(selector);
 
-				return sectionElement?.classList.contains('e-open') || sectionElement?.classList.contains('elementor-open');
+				return (
+					sectionElement?.classList.contains('e-open') ||
+					sectionElement?.classList.contains('elementor-open')
+				);
 			}, sectionSelector),
 			section = await this.page.$(sectionSelector + '.e-open:visible');
 
@@ -414,7 +493,9 @@ export default class EditorPage extends BasePage {
 			return;
 		}
 
-		await this.page.locator(sectionSelector + '.e-open:visible .elementor-panel-heading').click();
+		await this.page
+			.locator(sectionSelector + '.e-open:visible .elementor-panel-heading')
+			.click();
 	}
 
 	/**
@@ -424,7 +505,16 @@ export default class EditorPage extends BasePage {
 	 *
 	 * @return {Promise<void>}
 	 */
-	async openV2Section(sectionId: 'layout' | 'spacing' | 'size' | 'position' | 'typography' | 'background' | 'border') {
+	async openV2Section(
+		sectionId:
+			| 'layout'
+			| 'spacing'
+			| 'size'
+			| 'position'
+			| 'typography'
+			| 'background'
+			| 'border',
+	) {
 		const sectionButton = this.page.locator('.MuiButtonBase-root', {
 			hasText: new RegExp(sectionId, 'i'),
 		});
@@ -462,7 +552,10 @@ export default class EditorPage extends BasePage {
 	 * @return {Promise<void>}
 	 */
 	async setTabControlValue(controlId: string, tabId: string): Promise<void> {
-		await this.page.locator(`.elementor-control-${controlId} .elementor-control-${tabId}`).first().click();
+		await this.page
+			.locator(`.elementor-control-${controlId} .elementor-control-${tabId}`)
+			.first()
+			.click();
 	}
 
 	/**
@@ -474,7 +567,10 @@ export default class EditorPage extends BasePage {
 	 * @return {Promise<void>}
 	 */
 	async setTextControlValue(controlId: string, value: string): Promise<void> {
-		await this.page.locator(`.elementor-control-${controlId} input`).nth(0).fill(value.toString());
+		await this.page
+			.locator(`.elementor-control-${controlId} input`)
+			.nth(0)
+			.fill(value.toString());
 	}
 
 	/**
@@ -485,8 +581,13 @@ export default class EditorPage extends BasePage {
 	 *
 	 * @return {Promise<void>}
 	 */
-	async setTextareaControlValue(controlId: string, value: string): Promise<void> {
-		await this.page.locator(`.elementor-control-${controlId} textarea`).fill(value.toString());
+	async setTextareaControlValue(
+		controlId: string,
+		value: string,
+	): Promise<void> {
+		await this.page
+			.locator(`.elementor-control-${controlId} textarea`)
+			.fill(value.toString());
 	}
 
 	/**
@@ -498,7 +599,9 @@ export default class EditorPage extends BasePage {
 	 * @return {Promise<void>}
 	 */
 	async setNumberControlValue(controlId: string, value: string): Promise<void> {
-		await this.page.locator(`.elementor-control-${controlId} input >> nth=0`).fill(value.toString());
+		await this.page
+			.locator(`.elementor-control-${controlId} input >> nth=0`)
+			.fill(value.toString());
 	}
 
 	/**
@@ -508,7 +611,9 @@ export default class EditorPage extends BasePage {
 	 * @param {string} value     - The value to set.
 	 */
 	async setSliderControlValue(controlId: string, value: string): Promise<void> {
-		await this.page.locator(`.elementor-control-${controlId} .elementor-slider-input input`).fill(value);
+		await this.page
+			.locator(`.elementor-control-${controlId} .elementor-slider-input input`)
+			.fill(value);
 	}
 
 	/**
@@ -520,7 +625,10 @@ export default class EditorPage extends BasePage {
 	 * @return {Promise<void>}
 	 */
 	async setSelectControlValue(controlId: string, value: string): Promise<void> {
-		await this.page.selectOption(`.elementor-control-${controlId} select`, value);
+		await this.page.selectOption(
+			`.elementor-control-${controlId} select`,
+			value,
+		);
 	}
 
 	/**
@@ -532,14 +640,30 @@ export default class EditorPage extends BasePage {
 	 *
 	 * @return {Promise<void>}
 	 */
-	async setSelect2ControlValue(controlId: string, value: string, exactMatch: boolean = true): Promise<void> {
-		await this.page.locator(`.elementor-control-${controlId} .select2:not( .select2-container--disabled )`).click();
-		await this.page.locator('.select2-search--dropdown input[type="search"]').fill(value);
+	async setSelect2ControlValue(
+		controlId: string,
+		value: string,
+		exactMatch: boolean = true,
+	): Promise<void> {
+		await this.page
+			.locator(
+				`.elementor-control-${controlId} .select2:not( .select2-container--disabled )`,
+			)
+			.click();
+		await this.page
+			.locator('.select2-search--dropdown input[type="search"]')
+			.fill(value);
 
 		if (exactMatch) {
-			await this.page.locator(`.select2-results__option:text-is("${value}")`).first().click();
+			await this.page
+				.locator(`.select2-results__option:text-is("${value}")`)
+				.first()
+				.click();
 		} else {
-			await this.page.locator(`.select2-results__option:has-text("${value}")`).first().click();
+			await this.page
+				.locator(`.select2-results__option:has-text("${value}")`)
+				.first()
+				.click();
 		}
 
 		await this.page.waitForLoadState('domcontentloaded');
@@ -554,7 +678,11 @@ export default class EditorPage extends BasePage {
 	 * @return {Promise<void>}
 	 */
 	async setDimensionsValue(controlId: string, value: string): Promise<void> {
-		await this.page.locator(`.elementor-control-${controlId} .elementor-control-dimensions li:first-child input`).fill(value);
+		await this.page
+			.locator(
+				`.elementor-control-${controlId} .elementor-control-dimensions li:first-child input`,
+			)
+			.fill(value);
 	}
 
 	/**
@@ -583,7 +711,9 @@ export default class EditorPage extends BasePage {
 		const controlSelector = `.elementor-control-${controlId}`;
 
 		await this.page.locator(controlSelector + ' .pcr-button').click();
-		await this.page.locator('.pcr-app.visible .pcr-interaction input.pcr-result').fill(value);
+		await this.page
+			.locator('.pcr-app.visible .pcr-interaction input.pcr-result')
+			.fill(value);
 		await this.page.locator(controlSelector).click();
 	}
 
@@ -595,10 +725,17 @@ export default class EditorPage extends BasePage {
 	 *
 	 * @return {Promise<void>}
 	 */
-	async setSwitcherControlValue(controlId: string, value: boolean = true): Promise<void> {
+	async setSwitcherControlValue(
+		controlId: string,
+		value: boolean = true,
+	): Promise<void> {
 		const controlSelector = `.elementor-control-${controlId}`,
-			controlLabel = this.page.locator(controlSelector + ' label.elementor-switch'),
-			currentState = await this.page.locator(controlSelector + ' input[type="checkbox"]').isChecked();
+			controlLabel = this.page.locator(
+				controlSelector + ' label.elementor-switch',
+			),
+			currentState = await this.page
+				.locator(controlSelector + ' input[type="checkbox"]')
+				.isChecked();
 
 		if (currentState !== Boolean(value)) {
 			await controlLabel.click();
@@ -613,15 +750,25 @@ export default class EditorPage extends BasePage {
 	 *
 	 * @return {Promise<void>}
 	 */
-	async setGapControlValue(controlId: string, value: GapControl): Promise<void> {
+	async setGapControlValue(
+		controlId: string,
+		value: GapControl,
+	): Promise<void> {
 		const control = this.page.locator(`.elementor-control-${controlId}`);
 
 		if ('string' === typeof value) {
-			await control.locator('.elementor-control-gap >> nth=0').locator('input').fill(value);
+			await control
+				.locator('.elementor-control-gap >> nth=0')
+				.locator('input')
+				.fill(value);
 		} else if ('object' === typeof value) {
 			await control.locator('.elementor-link-gaps').click();
-			await control.locator('.elementor-control-gap input[data-setting="column"]').fill(value.column);
-			await control.locator('.elementor-control-gap input[data-setting="row"]').fill(value.row);
+			await control
+				.locator('.elementor-control-gap input[data-setting="column"]')
+				.fill(value.column);
+			await control
+				.locator('.elementor-control-gap input[data-setting="row"]')
+				.fill(value.row);
 			if (value.unit) {
 				await control.locator('.e-units-switcher').click();
 				await control.locator(`[data-choose="${value.unit}"]`).click();
@@ -637,8 +784,15 @@ export default class EditorPage extends BasePage {
 	 *
 	 * @return {Promise<void>}
 	 */
-	async setMediaControlImageValue(controlId: string, imageTitle: string): Promise<void> {
-		await this.page.locator(`.elementor-control-${controlId} .elementor-control-media__preview`).click();
+	async setMediaControlImageValue(
+		controlId: string,
+		imageTitle: string,
+	): Promise<void> {
+		await this.page
+			.locator(
+				`.elementor-control-${controlId} .elementor-control-media__preview`,
+			)
+			.click();
 		await this.page.getByRole('tab', { name: 'Media Library' }).click();
 		await this.page.locator(`[aria-label="${imageTitle}"]`).click();
 		await this.page.locator('.button.media-button').click();
@@ -652,7 +806,10 @@ export default class EditorPage extends BasePage {
 	 *
 	 * @return {Promise<void>}
 	 */
-	async setTypographyControlValue(controlId: string, fontsize: string): Promise<void> {
+	async setTypographyControlValue(
+		controlId: string,
+		fontsize: string,
+	): Promise<void> {
 		const controlSelector = `.elementor-control-${controlId}_typography .eicon-edit`;
 
 		await this.page.locator(controlSelector).click();
@@ -660,17 +817,51 @@ export default class EditorPage extends BasePage {
 		await this.page.locator(controlSelector).click();
 	}
 
-	async setShadowControlValue(controlId: string, shadowType: string): Promise<void> {
-		await this.page.locator(`.elementor-control-${controlId}_${shadowType}_shadow_type i.eicon-edit`).click();
-		await this.page.locator(`.elementor-control-${controlId}_${shadowType}_shadow_type label`).first().click();
+	async setShadowControlValue(
+		controlId: string,
+		shadowType: string,
+	): Promise<void> {
+		await this.page
+			.locator(
+				`.elementor-control-${controlId}_${shadowType}_shadow_type i.eicon-edit`,
+			)
+			.click();
+		await this.page
+			.locator(
+				`.elementor-control-${controlId}_${shadowType}_shadow_type label`,
+			)
+			.first()
+			.click();
 	}
 
-	async setTextStrokeControlValue(controlId: string, strokeType: string, value: number, color: string): Promise<void> {
-		await this.page.locator(`.elementor-control-${controlId}_${strokeType}_stroke_type i.eicon-edit`).click();
-		await this.page.locator(`.elementor-control-${controlId}_${strokeType}_stroke input[type="number"]`).first().fill(value.toString());
-		await this.page.locator(`.elementor-control-${controlId}_stroke_color .pcr-button`).first().click();
+	async setTextStrokeControlValue(
+		controlId: string,
+		strokeType: string,
+		value: number,
+		color: string,
+	): Promise<void> {
+		await this.page
+			.locator(
+				`.elementor-control-${controlId}_${strokeType}_stroke_type i.eicon-edit`,
+			)
+			.click();
+		await this.page
+			.locator(
+				`.elementor-control-${controlId}_${strokeType}_stroke input[type="number"]`,
+			)
+			.first()
+			.fill(value.toString());
+		await this.page
+			.locator(`.elementor-control-${controlId}_stroke_color .pcr-button`)
+			.first()
+			.click();
 		await this.page.locator('.pcr-app.visible .pcr-result').first().fill(color);
-		await this.page.locator(`.elementor-control-${controlId}_${strokeType}_stroke_type label`).first().click();
+		await this.page
+			.locator(
+				`.elementor-control-${controlId}_${strokeType}_stroke_type label`,
+			)
+			.first()
+			.click();
 	}
 
 	async setWidgetMask(): Promise<void> {
@@ -690,7 +881,9 @@ export default class EditorPage extends BasePage {
 		await this.getPreviewFrame().waitForSelector('.elementor-video');
 
 		const videoFrame = this.getPreviewFrame().frameLocator('.elementor-video'),
-			videoButton = videoFrame.locator('button.ytp-large-play-button.ytp-button.ytp-large-play-button-red-bg'),
+			videoButton = videoFrame.locator(
+				'button.ytp-large-play-button.ytp-button.ytp-large-play-button-red-bg',
+			),
 			videoGradient = videoFrame.locator('.ytp-gradient-top'),
 			videoTitle = videoFrame.locator('.ytp-show-cards-title'),
 			videoBottom = videoFrame.locator('.ytp-impression-link');
@@ -707,12 +900,18 @@ export default class EditorPage extends BasePage {
 	 * @return {Promise<void>}
 	 */
 	async hideMapControls(): Promise<void> {
-		await this.getPreviewFrame().waitForSelector('.elementor-widget-google_maps iframe');
+		await this.getPreviewFrame().waitForSelector(
+			'.elementor-widget-google_maps iframe',
+		);
 
-		const mapFrame = this.getPreviewFrame().frameLocator('.elementor-widget-google_maps iframe'),
+		const mapFrame = this.getPreviewFrame().frameLocator(
+				'.elementor-widget-google_maps iframe',
+			),
 			mapText = mapFrame.locator('.gm-style iframe + div + div'),
 			mapInset = mapFrame.locator('button.gm-inset-map.gm-inset-light'),
-			mapControls = mapFrame.locator('.gmnoprint.gm-bundled-control.gm-bundled-control-on-bottom');
+			mapControls = mapFrame.locator(
+				'.gmnoprint.gm-bundled-control.gm-bundled-control-on-bottom',
+			);
 
 		await mapText.evaluate((element) => (element.style.opacity = '0'));
 		await mapInset.evaluate((element) => (element.style.opacity = '0'));
@@ -766,7 +965,9 @@ export default class EditorPage extends BasePage {
 	 * @return {Promise<boolean>} Returns true if the Top Bar is visible, false otherwise.
 	 */
 	async hasTopBar(): Promise<boolean> {
-		return await this.page.locator(EditorSelectors.panels.topBar.wrapper).isVisible();
+		return await this.page
+			.locator(EditorSelectors.panels.topBar.wrapper)
+			.isVisible();
 	}
 
 	/**
@@ -777,11 +978,17 @@ export default class EditorPage extends BasePage {
 	 * @return {Promise<void>}
 	 */
 	async clickTopBarItem(selector: TopBarSelector): Promise<void> {
-		const topbarLocator = this.page.locator(EditorSelectors.panels.topBar.wrapper);
+		const topbarLocator = this.page.locator(
+			EditorSelectors.panels.topBar.wrapper,
+		);
 		if ('text' === selector.attribute) {
-			await topbarLocator.getByRole('button', { name: selector.attributeValue }).click();
+			await topbarLocator
+				.getByRole('button', { name: selector.attributeValue })
+				.click();
 		} else {
-			await topbarLocator.locator(`button[${selector.attribute}="${selector.attributeValue}"]`).click();
+			await topbarLocator
+				.locator(`button[${selector.attribute}="${selector.attributeValue}"]`)
+				.click();
 		}
 	}
 
@@ -799,7 +1006,9 @@ export default class EditorPage extends BasePage {
 		await this.page.locator(EditorSelectors.panels.menu.wrapper).waitFor();
 
 		if (innerPanel) {
-			await this.page.locator(`.elementor-panel-menu-item-${innerPanel}`).click();
+			await this.page
+				.locator(`.elementor-panel-menu-item-${innerPanel}`)
+				.click();
 		}
 	}
 
@@ -814,7 +1023,9 @@ export default class EditorPage extends BasePage {
 		if (hasTopBar) {
 			await this.clickTopBarItem(TopBarSelectors.elementsPanel);
 		} else {
-			await this.page.locator(EditorSelectors.panels.elements.footerButton).click();
+			await this.page
+				.locator(EditorSelectors.panels.elements.footerButton)
+				.click();
 		}
 
 		await this.page.locator(EditorSelectors.panels.elements.wrapper).waitFor();
@@ -831,10 +1042,14 @@ export default class EditorPage extends BasePage {
 		if (hasTopBar) {
 			await this.clickTopBarItem(TopBarSelectors.documentSettings);
 		} else {
-			await this.page.locator(EditorSelectors.panels.pageSettings.footerButton).click();
+			await this.page
+				.locator(EditorSelectors.panels.pageSettings.footerButton)
+				.click();
 		}
 
-		await this.page.locator(EditorSelectors.panels.pageSettings.wrapper).waitFor();
+		await this.page
+			.locator(EditorSelectors.panels.pageSettings.wrapper)
+			.waitFor();
 	}
 
 	/**
@@ -853,10 +1068,14 @@ export default class EditorPage extends BasePage {
 			await this.openMenuPanel('global-settings');
 		}
 
-		await this.page.locator(EditorSelectors.panels.siteSettings.wrapper).waitFor();
+		await this.page
+			.locator(EditorSelectors.panels.siteSettings.wrapper)
+			.waitFor();
 
 		if (innerPanel) {
-			await this.page.locator(`.elementor-panel-menu-item-${innerPanel}`).click();
+			await this.page
+				.locator(`.elementor-panel-menu-item-${innerPanel}`)
+				.click();
 		}
 	}
 
@@ -871,12 +1090,16 @@ export default class EditorPage extends BasePage {
 		if (hasTopBar) {
 			await this.clickTopBarItem(TopBarSelectors.elementorLogo);
 			await this.page.waitForTimeout(100);
-			await this.page.getByRole('menuitem', { name: 'User Preferences' }).click();
+			await this.page
+				.getByRole('menuitem', { name: 'User Preferences' })
+				.click();
 		} else {
 			await this.openMenuPanel('editor-preferences');
 		}
 
-		await this.page.locator(EditorSelectors.panels.userPreferences.wrapper).waitFor();
+		await this.page
+			.locator(EditorSelectors.panels.userPreferences.wrapper)
+			.waitFor();
 	}
 
 	/**
@@ -886,13 +1109,17 @@ export default class EditorPage extends BasePage {
 	 */
 	async closeNavigatorIfOpen(): Promise<void> {
 		await this.waitForPreviewFrame();
-		const isOpen = await this.getPreviewFrame().evaluate(() => elementor.navigator.isOpen());
+		const isOpen = await this.getPreviewFrame().evaluate(() =>
+			elementor.navigator.isOpen(),
+		);
 
 		if (!isOpen) {
 			return;
 		}
 
-		await this.page.locator(EditorSelectors.panels.navigator.closeButton).click();
+		await this.page
+			.locator(EditorSelectors.panels.navigator.closeButton)
+			.click();
 	}
 
 	/**
@@ -902,7 +1129,9 @@ export default class EditorPage extends BasePage {
 	 *
 	 * @return {Promise<void>}
 	 */
-	async setPageTemplate(template: 'default' | 'canvas' | 'full-width'): Promise<void> {
+	async setPageTemplate(
+		template: 'default' | 'canvas' | 'full-width',
+	): Promise<void> {
 		let templateValue: string;
 		let templateClass: string;
 
@@ -958,7 +1187,9 @@ export default class EditorPage extends BasePage {
 	 * @return {Promise<void>}
 	 */
 	async openResponsiveViewBar(): Promise<void> {
-		const hasResponsiveViewBar = await this.page.evaluate(() => elementor.isDeviceModeActive());
+		const hasResponsiveViewBar = await this.page.evaluate(() =>
+			elementor.isDeviceModeActive(),
+		);
 
 		if (!hasResponsiveViewBar) {
 			await this.page.locator('#elementor-panel-footer-responsive i').click();
@@ -978,7 +1209,11 @@ export default class EditorPage extends BasePage {
 			await Breakpoints.getDeviceLocator(this.page, device).click();
 		} else {
 			await this.openResponsiveViewBar();
-			await this.page.locator(`#e-responsive-bar-switcher__option-${device}`).first().locator('i').click();
+			await this.page
+				.locator(`#e-responsive-bar-switcher__option-${device}`)
+				.first()
+				.locator('i')
+				.click();
 		}
 	}
 
@@ -999,7 +1234,9 @@ export default class EditorPage extends BasePage {
 				})
 				.waitFor({ timeout: timeouts.longAction });
 		} else {
-			await this.page.locator('button#elementor-panel-saver-button-publish').click();
+			await this.page
+				.locator('button#elementor-panel-saver-button-publish')
+				.click();
 			await this.page.waitForLoadState();
 			await this.page.getByRole('button', { name: 'Update' }).waitFor();
 		}
@@ -1083,7 +1320,10 @@ export default class EditorPage extends BasePage {
 	 *
 	 * @return {Promise<void>}
 	 */
-	async applyElementSettings(elementId: string, settings: unknown): Promise<void> {
+	async applyElementSettings(
+		elementId: string,
+		settings: unknown,
+	): Promise<void> {
 		await this.page.evaluate(
 			(args) =>
 				$e.run('document/elements/settings', {
@@ -1111,8 +1351,14 @@ export default class EditorPage extends BasePage {
 				const rect = element.getBoundingClientRect();
 
 				if (rect.top >= 0 && rect.left >= 0) {
-					const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0),
-						vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+					const vw = Math.max(
+							document.documentElement.clientWidth || 0,
+							window.innerWidth || 0,
+						),
+						vh = Math.max(
+							document.documentElement.clientHeight || 0,
+							window.innerHeight || 0,
+						);
 
 					if (rect.right <= vw && rect.bottom <= vh) {
 						isVisible = true;
@@ -1140,11 +1386,20 @@ export default class EditorPage extends BasePage {
 	 *
 	 * @return {Promise<void>}
 	 */
-	async waitForIframeToLoaded(widgetType: string, isPublished: boolean = false): Promise<void> {
+	async waitForIframeToLoaded(
+		widgetType: string,
+		isPublished: boolean = false,
+	): Promise<void> {
 		const frames = {
 			video: [EditorSelectors.video.iframe, EditorSelectors.video.playIcon],
-			google_maps: [EditorSelectors.googleMaps.iframe, EditorSelectors.googleMaps.showSatelliteViewBtn],
-			sound_cloud: [EditorSelectors.soundCloud.iframe, EditorSelectors.soundCloud.waveForm],
+			google_maps: [
+				EditorSelectors.googleMaps.iframe,
+				EditorSelectors.googleMaps.showSatelliteViewBtn,
+			],
+			sound_cloud: [
+				EditorSelectors.soundCloud.iframe,
+				EditorSelectors.soundCloud.waveForm,
+			],
 		};
 
 		if (!(widgetType in frames)) {
@@ -1155,18 +1410,30 @@ export default class EditorPage extends BasePage {
 			await this.page.locator(frames[widgetType][0]).first().waitFor();
 			const count = await this.page.locator(frames[widgetType][0]).count();
 			for (let i = 1; i < count; i++) {
-				await this.page.frameLocator(frames[widgetType][0]).nth(i).locator(frames[widgetType][1]).waitFor();
+				await this.page
+					.frameLocator(frames[widgetType][0])
+					.nth(i)
+					.locator(frames[widgetType][1])
+					.waitFor();
 			}
 		} else {
 			const frame = this.getPreviewFrame();
 			await frame.waitForLoadState();
 			await frame.waitForSelector(frames[widgetType][0]);
-			await frame.frameLocator(frames[widgetType][0]).first().locator(frames[widgetType][1]).waitFor();
+			await frame
+				.frameLocator(frames[widgetType][0])
+				.first()
+				.locator(frames[widgetType][1])
+				.waitFor();
 			const iframeCount: number = await new Promise((resolved) => {
 				resolved(frame.childFrames().length);
 			});
 			for (let i = 1; i < iframeCount; i++) {
-				await frame.frameLocator(frames[widgetType][0]).nth(i).locator(frames[widgetType][1]).waitFor();
+				await frame
+					.frameLocator(frames[widgetType][0])
+					.nth(i)
+					.locator(frames[widgetType][1])
+					.waitFor();
 			}
 		}
 	}
@@ -1203,12 +1470,18 @@ export default class EditorPage extends BasePage {
 	 *
 	 * @return {Promise<void>}
 	 */
-	async verifyClassInElement(args: { selector: string; className: string; isPublished: boolean }): Promise<void> {
+	async verifyClassInElement(args: {
+		selector: string;
+		className: string;
+		isPublished: boolean;
+	}): Promise<void> {
 		const regex = new RegExp(args.className);
 		if (args.isPublished) {
 			await expect(this.page.locator(args.selector)).toHaveClass(regex);
 		} else {
-			await expect(this.getPreviewFrame().locator(args.selector)).toHaveClass(regex);
+			await expect(this.getPreviewFrame().locator(args.selector)).toHaveClass(
+				regex,
+			);
 		}
 	}
 
@@ -1223,7 +1496,12 @@ export default class EditorPage extends BasePage {
 	 *
 	 * @return {Promise<void>}
 	 */
-	async verifyImageSize(args: { selector: string; width: number; height: number; isPublished: boolean }): Promise<void> {
+	async verifyImageSize(args: {
+		selector: string;
+		width: number;
+		height: number;
+		isPublished: boolean;
+	}): Promise<void> {
 		const imageSize = args.isPublished
 			? await this.page.locator(args.selector).boundingBox()
 			: await this.getPreviewFrame().locator(args.selector).boundingBox();
@@ -1242,7 +1520,11 @@ export default class EditorPage extends BasePage {
 	 *
 	 * @return {Promise<void>}
 	 */
-	async isUiStable(locator: Locator, retries: number = 3, timeout: number = 500): Promise<void> {
+	async isUiStable(
+		locator: Locator,
+		retries: number = 3,
+		timeout: number = 500,
+	): Promise<void> {
 		const comparator = getComparator('image/png');
 		let retry = 0,
 			beforeImage: Buffer,
@@ -1319,7 +1601,9 @@ export default class EditorPage extends BasePage {
 	 */
 	async removeWpAdminBar(): Promise<void> {
 		const adminBar = 'wpadminbar';
-		await this.page.locator(`#${adminBar}`).waitFor({ timeout: timeouts.longAction });
+		await this.page
+			.locator(`#${adminBar}`)
+			.waitFor({ timeout: timeouts.longAction });
 		await this.page.evaluate((selector) => {
 			const admin = document.getElementById(selector);
 			admin.remove();
@@ -1338,16 +1622,25 @@ export default class EditorPage extends BasePage {
 		return Number(itemID.replace(idPrefix, ''));
 	}
 
-	async addImagesToGalleryControl(args?: { images?: string[]; metaData?: boolean }) {
+	async addImagesToGalleryControl(args?: {
+		images?: string[];
+		metaData?: boolean;
+	}) {
 		const defaultImages = ['A.jpg', 'B.jpg', 'C.jpg', 'D.jpg', 'E.jpg'];
 
-		await this.page.locator(EditorSelectors.galleryControl.addGalleryBtn).nth(0).click();
+		await this.page
+			.locator(EditorSelectors.galleryControl.addGalleryBtn)
+			.nth(0)
+			.click();
 		await this.page.getByRole('tab', { name: 'Media Library' }).click();
 
 		const _images = args?.images === undefined ? defaultImages : args.images;
 
 		for (const i in _images) {
-			await this.page.setInputFiles(EditorSelectors.media.imageInp, pathResolve(__dirname, `../resources/${_images[i]}`));
+			await this.page.setInputFiles(
+				EditorSelectors.media.imageInp,
+				pathResolve(__dirname, `../resources/${_images[i]}`),
+			);
 
 			if (args?.metaData) {
 				await this.addTestImageMetaData();
@@ -1358,14 +1651,20 @@ export default class EditorPage extends BasePage {
 		await this.page.locator('text=Insert gallery').click();
 	}
 
-	async addTestImageMetaData(args = { caption: 'Test caption!', description: 'Test description!' }) {
+	async addTestImageMetaData(
+		args = { caption: 'Test caption!', description: 'Test description!' },
+	) {
 		await this.page.locator(EditorSelectors.media.images).first().click();
 		await this.page.locator(EditorSelectors.media.imgCaption).clear();
-		await this.page.locator(EditorSelectors.media.imgCaption).type(args.caption);
+		await this.page
+			.locator(EditorSelectors.media.imgCaption)
+			.type(args.caption);
 
 		await this.page.locator(EditorSelectors.media.images).first().click();
 		await this.page.locator(EditorSelectors.media.imgDescription).clear();
-		await this.page.locator(EditorSelectors.media.imgDescription).type(args.description);
+		await this.page
+			.locator(EditorSelectors.media.imgDescription)
+			.type(args.description);
 	}
 
 	/**
@@ -1378,17 +1677,30 @@ export default class EditorPage extends BasePage {
 	 * @return {Promise<void>}
 	 */
 	async saveSiteSettingsWithTopBar(toReload: boolean): Promise<void> {
-		if (await this.page.locator(EditorSelectors.panels.siteSettings.saveButton).isEnabled()) {
-			await this.page.locator(EditorSelectors.panels.siteSettings.saveButton).click();
+		if (
+			await this.page
+				.locator(EditorSelectors.panels.siteSettings.saveButton)
+				.isEnabled()
+		) {
+			await this.page
+				.locator(EditorSelectors.panels.siteSettings.saveButton)
+				.click();
 		} else {
 			await this.page.evaluate((selector) => {
-				const button: HTMLElement = document.evaluate(selector, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE).singleNodeValue as HTMLElement;
+				const button: HTMLElement = document.evaluate(
+					selector,
+					document,
+					null,
+					XPathResult.FIRST_ORDERED_NODE_TYPE,
+				).singleNodeValue as HTMLElement;
 				button.click();
 			}, EditorSelectors.panels.siteSettings.saveButton);
 		}
 
 		if (toReload) {
-			await this.page.locator(EditorSelectors.refreshPopup.reloadButton).click();
+			await this.page
+				.locator(EditorSelectors.refreshPopup.reloadButton)
+				.click();
 		}
 	}
 
@@ -1400,15 +1712,23 @@ export default class EditorPage extends BasePage {
 	 * @return {Promise<void>}
 	 */
 	async saveSiteSettingsNoTopBar(): Promise<void> {
-		await this.page.locator(EditorSelectors.panels.footerTools.updateButton).click();
+		await this.page
+			.locator(EditorSelectors.panels.footerTools.updateButton)
+			.click();
 		await this.page.locator(EditorSelectors.toast).waitFor();
 	}
 
-	async assertCorrectVwWidthStylingOfElement(element: Locator, vwValue: number = 100): Promise<void> {
+	async assertCorrectVwWidthStylingOfElement(
+		element: Locator,
+		vwValue: number = 100,
+	): Promise<void> {
 		const viewport = this.page.viewportSize();
 		const vwConvertedToPxUnit = (viewport.width * vwValue) / 100;
-		const elementWidthInPxUnit = await element.boundingBox().then((box) => box?.width ?? 0);
-		const vwAndPxValuesAreEqual = Math.abs(vwConvertedToPxUnit - elementWidthInPxUnit) <= 1;
+		const elementWidthInPxUnit = await element
+			.boundingBox()
+			.then((box) => box?.width ?? 0);
+		const vwAndPxValuesAreEqual =
+			Math.abs(vwConvertedToPxUnit - elementWidthInPxUnit) <= 1;
 		expect(vwAndPxValuesAreEqual).toBeTruthy();
 	}
 }

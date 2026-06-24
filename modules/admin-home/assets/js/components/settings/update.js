@@ -7,7 +7,9 @@ export default function Update({ title, description }) {
 		const parser = new DOMParser();
 		const doc = parser.parseFromString(description, 'text/html');
 		const listItems = doc.querySelectorAll('li');
-		const extractedContent = Array.from(listItems).map((item) => item.textContent.trim());
+		const extractedContent = Array.from(listItems).map((item) =>
+			item.textContent.trim(),
+		);
 		return extractedContent.join('\n');
 	}, [description]);
 	return (

@@ -19,43 +19,68 @@ class elementorHelloThemeHandler {
 		this.elements = {
 			window,
 			menuToggle: document.querySelector(this.settings.selectors.menuToggle),
-			menuToggleHolder: document.querySelector(this.settings.selectors.menuToggleHolder),
-			dropdownMenu: document.querySelector(this.settings.selectors.dropdownMenu),
+			menuToggleHolder: document.querySelector(
+				this.settings.selectors.menuToggleHolder,
+			),
+			dropdownMenu: document.querySelector(
+				this.settings.selectors.dropdownMenu,
+			),
 		};
 	}
 
 	bindEvents() {
-		if (!this.elements.menuToggleHolder || this.elements.menuToggleHolder?.classList.contains('hide')) {
+		if (
+			!this.elements.menuToggleHolder ||
+			this.elements.menuToggleHolder?.classList.contains('hide')
+		) {
 			return;
 		}
 
-		this.elements.menuToggle.addEventListener('click', () => this.handleMenuToggle());
+		this.elements.menuToggle.addEventListener('click', () =>
+			this.handleMenuToggle(),
+		);
 
 		this.elements.dropdownMenu
 			.querySelectorAll('.menu-item-has-children > a')
-			.forEach((anchorElement) => anchorElement.addEventListener('click', (event) => this.handleMenuChildren(event)));
+			.forEach((anchorElement) =>
+				anchorElement.addEventListener('click', (event) =>
+					this.handleMenuChildren(event),
+				),
+			);
 	}
 
 	closeMenuItems() {
 		this.elements.menuToggleHolder.classList.remove('elementor-active');
-		this.elements.window.removeEventListener('resize', () => this.closeMenuItems());
+		this.elements.window.removeEventListener('resize', () =>
+			this.closeMenuItems(),
+		);
 	}
 
 	handleMenuToggle() {
-		const isDropdownVisible = !this.elements.menuToggleHolder.classList.contains('elementor-active');
+		const isDropdownVisible =
+			!this.elements.menuToggleHolder.classList.contains('elementor-active');
 
 		this.elements.menuToggle.setAttribute('aria-expanded', isDropdownVisible);
 		this.elements.dropdownMenu.setAttribute('aria-hidden', !isDropdownVisible);
 		this.elements.dropdownMenu.inert = !isDropdownVisible;
-		this.elements.menuToggleHolder.classList.toggle('elementor-active', isDropdownVisible);
+		this.elements.menuToggleHolder.classList.toggle(
+			'elementor-active',
+			isDropdownVisible,
+		);
 
 		// Always close all sub active items.
-		this.elements.dropdownMenu.querySelectorAll('.elementor-active').forEach((item) => item.classList.remove('elementor-active'));
+		this.elements.dropdownMenu
+			.querySelectorAll('.elementor-active')
+			.forEach((item) => item.classList.remove('elementor-active'));
 
 		if (isDropdownVisible) {
-			this.elements.window.addEventListener('resize', () => this.closeMenuItems());
+			this.elements.window.addEventListener('resize', () =>
+				this.closeMenuItems(),
+			);
 		} else {
-			this.elements.window.removeEventListener('resize', () => this.closeMenuItems());
+			this.elements.window.removeEventListener('resize', () =>
+				this.closeMenuItems(),
+			);
 		}
 	}
 

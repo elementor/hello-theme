@@ -10,9 +10,14 @@ test.describe.serial('Reset CSS Setting - Behavior Tests', () => {
 		await settingsPage.clickTab('CSS and styling control');
 	});
 
-	test('should load reset.css by default when setting is disabled', async ({ page, apiRequests }, testInfo) => {
+	test('should load reset.css by default when setting is disabled', async ({
+		page,
+		apiRequests,
+	}, testInfo) => {
 		const settingsPage = new SettingsPage(page, testInfo, apiRequests);
-		const themeCssCheckbox = settingsPage.getCheckboxBySetting('Deregister Hello reset.css');
+		const themeCssCheckbox = settingsPage.getCheckboxBySetting(
+			'Deregister Hello reset.css',
+		);
 
 		const isChecked = await themeCssCheckbox.isChecked();
 		if (isChecked) {
@@ -29,19 +34,28 @@ test.describe.serial('Reset CSS Setting - Behavior Tests', () => {
 		await page.goto('/');
 
 		const themeCssLoaded = cssRequests.some(
-			(url) => url.includes('/hello-theme/assets/css/reset.css') || url.includes('/hello-elementor/assets/css/reset.css'),
+			(url) =>
+				url.includes('/hello-theme/assets/css/reset.css') ||
+				url.includes('/hello-elementor/assets/css/reset.css'),
 		);
 
 		expect(themeCssLoaded).toBeTruthy();
 
-		const themeCssLink = page.locator('link[rel="stylesheet"][href*="reset.css"]').first();
+		const themeCssLink = page
+			.locator('link[rel="stylesheet"][href*="reset.css"]')
+			.first();
 		await expect(themeCssLink).toBeAttached();
 	});
 
-	test('should not load reset.css when setting is enabled', async ({ page, apiRequests }, testInfo) => {
+	test('should not load reset.css when setting is enabled', async ({
+		page,
+		apiRequests,
+	}, testInfo) => {
 		const settingsPage = new SettingsPage(page, testInfo, apiRequests);
 
-		const themeCssCheckbox = settingsPage.getCheckboxBySetting('Deregister Hello reset.css');
+		const themeCssCheckbox = settingsPage.getCheckboxBySetting(
+			'Deregister Hello reset.css',
+		);
 		const isChecked = await themeCssCheckbox.isChecked();
 		if (!isChecked) {
 			await settingsPage.toggleSetting('Deregister Hello reset.css');
@@ -57,12 +71,16 @@ test.describe.serial('Reset CSS Setting - Behavior Tests', () => {
 		await page.goto('/');
 
 		const themeCssLoaded = cssRequests.some(
-			(url) => url.includes('/hello-theme/assets/css/reset.css') || url.includes('/hello-elementor/assets/css/reset.css'),
+			(url) =>
+				url.includes('/hello-theme/assets/css/reset.css') ||
+				url.includes('/hello-elementor/assets/css/reset.css'),
 		);
 
 		expect(themeCssLoaded).toBeFalsy();
 
-		const themeCssLink = page.locator('link[rel="stylesheet"][href*="reset.css"]').first();
+		const themeCssLink = page
+			.locator('link[rel="stylesheet"][href*="reset.css"]')
+			.first();
 		await expect(themeCssLink).not.toBeAttached();
 	});
 });

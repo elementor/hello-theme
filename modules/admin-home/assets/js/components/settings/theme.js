@@ -20,10 +20,16 @@ export const Theme = () => {
 	return (
 		<Stack gap={2}>
 			<Typography variant="subtitle2">
-				{__('These settings allow you to change or remove default Hello Elementor theme styles.', 'hello-elementor')}
+				{__(
+					'These settings allow you to change or remove default Hello Elementor theme styles.',
+					'hello-elementor',
+				)}
 			</Typography>
 			<Alert severity="warning" sx={{ mb: 2 }}>
-				{__('Be careful, disabling these settings could break your website.', 'hello-elementor')}
+				{__(
+					'Be careful, disabling these settings could break your website.',
+					'hello-elementor',
+				)}
 			</Alert>
 			<Setting
 				value={helloStyle}

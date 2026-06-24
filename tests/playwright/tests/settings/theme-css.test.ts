@@ -10,9 +10,14 @@ test.describe.serial('Theme CSS Setting - Behavior Tests', () => {
 		await settingsPage.clickTab('CSS and styling control');
 	});
 
-	test('should load theme.css by default when setting is disabled', async ({ page, apiRequests }, testInfo) => {
+	test('should load theme.css by default when setting is disabled', async ({
+		page,
+		apiRequests,
+	}, testInfo) => {
 		const settingsPage = new SettingsPage(page, testInfo, apiRequests);
-		const themeCssCheckbox = settingsPage.getCheckboxBySetting('Deregister Hello theme.css');
+		const themeCssCheckbox = settingsPage.getCheckboxBySetting(
+			'Deregister Hello theme.css',
+		);
 
 		const isChecked = await themeCssCheckbox.isChecked();
 		if (isChecked) {
@@ -29,19 +34,28 @@ test.describe.serial('Theme CSS Setting - Behavior Tests', () => {
 		await page.goto('/');
 
 		const themeCssLoaded = cssRequests.some(
-			(url) => url.includes('/hello-theme/assets/css/theme.css') || url.includes('/hello-elementor/assets/css/theme.css'),
+			(url) =>
+				url.includes('/hello-theme/assets/css/theme.css') ||
+				url.includes('/hello-elementor/assets/css/theme.css'),
 		);
 
 		expect(themeCssLoaded).toBeTruthy();
 
-		const themeCssLink = page.locator('link[rel="stylesheet"][href*="theme.css"]').first();
+		const themeCssLink = page
+			.locator('link[rel="stylesheet"][href*="theme.css"]')
+			.first();
 		await expect(themeCssLink).toBeAttached();
 	});
 
-	test('should not load theme.css when setting is enabled', async ({ page, apiRequests }, testInfo) => {
+	test('should not load theme.css when setting is enabled', async ({
+		page,
+		apiRequests,
+	}, testInfo) => {
 		const settingsPage = new SettingsPage(page, testInfo, apiRequests);
 
-		const themeCssCheckbox = settingsPage.getCheckboxBySetting('Deregister Hello theme.css');
+		const themeCssCheckbox = settingsPage.getCheckboxBySetting(
+			'Deregister Hello theme.css',
+		);
 		const isChecked = await themeCssCheckbox.isChecked();
 		if (!isChecked) {
 			await settingsPage.toggleSetting('Deregister Hello theme.css');
@@ -57,12 +71,16 @@ test.describe.serial('Theme CSS Setting - Behavior Tests', () => {
 		await page.goto('/');
 
 		const themeCssLoaded = cssRequests.some(
-			(url) => url.includes('/hello-theme/assets/css/theme.css') || url.includes('/hello-elementor/assets/css/theme.css'),
+			(url) =>
+				url.includes('/hello-theme/assets/css/theme.css') ||
+				url.includes('/hello-elementor/assets/css/theme.css'),
 		);
 
 		expect(themeCssLoaded).toBeFalsy();
 
-		const themeCssLink = page.locator('link[rel="stylesheet"][href*="theme.css"]').first();
+		const themeCssLink = page
+			.locator('link[rel="stylesheet"][href*="theme.css"]')
+			.first();
 		await expect(themeCssLink).not.toBeAttached();
 	});
 });

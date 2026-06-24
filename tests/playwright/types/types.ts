@@ -66,7 +66,17 @@ export type Post = {
 	featuredMedia?: number;
 	commentStatus?: 'open' | 'closed';
 	pingStatus?: 'open' | 'closed';
-	format?: 'standard' | 'aside' | 'chat' | 'gallery' | 'link' | 'image' | 'quote' | 'status' | 'video' | 'audio';
+	format?:
+		| 'standard'
+		| 'aside'
+		| 'chat'
+		| 'gallery'
+		| 'link'
+		| 'image'
+		| 'quote'
+		| 'status'
+		| 'video'
+		| 'audio';
 	meta?: string;
 	sticky?: boolean;
 	template?: string;
@@ -110,7 +120,14 @@ export type ElementorType = {
 	isDeviceModeActive?: () => unknown;
 };
 
-export type Device = 'mobile' | 'mobile_extra' | 'tablet' | 'tablet_extra' | 'laptop' | 'desktop' | 'widescreen';
+export type Device =
+	| 'mobile'
+	| 'mobile_extra'
+	| 'tablet'
+	| 'tablet_extra'
+	| 'laptop'
+	| 'desktop'
+	| 'widescreen';
 
 export type BreakpointEditableDevice = Exclude<Device, 'desktop'>;
 

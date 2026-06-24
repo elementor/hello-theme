@@ -1,6 +1,17 @@
-import { APIRequest, APIRequestContext, Page, chromium, APIResponse } from '@playwright/test';
+import {
+	APIRequest,
+	APIRequestContext,
+	Page,
+	chromium,
+	APIResponse,
+} from '@playwright/test';
 
-export async function login(apiRequest: APIRequest, user: string, password: string, baseUrl: string) {
+export async function login(
+	apiRequest: APIRequest,
+	user: string,
+	password: string,
+	baseUrl: string,
+) {
 	// Important: make sure we authenticate in a clean environment by unsetting storage state.
 	const context = await apiRequest.newContext({ storageState: undefined });
 
@@ -34,7 +45,10 @@ export async function fetchNonce(context: APIRequestContext, baseUrl: string) {
 	return nonceMatch[0].replace(/^.*"nonce":"([^"]*)".*$/, '$1');
 }
 
-async function updateDatabase(context: APIRequestContext, baseUrl: string): Promise<string> {
+async function updateDatabase(
+	context: APIRequestContext,
+	baseUrl: string,
+): Promise<string> {
 	const browser = await chromium.launch();
 	const browserContext = await browser.newContext();
 	const page: Page = await browserContext.newPage();

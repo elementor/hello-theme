@@ -30,7 +30,8 @@ const EditorSelectors = {
 			saveButton: '//button[text()="Save Changes"]',
 			layout: {
 				breakpoints: {
-					removeBreakpointButton: '#elementor-kit-panel-content .select2-selection__choice__remove',
+					removeBreakpointButton:
+						'#elementor-kit-panel-content .select2-selection__choice__remove',
 				},
 			},
 		},
@@ -51,7 +52,8 @@ const EditorSelectors = {
 		popoverCard: '[data-testid="e-popover-card"]',
 	},
 	refreshPopup: {
-		reloadButton: '#elementor-save-kit-refresh-page .dialog-button.dialog-ok.dialog-alert-ok',
+		reloadButton:
+			'#elementor-save-kit-refresh-page .dialog-button.dialog-ok.dialog-alert-ok',
 	},
 
 	media: {
@@ -126,7 +128,8 @@ const EditorSelectors = {
 		imgCaption: 'figcaption.elementor-image-carousel-caption',
 		prevSliderBtn: '.elementor-swiper-button-prev',
 		nextSliderBtn: '.elementor-swiper-button-next',
-		activeSlide: (id: string) => `.swiper-pagination-bullet-active[aria-label="Go to slide ${id}"]`,
+		activeSlide: (id: string) =>
+			`.swiper-pagination-bullet-active[aria-label="Go to slide ${id}"]`,
 		activeSlideImg: (name: string) => `.swiper-slide-active img[alt="${name}"]`,
 	},
 	textPath: {
@@ -216,8 +219,10 @@ const EditorSelectors = {
 	},
 	contextMenu: {
 		menu: '.elementor-context-menu',
-		saveAsGlobal: '.elementor-context-menu-list__item.elementor-context-menu-list__item-save.elementor-context-menu-list__item--disabled',
-		notes: '.elementor-context-menu-list__item.elementor-context-menu-list__item-open_notes.elementor-context-menu-list__item--disabled',
+		saveAsGlobal:
+			'.elementor-context-menu-list__item.elementor-context-menu-list__item-save.elementor-context-menu-list__item--disabled',
+		notes:
+			'.elementor-context-menu-list__item.elementor-context-menu-list__item-open_notes.elementor-context-menu-list__item--disabled',
 	},
 	dialog: {
 		lightBox: '.elementor-lightbox',

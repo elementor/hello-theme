@@ -18,7 +18,9 @@ test.describe.serial('Description Meta Tag Setting - Behavior Tests', () => {
 		apiRequests,
 	}, testInfo) => {
 		const settingsPage = new SettingsPage(page, testInfo, apiRequests);
-		const metaCheckbox = settingsPage.getCheckboxBySetting('Disable description meta tag');
+		const metaCheckbox = settingsPage.getCheckboxBySetting(
+			'Disable description meta tag',
+		);
 
 		const isChecked = await metaCheckbox.isChecked();
 		if (!isChecked) {
@@ -36,7 +38,9 @@ test.describe.serial('Description Meta Tag Setting - Behavior Tests', () => {
 		apiRequests,
 	}, testInfo) => {
 		const settingsPage = new SettingsPage(page, testInfo, apiRequests);
-		const metaCheckbox = settingsPage.getCheckboxBySetting('Disable description meta tag');
+		const metaCheckbox = settingsPage.getCheckboxBySetting(
+			'Disable description meta tag',
+		);
 
 		const isChecked = await metaCheckbox.isChecked();
 		if (isChecked) {
@@ -54,7 +58,9 @@ test.describe.serial('Description Meta Tag Setting - Behavior Tests', () => {
 		apiRequests,
 	}, testInfo) => {
 		const settingsPage = new SettingsPage(page, testInfo, apiRequests);
-		const metaCheckbox = settingsPage.getCheckboxBySetting('Disable description meta tag');
+		const metaCheckbox = settingsPage.getCheckboxBySetting(
+			'Disable description meta tag',
+		);
 
 		const isChecked = await metaCheckbox.isChecked();
 		if (!isChecked) {

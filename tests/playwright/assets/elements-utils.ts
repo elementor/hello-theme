@@ -12,7 +12,11 @@ import { $eType, ElementorType } from '../types/types.ts';
 let parent: unknown;
 let elementor: ElementorType;
 let $e: $eType;
-export const addElement = (props: { model: unknown; container: null | string; isContainerASection: boolean }): string | undefined => {
+export const addElement = (props: {
+	model: unknown;
+	container: null | string;
+	isContainerASection: boolean;
+}): string | undefined => {
 	if (props.container) {
 		parent = elementor.getContainer(props.container);
 	} else {
@@ -26,7 +30,11 @@ export const addElement = (props: { model: unknown; container: null | string; is
 		props.isContainerASection = true;
 	}
 
-	if (props.isContainerASection && 'object' === typeof parent && 'children' in parent) {
+	if (
+		props.isContainerASection &&
+		'object' === typeof parent &&
+		'children' in parent
+	) {
 		parent = parent.children[0];
 	}
 
@@ -35,7 +43,11 @@ export const addElement = (props: { model: unknown; container: null | string; is
 		container: parent,
 	});
 
-	if ('object' === typeof element && 'id' in element && 'string' === typeof element.id) {
+	if (
+		'object' === typeof element &&
+		'id' in element &&
+		'string' === typeof element.id
+	) {
 		return element.id;
 	}
 	return undefined;

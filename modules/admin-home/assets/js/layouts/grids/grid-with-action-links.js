@@ -19,7 +19,16 @@ export const GridWithActionLinks = ({ children }) => {
 				{children}
 			</Grid>
 			{!isSmallScreen && (
-				<Grid item sx={{ p: 0 }} xs={12} sm={12} md={12} lg={3} xl={3} style={{ maxWidth: 300 }}>
+				<Grid
+					item
+					sx={{ p: 0 }}
+					xs={12}
+					sm={12}
+					md={12}
+					lg={3}
+					xl={3}
+					style={{ maxWidth: 300 }}
+				>
 					<PromotionsList />
 				</Grid>
 			)}

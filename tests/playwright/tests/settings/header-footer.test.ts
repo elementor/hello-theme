@@ -10,9 +10,14 @@ test.describe.serial('Header and Footer Setting - Behavior Tests', () => {
 		await settingsPage.clickTab('Structure and layout');
 	});
 
-	test('should show header and footer by default when setting is disabled', async ({ page, apiRequests }, testInfo) => {
+	test('should show header and footer by default when setting is disabled', async ({
+		page,
+		apiRequests,
+	}, testInfo) => {
 		const settingsPage = new SettingsPage(page, testInfo, apiRequests);
-		const headerFooterCheckbox = settingsPage.getCheckboxBySetting('Disable theme header and footer');
+		const headerFooterCheckbox = settingsPage.getCheckboxBySetting(
+			'Disable theme header and footer',
+		);
 
 		const isChecked = await headerFooterCheckbox.isChecked();
 		if (isChecked) {
@@ -28,10 +33,15 @@ test.describe.serial('Header and Footer Setting - Behavior Tests', () => {
 		await expect(footer).toBeAttached();
 	});
 
-	test('should hide header and footer when setting is enabled', async ({ page, apiRequests }, testInfo) => {
+	test('should hide header and footer when setting is enabled', async ({
+		page,
+		apiRequests,
+	}, testInfo) => {
 		const settingsPage = new SettingsPage(page, testInfo, apiRequests);
 
-		const headerFooterCheckbox = settingsPage.getCheckboxBySetting('Disable theme header and footer');
+		const headerFooterCheckbox = settingsPage.getCheckboxBySetting(
+			'Disable theme header and footer',
+		);
 		const isChecked = await headerFooterCheckbox.isChecked();
 		if (!isChecked) {
 			await settingsPage.toggleSetting('Disable theme header and footer');

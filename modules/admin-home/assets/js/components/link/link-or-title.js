@@ -7,11 +7,20 @@ const LinkOrTitle = ({ title, link, sublinks, onClick, target }) => (
 	<Stack direction="column">
 		<Typography variant="subtitle1" color="text.primary">
 			{link && 0 === sublinks.length ? (
-				<Link color="inherit" underline="hover" onClick={onClick} href={link} target={target} sx={{ lineHeight: 'initial', fontWeight: 'normal' }}>
+				<Link
+					color="inherit"
+					underline="hover"
+					onClick={onClick}
+					href={link}
+					target={target}
+					sx={{ lineHeight: 'initial', fontWeight: 'normal' }}
+				>
 					{decode(title)}
 				</Link>
 			) : (
-				<span style={{ lineHeight: 'initial', fontWeight: 'normal' }}>{decode(title)}</span>
+				<span style={{ lineHeight: 'initial', fontWeight: 'normal' }}>
+					{decode(title)}
+				</span>
 			)}
 		</Typography>
 	</Stack>

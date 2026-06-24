@@ -83,13 +83,20 @@ export default class ApiRequests {
 		await Promise.all(requests);
 	}
 
-	public async cleanUpTestPages(request: APIRequestContext, shouldDeleteAllPages = false) {
+	public async cleanUpTestPages(
+		request: APIRequestContext,
+		shouldDeleteAllPages = false,
+	) {
 		const pagesPublished = await this.getPages(request),
 			pagesDraft = await this.getPages(request, 'draft'),
 			pages = [...pagesPublished, ...pagesDraft];
 
 		const pageIds = pages
-			.filter((page: WpPage) => shouldDeleteAllPages || page.title.rendered.includes('Playwright Test Page'))
+			.filter(
+				(page: WpPage) =>
+					shouldDeleteAllPages ||
+					page.title.rendered.includes('Playwright Test Page'),
+			)
 			.map((page: WpPage) => page.id);
 
 		for (const id of pageIds) {
@@ -97,7 +104,11 @@ export default class ApiRequests {
 		}
 	}
 
-	public async installPlugin(request: APIRequestContext, slug: string, active: boolean) {
+	public async installPlugin(
+		request: APIRequestContext,
+		slug: string,
+		active: boolean,
+	) {
 		const response = await request.post(`${this.baseUrl}/index.php`, {
 			params: {
 				rest_route: `/wp/v2/plugins`,
@@ -152,11 +163,18 @@ export default class ApiRequests {
 		}
 	}
 
-	public async getTheme(request: APIRequestContext, status?: 'active' | 'inactive') {
+	public async getTheme(
+		request: APIRequestContext,
+		status?: 'active' | 'inactive',
+	) {
 		return await this.get(request, 'themes', status);
 	}
 
-	public async customGet(request: APIRequestContext, restRoute: string, multipart?) {
+	public async customGet(
+		request: APIRequestContext,
+		restRoute: string,
+		multipart?,
+	) {
 		const response = await request.get(`${this.baseUrl}/${restRoute}`, {
 			headers: {
 				'X-WP-Nonce': this.nonce,
@@ -190,7 +208,11 @@ export default class ApiRequests {
 		}
 	}
 
-	private async get(request: APIRequestContext, entity: string, status: string = 'publish') {
+	private async get(
+		request: APIRequestContext,
+		entity: string,
+		status: string = 'publish',
+	) {
 		const response = await request.get(`${this.baseUrl}/index.php`, {
 			params: {
 				rest_route: `/wp/v2/${entity}`,
@@ -211,7 +233,10 @@ export default class ApiRequests {
 		return await response.json();
 	}
 
-	private async getPages(request: APIRequestContext, status: string = 'publish') {
+	private async getPages(
+		request: APIRequestContext,
+		status: string = 'publish',
+	) {
 		return await this.get(request, 'pages', status);
 	}
 
@@ -241,7 +266,11 @@ export default class ApiRequests {
 		return await response.json();
 	}
 
-	private async _delete(request: APIRequestContext, entity: string, id: string) {
+	private async _delete(
+		request: APIRequestContext,
+		entity: string,
+		id: string,
+	) {
 		const response = await request.delete(`${this.baseUrl}/index.php`, {
 			params: {
 				rest_route: `/wp/v2/${entity}/${id}`,

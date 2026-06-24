@@ -5,7 +5,8 @@ import { timeouts } from './config/timeouts.ts';
 
 process.env.DEV_SERVER = 'http://localhost:8888';
 process.env.TEST_SERVER = 'http://localhost:8889';
-process.env.DEBUG_PORT = 1 === Number(process.env.TEST_PARALLEL_INDEX) ? '9223' : '9222';
+process.env.DEBUG_PORT =
+	1 === Number(process.env.TEST_PARALLEL_INDEX) ? '9223' : '9222';
 
 _config({
 	path: resolve(__dirname, '../../.env'),
@@ -35,7 +36,11 @@ export default defineConfig({
 		navigationTimeout: 45000, // Increase from the default
 		trace: 'retain-on-failure',
 		video: process.env.CI ? 'retain-on-failure' : 'off',
-		baseURL: process.env.BASE_URL || (1 === Number(process.env.TEST_PARALLEL_INDEX) ? process.env.TEST_SERVER : process.env.DEV_SERVER),
+		baseURL:
+			process.env.BASE_URL ||
+			(1 === Number(process.env.TEST_PARALLEL_INDEX)
+				? process.env.TEST_SERVER
+				: process.env.DEV_SERVER),
 		viewport: { width: 1920, height: 1080 },
 		storageState: `./storageState-${process.env.TEST_PARALLEL_INDEX}.json`,
 	},

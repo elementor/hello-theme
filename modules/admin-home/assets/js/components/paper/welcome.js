@@ -12,7 +12,12 @@ export const Welcome = ({ sx, dismissable = false }) => {
 	const {
 		adminSettings: {
 			config: { nonceInstall = '', disclaimer = '', slug = '' } = {},
-			welcome: { title = '', text = '', buttons = [], image: { src = '', alt = '' } = {} } = {},
+			welcome: {
+				title = '',
+				text = '',
+				buttons = [],
+				image: { src = '', alt = '' } = {},
+			} = {},
 		} = {},
 	} = useAdminContext();
 
@@ -69,7 +74,10 @@ export const Welcome = ({ sx, dismissable = false }) => {
 				sx={{ width: '100%', gap: 9 }}
 			>
 				<Stack direction="column" sx={{ flex: 1 }}>
-					<Typography variant="h6" sx={{ color: 'text.primary', fontWeight: 500 }}>
+					<Typography
+						variant="h6"
+						sx={{ color: 'text.primary', fontWeight: 500 }}
+					>
 						{title}
 					</Typography>
 					<Typography variant="body2" sx={{ mb: 3, color: 'text.secondary' }}>
@@ -87,7 +95,10 @@ export const Welcome = ({ sx, dismissable = false }) => {
 
 										setIsLoading(true);
 
-										const response = await wp.ajax.post('ehe_install_elementor', data);
+										const response = await wp.ajax.post(
+											'ehe_install_elementor',
+											data,
+										);
 
 										if (response.activateUrl) {
 											window.location.href = response.activateUrl;
@@ -111,10 +122,18 @@ export const Welcome = ({ sx, dismissable = false }) => {
 							};
 
 							return (
-								<Button key={linkText} onClick={onClick} variant={variant} color={color}>
+								<Button
+									key={linkText}
+									onClick={onClick}
+									variant={variant}
+									color={color}
+								>
 									{isLoading ? (
 										<>
-											<CircularProgress size={12} sx={{ verticalAlign: 'middle', display: 'inline-flex' }} />
+											<CircularProgress
+												size={12}
+												sx={{ verticalAlign: 'middle', display: 'inline-flex' }}
+											/>
 											{__('Installing Elementor', 'hello-elementor')}
 										</>
 									) : (
