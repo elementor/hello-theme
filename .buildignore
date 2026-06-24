@@ -24,6 +24,7 @@ webpack.config.js
 .browserslistrc
 .eslintignore
 .eslintrc.js
+.prettierrc
 .npmrc
 .stylelintrc
 
