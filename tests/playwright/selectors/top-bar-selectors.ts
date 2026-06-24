@@ -1,7 +1,7 @@
 export type TopBarSelector = {
 	attribute: string;
 	attributeValue: string;
-}
+};
 
 export default {
 	elementorLogo: {

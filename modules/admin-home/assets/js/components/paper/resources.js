@@ -9,17 +9,9 @@ export const Resources = () => {
 
 	return (
 		<BaseAdminPaper>
-			<Stack direction="row" gap={ 12 }>
-				<ColumnLinkGroup
-					title={ __( 'Community', 'hello-elementor' ) }
-					links={ community }
-					sx={ { minWidth: '25%' } }
-				/>
-				<ColumnLinkGroup
-					title={ __( 'Resources', 'hello-elementor' ) }
-					links={ resources }
-					sx={ { minWidth: '25%' } }
-				/>
+			<Stack direction="row" gap={12}>
+				<ColumnLinkGroup title={__('Community', 'hello-elementor')} links={community} sx={{ minWidth: '25%' }} />
+				<ColumnLinkGroup title={__('Resources', 'hello-elementor')} links={resources} sx={{ minWidth: '25%' }} />
 			</Stack>
 		</BaseAdminPaper>
 	);

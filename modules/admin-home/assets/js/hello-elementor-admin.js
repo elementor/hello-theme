@@ -7,8 +7,17 @@ import Container from '@elementor/ui/Container';
 const App = () => {
 	return (
 		<AdminProvider>
-			<Box sx={ { pr: 1 } }>
-				<Container disableGutters={ true } maxWidth="lg" sx={ { display: 'flex', flexDirection: 'column', pt: { xs: 2, md: 6 }, pb: 2 } }>
+			<Box sx={{ pr: 1 }}>
+				<Container
+					disableGutters={true}
+					maxWidth="lg"
+					sx={{
+						display: 'flex',
+						flexDirection: 'column',
+						pt: { xs: 2, md: 6 },
+						pb: 2,
+					}}
+				>
 					<AdminPage />
 				</Container>
 			</Box>
@@ -16,12 +25,11 @@ const App = () => {
 	);
 };
 
-document.addEventListener( 'DOMContentLoaded', () => {
-	const container = document.getElementById( 'ehe-admin-home' );
+document.addEventListener('DOMContentLoaded', () => {
+	const container = document.getElementById('ehe-admin-home');
 
-	if ( container ) {
-		const root = createRoot( container );
-		root.render( <App /> );
+	if (container) {
+		const root = createRoot(container);
+		root.render(<App />);
 	}
-} );
-
+});

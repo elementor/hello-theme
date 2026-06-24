@@ -9,11 +9,17 @@ const App = () => {
 	return (
 		<SettingsProvider>
 			<ThemeProvider colorScheme="auto">
-				<Box sx={ { pr: 1 } }>
+				<Box sx={{ pr: 1 }}>
 					<Container
-						disableGutters={ true }
+						disableGutters={true}
 						maxWidth="lg"
-						sx={ { display: 'flex', flexDirection: 'row', justifyContent: 'center', pt: { xs: 2, md: 6 }, pb: 2 } }
+						sx={{
+							display: 'flex',
+							flexDirection: 'row',
+							justifyContent: 'center',
+							pt: { xs: 2, md: 6 },
+							pb: 2,
+						}}
 					>
 						<SettingsPage />
 					</Container>
@@ -23,12 +29,11 @@ const App = () => {
 	);
 };
 
-document.addEventListener( 'DOMContentLoaded', () => {
-	const container = document.getElementById( 'ehe-admin-settings' );
+document.addEventListener('DOMContentLoaded', () => {
+	const container = document.getElementById('ehe-admin-settings');
 
-	if ( container ) {
-		const root = createRoot( container );
-		root.render( <App /> );
+	if (container) {
+		const root = createRoot(container);
+		root.render(<App />);
 	}
-} );
-
+});

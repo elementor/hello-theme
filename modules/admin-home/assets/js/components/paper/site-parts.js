@@ -9,22 +9,10 @@ export const SiteParts = () => {
 
 	return (
 		<BaseAdminPaper>
-			<Stack direction="row" gap={ 12 }>
-				<ColumnLinkGroup
-					title={ __( 'Site Parts', 'hello-elementor' ) }
-					links={ siteParts }
-					sx={ { minWidth: '25%' } }
-				/>
-				<ColumnLinkGroup
-					title={ __( 'Recent Pages', 'hello-elementor' ) }
-					links={ sitePages }
-					sx={ { minWidth: '25%' } }
-				/>
-				<ColumnLinkGroup
-					title={ __( 'General', 'hello-elementor' ) }
-					links={ general }
-					sx={ { minWidth: '25%' } }
-				/>
+			<Stack direction="row" gap={12}>
+				<ColumnLinkGroup title={__('Site Parts', 'hello-elementor')} links={siteParts} sx={{ minWidth: '25%' }} />
+				<ColumnLinkGroup title={__('Recent Pages', 'hello-elementor')} links={sitePages} sx={{ minWidth: '25%' }} />
+				<ColumnLinkGroup title={__('General', 'hello-elementor')} links={general} sx={{ minWidth: '25%' }} />
 			</Stack>
 		</BaseAdminPaper>
 	);
