@@ -12,36 +12,42 @@ import { $eType, ElementorType } from '../types/types.ts';
 let parent: unknown;
 let elementor: ElementorType;
 let $e: $eType;
-export const addElement = ( props: { model: unknown, container: null | string, isContainerASection: boolean } ): string | undefined => {
-	if ( props.container ) {
-		parent = elementor.getContainer( props.container );
+export const addElement = (props: {
+	model: unknown;
+	container: null | string;
+	isContainerASection: boolean;
+}): string | undefined => {
+	if (props.container) {
+		parent = elementor.getContainer(props.container);
 	} else {
 		// If a `container` isn't supplied - create a new Section.
-		parent = $e.run(
-			'document/elements/create',
-			{
-				model: { elType: 'section' },
-				columns: 1,
-				container: elementor.getContainer( 'document' ),
-			},
-		);
+		parent = $e.run('document/elements/create', {
+			model: { elType: 'section' },
+			columns: 1,
+			container: elementor.getContainer('document'),
+		});
 
 		props.isContainerASection = true;
 	}
 
-	if ( props.isContainerASection && 'object' === typeof parent && 'children' in parent ) {
-		parent = parent.children[ 0 ];
+	if (
+		props.isContainerASection &&
+		'object' === typeof parent &&
+		'children' in parent
+	) {
+		parent = parent.children[0];
 	}
 
-	const element = $e.run(
-		'document/elements/create',
-		{
-			model: props.model,
-			container: parent,
-		},
-	);
+	const element = $e.run('document/elements/create', {
+		model: props.model,
+		container: parent,
+	});
 
-	if ( 'object' === typeof element && 'id' in element && 'string' === typeof element.id ) {
+	if (
+		'object' === typeof element &&
+		'id' in element &&
+		'string' === typeof element.id
+	) {
 		return element.id;
 	}
 	return undefined;
@@ -54,6 +60,6 @@ export const addElement = ( props: { model: unknown, container: null | string, i
  *
  * @return {string} css selector
  */
-export const getElementSelector = ( id: string ) => {
-	return `[data-id = "${ id }"]`;
+export const getElementSelector = (id: string) => {
+	return `[data-id = "${id}"]`;
 };

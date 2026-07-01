@@ -7,7 +7,6 @@ export default class extends $e.modules.ComponentBase {
 	}
 
 	defaultHooks() {
-		return this.importHooks( { ControlsHook } );
+		return this.importHooks({ ControlsHook });
 	}
 }
-

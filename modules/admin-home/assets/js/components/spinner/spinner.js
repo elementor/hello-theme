@@ -16,7 +16,7 @@ const Spinner = () => {
 	};
 
 	return (
-		<Box style={ style }>
+		<Box style={style}>
 			<CircularProgress />
 		</Box>
 	);

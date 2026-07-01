@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 // File to store page URL
-const urlStorePath = path.join( __dirname, '..', 'temp-form-page-url.txt' );
+const urlStorePath = path.join(__dirname, '..', 'temp-form-page-url.txt');
 
 /**
  * Gets the page URL from the file storage
@@ -11,8 +11,8 @@ const urlStorePath = path.join( __dirname, '..', 'temp-form-page-url.txt' );
  */
 export const getPageUrl = (): string => {
 	try {
-		return fs.readFileSync( urlStorePath, 'utf8' );
-	} catch ( e ) {
+		return fs.readFileSync(urlStorePath, 'utf8');
+	} catch {
 		return '';
 	}
 };
@@ -22,6 +22,6 @@ export const getPageUrl = (): string => {
  *
  * @param {string} url - The URL to save
  */
-export const savePageUrl = ( url: string ): void => {
-	fs.writeFileSync( urlStorePath, url );
+export const savePageUrl = (url: string): void => {
+	fs.writeFileSync(urlStorePath, url);
 };

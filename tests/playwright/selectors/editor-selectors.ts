@@ -1,5 +1,5 @@
 const EditorSelectors = {
-	getWidgetByName: ( title: string ) => `[data-widget_type="${ title }.default"]`,
+	getWidgetByName: (title: string) => `[data-widget_type="${title}.default"]`,
 	widget: '[data-element_type="widget"]',
 	container: '[data-element_type="container"]',
 	item: '.elementor-repeater-row-item-title',
@@ -30,7 +30,8 @@ const EditorSelectors = {
 			saveButton: '//button[text()="Save Changes"]',
 			layout: {
 				breakpoints: {
-					removeBreakpointButton: '#elementor-kit-panel-content .select2-selection__choice__remove',
+					removeBreakpointButton:
+						'#elementor-kit-panel-content .select2-selection__choice__remove',
 				},
 			},
 		},
@@ -51,12 +52,13 @@ const EditorSelectors = {
 		popoverCard: '[data-testid="e-popover-card"]',
 	},
 	refreshPopup: {
-		reloadButton: '#elementor-save-kit-refresh-page .dialog-button.dialog-ok.dialog-alert-ok',
+		reloadButton:
+			'#elementor-save-kit-refresh-page .dialog-button.dialog-ok.dialog-alert-ok',
 	},
 
 	media: {
 		preview: '.elementor-control-media__preview',
-		imageByTitle: ( imageTitle: string ) => `[aria-label="${ imageTitle }"]`,
+		imageByTitle: (imageTitle: string) => `[aria-label="${imageTitle}"]`,
 		selectBtn: '.button.media-button',
 		imageInp: 'input[type="file"]',
 		addGalleryButton: 'button.media-button-gallery',
@@ -65,7 +67,7 @@ const EditorSelectors = {
 		imgDescription: '#attachment-details-description',
 	},
 	button: {
-		getByName: ( name: string ) => `.elementor-button:has-text("${ name }")`,
+		getByName: (name: string) => `.elementor-button:has-text("${name}")`,
 		id: '[data-setting="button_css_id"]',
 		url: 'input[data-setting="url"]',
 		linkOptions: 'button[data-tooltip="Link Options"]',
@@ -76,7 +78,7 @@ const EditorSelectors = {
 	heading: {
 		h2: 'h2.elementor-heading-title',
 		get link() {
-			return `${ this.h2 } a`;
+			return `${this.h2} a`;
 		},
 	},
 	image: {
@@ -86,27 +88,27 @@ const EditorSelectors = {
 		widthInp: 'input[data-setting="width"]',
 		heightInp: 'input[data-setting="height"]',
 		get image() {
-			return `${ this.widget } img`;
+			return `${this.widget} img`;
 		},
 		get link() {
-			return `${ this.widget } a`;
+			return `${this.widget} a`;
 		},
 		lightBox: '.swiper-zoom-container',
 	},
 	icon: {
 		widget: '[data-widget_type="icon.default"]',
 		get link() {
-			return `${ this.widget } a`;
+			return `${this.widget} a`;
 		},
 	},
 	imageBox: {
 		widget: '[data-widget_type="image-box.default"]',
 		imageSizeSelect: 'thumbnail_size',
 		get link() {
-			return `${ this.widget } a`;
+			return `${this.widget} a`;
 		},
 		get image() {
-			return `${ this.widget } img`;
+			return `${this.widget} img`;
 		},
 	},
 	galleryControl: {
@@ -115,7 +117,7 @@ const EditorSelectors = {
 	imageCarousel: {
 		widget: '[data-widget_type="image-carousel.default"]',
 		get link() {
-			return `${ this.widget } a`;
+			return `${this.widget} a`;
 		},
 		navigationSelect: '.elementor-control-navigation select',
 		autoplaySelect: 'input[data-setting="autoplay"]',
@@ -126,22 +128,23 @@ const EditorSelectors = {
 		imgCaption: 'figcaption.elementor-image-carousel-caption',
 		prevSliderBtn: '.elementor-swiper-button-prev',
 		nextSliderBtn: '.elementor-swiper-button-next',
-		activeSlide: ( id: string ) => `.swiper-pagination-bullet-active[aria-label="Go to slide ${ id }"]`,
-		activeSlideImg: ( name: string ) => `.swiper-slide-active img[alt="${ name }"]`,
+		activeSlide: (id: string) =>
+			`.swiper-pagination-bullet-active[aria-label="Go to slide ${id}"]`,
+		activeSlideImg: (name: string) => `.swiper-slide-active img[alt="${name}"]`,
 	},
 	textPath: {
 		widget: '[data-widget_type="text-path.default"]',
 		get link() {
-			return `${ this.widget } a`;
+			return `${this.widget} a`;
 		},
 		get svgIcon() {
-			return `${ this.widget } svg path.st0`;
+			return `${this.widget} svg path.st0`;
 		},
 	},
 	video: {
 		widget: '[data-widget_type="video.default"]',
 		get image() {
-			return `${ this.widget } .elementor-custom-embed-image-overlay`;
+			return `${this.widget} .elementor-custom-embed-image-overlay`;
 		},
 		lightBoxControlInp: '[data-setting="lightbox"]',
 		lightBoxSetting: 'div[data-elementor-open-lightbox="yes"]',
@@ -153,10 +156,10 @@ const EditorSelectors = {
 	socialIcons: {
 		widget: '[data-widget_type="social-icons.default"]',
 		get link() {
-			return `${ this.widget } a`;
+			return `${this.widget} a`;
 		},
 		get svgIcon() {
-			return `${ this.widget } svg path.st0`;
+			return `${this.widget} svg path.st0`;
 		},
 	},
 	tabs: {
@@ -216,8 +219,10 @@ const EditorSelectors = {
 	},
 	contextMenu: {
 		menu: '.elementor-context-menu',
-		saveAsGlobal: '.elementor-context-menu-list__item.elementor-context-menu-list__item-save.elementor-context-menu-list__item--disabled',
-		notes: '.elementor-context-menu-list__item.elementor-context-menu-list__item-open_notes.elementor-context-menu-list__item--disabled',
+		saveAsGlobal:
+			'.elementor-context-menu-list__item.elementor-context-menu-list__item-save.elementor-context-menu-list__item--disabled',
+		notes:
+			'.elementor-context-menu-list__item.elementor-context-menu-list__item-open_notes.elementor-context-menu-list__item--disabled',
 	},
 	dialog: {
 		lightBox: '.elementor-lightbox',

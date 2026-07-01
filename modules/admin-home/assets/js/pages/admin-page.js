@@ -12,14 +12,13 @@ import { Resources } from '../components/paper/resources';
 export const AdminPage = () => {
 	return (
 		<ThemeProvider colorScheme="auto">
-			<Box className="hello_plus__notices" component="div">
-			</Box>
+			<Box className="hello_plus__notices" component="div"></Box>
 			<Box>
-				<Box sx={ { mb: 2 } }>
+				<Box sx={{ mb: 2 }}>
 					<Welcome />
 				</Box>
 				<GridWithActionLinks>
-					<Stack direction="column" gap={ 2 }>
+					<Stack direction="column" gap={2}>
 						<QuickLinks />
 						<SiteParts />
 						<Resources />
