@@ -41,11 +41,6 @@ const entryPoints = {
 		'admin-home/assets/js',
 		'hello-elementor-admin.js',
 	),
-	'js/hello-elementor-menu': path.resolve(
-		modulesDir,
-		'admin-home/assets/js',
-		'hello-elementor-menu.js',
-	),
 	'js/hello-elementor-settings': path.resolve(
 		modulesDir,
 		'admin-home/assets/js',
