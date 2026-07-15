@@ -39,22 +39,6 @@ class Utils {
 		return $elementor_installed;
 	}
 
-	public static function get_theme_builder_slug(): string {
-		if ( ! class_exists( 'Elementor\App\App' ) ) {
-			return '';
-		}
-
-		if ( self::has_pro() ) {
-			return App::PAGE_ID . '&ver=' . ELEMENTOR_VERSION . '#site-editor';
-		}
-
-		if ( self::is_elementor_active() ) {
-			return App::PAGE_ID . '&ver=' . ELEMENTOR_VERSION . '#site-editor/promotion';
-		}
-
-		return '';
-	}
-
 	public static function get_theme_builder_url(): string {
 		if ( ! class_exists( 'Elementor\App\App' ) ) {
 			return 'https://go.elementor.com/hello-theme-builder';
@@ -77,10 +61,6 @@ class Utils {
 		$url = 'plugins.php?action=activate&plugin=' . $plugin . '&plugin_status=all';
 
 		return add_query_arg( '_wpnonce', wp_create_nonce( 'activate-plugin_' . $plugin ), $url );
-	}
-
-	public static function get_ai_site_planner_url(): string {
-		return 'https://go.elementor.com/hello-site-planner';
 	}
 
 	public static function get_plugin_install_url( $plugin_slug ): string {
