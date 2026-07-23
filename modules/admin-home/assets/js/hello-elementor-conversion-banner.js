@@ -8,12 +8,18 @@ const App = () => {
 	return (
 		<ThemeProvider colorScheme="auto">
 			<AdminProvider>
-				<Box sx={{ pt: 2, pr: 2, pb: 1 }}>
-					<Welcome
-						sx={{ width: '100%', px: 4, py: 3, position: 'relative' }}
-						dismissable
-					/>
-				</Box>
+				<Welcome
+					sx={{
+						mt: 2,
+						mr: 2,
+						mb: 1,
+						width: '100%',
+						px: 4,
+						py: 3,
+						position: 'relative',
+					}}
+					dismissable
+				/>
 			</AdminProvider>
 		</ThemeProvider>
 	);
