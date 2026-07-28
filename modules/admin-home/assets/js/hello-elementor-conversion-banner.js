@@ -6,7 +6,7 @@ import Box from '@elementor/ui/Box';
 
 const App = () => {
 	return (
-		<ThemeProvider colorScheme="auto">
+		<ThemeProvider colorScheme="light">
 			<AdminProvider>
 				<Welcome
 					sx={{
