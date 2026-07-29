@@ -330,13 +330,15 @@ class Admin_Config extends Rest_Base {
 
 			if ( 'activate-elementor' === $action_link_type ) {
 				$cta_text = __( 'Activate Elementor', 'hello-elementor' );
+				$text     = __( 'Hello Theme is a lightweight blank canvas built for Elementor. Looks like you already have Elementor installed. Activate it to start building.', 'hello-elementor' );
 			} else {
 				$cta_text = __( 'Install Elementor', 'hello-elementor' );
+				$text     = __( 'Welcome to Hello Theme—a lightweight, blank canvas designed to integrate seamlessly with Elementor, the most popular, no-code visual website builder. By installing and activating Elementor, you\'ll unlock the power to craft a professional website with advanced features and functionalities.', 'hello-elementor' );
 			}
 
 			$config['welcome'] = [
 				'title'   => __( 'Thanks for installing the Hello Theme!', 'hello-elementor' ),
-				'text'    => __( 'Welcome to Hello Theme—a lightweight, blank canvas designed to integrate seamlessly with Elementor, the most popular, no-code visual website builder. By installing and activating Elementor, you\'ll unlock the power to craft a professional website with advanced features and functionalities.', 'hello-elementor' ),
+				'text'    => $text,
 				'buttons' => [
 					[
 						'linkText' => $cta_text,
