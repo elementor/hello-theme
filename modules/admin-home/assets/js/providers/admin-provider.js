@@ -5,16 +5,11 @@ export const AdminContext = createContext();
 
 export const AdminProvider = ({ children }) => {
 	const [isLoading, setIsLoading] = React.useState(true);
-	const [promotionsLinks, setPromotionsLinks] = React.useState([]);
 	const [adminSettings, setAdminSettings] = React.useState({});
 
 	useEffect(() => {
-		Promise.all([
-			apiFetch({ path: '/elementor-hello-elementor/v1/promotions' }),
-			apiFetch({ path: '/elementor-hello-elementor/v1/admin-settings' }),
-		])
-			.then(([links, settings]) => {
-				setPromotionsLinks(links.links);
+		apiFetch({ path: '/elementor-hello-elementor/v1/admin-settings' })
+			.then((settings) => {
 				setAdminSettings(settings.config);
 			})
 			.finally(() => {
@@ -25,7 +20,6 @@ export const AdminProvider = ({ children }) => {
 	return (
 		<AdminContext.Provider
 			value={{
-				promotionsLinks,
 				adminSettings,
 				isLoading,
 			}}

@@ -2,8 +2,6 @@
 
 namespace HelloTheme\Includes;
 
-use Elementor\App\App;
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
@@ -12,10 +10,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * class Utils
  **/
 class Utils {
-
-	public static function elementor(): \Elementor\Plugin {
-		return \Elementor\Plugin::$instance;
-	}
 
 	public static function has_pro(): bool {
 		return defined( 'ELEMENTOR_PRO_VERSION' );
@@ -39,43 +33,12 @@ class Utils {
 		return $elementor_installed;
 	}
 
-	public static function get_theme_builder_url(): string {
-		if ( ! class_exists( 'Elementor\App\App' ) ) {
-			return 'https://go.elementor.com/hello-theme-builder';
-		}
-
-		if ( self::has_pro() ) {
-			return admin_url( 'admin.php?page=' . App::PAGE_ID . '&ver=' . ELEMENTOR_VERSION ) . '#site-editor';
-		}
-
-		if ( self::is_elementor_active() ) {
-			return admin_url( 'admin.php?page=' . App::PAGE_ID . '&ver=' . ELEMENTOR_VERSION ) . '#site-editor/promotion';
-		}
-
-		return 'https://go.elementor.com/hello-theme-builder';
-	}
-
 	public static function get_elementor_activation_link(): string {
 		$plugin = 'elementor/elementor.php';
 
 		$url = 'plugins.php?action=activate&plugin=' . $plugin . '&plugin_status=all';
 
 		return add_query_arg( '_wpnonce', wp_create_nonce( 'activate-plugin_' . $plugin ), $url );
-	}
-
-	public static function get_plugin_install_url( $plugin_slug ): string {
-		$action = 'install-plugin';
-
-		$url = add_query_arg(
-			[
-				'action'   => $action,
-				'plugin'   => $plugin_slug,
-				'referrer' => 'hello-elementor',
-			],
-			admin_url( 'update.php' )
-		);
-
-		return add_query_arg( '_wpnonce', wp_create_nonce( $action . '_' . $plugin_slug ), $url );
 	}
 
 	public static function get_action_link_type() {

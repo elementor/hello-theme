@@ -28,7 +28,6 @@ class Module extends Module_Base {
 	protected function get_component_ids(): array {
 		return [
 			'Admin_Menu_Controller',
-			'Scripts_Controller',
 			'Api_Controller',
 			'Ajax_Handler',
 			'Conversion_Banner',

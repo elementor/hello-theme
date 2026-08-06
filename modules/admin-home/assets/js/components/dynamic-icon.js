@@ -1,23 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 const componentMap = {
-	BrandYoutubeIcon: () => import('../icons/youtube.tsx'),
 	BrandElementorIcon: () => import('../icons/elementor.tsx'),
-	ThemeBuilderIcon: () => import('@elementor/icons/ThemeBuilderIcon'),
-	SettingsIcon: () => import('@elementor/icons/SettingsIcon'),
-	BrandFacebookIcon: () => import('@elementor/icons/BrandFacebookIcon'),
-	StarIcon: () => import('@elementor/icons/StarIcon'),
-	HelpIcon: () => import('@elementor/icons/HelpIcon'),
-	SpeakerphoneIcon: () => import('@elementor/icons/SpeakerphoneIcon'),
-	TextIcon: () => import('@elementor/icons/TextIcon'),
-	PhotoIcon: () => import('@elementor/icons/PhotoIcon'),
-	AppsIcon: () => import('@elementor/icons/AppsIcon'),
-	BrushIcon: () => import('@elementor/icons/BrushIcon'),
-	UnderlineIcon: () => import('@elementor/icons/UnderlineIcon'),
-	PagesIcon: () => import('@elementor/icons/PagesIcon'),
-	PageTypeIcon: () => import('@elementor/icons/PageTypeIcon'),
-	HeaderTemplateIcon: () => import('@elementor/icons/HeaderTemplateIcon'),
-	FooterTemplateIcon: () => import('@elementor/icons/FooterTemplateIcon'),
 };
 
 const DynamicIcon = ({ componentName, ...rest }) => {
