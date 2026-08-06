@@ -46,6 +46,11 @@ const entryPoints = {
 		'admin-home/assets/js',
 		'hello-elementor-topbar.js',
 	),
+	'js/hello-conversion-banner': path.resolve(
+		modulesDir,
+		'admin-home/assets/js',
+		'hello-elementor-conversion-banner.js',
+	),
 };
 
 module.exports = {

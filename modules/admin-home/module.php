@@ -29,6 +29,8 @@ class Module extends Module_Base {
 		return [
 			'Admin_Menu_Controller',
 			'Api_Controller',
+			'Ajax_Handler',
+			'Conversion_Banner',
 			'Admin_Top_Bar',
 			'Settings_Controller',
 			'Notificator',
