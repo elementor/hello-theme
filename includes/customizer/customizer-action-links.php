@@ -41,35 +41,6 @@ class Hello_Customizer_Action_Links extends \WP_Customize_Control {
 		$action_link_type = Utils::get_action_link_type();
 
 		switch ( $action_link_type ) {
-			case 'install-elementor':
-				$action_link_data = [
-					'image' => get_template_directory_uri() . '/assets/images/elementor.svg',
-					'alt' => esc_attr__( 'Elementor', 'hello-elementor' ),
-					'title' => esc_html__( 'Install Elementor', 'hello-elementor' ),
-					'message' => esc_html__( 'Create cross-site header & footer using Elementor.', 'hello-elementor' ),
-					'button' => esc_html__( 'Install Elementor', 'hello-elementor' ),
-					'link' => wp_nonce_url(
-						add_query_arg(
-							[
-								'action' => 'install-plugin',
-								'plugin' => 'elementor',
-							],
-							admin_url( 'update.php' )
-						),
-						'install-plugin_elementor'
-					),
-				];
-				break;
-			case 'activate-elementor':
-				$action_link_data = [
-					'image' => get_template_directory_uri() . '/assets/images/elementor.svg',
-					'alt' => esc_attr__( 'Elementor', 'hello-elementor' ),
-					'title' => esc_html__( 'Activate Elementor', 'hello-elementor' ),
-					'message' => esc_html__( 'Create cross-site header & footer using Elementor.', 'hello-elementor' ),
-					'button' => esc_html__( 'Activate Elementor', 'hello-elementor' ),
-					'link' => wp_nonce_url( 'plugins.php?action=activate&plugin=elementor/elementor.php', 'activate-plugin_elementor/elementor.php' ),
-				];
-				break;
 			case 'activate-header-footer-experiment':
 				$action_link_data = [
 					'image' => get_template_directory_uri() . '/assets/images/elementor.svg',

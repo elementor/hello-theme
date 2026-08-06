@@ -36,11 +36,6 @@ const entryPoints = {
 		'./dev/js/frontend',
 		'hello-frontend.js',
 	),
-	'js/hello-home-app': path.resolve(
-		modulesDir,
-		'admin-home/assets/js',
-		'hello-elementor-admin.js',
-	),
 	'js/hello-elementor-settings': path.resolve(
 		modulesDir,
 		'admin-home/assets/js',
@@ -50,11 +45,6 @@ const entryPoints = {
 		modulesDir,
 		'admin-home/assets/js',
 		'hello-elementor-topbar.js',
-	),
-	'js/hello-conversion-banner': path.resolve(
-		modulesDir,
-		'admin-home/assets/js',
-		'hello-elementor-conversion-banner.js',
 	),
 };
 

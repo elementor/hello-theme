@@ -10,11 +10,11 @@ class Finder {
 
 	public function add_hello_theme_finder_entry( $categories_data ) {
 		if ( isset( $categories_data['site'] ) && isset( $categories_data['site']['items'] ) ) {
-			$categories_data['site']['items']['hello-elementor-home'] = [
-				'title' => esc_html__( 'Hello Theme Home', 'hello-elementor' ),
+			$categories_data['site']['items']['hello-elementor-settings'] = [
+				'title' => esc_html__( 'Hello Theme Settings', 'hello-elementor' ),
 				'icon' => 'paint-brush',
-				'url' => admin_url( 'admin.php?page=hello-elementor' ),
-				'keywords' => [ 'theme', 'hello', 'home', 'plus', '+' ],
+				'url' => admin_url( 'admin.php?page=hello-elementor-settings' ),
+				'keywords' => [ 'theme', 'hello', 'home', 'settings', 'plus', '+' ],
 			];
 		}
 

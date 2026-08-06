@@ -17,28 +17,25 @@ class Admin_Menu_Controller {
 			__( 'Hello', 'hello-elementor' ),
 			'manage_options',
 			EHP_THEME_SLUG,
-			[ $this, 'render_home' ],
+			[ $this, 'redirect_to_settings' ],
 			self::MENU_PAGE_ICON,
 			self::MENU_PAGE_POSITION
-		);
-
-		add_submenu_page(
-			EHP_THEME_SLUG,
-			__( 'Home', 'hello-elementor' ),
-			__( 'Home', 'hello-elementor' ),
-			'manage_options',
-			EHP_THEME_SLUG,
-			[ $this, 'render_home' ]
 		);
 
 		do_action( 'hello-plus-theme/admin-menu', EHP_THEME_SLUG );
 	}
 
-	public function render_home(): void {
-		echo '<div id="ehe-admin-home"></div>';
+	public function redirect_to_settings(): void {
+		wp_safe_redirect( admin_url( 'admin.php?page=' . Settings_Controller::SETTINGS_PAGE_SLUG ) );
+		exit;
+	}
+
+	public function cleanup_submenu(): void {
+		remove_submenu_page( EHP_THEME_SLUG, EHP_THEME_SLUG );
 	}
 
 	public function __construct() {
 		add_action( 'admin_menu', [ $this, 'admin_menu' ] );
+		add_action( 'admin_menu', [ $this, 'cleanup_submenu' ], 999 );
 	}
 }

@@ -7,20 +7,34 @@ test.describe('Admin Menu', () => {
 		page,
 		apiRequests,
 	}, testInfo) => {
-		// Arrange
 		const wpAdmin = new WpAdminPage(page, testInfo, apiRequests);
 
-		// Navigate to dashboard
 		await wpAdmin.gotoDashboard();
 
-		// Get the Hello Elementor menu element
 		const helloElementorMenu = page.locator('#toplevel_page_hello-elementor');
 
-		// Verify the menu exists
 		await expect(helloElementorMenu).toBeVisible();
 
-		// Verify the menu has the correct title "Hello Elementor"
 		const menuTitle = helloElementorMenu.locator('.wp-menu-name');
 		await expect(menuTitle).toHaveText('Hello');
+	});
+
+	test('redirects hello-elementor page to settings', async ({ page }) => {
+		await page.goto('/wp-admin/admin.php?page=hello-elementor');
+
+		await expect(page).toHaveURL(/page=hello-elementor-settings/);
+	});
+
+	test('does not show Home submenu', async ({ page, apiRequests }, testInfo) => {
+		const wpAdmin = new WpAdminPage(page, testInfo, apiRequests);
+
+		await wpAdmin.gotoDashboard();
+
+		const helloMenu = page.locator('#toplevel_page_hello-elementor');
+		await helloMenu.hover();
+
+		await expect(
+			page.locator('#toplevel_page_hello-elementor .wp-submenu'),
+		).not.toContainText('Home');
 	});
 });
