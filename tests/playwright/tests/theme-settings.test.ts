@@ -25,7 +25,10 @@ test.describe('Admin Menu', () => {
 		await expect(page).toHaveURL(/page=hello-elementor-settings/);
 	});
 
-	test('does not show Home submenu', async ({ page, apiRequests }, testInfo) => {
+	test('does not show Home submenu', async ({
+		page,
+		apiRequests,
+	}, testInfo) => {
 		const wpAdmin = new WpAdminPage(page, testInfo, apiRequests);
 
 		await wpAdmin.gotoDashboard();

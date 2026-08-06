@@ -33,8 +33,8 @@ class Hello_Customizer_Action_Links extends \WP_Customize_Control {
 	 * @return void
 	 */
 	private function print_customizer_action_links() {
-		if ( ! function_exists( 'get_plugins' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		if ( ! Utils::is_elementor_active() ) {
+			return;
 		}
 
 		$action_link_data = [];
