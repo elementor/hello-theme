@@ -17,6 +17,7 @@ export const UpgradeButton = () => {
 			color="promotion"
 			size="small"
 			startIcon={<CrownIcon />}
+			sx={{ '&:hover': { backgroundColor: 'transparent' } }}
 		>
 			{__('Upgrade Now', 'hello-elementor')}
 		</Button>
