@@ -142,6 +142,10 @@ class Settings_Controller {
 			self::SETTINGS_PAGE_SLUG,
 			[ $this, 'render_settings_page' ]
 		);
+
+		// The Hello menu item already redirects here, so the entry is hidden while the page
+		// stays registered to keep the existing settings URL working.
+		remove_submenu_page( $parent_slug, self::SETTINGS_PAGE_SLUG );
 	}
 
 	public function render_settings_page(): void {
