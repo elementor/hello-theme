@@ -1,8 +1,13 @@
 import { createRoot } from 'react-dom/client';
+import { ThemeProvider } from '@elementor/ui/styles';
 import { TopBar } from './components/top-bar/top-bar';
 
 const App = () => {
-	return <TopBar />;
+	return (
+		<ThemeProvider colorScheme="auto">
+			<TopBar />
+		</ThemeProvider>
+	);
 };
 
 document.addEventListener('DOMContentLoaded', () => {
