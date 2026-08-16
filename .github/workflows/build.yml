@@ -9,6 +9,12 @@ jobs:
   build_plugin:
     name: Build theme
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      pull-requests: write
+    outputs:
+      artifact_name: hello-elementor
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -27,12 +33,21 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
+      - name: Set environment variables
+        run: |
+          DATE_VERSION=$(date '+%Y%m%d.%H%M')
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          THEME_ZIP_FILENAME="hello-elementor.${PACKAGE_VERSION}.zip"
+
+          echo "DATE_VERSION=$DATE_VERSION" >> "$GITHUB_ENV"
+          echo "PACKAGE_VERSION=$PACKAGE_VERSION" >> "$GITHUB_ENV"
+          echo "THEME_ZIP_FILENAME=$THEME_ZIP_FILENAME" >> "$GITHUB_ENV"
       - name: "Debug info: show tooling versions"
         continue-on-error: true
         run: |
           set +e
           echo "Start debug Info"
-          echo "Date: ${{ steps.date.outputs.date }}"
+          echo "Date: ${{ env.DATE_VERSION }}"
           echo "PHP Version: $(php -v)"
           echo "Composer Version: $(composer --version)"
           echo "Node Version: $(node --version)"
@@ -54,8 +69,63 @@ jobs:
       - name: Build
         run: npm run zip
       - name: Upload zip file to GitHub actions artifact
+        id: upload-artifact
         uses: actions/upload-artifact@v4
         with:
           name: hello-elementor
           path: hello-elementor.*.zip
+          if-no-files-found: error
           retention-days: 7
+      - name: Find existing comment on PR (Elementor repo)
+        if: github.event_name == 'pull_request' && startsWith(github.event.pull_request.head.repo.full_name, 'elementor/')
+        uses: peter-evans/find-comment@v4
+        id: find
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: 'Hello Elementor Build'
+      - name: Comment build info on PR (Elementor repo)
+        if: github.event_name == 'pull_request' && startsWith(github.event.pull_request.head.repo.full_name, 'elementor/')
+        uses: peter-evans/create-or-update-comment@v5
+        with:
+          comment-id: ${{ steps.find.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            ## Hello Elementor Build
+            Last updated at: ${{ env.DATE_VERSION }}
+            Version: ${{ env.PACKAGE_VERSION }}
+
+            ✅ Hello Elementor build is ready for download.
+
+            You can download the latest build from the link below:
+
+            🔗 [${{ env.THEME_ZIP_FILENAME }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${{ steps.upload-artifact.outputs.artifact-id }})
+
+            The build is available for 7 days.
+
+          edit-mode: replace
+      - name: Print artifact info for fork PR
+        if: github.event_name == 'pull_request' && !startsWith(github.event.pull_request.head.repo.full_name, 'elementor/')
+        run: |
+          echo "Artifact info:"
+          echo "  Name: hello-elementor"
+          echo "  Path: ${{ env.THEME_ZIP_FILENAME }}"
+          echo "  Size: $(du -sh "${{ env.THEME_ZIP_FILENAME }}" | cut -f1)"
+          echo "  URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${{ steps.upload-artifact.outputs.artifact-id }}"
+
+  playground-preview:
+    needs: [build_plugin]
+    if: |
+      always() &&
+      github.event_name == 'pull_request' &&
+      needs.build_plugin.result == 'success' &&
+      startsWith(github.repository, 'elementor/')
+    permissions:
+      contents: read
+      actions: read
+      deployments: write
+    uses: ./.github/workflows/playground-preview.yml
+    with:
+      artifact_name: ${{ needs.build_plugin.outputs.artifact_name }}
+      pr_number: ${{ github.event.pull_request.number }}
+      head_sha: ${{ github.event.pull_request.head.sha }}
