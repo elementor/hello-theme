@@ -148,13 +148,7 @@ class Settings_Controller {
 		);
 	}
 
-	/**
-	 * The Hello menu item redirects to this page, so its submenu entry is redundant.
-	 *
-	 * Removing it during `admin_menu` would also make the page unreachable, because
-	 * WordPress resolves a plugin page's hook by looking the slug up in the submenu
-	 * globals. `admin_head` runs after that lookup and before the menu is rendered.
-	 */
+	// Runs on `admin_head`, not `admin_menu`: removing the submenu earlier breaks the page hook resolution and makes the page unreachable.
 	public function hide_settings_submenu_item(): void {
 		remove_submenu_page( $this->parent_slug, self::SETTINGS_PAGE_SLUG );
 	}
