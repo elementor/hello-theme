@@ -1,6 +1,7 @@
 import Stack from '@elementor/ui/Stack';
 import DynamicIcon from '../dynamic-icon';
 import Typography from '@elementor/ui/Typography';
+import { UpgradeButton } from './upgrade-button';
 import { __ } from '@wordpress/i18n';
 
 export const TopBarContent = ({ sx = {}, iconSize = 'medium' }) => {
@@ -23,6 +24,7 @@ export const TopBarContent = ({ sx = {}, iconSize = 'medium' }) => {
 					{__('Hello', 'hello-elementor')}
 				</Typography>
 			</Stack>
+			<UpgradeButton />
 		</Stack>
 	);
 };

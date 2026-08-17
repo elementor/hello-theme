@@ -25,7 +25,7 @@ test.describe('Admin Menu', () => {
 		await expect(page).toHaveURL(/page=hello-elementor-settings/);
 	});
 
-	test('does not show Home submenu', async ({
+	test('does not show submenu items', async ({
 		page,
 		apiRequests,
 	}, testInfo) => {
@@ -36,8 +36,6 @@ test.describe('Admin Menu', () => {
 		const helloMenu = page.locator('#toplevel_page_hello-elementor');
 		await helloMenu.hover();
 
-		await expect(
-			page.locator('#toplevel_page_hello-elementor .wp-submenu'),
-		).not.toContainText('Home');
+		await expect(helloMenu.locator('.wp-submenu li')).toHaveCount(0);
 	});
 });
