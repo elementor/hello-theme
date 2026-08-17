@@ -1,6 +1,7 @@
 import { parallelTest as test } from '../parallelTest.ts';
 import { expect } from '@playwright/test';
 import WpAdminPage from '../pages/wp-admin-page.ts';
+import SettingsPage from '../pages/settings-page.ts';
 
 test.describe('Admin Menu', () => {
 	test('Hello Elementor menu exists in sidebar with correct name', async ({
@@ -37,5 +38,22 @@ test.describe('Admin Menu', () => {
 		await helloMenu.hover();
 
 		await expect(helloMenu.locator('.wp-submenu li')).toHaveCount(0);
+	});
+
+	test('shows Upgrade Now button in top bar when Elementor Pro is inactive', async ({
+		page,
+		apiRequests,
+	}, testInfo) => {
+		const settingsPage = new SettingsPage(page, testInfo, apiRequests);
+
+		await settingsPage.gotoSettingsPage();
+
+		const upgradeButton = page.getByRole('link', { name: 'Upgrade Now' });
+		await expect(upgradeButton).toBeVisible();
+		await expect(upgradeButton).toHaveAttribute(
+			'href',
+			'https://go.elementor.com/go-pro-hello-theme-upgrade-top-bar/',
+		);
+		await expect(upgradeButton).toHaveAttribute('target', '_blank');
 	});
 });

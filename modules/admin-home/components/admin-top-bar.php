@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Admin_Top_Bar {
 
 	const CONFIG_OBJECT_NAME = 'ehpTopBarConfig';
-	const UPGRADE_PRO_URL = 'https://go.elementor.com/hello-upgrade-epro/';
+	const UPGRADE_PRO_URL = 'https://go.elementor.com/go-pro-hello-theme-upgrade-top-bar/';
 
 	private function render_admin_top_bar() {
 		?>
