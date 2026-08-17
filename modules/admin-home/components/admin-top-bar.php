@@ -11,6 +11,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Admin_Top_Bar {
 
+	const CONFIG_OBJECT_NAME = 'ehpTopBarConfig';
+	const UPGRADE_PRO_URL = 'https://go.elementor.com/hello-upgrade-epro/';
+
 	private function render_admin_top_bar() {
 		?>
 		<div id="ehe-admin-top-bar-root" style="height: 50px">
@@ -30,6 +33,16 @@ class Admin_Top_Bar {
 		);
 
 		$script->enqueue();
+
+		if ( Utils::has_pro() ) {
+			return;
+		}
+
+		wp_localize_script(
+			'hello-elementor-topbar',
+			self::CONFIG_OBJECT_NAME,
+			[ 'upgradeUrl' => self::UPGRADE_PRO_URL ]
+		);
 	}
 
 	public function __construct() {

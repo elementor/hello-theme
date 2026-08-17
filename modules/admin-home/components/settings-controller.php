@@ -22,6 +22,8 @@ class Settings_Controller {
 		'HELLO_THEME'          => '_hello_theme',
 	];
 
+	private string $parent_slug = '';
+
 	public static function get_settings_mapping(): array {
 		return array_map(
 			function ( $key ) {
@@ -134,6 +136,8 @@ class Settings_Controller {
 	}
 
 	public function register_settings_page( $parent_slug ): void {
+		$this->parent_slug = $parent_slug;
+
 		add_submenu_page(
 			$parent_slug,
 			__( 'Settings', 'hello-elementor' ),
@@ -144,12 +148,18 @@ class Settings_Controller {
 		);
 	}
 
+	// Runs on `admin_head`, not `admin_menu`: removing the submenu earlier breaks the page hook resolution and makes the page unreachable.
+	public function hide_settings_submenu_item(): void {
+		remove_submenu_page( $this->parent_slug, self::SETTINGS_PAGE_SLUG );
+	}
+
 	public function render_settings_page(): void {
 		echo '<div id="ehe-admin-settings"></div>';
 	}
 
 	public function __construct() {
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_hello_plus_settings_scripts' ] );
+		add_action( 'admin_head', [ $this, 'hide_settings_submenu_item' ] );
 		add_action( 'hello-plus-theme/admin-menu', [ $this, 'register_settings_page' ], 10, 1 );
 	}
 }
