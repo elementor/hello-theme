@@ -77,7 +77,7 @@ class Admin_Config extends Rest_Base {
 		if ( $is_elementor_active && ! $has_pro ) {
 			$config['welcome'] = [
 				'title'   => __( 'Build more with Elementor Pro', 'hello-elementor' ),
-				'text'    => __( 'Add the theme builder, popup builder, and 100+ advanced widgets to your Elementor editor.', 'hello-elementor' ),
+				'text'    => __( 'Add the theme builder, popup builder, and 85+ advanced widgets to your Elementor Editor.', 'hello-elementor' ),
 				'buttons' => [
 					[
 						'linkText' => __( 'Upgrade now', 'hello-elementor' ),
