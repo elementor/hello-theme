@@ -3,11 +3,32 @@ import { expect } from '@playwright/test';
 import WpAdminPage from '../pages/wp-admin-page.ts';
 import { timeouts } from '../config/timeouts.ts';
 
+const emptyWelcomeAdminSettings = {
+	config: {
+		welcome: [],
+		config: {
+			nonceInstall: 'test-nonce',
+			slug: 'elementor',
+		},
+	},
+};
+
 test.describe('Conversion banner flows [ED-25235]', () => {
-	test('Pages list does not mount banner when Elementor suppresses welcome config', async ({
+	test('Pages list does not mount banner when welcome config is empty', async ({
 		page,
 		apiRequests,
 	}, testInfo) => {
+		await page.route(
+			'**/elementor-hello-elementor/v1/admin-settings**',
+			async (route) => {
+				await route.fulfill({
+					status: 200,
+					contentType: 'application/json',
+					body: JSON.stringify(emptyWelcomeAdminSettings),
+				});
+			},
+		);
+
 		const wpAdmin = new WpAdminPage(page, testInfo, apiRequests);
 
 		await wpAdmin.login();
