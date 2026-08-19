@@ -23,6 +23,7 @@ jobs:
       - name: Checkout workflow ref
         uses: actions/checkout@v4
         with:
+          token: ${{ secrets.MAINTAIN_TOKEN }}
           fetch-depth: 0
 
       - name: Test permissions
@@ -32,26 +33,23 @@ jobs:
           DEPLOYMENT_PERMITTED: ${{ vars.DEPLOYMENT_PERMITTED_USERS }}
           DEPLOYMENT_REPOSITORY_OWNER: elementor
 
-      - name: Checkout main
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.MAINTAIN_TOKEN }}
-          ref: main
-          fetch-depth: 0
-
-      - name: Capture main lease SHA
-        run: echo "MAIN_LEASE_SHA=$(git rev-parse HEAD)" >> $GITHUB_ENV
-
-      - name: Validate release version
-        env:
-          INPUT_VERSION: ${{ inputs.version }}
-        run: bash "${GITHUB_WORKSPACE}/.github/scripts/validate-release-version.sh"
+      - name: Prepare main release workspace
+        run: |
+          git fetch origin main
+          echo "MAIN_LEASE_SHA=$(git rev-parse origin/main)" >> $GITHUB_ENV
+          git checkout -B main origin/main
+          git checkout "${GITHUB_SHA}" -- .github/
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18.x
           cache: npm
+
+      - name: Validate release version
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
+        run: bash "${GITHUB_WORKSPACE}/.github/scripts/validate-release-version.sh"
 
       - name: Bump version
         run: |
