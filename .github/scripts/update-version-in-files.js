@@ -12,13 +12,13 @@ const replaceInFileWithLog = async ( options ) => {
 const run = async () => {
 	try {
 		await replaceInFileWithLog( {
-			files: './assets/scss/style.scss',
+			files: './style.css',
 			from: /Version:.*$/m,
 			to: `Version: ${ VERSION }`,
 		} );
 
 		await replaceInFileWithLog( {
-			files: './assets/scss/style.scss',
+			files: './style.css',
 			from: /Stable tag:.*$/m,
 			to: `Stable tag: ${ VERSION }`,
 		} );

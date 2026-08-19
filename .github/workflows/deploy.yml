@@ -1,85 +1,125 @@
 name: Deploy
 
 permissions:
-  contents: read
-  actions: read
+  contents: write
+
+concurrency:
+  group: hello-theme-release
+  cancel-in-progress: false
 
 on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Write the Theme version that sis about to get released to Production WordPress.org SVN'
+        description: 'Stable SemVer version to release to Production WordPress.org SVN (e.g. 3.4.10)'
         required: true
         type: string
 
 jobs:
-  validate:
+  release:
+    if: startsWith(github.repository, 'elementor/')
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - name: Validate branch name
-        run: |
-          BRANCH_NAME="${{ github.ref_name }}"
-          if [[ ! "$BRANCH_NAME" =~ ^[0-9]+\.[0-9]+ ]]; then
-            echo "::error::Branch name must match pattern (e.g., 3.4, 3.5). Current branch: $BRANCH_NAME"
-            exit 1
-          fi
-      - name: Validate version input
-        run: |
-          PACKAGE_VERSION=$(cat package.json | jq -r '.version')
-          INPUT_VERSION="${{ inputs.version }}"
-          if [ "$INPUT_VERSION" != "$PACKAGE_VERSION" ]; then
-            echo "::error::Input version ($INPUT_VERSION) does not match package.json version ($PACKAGE_VERSION)"
-            exit 1
-          fi
-
-  build:
-    needs: validate
-    if: ( github.actor == 'ManorHazaz' || github.actor == 'hein-obox' || github.actor == 'KingYes' || github.actor == 'arielk' || github.actor == 'nicoladj77' ) && startsWith( github.repository, 'elementor/' )
-    uses: ./.github/workflows/build.yml
-    secrets: inherit
-
-  deploy:
-    needs: [validate, build]
-    if: needs.validate.result == 'success' && needs.build.result == 'success'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - name: Preparing envs
-        run: |
-          echo "THEME_VERSION=$(cat package.json | jq -r '.version')" >> $GITHUB_ENV
-      - name: Download Artifact
-        uses: actions/download-artifact@v4
+      - name: Test permissions
+        uses: ./.github/workflows/permissions
         with:
-          name: hello-elementor
+          ENVIRONMENT: prod
+          DEPLOYMENT_PERMITTED: ${{ vars.DEPLOYMENT_PERMITTED_USERS }}
+          DEPLOYMENT_REPOSITORY_OWNER: elementor
+
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.MAINTAIN_TOKEN }}
+          ref: main
+          fetch-depth: 0
+
+      - name: Capture main lease SHA
+        run: echo "MAIN_LEASE_SHA=$(git rev-parse HEAD)" >> $GITHUB_ENV
+
+      - name: Validate release version
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
+        run: bash "${GITHUB_WORKSPACE}/.github/scripts/validate-release-version.sh"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.x
+          cache: npm
+
+      - name: Bump version
+        run: |
+          npm config set git-tag-version false
+          npm version "${{ inputs.version }}" --no-git-tag-version
+
+      - name: Update version in files
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          npm install --no-package-lock --no-save replace-in-file@6.2.0
+          node ./.github/scripts/update-version-in-files.js
+
+      - name: Validate version consistency
+        run: bash "${GITHUB_WORKSPACE}/.github/scripts/validate-versions-release.sh"
+
+      - name: Validate changelog
+        env:
+          VERSION: ${{ inputs.version }}
+        run: bash "${GITHUB_WORKSPACE}/.github/scripts/validate-changelog.sh"
+
+      - name: Install dependencies and build
+        run: |
+          npm ci
+          composer install --no-dev
+          npm run zip
+
+      - name: Commit and push to main
+        env:
+          PACKAGE_VERSION: ${{ inputs.version }}
+          MAINTAIN_EMAIL: ${{ secrets.MAINTAIN_EMAIL }}
+          MAINTAIN_USERNAME: ${{ secrets.MAINTAIN_USERNAME }}
+          MAIN_LEASE_SHA: ${{ env.MAIN_LEASE_SHA }}
+        run: bash "${GITHUB_WORKSPACE}/.github/scripts/commit-push-release-to-main.sh"
+
+      - name: Read changelog from readme.txt
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          npm install --no-package-lock --no-save marked@2.0.6
+          node ./.github/scripts/get-changelog-from-readme-txt.js
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ inputs.version }}
+          files: hello-elementor.*.zip
+          body_path: temp-changelog-from-readme.txt
+        env:
+          GITHUB_TOKEN: ${{ secrets.MAINTAIN_TOKEN }}
+
       - name: Extract Hello Theme build
         run: |
           HT_ZIP=$(find . -name "hello-elementor-*.zip" -o -name "hello-elementor.*.zip" -type f | head -1)
           unzip -q "$HT_ZIP" -d ./tmp/
           mv ./tmp/hello-elementor ./hello-elementor
           rm -rf ./tmp
-      - name: Validate changelog
-        env:
-          VERSION: ${{ env.THEME_VERSION }}
-        run: |
-          bash "${GITHUB_WORKSPACE}/.github/scripts/validate-changelog.sh"
+
       - name: Install SVN
         run: |
           sudo apt-get update -y
           sudo apt-get install -y subversion
-          which svn
-          svn --version
+
       - name: Publish to WordPress.org SVN
         env:
+          THEME_VERSION: ${{ inputs.version }}
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
-        run: |
-          bash "${GITHUB_WORKSPACE}/.github/scripts/publish-theme-to-wordpress-org.sh"
+        run: bash "${GITHUB_WORKSPACE}/.github/scripts/publish-theme-to-wordpress-org.sh"
+
       - name: Send Slack Notification
         uses: ./.github/actions/theme-slack-notification-release
         with:
           CLOUD_SLACK_BOT_TOKEN: ${{ secrets.CLOUD_SLACK_BOT_TOKEN }}
-          PACKAGE_VERSION: ${{ env.THEME_VERSION }}
+          PACKAGE_VERSION: ${{ inputs.version }}
           SLACK_CHANNEL: "#tmz-hello-delivery"
