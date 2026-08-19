@@ -18,13 +18,6 @@ class Conversion_Banner {
 	const USER_META_KEY = '_hello_elementor_install_notice';
 	const AJAX_ACTION = 'ehe_dismiss_theme_notice';
 
-	private function render_conversion_banner() {
-		?>
-		<div id="ehe-admin-cb" style="width: calc(100% - 48px)">
-		</div>
-		<?php
-	}
-
 	private function get_allowed_admin_pages(): array {
 		return [
 			'dashboard' => [ 'selector' => '#wpbody #wpbody-content .wrap h1' ],
@@ -198,10 +191,6 @@ class Conversion_Banner {
 			if ( ! $conversion_banner_active ) {
 				return;
 			}
-
-			add_action( 'in_admin_header', function () {
-				$this->render_conversion_banner();
-			}, 11 );
 
 			add_action( 'admin_enqueue_scripts', function () use ( $conversion_banner_active ) {
 				$this->enqueue_scripts( $conversion_banner_active );
