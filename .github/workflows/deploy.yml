@@ -98,24 +98,25 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.MAINTAIN_TOKEN }}
 
-      - name: Extract Hello Theme build
-        run: |
-          HT_ZIP=$(find . -name "hello-elementor-*.zip" -o -name "hello-elementor.*.zip" -type f | head -1)
-          unzip -q "$HT_ZIP" -d ./tmp/
-          mv ./tmp/hello-elementor ./hello-elementor
-          rm -rf ./tmp
-
-      - name: Install SVN
-        run: |
-          sudo apt-get update -y
-          sudo apt-get install -y subversion
-
-      - name: Publish to WordPress.org SVN
-        env:
-          THEME_VERSION: ${{ inputs.version }}
-          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
-          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
-        run: bash "${GITHUB_WORKSPACE}/.github/scripts/publish-theme-to-wordpress-org.sh"
+      # TODO: Re-enable SVN publish after deploy workflow testing is complete
+      # - name: Extract Hello Theme build
+      #   run: |
+      #     HT_ZIP=$(find . -name "hello-elementor-*.zip" -o -name "hello-elementor.*.zip" -type f | head -1)
+      #     unzip -q "$HT_ZIP" -d ./tmp/
+      #     mv ./tmp/hello-elementor ./hello-elementor
+      #     rm -rf ./tmp
+      #
+      # - name: Install SVN
+      #   run: |
+      #     sudo apt-get update -y
+      #     sudo apt-get install -y subversion
+      #
+      # - name: Publish to WordPress.org SVN
+      #   env:
+      #     THEME_VERSION: ${{ inputs.version }}
+      #     SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+      #     SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+      #   run: bash "${GITHUB_WORKSPACE}/.github/scripts/publish-theme-to-wordpress-org.sh"
 
       - name: Send Slack Notification
         uses: ./.github/actions/theme-slack-notification-release
