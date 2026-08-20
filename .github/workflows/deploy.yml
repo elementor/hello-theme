@@ -18,6 +18,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+      - name: Test permissions
+        uses: ./.github/workflows/permissions
+        with:
+          ENVIRONMENT: prod
+          DEPLOYMENT_PERMITTED: ${{ vars.DEPLOYMENT_PERMITTED_USERS }}
+          DEPLOYMENT_REPOSITORY_OWNER: elementor
       - name: Validate branch name
         run: |
           BRANCH_NAME="${{ github.ref_name }}"
@@ -36,7 +42,6 @@ jobs:
 
   build:
     needs: validate
-    if: ( github.actor == 'ManorHazaz' || github.actor == 'hein-obox' || github.actor == 'KingYes' || github.actor == 'arielk' || github.actor == 'nicoladj77' ) && startsWith( github.repository, 'elementor/' )
     uses: ./.github/workflows/build.yml
     secrets: inherit
 
