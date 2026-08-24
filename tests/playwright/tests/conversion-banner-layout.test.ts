@@ -3,7 +3,7 @@ import { expect } from '@playwright/test';
 import WpAdminPage from '../pages/wp-admin-page.ts';
 import { timeouts } from '../config/timeouts.ts';
 
-test.describe('Conversion banner flows [ED-24302]', () => {
+test.describe('Conversion banner flows [TMZ-1072]', () => {
 	test('Pages list does not mount Hello Pro banner when Elementor Core is active', async ({
 		page,
 		apiRequests,
