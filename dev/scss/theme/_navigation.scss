@@ -132,8 +132,8 @@
 			max-width: calc(100vw - 2rem);
 			position: absolute;
 			z-index: 2;
-			left: 0;
-			top: 100%;
+			inset-inline-start: 0;
+			inset-block-start: 100%;
 
 				li {
 					border-block-end: variables.$gray-lighter 1px solid;
@@ -155,14 +155,14 @@
 				}
 
 				ul {
-					left: 100%;
-					top: 0;
+					inset-inline-start: 100%;
+					inset-block-start: 0;
 				}
 			}
 
 		&:last-child > ul,
 		&:nth-last-child(2) > ul {
-			left: auto;
+			inset-inline-start: auto;
 			inset-inline-end: 0;
 		}
 
