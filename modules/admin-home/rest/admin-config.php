@@ -39,7 +39,6 @@ class Admin_Config extends Rest_Base {
 	public function get_welcome_box_config( array $config ): array {
 		$is_elementor_installed = Utils::is_elementor_installed();
 		$is_elementor_active    = Utils::is_elementor_active();
-		$has_pro                = Utils::has_pro();
 
 		if ( ! $is_elementor_active ) {
 			$link = $is_elementor_installed ? Utils::get_elementor_activation_link() : 'install';
@@ -68,24 +67,6 @@ class Admin_Config extends Rest_Base {
 				'image'   => [
 					'src' => HELLO_THEME_IMAGES_URL . 'install-elementor.png',
 					'alt' => $cta_text,
-				],
-			];
-
-			return $config;
-		}
-
-		if ( $is_elementor_active && ! $has_pro ) {
-			$config['welcome'] = [
-				'title'   => __( 'Build more with Elementor Pro', 'hello-elementor' ),
-				'text'    => __( 'Add the theme builder, popup builder, and 85+ advanced widgets to your Elementor Editor.', 'hello-elementor' ),
-				'buttons' => [
-					[
-						'linkText' => __( 'Upgrade now', 'hello-elementor' ),
-						'variant'  => 'contained',
-						'link'     => 'https://go.elementor.com/hello-upgrade-epro/',
-						'color'    => 'primary',
-						'target'   => '_blank',
-					],
 				],
 			];
 

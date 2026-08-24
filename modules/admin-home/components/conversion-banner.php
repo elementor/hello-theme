@@ -146,7 +146,7 @@ class Conversion_Banner {
 			return [];
 		}
 
-		if ( Utils::has_pro() && Utils::is_elementor_active() ) {
+		if ( Utils::has_pro() || Utils::is_elementor_active() ) {
 			return [];
 		}
 
