@@ -686,7 +686,8 @@ class Settings_Header extends Tab_Base {
 						'hello_header_menu_display' => 'yes',
 					],
 					'selectors' => [
-						'.site-header .site-navigation ul.menu li a' => 'color: {{VALUE}};',
+						'.site-header .site-navigation ul.menu > li > a' => 'color: {{VALUE}};',
+						'.site-header .site-navigation ul.menu > li.menu-item-has-children::after' => 'color: {{VALUE}};',
 					],
 				]
 			);

@@ -1,0 +1,23 @@
+/**
+ * Global :focus-visible — two-tone outline visible on any background.
+ * Black inner ring + white outer glow gives >=3:1 contrast on both
+ * light and dark surfaces without relying on browser defaults.
+ */
+
+a,
+button,
+input,
+select,
+textarea,
+[tabindex]:not([tabindex="-1"]) {
+	&:focus-visible {
+		outline: 2px solid #000;
+		outline-offset: 2px;
+		box-shadow: 0 0 0 4px #fff;
+	}
+
+	&:focus:not(:focus-visible) {
+		outline: none;
+		box-shadow: none;
+	}
+}
