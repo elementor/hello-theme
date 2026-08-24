@@ -95,6 +95,15 @@
 				padding: 8px 15px;
 			}
 
+			ul a {
+				color: variables.$gray-dark;
+
+				&:hover,
+				&:focus {
+					color: variables.$gray-darker;
+				}
+			}
+
 			&.menu-item-has-children {
 				padding-inline-end: 15px;
 
@@ -116,14 +125,15 @@
 				}
 			}
 
-			ul {
-				background: #fff;
-				display: none;
-				min-width: 150px;
-				position: absolute;
-				z-index: 2;
-				left: 0;
-				top: 100%;
+		ul {
+			background: #fff;
+			display: none;
+			min-width: 150px;
+			max-width: calc(100vw - 2rem);
+			position: absolute;
+			z-index: 2;
+			left: 0;
+			top: 100%;
 
 				li {
 					border-block-end: variables.$gray-lighter 1px solid;
@@ -150,14 +160,20 @@
 				}
 			}
 
-			&:hover {
+		&:last-child > ul,
+		&:nth-last-child(2) > ul {
+			left: auto;
+			inset-inline-end: 0;
+		}
 
-				& > ul {
-					display: block;
-				}
+		&:hover {
+
+			& > ul {
+				display: block;
 			}
 		}
 	}
+}
 }
 
 footer {
