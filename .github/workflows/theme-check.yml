@@ -1,0 +1,87 @@
+name: Theme Check
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
+  cancel-in-progress: true
+
+jobs:
+  theme-check:
+    name: WordPress Theme Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.x
+          cache: npm
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          tools: composer
+          coverage: none
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          composer install --no-dev --no-scripts --optimize-autoloader
+
+      - name: Package theme zip
+        run: npm run zip
+
+      - name: Start wp-env
+        run: npm run wp-env:start
+
+      - name: Run Theme Check
+        id: theme-check
+        continue-on-error: true
+        run: bash .github/scripts/run-theme-check.sh
+
+      - name: Upload Theme Check report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: theme-check-report
+          path: |
+            theme-check-report.txt
+            theme-check-comment.md
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Find existing Theme Check comment
+        if: always()
+        uses: peter-evans/find-comment@v4
+        id: find
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: '<!-- hello-elementor-theme-check -->'
+
+      - name: Comment Theme Check output on PR
+        if: always()
+        uses: peter-evans/create-or-update-comment@v5
+        with:
+          comment-id: ${{ steps.find.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body-path: theme-check-comment.md
+          edit-mode: replace
+
+      - name: Stop wp-env
+        if: always()
+        run: npm run wp-env:stop
+
+      - name: Fail on Theme Check errors
+        if: steps.theme-check.outcome == 'failure'
+        run: exit 1
