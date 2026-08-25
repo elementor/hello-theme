@@ -13,6 +13,9 @@ package.json
 phpcs.xml
 phpunit.xml
 README.md
+AGENTS.md
+CLAUDE.md
+DEVELOPERS.md
 webpack.config.js
 .DS_Store
 .git/
