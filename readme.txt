@@ -3,8 +3,8 @@
 Contributors: elemntor, KingYes, ariel.k, bainternet
 Requires at least: 6.0
 Tested up to: 7.0
-Stable tag: 3.4.9
-Version: 3.4.9
+Stable tag: 3.5.0
+Version: 3.5.0
 Requires PHP: 7.4
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -35,6 +35,15 @@ License: CC0 1.0 Universal (CC0 1.0)
 Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
+
+= 3.5.0 - 2026-08-25
+* Tweak: Updated Theme admin menu navigation
+* Tweak: Updated WordPress compatibility to version 7.0
+* Tweak: Improved keyboard focus visibility across interactive elements
+* Fix: Submenu text may not be visible when the header menu color is set to white
+* Fix: Prevent dropdown menus from overflowing the viewport on right-aligned menu items
+* Fix: Prevent full-width blocks from causing horizontal scrolling
+* Fix: Improve mobile menu accessibility and translation support
 
 = 3.4.9 - 2026-05-20
 * Fix: CSS improvements for Elementor widgets
