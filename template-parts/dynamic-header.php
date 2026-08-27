@@ -16,14 +16,19 @@ $is_editor = isset( $_GET['elementor-preview'] );
 $site_name = get_bloginfo( 'name' );
 $tagline   = get_bloginfo( 'description', 'display' );
 $header_class = did_action( 'elementor/loaded' ) ? hello_get_header_layout_class() : '';
-$menu_args = [
+$header_nav_menu = wp_nav_menu( [
 	'theme_location' => 'menu-1',
 	'fallback_cb' => false,
 	'container' => false,
 	'echo' => false,
-];
-$header_nav_menu = wp_nav_menu( $menu_args );
-$header_mobile_nav_menu = wp_nav_menu( $menu_args ); // The same menu but separate call to avoid duplicate ID attributes.
+] );
+// Separate call to avoid duplicate ID attributes in desktop and mobile menus.
+$header_mobile_nav_menu = wp_nav_menu( [
+	'theme_location' => 'menu-1',
+	'fallback_cb' => false,
+	'container' => false,
+	'echo' => false,
+] );
 ?>
 <header id="site-header" class="site-header dynamic-header <?php echo esc_attr( $header_class ); ?>">
 	<div class="header-inner">
