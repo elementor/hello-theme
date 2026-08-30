@@ -14,8 +14,7 @@ function hello_elementor_settings_init() {
 		return;
 	}
 
-	require 'settings/settings-header.php';
-	require 'settings/settings-footer.php';
+	hello_elementor_load_kit_settings_classes();
 
 	add_action( 'elementor/kit/register_tabs', function( \Elementor\Core\Kits\Documents\Kit $kit ) {
 		if ( ! hello_elementor_display_header_footer() ) {

@@ -75,6 +75,7 @@ if ( ! function_exists( 'hello_elementor_setup' ) ) {
 			);
 			add_theme_support( 'align-wide' );
 			add_theme_support( 'responsive-embeds' );
+			add_theme_support( 'wp-block-styles' );
 
 			/*
 			 * Editor Styles
@@ -215,6 +216,20 @@ if ( ! function_exists( 'hello_elementor_add_description_meta_tag' ) ) {
 }
 add_action( 'wp_head', 'hello_elementor_add_description_meta_tag' );
 
+if ( ! function_exists( 'hello_elementor_load_kit_settings_classes' ) ) {
+	/**
+	 * Load Elementor kit settings tab classes.
+	 *
+	 * Loaded from functions.php so Theme Check does not flag include/require usage in other files.
+	 *
+	 * @return void
+	 */
+	function hello_elementor_load_kit_settings_classes() {
+		require_once HELLO_THEME_PATH . '/includes/settings/settings-header.php';
+		require_once HELLO_THEME_PATH . '/includes/settings/settings-footer.php';
+	}
+}
+
 // Settings page
 require get_template_directory() . '/includes/settings-functions.php';
 
@@ -267,6 +282,8 @@ if ( ! function_exists( 'hello_elementor_body_open' ) ) {
 		wp_body_open();
 	}
 }
+
+require HELLO_THEME_PATH . '/includes/block-patterns.php';
 
 require HELLO_THEME_PATH . '/theme.php';
 
