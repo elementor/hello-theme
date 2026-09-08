@@ -1,6 +1,6 @@
 # 🧪 Hello Theme Daily Test Matrix
 # 
-# This workflow runs daily automated testing across different version combinations:
+# This workflow runs automated testing across different version combinations:
 # - Core Matrix: Hello Theme × Elementor versions  
 # - Plus Matrix: Hello Theme × Hello Plus versions
 # - By default tests main branches (cutting-edge compatibility)
@@ -33,9 +33,6 @@
 name: Daily Test Matrix
 
 on:
-  schedule:
-    # Run daily at 8:00 AM UTC (spread load from other themes)
-    - cron: '0 8 * * *'
   workflow_dispatch:
     inputs:
       hello_theme_version:
