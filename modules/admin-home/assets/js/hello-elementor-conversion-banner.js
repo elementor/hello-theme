@@ -16,9 +16,7 @@ const App = ({ config, container }) => {
 				<Welcome
 					sx={{
 						mt: 2,
-						mr: 2,
 						mb: 1,
-						width: '100%',
 						px: 4,
 						py: 3,
 						position: 'relative',
