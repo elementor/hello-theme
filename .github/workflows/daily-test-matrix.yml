@@ -230,6 +230,8 @@ jobs:
     steps:
       - name: Checkout for scripts
         uses: actions/checkout@v6
+        with:
+          persist-credentials: false
       
       - name: Download all metadata artifacts
         uses: actions/download-artifact@v8
