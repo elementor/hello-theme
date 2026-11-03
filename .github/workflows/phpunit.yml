@@ -52,7 +52,7 @@ jobs:
             .github/**/*.yml
             install-wp-tests.sh
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: [ 'file-diff' ]
     if: ${{ github.event.pull_request.title == null || needs.file-diff.outputs.php_diff }}
     strategy:
@@ -100,7 +100,7 @@ jobs:
   test-result:
     needs: test
     if: ${{ always() }} # Will be run even if 'test' matrix will be skipped
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     name: PHPUnit - Test Results
     steps:
       - name: Test status
