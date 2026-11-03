@@ -5,6 +5,9 @@ on:
   pull_request:
   workflow_call:
 
+permissions:
+  contents: read
+
 jobs:
   build_plugin:
     name: Build theme
@@ -17,13 +20,15 @@ jobs:
       artifact_name: hello-elementor
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/checkout@v6
         with:
-          node-version: 18.x
+          persist-credentials: false
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22.x
       - name: Cache node modules
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         env:
           cache-name: cache-node-modules
         with:
@@ -44,19 +49,23 @@ jobs:
           echo "THEME_ZIP_FILENAME=$THEME_ZIP_FILENAME" >> "$GITHUB_ENV"
       - name: "Debug info: show tooling versions"
         continue-on-error: true
+        env:
+          DATE_VERSION: ${{ env.DATE_VERSION }}
+          PACKAGE_VERSION: ${{ env.PACKAGE_VERSION }}
+          GITHUB_CONTEXT_JSON: ${{ toJson(github) }}
         run: |
           set +e
           echo "Start debug Info"
-          echo "Date: ${{ env.DATE_VERSION }}"
+          echo "Date: ${DATE_VERSION}"
           echo "PHP Version: $(php -v)"
           echo "Composer Version: $(composer --version)"
           echo "Node Version: $(node --version)"
           echo "NPM Version: $(npm --version)"
           echo "GIT Version: $(git --version)"
           echo "The github context is:"
-          echo "${{ toJson(github) }}"
+          echo "${GITHUB_CONTEXT_JSON}"
           echo "The Theme version is:"
-          echo "${{ env.PACKAGE_VERSION }}"
+          echo "${PACKAGE_VERSION}"
           echo "The Theme slug is:"
           echo "hello-elementor"
           echo "End debug Info"
@@ -70,7 +79,7 @@ jobs:
         run: npm run zip
       - name: Upload zip file to GitHub actions artifact
         id: upload-artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: hello-elementor
           path: hello-elementor.*.zip
@@ -106,12 +115,17 @@ jobs:
           edit-mode: replace
       - name: Print artifact info for fork PR
         if: github.event_name == 'pull_request' && !startsWith(github.event.pull_request.head.repo.full_name, 'elementor/')
+        env:
+          THEME_ZIP_FILENAME: ${{ env.THEME_ZIP_FILENAME }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
+          ARTIFACT_ID: ${{ steps.upload-artifact.outputs.artifact-id }}
         run: |
           echo "Artifact info:"
           echo "  Name: hello-elementor"
-          echo "  Path: ${{ env.THEME_ZIP_FILENAME }}"
-          echo "  Size: $(du -sh "${{ env.THEME_ZIP_FILENAME }}" | cut -f1)"
-          echo "  URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${{ steps.upload-artifact.outputs.artifact-id }}"
+          echo "  Path: ${THEME_ZIP_FILENAME}"
+          echo "  Size: $(du -sh "${THEME_ZIP_FILENAME}" | cut -f1)"
+          echo "  URL: https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/artifacts/${ARTIFACT_ID}"
 
   playground-preview:
     needs: [build_plugin]

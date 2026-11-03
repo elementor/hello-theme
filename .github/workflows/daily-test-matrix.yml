@@ -77,7 +77,7 @@ env:
 jobs:
   calculate-test-matrix:
     name: Calculate Dynamic Test Matrix
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     outputs:
       hello-theme-version: ${{ steps.matrix.outputs.hello-theme-version }}
       hello-plus-version: ${{ steps.matrix.outputs.hello-plus-version }}
@@ -87,17 +87,25 @@ jobs:
       hello-theme-version-for-display: ${{ steps.matrix.outputs.hello-theme-version-for-display }}
     steps:
       - name: Checkout for scripts
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Calculate version matrix
         id: matrix
+        env:
+          INPUT_HELLO_THEME_VERSION: ${{ inputs.hello_theme_version || 'main' }}
+          INPUT_HELLO_PLUS_VERSION: ${{ inputs.hello_plus_version || 'latest-stable' }}
+          INPUT_ELEMENTOR_VERSION: ${{ inputs.elementor_version || 'main' }}
+          INPUT_COMPATIBILITY_DEPTH: ${{ inputs.compatibility_depth || '2' }}
+          INPUT_RUN_TARGETED_TESTS: ${{ inputs.run_targeted_tests || 'true' }}
         run: |
-          HT_VERSION="${{ inputs.hello_theme_version || 'main' }}"
-          HP_VERSION="${{ inputs.hello_plus_version || 'latest-stable' }}"
-          EL_VERSION="${{ inputs.elementor_version || 'main' }}"
-          DEPTH="${{ inputs.compatibility_depth || '2' }}"
+          HT_VERSION="${INPUT_HELLO_THEME_VERSION}"
+          HP_VERSION="${INPUT_HELLO_PLUS_VERSION}"
+          EL_VERSION="${INPUT_ELEMENTOR_VERSION}"
+          DEPTH="${INPUT_COMPATIBILITY_DEPTH}"
 
-          if [[ "${{ inputs.run_targeted_tests || 'true' }}" == "true" ]]; then
+          if [[ "${INPUT_RUN_TARGETED_TESTS}" == "true" ]]; then
             RUN_TARGETED_TESTS="true"
           else
             RUN_TARGETED_TESTS="false"
@@ -108,7 +116,7 @@ jobs:
   notify-on-early-failure:
     name: Notify on Early Failure
     needs: calculate-test-matrix
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     if: always() && needs.calculate-test-matrix.result != 'success'
     steps:
       - name: Send Slack notification on early failure
@@ -123,18 +131,20 @@ jobs:
     name: Trigger Targeted Tests
     needs: [calculate-test-matrix]
     if: ${{ needs.calculate-test-matrix.outputs.targeted-tests != '[]' }}
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         include: ${{ fromJson(needs.calculate-test-matrix.outputs.targeted-tests) }}
     steps:
       - name: Checkout Hello Theme
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Trigger targeted compatibility test
         id: trigger
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -204,7 +214,7 @@ jobs:
             core.setOutput('metadata-filename', metadataFileName);
 
       - name: Upload run metadata
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: run-metadata-${{ matrix.combination }}-${{ github.run_id }}-${{ strategy.job-index }}
           path: ${{ steps.trigger.outputs.metadata-filename }}
@@ -213,23 +223,25 @@ jobs:
   collect-matrix-results:
     name: Collect Matrix Results
     needs: [calculate-test-matrix, trigger-targeted-tests]
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     if: always() && needs.calculate-test-matrix.result == 'success'
     outputs:
       all-workflow-data: ${{ steps.collect-data.outputs.all-workflow-data }}
     steps:
       - name: Checkout for scripts
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
       
       - name: Download all metadata artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           pattern: run-metadata-*
           merge-multiple: true
       
       - name: Collect workflow data
         id: collect-data
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -265,17 +277,19 @@ jobs:
   daily-trigger-report:
     name: Daily Trigger Report
     needs: [calculate-test-matrix, trigger-targeted-tests, collect-matrix-results]
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     if: always() && needs.calculate-test-matrix.result == 'success'
     outputs:
       overall-status: ${{ steps.aggregate-status.outputs.overall-status }}
       test-summary: ${{ steps.aggregate-status.outputs.test-summary }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Generate Hello Theme daily test report
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -307,7 +321,7 @@ jobs:
 
       - name: Aggregate test status
         id: aggregate-status
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           script: |
             // Use the collected workflow data
@@ -384,7 +398,7 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
 
       - name: Final status check
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           script: |
             const overallStatus = '${{ steps.aggregate-status.outputs.overall-status }}';

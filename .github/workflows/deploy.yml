@@ -17,7 +17,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
       - name: Test permissions
         uses: ./.github/workflows/permissions
         with:
@@ -25,16 +27,18 @@ jobs:
           DEPLOYMENT_PERMITTED: ${{ vars.DEPLOYMENT_PERMITTED_USERS }}
           DEPLOYMENT_REPOSITORY_OWNER: elementor
       - name: Validate branch name
+        env:
+          REF_NAME: ${{ github.ref_name }}
         run: |
-          BRANCH_NAME="${{ github.ref_name }}"
-          if [[ ! "$BRANCH_NAME" =~ ^[0-9]+\.[0-9]+ ]]; then
-            echo "::error::Branch name must match pattern (e.g., 3.4, 3.5). Current branch: $BRANCH_NAME"
+          if [[ ! "$REF_NAME" =~ ^[0-9]+\.[0-9]+ ]]; then
+            echo "::error::Branch name must match pattern (e.g., 3.4, 3.5). Current branch: $REF_NAME"
             exit 1
           fi
       - name: Validate version input
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
         run: |
           PACKAGE_VERSION=$(cat package.json | jq -r '.version')
-          INPUT_VERSION="${{ inputs.version }}"
           if [ "$INPUT_VERSION" != "$PACKAGE_VERSION" ]; then
             echo "::error::Input version ($INPUT_VERSION) does not match package.json version ($PACKAGE_VERSION)"
             exit 1
@@ -56,12 +60,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
       - name: Preparing envs
         run: |
           echo "THEME_VERSION=$(cat package.json | jq -r '.version')" >> $GITHUB_ENV
       - name: Download Artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: hello-elementor
       - name: Extract Hello Theme build
