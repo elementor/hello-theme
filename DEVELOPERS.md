@@ -170,7 +170,12 @@ entry points and output (`./assets`) are defined in `webpack.config.js`.
 
 ## Releases & versioning
 
-The version appears in four places that must stay in sync: `style.css`, `readme.txt`
-(`Stable tag` + `Version`), `functions.php` (`HELLO_ELEMENTOR_VERSION`), and
-`package.json`. Use `npm run update-version` to sync them. `readme.txt` changelog format:
-`= X.Y.Z - YYYY-MM-DD =` with `New` / `Tweak` / `Fix` / `Internal` bullet lines.
+See **[docs/release.md](./docs/release.md)** for the full WordPress.org release workflow (version bump PR, Deploy workflow, reference commit `e86d30a` / #695).
+
+The version appears in five places that must stay in sync: `style.css`, `readme.txt`
+(`Stable tag` + `Version`), `functions.php` (`HELLO_ELEMENTOR_VERSION`), `package.json`,
+and `package-lock.json` (root and `packages[""].version`). Update them together in a
+dedicated **Internal: X.Y.Z changelog** PR on the release branch after fixes are merged.
+
+`readme.txt` changelog format: `= X.Y.Z - YYYY-MM-DD =` with `New` / `Tweak` / `Fix` /
+`Internal` bullet lines. Agents should follow `.cursor/skills/hello-theme-release/SKILL.md`.
