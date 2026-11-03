@@ -3,8 +3,8 @@
 Contributors: elemntor, KingYes, ariel.k, bainternet
 Requires at least: 6.0
 Tested up to: 7.1
-Stable tag: 3.5.1
-Version: 3.5.1
+Stable tag: 3.5.2
+Version: 3.5.2
 Requires PHP: 7.4
 License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -35,6 +35,10 @@ License: CC0 1.0 Universal (CC0 1.0)
 Source: https://stocksnap.io/photo/4B83RD7BV9
 
 == Changelog ==
+
+= 3.5.2 - 2026-11-03 =
+* Tweak: Updated WordPress compatibility to version 7.1
+* Fix: Exclude contenteditable from global focus-visible tabindex rule to prevent double focus ring in inline editors
 
 = 3.5.1 - 2026-08-25
 * Fix: General fixes and improvements
