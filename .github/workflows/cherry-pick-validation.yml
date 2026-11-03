@@ -21,16 +21,16 @@ jobs:
     
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Extract cherry-pick information
         id: extract_info
+        env:
+          BRANCH_NAME: ${{ github.head_ref }}
         run: |
-          BRANCH_NAME="${{ github.head_ref }}"
-          # Extract PR number and target branch from branch name
-          # Format: cherry-pick-pr-{PR_NUMBER}-{TARGET_BRANCH}
           if [[ $BRANCH_NAME =~ cherry-pick-pr-([0-9]+)-([a-zA-Z0-9._/-]+) ]]; then
             ORIGINAL_PR="${BASH_REMATCH[1]}"
             TARGET_BRANCH="${BASH_REMATCH[2]}"
@@ -168,16 +168,21 @@ jobs:
           echo "✅ Cherry-pick compatibility check passed"
 
       - name: Generate validation report
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          ORIGINAL_PR: ${{ steps.extract_info.outputs.original_pr }}
+          TARGET_BRANCH: ${{ steps.extract_info.outputs.target_branch }}
         run: |
           echo "📊 Generating cherry-pick validation report..."
           
           cat << EOF > cherry-pick-validation-report.md
           # 🍒 Cherry-Pick Validation Report
           
-          **Branch:** \`${{ github.head_ref }}\`  
-          **Original PR:** [#${{ steps.extract_info.outputs.original_pr }}](https://github.com/${{ github.repository }}/pull/${{ steps.extract_info.outputs.original_pr }})  
-          **Target Branch:** \`${{ steps.extract_info.outputs.target_branch }}\`  
-          **Repository:** ${{ github.repository }}
+          **Branch:** \`${HEAD_REF}\`  
+          **Original PR:** [#${ORIGINAL_PR}](https://github.com/${GITHUB_REPOSITORY}/pull/${ORIGINAL_PR})  
+          **Target Branch:** \`${TARGET_BRANCH}\`  
+          **Repository:** ${GITHUB_REPOSITORY}
           
           ## ✅ Validation Results
           
@@ -217,7 +222,7 @@ jobs:
           echo "✅ Validation report generated"
 
       - name: Post validation summary
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           script: |
             const fs = require('fs');

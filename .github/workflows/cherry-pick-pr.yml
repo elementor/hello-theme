@@ -7,21 +7,23 @@ on:
       - labeled
 
 permissions:
-  contents: write
-  pull-requests: write
-  actions: write
+  contents: read
 
 jobs:
   cherry-pick:
     if: ${{ github.event.pull_request.merged == true && github.event.pull_request.head.repo.full_name == github.repository && (github.event.action == 'closed' || (github.event.action == 'labeled' && startsWith(github.event.label.name, 'cp_'))) }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      actions: write
 
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: ${{ github.event.pull_request.base.ref }}
@@ -30,8 +32,10 @@ jobs:
 
       - name: Get branch labels
         id: get_labels
+        env:
+          PR_LABELS_JSON: ${{ toJSON(github.event.pull_request.labels) }}
         run: |
-          LABELS=$(jq -r '.[].name' <<< '${{ toJSON(github.event.pull_request.labels) }}' | grep '^cp_' | paste -sd ',' || echo "")
+          LABELS=$(jq -r '.[].name' <<< "$PR_LABELS_JSON" | grep '^cp_' | paste -sd ',' || echo "")
           echo "filtered_labels_csv=$LABELS" >> "$GITHUB_OUTPUT"
         shell: bash
 
@@ -46,19 +50,20 @@ jobs:
           PR_USER_LOGIN: ${{ github.event.pull_request.user.login }}
           LABEL_NAME: ${{ github.event.label.name }}
           SOURCE_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          MERGE_SHA: ${{ github.event.pull_request.merge_commit_sha }}
+          ORIG_URL: ${{ github.event.pull_request.html_url }}
+          ORIGINAL_BRANCH: ${{ github.event.pull_request.head.ref }}
+          EVENT_ACTION: ${{ github.event.action }}
+          FILTERED_LABELS_CSV: ${{ steps.get_labels.outputs.filtered_labels_csv }}
         run: |
-          PR_NUMBER="${{ github.event.pull_request.number }}"
-          MERGE_SHA="${{ github.event.pull_request.merge_commit_sha }}"
-          ORIG_URL="${{ github.event.pull_request.html_url }}"
-
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          IFS=',' read -ra BRANCHES <<< "${{ steps.get_labels.outputs.filtered_labels_csv }}"
+          IFS=',' read -ra BRANCHES <<< "$FILTERED_LABELS_CSV"
           for lbl in "${BRANCHES[@]}"; do
             TARGET=${lbl#cp_}
             
-            ORIGINAL_BRANCH="${{ github.event.pull_request.head.ref }}"
             BRANCH=$(bash "${GITHUB_WORKSPACE}/.github/scripts/cherry-picking/generate-branch-name.sh" "$PR_NUMBER" "$TARGET" "$ORIGINAL_BRANCH")
             CONFLICT_BRANCH="${BRANCH}_conflicts"
             
@@ -81,7 +86,7 @@ jobs:
                   CONFLICT_TITLE="${CONFLICT_TITLE} with conflicts"
                   
                   CONFLICT_TRIGGER_INFO=""
-                  if [ "${{ github.event.action }}" = "labeled" ]; then
+                  if [ "$EVENT_ACTION" = "labeled" ]; then
                     CONFLICT_TRIGGER_INFO="
                   **Trigger:** Label \`${LABEL_NAME}\` added to closed PR"
                   fi
@@ -134,7 +139,7 @@ jobs:
               PR_TITLE_GENERATED=$(bash "${GITHUB_WORKSPACE}/.github/scripts/cherry-picking/generate-pr-title.sh" "$PR_TITLE" "$PR_NUMBER" "$TARGET")
               
               TRIGGER_INFO=""
-              if [ "${{ github.event.action }}" = "labeled" ]; then
+              if [ "$EVENT_ACTION" = "labeled" ]; then
                 TRIGGER_INFO="
                 **Trigger:** Label \`${LABEL_NAME}\` added to closed PR"
               fi
