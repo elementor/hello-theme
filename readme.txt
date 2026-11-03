@@ -39,7 +39,6 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 = 3.5.2 - 2026-11-03 =
 * Tweak: Updated WordPress compatibility to version 7.1
 * Fix: Exclude contenteditable from global focus-visible tabindex rule to prevent double focus ring in inline editors
-* Fix: Conversion banner layout spacing in WP admin
 
 = 3.5.1 - 2026-08-25
 * Fix: General fixes and improvements
