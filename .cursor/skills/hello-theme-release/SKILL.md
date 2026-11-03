@@ -7,67 +7,55 @@ description: Cut a Hello Elementor patch release on a MAJOR.MINOR branch (versio
 
 ## When to use
 
-- User asks to release Hello Theme, bump `readme.txt` / version on `3.5` (or another release line), or deploy to WordPress.org.
-- After cherry-picks are merged into a release branch and a GA zip is needed.
+- User asks to release Hello Theme, bump `readme.txt` / version, or deploy to WordPress.org.
+- After fixes are merged and a GA zip is needed from a release line.
 
 ## Reference
 
-Follow the same file set and diff shape as:
+- Main bump + `cp_3.5`: [#693](https://github.com/elementor/hello-theme/pull/693) → [#695](https://github.com/elementor/hello-theme/pull/695)
+- Commit shape on release branch: `e86d30a7d64b2ab59373422a14933bba3621ee04`
 
-- Commit: `e86d30a7d64b2ab59373422a14933bba3621ee04`
-- Release branch PR: [#695](https://github.com/elementor/hello-theme/pull/695)
-- Main PR (optional `cp_<line>`): [#693](https://github.com/elementor/hello-theme/pull/693)
-
-Human-readable doc: `docs/release.md` in the repo root.
+Human-readable doc (files to touch, changelog, Deploy): `docs/release.md`.
 
 ## Workflow
 
-### 1. Confirm release branch state
+### 1. Confirm what ships
 
 ```bash
 git fetch origin main <release-branch>
-git log origin/<release-branch> --oneline -20
+git log origin/main --oneline -20
 ```
 
-List merges since the last changelog version header in `origin/<release-branch>:readme.txt`. Those commits belong in the new changelog bullets.
+List merges since the last changelog header in `readme.txt`. Those belong in the new changelog bullets. Fix PRs must not bump version.
 
-Ensure individual fix PRs did not bump version (happy path: only the dedicated changelog PR touches version files).
-
-### 2. Version bump PR on the release branch
+### 2. Version bump PR on `main` (default)
 
 ```bash
-git checkout -b feat/<version>-changelog-45bb origin/<release-branch>
+git checkout -b feat/<version>-changelog origin/main
 ```
 
-Update in one commit:
+Update the five files listed in [docs/release.md](../../docs/release.md#files-to-update) in one commit.
 
-- `functions.php` — `HELLO_ELEMENTOR_VERSION`
-- `style.css` — `Version`, `Stable tag`; sync `Tested up to` with `readme.txt` if needed
-- `readme.txt` — `Stable tag`, `Version`, new top changelog section `= X.Y.Z - YYYY-MM-DD =`
-- `package.json` and `package-lock.json` (both version fields in lockfile)
+- Commit: `Internal: X.Y.Z changelog`
+- PR **base `main`**, title `Internal: X.Y.Z changelog`
+- Add label `cp_<release-line>` (for example `cp_3.5`) so `.github/workflows/cherry-pick-pr.yml` opens the release-branch PR on merge
 
-Commit message: `Internal: X.Y.Z changelog` with body listing included PRs.
-
-Open PR **base `<release-branch>`**, not `main`. Title example: `Internal: 3.5.2 changelog`.
-
-Test plan checklist:
-
-- Version is `X.Y.Z` in all five files above
-- Changelog block exists for the release date
-- Deploy workflow will find `= X.Y.Z -` in `readme.txt`
+Test plan: version `X.Y.Z` in all five files; changelog block `= X.Y.Z - DATE =`; release branch will get the cherry-pick PR automatically.
 
 Do **not** merge or run Deploy unless the user asks.
 
-### 3. Optional main-line bump
+### 3. Release branch
 
-For a release on `main` first, merge version PR there, add label `cp_3.5` (or target branch name) so `.github/workflows/cherry-pick-pr.yml` opens the release-branch PR; resolve conflicts only in version/changelog if needed.
+After the main bump merges with `cp_<line>`, review and merge the auto-opened cherry-pick PR to the release branch. Resolve conflicts only in version/changelog if needed.
 
-### 4. Deploy (human / permitted actor)
+**Exception:** bump PR opened directly on the release branch (rare; for example CP changelog to `main` only). See docs/release.md.
 
-After merge to release branch: Actions → **Deploy** → branch = release line, version = `package.json` version. Never re-publish the same version to SVN.
+### 4. Deploy (permitted actor)
+
+After merge to the release branch: Actions → **Deploy** on that branch, version = `package.json`. Steps and permissions: [docs/release.md](../../docs/release.md#deploy-to-wordpressorg). Never re-publish the same SVN version.
 
 ## Do not
 
-- Edit version/changelog in cherry-pick fix PRs when the release process owns the bump.
+- Edit version/changelog in individual fix or cherry-pick PRs when a dedicated bump PR is planned.
 - Force-push release branches.
 - Run Deploy from `main`.
