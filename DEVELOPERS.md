@@ -170,7 +170,6 @@ entry points and output (`./assets`) are defined in `webpack.config.js`.
 
 ## Releases & versioning
 
-The version appears in four places that must stay in sync: `style.css`, `readme.txt`
-(`Stable tag` + `Version`), `functions.php` (`HELLO_ELEMENTOR_VERSION`), and
-`package.json`. Use `npm run update-version` to sync them. `readme.txt` changelog format:
-`= X.Y.Z - YYYY-MM-DD =` with `New` / `Tweak` / `Fix` / `Internal` bullet lines.
+See **[docs/release.md](./docs/release.md)** for the full workflow: files to sync, changelog format, default **main** bump with `cp_<line>`, and the **Deploy** workflow.
+
+Agents should follow `.cursor/skills/hello-theme-release/SKILL.md`.
