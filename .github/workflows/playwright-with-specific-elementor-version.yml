@@ -43,7 +43,7 @@ permissions:
 jobs:
   build-core-components:
     name: Build Core Components (Hello Theme + Elementor)
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     outputs:
       hello-theme-version: ${{ steps.set-versions.outputs.hello-theme-version }}
       elementor-core-branch: ${{ steps.set-versions.outputs.elementor-core-branch }}
@@ -51,18 +51,19 @@ jobs:
       artifact-name: ${{ steps.set-versions.outputs.artifact-name }}
     steps:
       - name: Checkout Hello Theme
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Install Node.js 20.x
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
-          node-version: 20.x
+          node-version: 22.x
           cache: "npm"
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@9882bed06691b3a085010c1602ce43ef18f15c5b # v2
+        uses: shivammathur/setup-php@4424c9aab975b57bd706ee5a39c6b4334d6e4f60 # v2.40.0
         with:
           php-version: "8.1"
           tools: composer
@@ -123,7 +124,7 @@ jobs:
         run: bash .github/scripts/download-elementor-core.sh
 
       - name: Upload core build artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ steps.set-versions.outputs.artifact-name }}
           path: |
@@ -147,25 +148,26 @@ jobs:
       HELLO_THEME_VERSION: ${{ needs.build-core-components.outputs.hello-theme-version }}
       ELEMENTOR_VERSION: ${{ needs.build-core-components.outputs.elementor-version }}
       RUN_IDENTIFIER: core-${{ github.event.inputs.hello_theme_version || github.ref }}-${{ github.run_id }}
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout Hello Theme
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Extract tests from target version
         id: extract-version-tests
         run: bash .github/scripts/resolve-version-ref.sh extract-playwright-tests "${{ inputs.hello_theme_version || 'main' }}" --fetch
 
       - name: Install Node.js 20.x
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
-          node-version: 20.x
+          node-version: 22.x
           cache: "npm"
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@9882bed06691b3a085010c1602ce43ef18f15c5b # v2
+        uses: shivammathur/setup-php@4424c9aab975b57bd706ee5a39c6b4334d6e4f60 # v2.40.0
         with:
           php-version: "8.1"
           tools: composer
@@ -179,7 +181,7 @@ jobs:
           composer install --no-dev --no-scripts --optimize-autoloader --quiet
 
       - name: Download build artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: ${{ needs.build-core-components.outputs.artifact-name }}
           path: ./
@@ -251,7 +253,7 @@ jobs:
           echo "This is expected for older versions that predate Playwright testing"
 
       - name: Upload core test results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: core-test-results-ht${{ env.HELLO_THEME_VERSION }}-el${{ env.ELEMENTOR_VERSION }}
@@ -260,7 +262,7 @@ jobs:
           retention-days: 3
 
       - name: Upload Core Playwright HTML report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: core-playwright-report-ht${{ env.HELLO_THEME_VERSION }}-el${{ env.ELEMENTOR_VERSION }}
@@ -279,25 +281,26 @@ jobs:
     env:
       HELLO_THEME_VERSION: ${{ needs.build-core-components.outputs.hello-theme-version }}
       ELEMENTOR_VERSION: ${{ needs.build-core-components.outputs.elementor-version }}
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout Hello Theme
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Extract tests from target version
         id: extract-version-tests
         run: bash .github/scripts/resolve-version-ref.sh extract-playwright-tests "${{ inputs.hello_theme_version || 'main' }}" --fetch
 
       - name: Install Node.js 20.x
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
-          node-version: 20.x
+          node-version: 22.x
           cache: "npm"
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@9882bed06691b3a085010c1602ce43ef18f15c5b # v2
+        uses: shivammathur/setup-php@4424c9aab975b57bd706ee5a39c6b4334d6e4f60 # v2.40.0
         with:
           php-version: "8.1"
           tools: composer
@@ -311,7 +314,7 @@ jobs:
           composer install --no-dev --no-scripts --optimize-autoloader --quiet
 
       - name: Download build artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: ${{ needs.build-core-components.outputs.artifact-name }}
           path: ./
@@ -361,11 +364,13 @@ jobs:
 
       - name: Run Hello Theme tagged tests only
         if: steps.extract-version-tests.outputs.tests-available == 'true'
+        env:
+          PLAYWRIGHT_TAG: ${{ inputs.tag || github.event.inputs.tag }}
         run: |
           export DAILY_MATRIX_WORKFLOW=true
           echo "Running tagged tests from: ${{ steps.extract-version-tests.outputs.test-source-type }}"
           # Only run Hello Theme tests with the specified tag
-          npm run test:playwright -- tests/playwright/tests/ --grep="${{ github.event.inputs.tag }}"
+          npm run test:playwright -- tests/playwright/tests/ --grep="${PLAYWRIGHT_TAG}"
 
       - name: Skip tagged tests - version incompatible
         if: steps.extract-version-tests.outputs.tests-available != 'true'
@@ -375,7 +380,7 @@ jobs:
           echo "This is expected for older versions that predate Playwright testing"
 
       - name: Upload core tagged test results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: core-tagged-test-results-ht${{ env.HELLO_THEME_VERSION }}-el${{ env.ELEMENTOR_VERSION }}
@@ -384,7 +389,7 @@ jobs:
           retention-days: 3
 
       - name: Upload Core Tagged Playwright HTML report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: core-tagged-playwright-report-ht${{ env.HELLO_THEME_VERSION }}-el${{ env.ELEMENTOR_VERSION }}
@@ -399,7 +404,7 @@ jobs:
   core-matrix-results:
     needs: [core-playwright-tests, core-playwright-tagged-tests]
     if: needs.core-playwright-tests.result != 'skipped' || needs.core-playwright-tagged-tests.result != 'skipped'
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     name: Core Matrix - Test Results
     steps:
       - name: Core Matrix test status

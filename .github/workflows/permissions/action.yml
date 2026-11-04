@@ -16,18 +16,24 @@ runs:
   using: "composite"
   steps:
     - shell: bash
+      env:
+        DEPLOYMENT_REPOSITORY_OWNER: ${{ inputs.DEPLOYMENT_REPOSITORY_OWNER }}
+        REPOSITORY_OWNER: ${{ github.event.repository.owner.login }}
+        DEPLOYMENT_PERMITTED: ${{ inputs.DEPLOYMENT_PERMITTED }}
+        ENVIRONMENT: ${{ inputs.ENVIRONMENT }}
+        GITHUB_ACTOR: ${{ github.actor }}
       run: |
-        if [[ "${{ inputs.DEPLOYMENT_REPOSITORY_OWNER }}" != "${{ github.event.repository.owner.login }}" ]];then
+        if [[ "$DEPLOYMENT_REPOSITORY_OWNER" != "$REPOSITORY_OWNER" ]];then
           echo "Pass validation outside of main repo owner"
           exit 0
         fi
-        if [[ "${{ inputs.ENVIRONMENT }}" == "dev" ]];then
+        if [[ "$ENVIRONMENT" == "dev" ]];then
           echo "Pass validation in the development environment"
           exit 0
         fi
-        permitted=",$(echo "${{ inputs.DEPLOYMENT_PERMITTED }}" | tr -d '[:space:]'),"
-        actor=",${{ github.actor }},"
+        permitted=",$(echo "$DEPLOYMENT_PERMITTED" | tr -d '[:space:]'),"
+        actor=",${GITHUB_ACTOR},"
         if ! echo "$permitted" | grep -Fiq "$actor"; then
-         echo "::error::No deployment permissions have been granted to the user : ${{ github.actor }}"
+         echo "::error::No deployment permissions have been granted to the user : ${GITHUB_ACTOR}"
          exit 1
         fi
